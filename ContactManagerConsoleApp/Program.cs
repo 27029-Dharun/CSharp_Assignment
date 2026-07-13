@@ -1,4 +1,6 @@
-﻿namespace Assignments
+﻿using System.Transactions;
+
+namespace Assignments
 {
     /// <summary>
     /// Main Class 
@@ -8,8 +10,7 @@
         /// <summary>
         /// Main method of the program
         /// </summary>
-        /// <param name="args">Main Method String args</param>
-        public static void Main(string[] args)
+        public static void Main()
         {
             List<List<string>>? contacts = new List<List<string>>();
             Console.WriteLine("Contact Manager Application");
@@ -18,37 +19,36 @@
 
             do
             {
-                Console.WriteLine("Enter the Key to Continue with a Operation");
-                Console.WriteLine("[A]dd the contact");
-                Console.WriteLine("[V]iew the contact");
-                Console.WriteLine("[E]dit the contact");
-                Console.WriteLine("[D]elete the contact");
+                Console.WriteLine("Enter the number to Continue with a Operation");
+                Console.WriteLine("1. Add the contact");
+                Console.WriteLine("2. View the contact");
+                Console.WriteLine("3. Edit the contact");
+                Console.WriteLine("4. Delete the contact");
+                Console.WriteLine("5. Search contact");
                 Console.WriteLine("Type [Exit] to Exit");
 
-                input = Console.ReadLine().ToLower();
+                input = Console.ReadLine();
 
                 switch (input)
                 {
-                    case "a":
+                    case "1":
                         AddContact(contacts);
-                        Console.WriteLine("Contacts " + contacts);
                         break;
 
-                    case "v":
-                        Console.WriteLine("Contacts Added ");
+                    case "2":
                         ViewContacts(contacts);
                         break;
 
-                    case "s":
-                        Console.WriteLine("Search");
+                    case "3":
+                        EditContact(contacts);
                         break;
 
-                    case "e":
-                        Console.WriteLine("Edit ");
+                    case "4":
+                        DeleteContact(contacts);
                         break;
 
-                    case "d":
-                        Console.WriteLine("Delete");
+                    case "5":
+                        SearchContacts(contacts);
                         break;
 
                     default:
@@ -58,10 +58,53 @@
             }
             while (input.ToLower() != "exit");
 
-            Console.WriteLine("Enter a Key to Exit");
+            Console.WriteLine("Exited ...");
             Console.ReadKey();
         }
+
         private static void AddContact(List<List<string>>? contacts)
+        {
+            List<string> contact = CreateListContact();
+            contacts.Add(contact);
+            Console.WriteLine("Contact Added Succesfully !");
+            Console.WriteLine();
+        }
+
+        private static void ViewContacts(List<List<string>>? contacts)
+        {
+            int i = 1;
+
+            if (contacts?.Count == 0)
+            {
+                Console.WriteLine("The Contact list is Empty");
+            }
+
+            foreach (var contact in contacts)
+            {
+                Console.WriteLine($"{i++}. Name : {contact[0]}, Phone : {contact[2]}, Email : {contact[2]}");
+            }
+            Console.WriteLine();
+        }
+
+        private static void DeleteContact(List<List<string>>? contacts)
+        {
+            Console.WriteLine($"Enter the number of contact to delete");
+            ViewContacts(contacts);
+            int index = int.Parse(Console.ReadLine()) -1;
+            if (index >= 0 && index < contacts?.Count)
+            {
+                contacts.RemoveAt(index);
+                Console.WriteLine($"\nContact list at index {index} deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Error: Index out of range.");
+            }
+
+            ViewContacts(contacts);
+        }
+
+        private static List<string> CreateListContact()
         {
             Console.Write("Enter Name: ");
             var name = Console.ReadLine();
@@ -70,15 +113,47 @@
             Console.Write("Enter Email Address: ");
             var email = Console.ReadLine();
             List<string> contact = new List<string> { name, phone, email };
-            contacts.Add(contact);
+            return contact;
         }
 
-        private static void ViewContacts(List<List<string>>? contacts)
+        private static void EditContact(List<List<string>>? contacts)
         {
-            int i = 1;
-            foreach (var contact in contacts)
+            Console.WriteLine($"Enter the number of contact to edit");
+            ViewContacts(contacts);
+            int index = int.Parse(Console.ReadLine()) - 1;
+            if (index >= 0 && index < contacts?.Count)
             {
-                Console.WriteLine($"{i++}. Name : {contact[0]}, Phone{contact[2]}, Email : {contact[2]}");
+                List<string> contact = CreateListContact();
+                contacts[index] = contact;
+                Console.WriteLine($"\nContact list at index {index} edited successfully.");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Error: Index out of range.");
+            }
+
+            ViewContacts(contacts);
+        }
+
+        private static void SearchContacts(List<List<string>> contacts)
+        {
+            Console.WriteLine("Enter the details to search");
+            var str = Console.ReadLine().Trim();
+            int flag = 0;
+            foreach (var contact in contacts) 
+            {
+                if (contact[0].Trim() == str || contact[1].Trim() == str || contact[2].Trim() == str)
+                {
+                    Console.WriteLine("Contact Found !");
+                    Console.WriteLine($"Name : {contact[0]} Phone: {contact[1]} Email : {contact[2]}");
+                    flag = 1;
+                }
+            }
+
+            if (flag == 0)
+            {
+                Console.WriteLine("Contact not Found");
             }
         }
     }
