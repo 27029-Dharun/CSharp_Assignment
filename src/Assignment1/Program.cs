@@ -3,7 +3,7 @@
 namespace Assignments
 {
     /// <summary>
-    /// Main Class 
+    /// Assignment 1 Contact Manager Application
     /// </summary>
     internal class Program
     {
@@ -74,7 +74,7 @@ namespace Assignments
         private static void AddContact(List<List<string>> contacts)
         {
             List<string> contact = CreateListContact();
-            if(contact.Count == 1)
+            if (contact.Count == 1)
             {
                 Console.WriteLine(contact[0]);
             }
@@ -106,7 +106,7 @@ namespace Assignments
         {
             Console.WriteLine($"Enter the number of contact to delete");
             ViewContacts(contacts);
-            int index = int.Parse(Console.ReadLine()) -1;
+            int index = int.Parse(Console.ReadLine()) - 1;
             if (index >= 0 && index < contacts?.Count)
             {
                 contacts.RemoveAt(index);
@@ -161,7 +161,7 @@ namespace Assignments
             Console.WriteLine("Enter the details to search");
             var str = Console.ReadLine().Trim().ToLower();
             int flag = 0;
-            foreach (var contact in contacts) 
+            foreach (var contact in contacts)
             {
                 if (contact[0].Trim().ToLower() == str || contact[1].Trim().ToLower() == str || contact[2].Trim().ToLower() == str)
                 {
@@ -180,6 +180,7 @@ namespace Assignments
         private static void SortContact(List<List<string>> contacts)
         {
             contacts.Sort((a, b) => string.Compare(a[0], b[0]));
+            Console.WriteLine("Contacts Sorted Successfully");
         }
     }
 }
