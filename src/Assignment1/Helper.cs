@@ -18,12 +18,22 @@ namespace Assignment1
         /// <returns>Boolean value </returns>
         public static bool IsValidateNumber(string number)
         {
-            if (number == null)
+            if (number == null || (number.Length != 0 && number.All(char.IsDigit)))
             {
                 return false;
             }
 
-            if (number.Length != 0 && number.All(char.IsDigit))
+            return true;
+        }
+
+        /// <summary>
+        /// Validate Email
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>Boolean </returns>
+        public static bool IsValidEmail(string email)
+        {
+            if (email == null)
             {
                 return false;
             }

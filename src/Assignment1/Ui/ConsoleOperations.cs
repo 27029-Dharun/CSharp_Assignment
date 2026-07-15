@@ -43,7 +43,7 @@ namespace Assignments1
         public void ViewContact()
         {
             List<ContactInfo> contacts = this._contactManager.DisplayContact();
-            _display.PrintContact(contacts);
+            this._display.PrintContact(contacts);
         }
 
         /// <summary>
