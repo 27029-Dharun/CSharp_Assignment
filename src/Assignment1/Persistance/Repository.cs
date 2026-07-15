@@ -7,7 +7,7 @@ namespace Assignment1.Persistance
     /// </summary>
     public class Repository
     {
-        private static List<ContactInfo> _contactList = new ();
+        private List<ContactInfo> _contactList = new ();
 
         /// <summary>
         /// This creates contact in the _contact list

@@ -10,6 +10,8 @@ namespace Assignments1
     /// </summary>
     internal class ConsoleOperations
     {
+        private ContactManager _contactManager = new ContactManager();
+        private DisplayClass _display = new DisplayClass();
         /// <summary>
         /// Get Contact Info Via console
         /// </summary>
@@ -23,10 +25,9 @@ namespace Assignments1
             var email = Console.ReadLine().Trim();
             Console.Write("Enter Notes: ");
             var notes = Console.ReadLine().Trim();
-            ContactManager contactManger = new ContactManager();
             try
             {
-                string msg = contactManger.CreateContact(name, phone, email, notes);
+                string msg = _contactManager.CreateContact(name, phone, email, notes);
                 Console.WriteLine(msg);
             }
             catch (Exception e)
@@ -40,10 +41,8 @@ namespace Assignments1
         /// </summary>
         public void ViewContact()
         {
-            ContactManager contactManager = new ContactManager();
-            List<ContactInfo> contacts = contactManager.DisplayContact();
-            DisplayClass displayClass = new DisplayClass();
-            displayClass.PrintContact(contacts);
+            List<ContactInfo> contacts = _contactManager.DisplayContact();
+            _display.PrintContact(contacts);
         }
 
         /// <summary>
@@ -51,9 +50,7 @@ namespace Assignments1
         /// </summary>
         public void EditContact()
         {
-            ContactManager contactManager = new ContactManager();
-
-            List<ContactInfo> contacts = contactManager.DisplayContact();
+            List<ContactInfo> contacts = _contactManager.DisplayContact();
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Nothing to Edit");
@@ -61,8 +58,7 @@ namespace Assignments1
 
             Console.WriteLine("Select the contact to edit");
             Console.WriteLine("Give the number as input");
-            DisplayClass displayClass = new DisplayClass();
-            displayClass.PrintContact(contacts);
+            _display.PrintContact(contacts);
 
             int valid = 0;
             int index = 0;
@@ -105,7 +101,7 @@ namespace Assignments1
             Console.Write("New Value : ");
             string value = Console.ReadLine();
 
-            if (contactManager.EditContact(id, field, value))
+            if (_contactManager.EditContact(id, field, value))
             {
                 Console.WriteLine("Updated Successfully.");
             }
@@ -120,8 +116,7 @@ namespace Assignments1
         /// </summary>
         public void DeleteContact()
         {
-            ContactManager contactManager = new ContactManager();
-            List<ContactInfo> contacts = contactManager.DisplayContact();
+            List<ContactInfo> contacts = _contactManager.DisplayContact();
             if (contacts.Count == 0)
             {
                 Console.WriteLine("NOthing to Edit");
@@ -129,14 +124,13 @@ namespace Assignments1
 
             Console.WriteLine("Select the contact to Delete");
             Console.WriteLine("Give the number as input");
-            DisplayClass displayClass = new DisplayClass();
-            displayClass.PrintContact(contacts);
+            _display.PrintContact(contacts);
 
             int index = int.Parse(Console.ReadLine()) - 1;
             Guid id = contacts[index].Id;
             try
             {
-                contactManager.DeleteContact(id);
+                _contactManager.DeleteContact(id);
             }
             catch (Exception e)
             {
@@ -150,11 +144,9 @@ namespace Assignments1
         public void SearchContacts()
         {
             Console.Write("Enter the Name to search : ");
-            DisplayClass display = new DisplayClass();
             var str = Console.ReadLine().Trim();
 
-            ContactManager contactManger = new();
-            List<ContactInfo> res = contactManger.SearchContact(str);
+            List<ContactInfo> res = _contactManager.SearchContact(str);
             if (res.Count == 0)
             {
                 Console.WriteLine("No Match Found");
@@ -162,7 +154,7 @@ namespace Assignments1
             else
             {
                 Console.WriteLine("Matched Contacts");
-                display.PrintContact(res);
+                _display.PrintContact(res);
             }
 
             Console.WriteLine();
@@ -173,11 +165,9 @@ namespace Assignments1
         /// </summary>
         public void SortContact()
         {
-            ContactManager contactManger = new();
-            contactManger.SortContactByName();
-            List<ContactInfo> contacts = contactManger.DisplayContact();
-            DisplayClass display = new DisplayClass();
-            display.PrintContact(contacts);
+            _contactManager.SortContactByName();
+            List<ContactInfo> contacts = _contactManager.DisplayContact();
+            _display.PrintContact(contacts);
         }
     }
 }
