@@ -37,6 +37,11 @@ namespace Assignment1.Services
                 return "Invalid Phone";
             }
 
+            if (Helper.IsValidEmail(email))
+            {
+                return "Invalid Email";
+            }
+
             Guid id = Guid.NewGuid();
             ContactInfo contact = new ContactInfo {Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
             this._repository.AddContact(contact);
