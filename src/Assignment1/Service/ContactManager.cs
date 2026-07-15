@@ -36,6 +36,7 @@ namespace Assignment1.Services
             {
                 return "Invalid Phone";
             }
+
             Guid id = Guid.NewGuid();
             ContactInfo contact = new ContactInfo {Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
             this._repository.AddContact(contact);
@@ -49,7 +50,7 @@ namespace Assignment1.Services
         /// <returns>A List/returns>
         public List<ContactInfo> SearchContact(string name)
         {
-            List<ContactInfo> contact = _repository.GetContact();
+            List<ContactInfo> contact = this._repository.GetContact();
             List<ContactInfo> filtered = new();
             foreach (ContactInfo contactItems in contact)
             {

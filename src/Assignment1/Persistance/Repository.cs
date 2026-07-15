@@ -24,8 +24,8 @@ namespace Assignment1.Persistance
         /// <param name="id"> this is the contactName that should be updated to the list</param>
         public void DeleteContactById(Guid id)
         {
-            ContactInfo contact = GetContactById(id);
-            _contactList.Remove(contact);
+            ContactInfo? contact = this.GetContactById(id);
+            this._contactList.Remove(contact);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Assignment1.Persistance
         public List<ContactInfo> GetContact()
         {
             List<ContactInfo> copy = new List<ContactInfo>();
-            foreach (ContactInfo a in _contactList)
+            foreach (ContactInfo a in this._contactList)
             {
                 copy.Add(a);
             }
@@ -49,7 +49,7 @@ namespace Assignment1.Persistance
         /// </summary>
         public void SortContactByName()
         {
-            _contactList.Sort((a, b) => string.Compare(a.Name, b.Name));
+            this._contactList.Sort((a, b) => string.Compare(a.Name, b.Name));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Assignment1.Persistance
         /// <returns>A contact with id</returns>
         public ContactInfo? GetContactById(Guid id)
         {
-            foreach (ContactInfo contact in _contactList)
+            foreach (ContactInfo contact in this._contactList)
             {
                 if (contact.Id == id)
                 {
@@ -78,7 +78,7 @@ namespace Assignment1.Persistance
         /// <param name="newValue">New value to be changed</param>
         public void EditContact(Guid id, int option, string newValue)
         {
-            ContactInfo person = GetContactById(id);
+            ContactInfo person = this.GetContactById(id);
             if (person == null)
             {
                 return;

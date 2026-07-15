@@ -12,6 +12,7 @@ namespace Assignments1
     {
         private ContactManager _contactManager = new ContactManager();
         private DisplayClass _display = new DisplayClass();
+
         /// <summary>
         /// Get Contact Info Via console
         /// </summary>
@@ -27,7 +28,7 @@ namespace Assignments1
             var notes = Console.ReadLine().Trim();
             try
             {
-                string msg = _contactManager.CreateContact(name, phone, email, notes);
+                string msg = this._contactManager.CreateContact(name, phone, email, notes);
                 Console.WriteLine(msg);
             }
             catch (Exception e)
@@ -41,7 +42,7 @@ namespace Assignments1
         /// </summary>
         public void ViewContact()
         {
-            List<ContactInfo> contacts = _contactManager.DisplayContact();
+            List<ContactInfo> contacts = this._contactManager.DisplayContact();
             _display.PrintContact(contacts);
         }
 
@@ -99,9 +100,9 @@ namespace Assignments1
             }
 
             Console.Write("New Value : ");
-            string value = Console.ReadLine();
+            string? value = Console.ReadLine();
 
-            if (_contactManager.EditContact(id, field, value))
+            if (this._contactManager.EditContact(id, field, value))
             {
                 Console.WriteLine("Updated Successfully.");
             }
@@ -116,7 +117,7 @@ namespace Assignments1
         /// </summary>
         public void DeleteContact()
         {
-            List<ContactInfo> contacts = _contactManager.DisplayContact();
+            List<ContactInfo> contacts = this._contactManager.DisplayContact();
             if (contacts.Count == 0)
             {
                 Console.WriteLine("NOthing to Edit");
@@ -124,7 +125,7 @@ namespace Assignments1
 
             Console.WriteLine("Select the contact to Delete");
             Console.WriteLine("Give the number as input");
-            _display.PrintContact(contacts);
+            this._display.PrintContact(contacts);
 
             int index = int.Parse(Console.ReadLine()) - 1;
             Guid id = contacts[index].Id;
