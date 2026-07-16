@@ -141,7 +141,10 @@ namespace Assignments1
                 if (int.TryParse(input, out int parsedValue))
                 {
                     index = parsedValue - 1;
-                    Console.WriteLine($"Index: {index}");
+                    if (this._contactManager.ValidateIndex(index))
+                    {
+                        valid = 1;
+                    }
                 }
                 else
                 {

@@ -17,14 +17,16 @@ namespace Assignment1
         /// </summary>
         /// <param name="number">Phone number</param>
         /// <returns>Boolean value </returns>
-        public static bool IsValidateNumber(string number)
+        public static bool IsValidNumber(string number)
         {
-            if (number == null || (number.Length != 0 && number.All(char.IsDigit)))
+            if (number == null)
             {
                 return false;
             }
 
-            return true;
+            number = number.Trim();
+
+            return number.All(char.IsDigit);
         }
 
         /// <summary>

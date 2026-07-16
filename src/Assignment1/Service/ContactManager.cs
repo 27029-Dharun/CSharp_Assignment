@@ -25,7 +25,7 @@ namespace Assignment1.Services
                 return "Name can't be Empty";
             }
 
-            if (Helper.IsValidateNumber(phone))
+            if (!Helper.IsValidNumber(phone))
             {
                 return "Invalid Phone";
             }
@@ -109,11 +109,6 @@ namespace Assignment1.Services
         /// <returns>A boolean flag to represent the status</returns>
         public string EditContact(Guid id, int option, string newValue)
         {
-            if ((option >= 1 && option <= 4) || newValue == null)
-            {
-                return "Invalid Option";
-            }
-
             if (newValue == string.Empty)
             {
                 return "String can't be Empty";
