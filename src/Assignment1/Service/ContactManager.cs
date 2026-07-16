@@ -101,6 +101,25 @@ namespace Assignment1.Services
         }
 
         /// <summary>
+        /// Contact Filtered By Id
+        /// </summary>
+        /// <param name="id">Guid </param>
+        /// <returns>A valid contact</returns>
+        public ContactInfo? GetContactById(Guid id)
+        {
+            List<ContactInfo> contacts = this._repository.GetContacts();
+            foreach (ContactInfo contactItem in contacts)
+            {
+                if (contactItem.Id == id)
+                {
+                    return contactItem;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Edit contact
         /// </summary>
         /// <param name="id">Index</param>
@@ -114,7 +133,7 @@ namespace Assignment1.Services
                 return "String can't be Empty";
             }
 
-            ContactInfo? person = this._repository.GetContactById(id);
+            ContactInfo? person = this.GetContactById(id);
 
             if (person == null)
             {

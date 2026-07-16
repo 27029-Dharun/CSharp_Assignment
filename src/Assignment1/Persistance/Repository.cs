@@ -59,11 +59,25 @@ namespace Assignment1.Persistance
         }
 
         /// <summary>
+        /// Edit contact with Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <param name="contact">New value to be changed</param>
+        public void EditContact(Guid id, ContactInfo contact)
+        {
+            ContactInfo? record = this.GetContactById(id);
+            record.Name = contact.Name;
+            record.Phone = contact.Phone;
+            record.Email = contact.Email;
+            record.Notes = contact.Notes;
+        }
+
+        /// <summary>
         /// Get Contact By Id
         /// </summary>
         /// <param name="id">Id of the Contact</param>
         /// <returns>A contact with id</returns>
-        public ContactInfo? GetContactById(Guid id)
+        private ContactInfo? GetContactById(Guid id)
         {
             foreach (ContactInfo contact in this._contactList)
             {
@@ -74,17 +88,6 @@ namespace Assignment1.Persistance
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Edit contact with Id
-        /// </summary>
-        /// <param name="id">Id</param>
-        /// <param name="contact">New value to be changed</param>
-        public void EditContact(Guid id, ContactInfo contact)
-        {
-            ContactInfo? record = this.GetContactById(id);
-            record = contact;
         }
     }
 }
