@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Assignment1
@@ -33,12 +34,12 @@ namespace Assignment1
         /// <returns>Boolean </returns>
         public static bool IsValidEmail(string email)
         {
-            if (email == null)
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return false;
             }
 
-            return true;
+            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
     }
 }

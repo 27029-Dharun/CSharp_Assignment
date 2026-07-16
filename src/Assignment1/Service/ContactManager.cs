@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment1.Model;
+﻿using Assignment1.Model;
 using Assignment1.Persistance;
 
 namespace Assignment1.Services
@@ -27,9 +20,9 @@ namespace Assignment1.Services
         /// <returns>A new contact</returns>
         public string CreateContact(string name, string phone, string email, string notes)
         {
-            if (name == null)
+            if (name == string.Empty)
             {
-                return "Name can't be NULL";
+                return "Name can't be Empty";
             }
 
             if (Helper.IsValidateNumber(phone))
@@ -37,13 +30,13 @@ namespace Assignment1.Services
                 return "Invalid Phone";
             }
 
-            if (Helper.IsValidEmail(email))
+            if (!Helper.IsValidEmail(email))
             {
                 return "Invalid Email";
             }
 
             Guid id = Guid.NewGuid();
-            ContactInfo contact = new ContactInfo {Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
+            ContactInfo contact = new ContactInfo { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
             this._repository.AddContact(contact);
             return "Contact Added Successfully";
         }
@@ -56,12 +49,17 @@ namespace Assignment1.Services
         public List<ContactInfo> SearchContact(string name)
         {
             List<ContactInfo> contact = this._repository.GetContact();
-            List<ContactInfo> filtered = new();
-            foreach (ContactInfo contactItems in contact)
+            List<ContactInfo> filtered = new ();
+            foreach (ContactInfo contactItem in contact)
             {
-                if (contactItems.Name.Contains(name))
+                if (contactItem?.Name == null)
                 {
-                    filtered.Add(contactItems);
+                    continue;
+                }
+
+                if (contactItem.Name.Contains(name))
+                {
+                    filtered.Add(contactItem);
                 }
             }
 
@@ -72,9 +70,9 @@ namespace Assignment1.Services
         /// Display the contacts
         /// </summary>
         /// <returns>A list of contact</returns>
-        public List<ContactInfo> DisplayContact()
+        public List<ContactInfo> GetContacts()
         {
-            return _repository.GetContact();
+            return this._repository.GetContact();
         }
 
         /// <summary>
@@ -83,7 +81,7 @@ namespace Assignment1.Services
         /// <param name="id">Index</param>
         public void DeleteContact(Guid id)
         {
-            _repository.DeleteContactById(id);
+            this._repository.DeleteContactById(id);
         }
 
         /// <summary>
@@ -109,16 +107,21 @@ namespace Assignment1.Services
         /// <param name="option">Field to be edited</param>
         /// <param name="newValue">Edited string</param>
         /// <returns>A boolean flag to represent the status</returns>
-        public bool EditContact(Guid id, int option, string newValue)
+        public string EditContact(Guid id, int option, string newValue)
         {
-            if (id == null || option == null || newValue == null)
+            if ((option >= 1 && option <= 4) || newValue == null)
             {
-                return false;
+                return "Invalid Option";
             }
 
-            _repository.EditContact(id, option, newValue);
+            if (newValue == string.Empty)
+            {
+                return "String can't be Empty";
+            }
 
-            return true;
+            this._repository.EditContact(id, option, newValue);
+
+            return "Editted Successfully !";
         }
 
         /// <summary>
@@ -126,7 +129,7 @@ namespace Assignment1.Services
         /// </summary>
         public void SortContactByName()
         {
-            _repository.SortContactByName();
+            this._repository.SortContactByName();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Assignment1.Persistance
         /// <param name="contact"> this is the contact that should bee added to the list</param>
         public void AddContact(ContactInfo contact)
         {
-            _contactList.Add(contact);
+            this._contactList.Add(contact);
         }
 
         /// <summary>
@@ -25,7 +25,10 @@ namespace Assignment1.Persistance
         public void DeleteContactById(Guid id)
         {
             ContactInfo? contact = this.GetContactById(id);
-            this._contactList.Remove(contact);
+            if (contact != null)
+            {
+                this._contactList.Remove(contact);
+            }
         }
 
         /// <summary>
@@ -78,7 +81,8 @@ namespace Assignment1.Persistance
         /// <param name="newValue">New value to be changed</param>
         public void EditContact(Guid id, int option, string newValue)
         {
-            ContactInfo person = this.GetContactById(id);
+            ContactInfo? person = this.GetContactById(id);
+
             if (person == null)
             {
                 return;
@@ -103,7 +107,7 @@ namespace Assignment1.Persistance
                     break;
 
                 default:
-                    return ;
+                    return;
             }
         }
     }
