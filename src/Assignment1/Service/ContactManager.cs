@@ -48,7 +48,7 @@ namespace Assignment1.Services
         /// <returns>A List/returns>
         public List<ContactInfo> SearchContact(string name)
         {
-            List<ContactInfo> contact = this._repository.GetContact();
+            List<ContactInfo> contact = this._repository.GetContacts();
             List<ContactInfo> filtered = new ();
             foreach (ContactInfo contactItem in contact)
             {
@@ -72,7 +72,7 @@ namespace Assignment1.Services
         /// <returns>A list of contact</returns>
         public List<ContactInfo> GetContacts()
         {
-            return this._repository.GetContact();
+            return this._repository.GetContacts();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Assignment1.Services
         /// <returns>Return boolean</returns>
         public bool ValidateIndex(int index)
         {
-            List<ContactInfo> contacts = this._repository.GetContact();
+            List<ContactInfo> contacts = this._repository.GetContacts();
             if (index >= 0 && contacts.Count > index)
             {
                 return true;
@@ -114,7 +114,48 @@ namespace Assignment1.Services
                 return "String can't be Empty";
             }
 
-            this._repository.EditContact(id, option, newValue);
+            ContactInfo? person = this._repository.GetContactById(id);
+
+            if (person == null)
+            {
+                return "Invalid Option selected";
+            }
+
+            switch (option)
+            {
+                case 1:
+                    if (newValue != string.Empty)
+                    {
+                        person.Name = newValue;
+                    }
+
+                    break;
+
+                case 2:
+                    if (Helper.IsValidEmail(newValue))
+                    {
+                        person.Email = newValue;
+                    }
+
+                    break;
+
+                case 3:
+                    if (Helper.IsValidNumber(newValue))
+                    {
+                        person.Phone = newValue;
+                    }
+
+                    break;
+
+                case 4:
+                    person.Notes = newValue;
+                    break;
+
+                default:
+                    return "Invalid Option";
+            }
+
+            this._repository.EditContact(id, person);
 
             return "Editted Successfully !";
         }

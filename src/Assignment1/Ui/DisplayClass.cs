@@ -1,9 +1,4 @@
 ﻿using Assignment1.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment1.Ui
 {
@@ -18,12 +13,6 @@ namespace Assignment1.Ui
         /// <param name="contacts">Contacts list</param>
         public void PrintContact(List<ContactInfo> contacts)
         {
-            //int i = 1;
-            //foreach (ContactInfo contactItem in contact)
-            //{
-            //    Console.WriteLine($"{i++}. {contactItem.Name}, {contactItem.Email}, {contactItem.Phone}, {contactItem.Notes}");
-            //}
-
             if (contacts.Count > 0)
             {
                 var i = 1;

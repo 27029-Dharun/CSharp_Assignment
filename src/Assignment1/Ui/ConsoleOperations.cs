@@ -69,12 +69,13 @@ namespace Assignments1
             while (valid != 1)
             {
                 string? input = Console.ReadLine();
-
-                int.TryParse(input, out int parsedValue);
-                index = parsedValue - 1;
-                if (index >= 0 && contacts.Count > index)
+                if (int.TryParse(input, out int parsedValue))
                 {
-                    valid = 1;
+                    index = parsedValue - 1;
+                    if (this._contactManager.ValidateIndex(index))
+                    {
+                        valid = 1;
+                    }
                 }
                 else
                 {
@@ -125,7 +126,7 @@ namespace Assignments1
             List<ContactInfo> contacts = this._contactManager.GetContacts();
             if (contacts.Count == 0)
             {
-                Console.WriteLine("NOthing to Edit");
+                Console.WriteLine("Nothing to Edit");
             }
 
             Console.WriteLine("Select the contact to Delete");

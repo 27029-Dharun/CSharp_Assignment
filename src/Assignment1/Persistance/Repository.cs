@@ -1,4 +1,7 @@
-﻿using Assignment1.Model;
+﻿using System.Data.Common;
+using System.Numerics;
+using System.Xml.Linq;
+using Assignment1.Model;
 
 namespace Assignment1.Persistance
 {
@@ -36,12 +39,12 @@ namespace Assignment1.Persistance
         /// </summary>
         /// <param name="contactName"> this is the contactName that should be updated to the list</param>
         /// <returns>The contact list.</returns>
-        public List<ContactInfo> GetContact()
+        public List<ContactInfo> GetContacts()
         {
             List<ContactInfo> copy = new List<ContactInfo>();
             foreach (ContactInfo a in this._contactList)
             {
-                copy.Add(a);
+                copy.Add(new ContactInfo { Id = a.Id, Name = a.Name, Phone = a.Phone, Email = a.Email, Notes = a.Notes });
             }
 
             return copy;
@@ -77,38 +80,11 @@ namespace Assignment1.Persistance
         /// Edit contact with Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <param name="option">Field to change</param>
-        /// <param name="newValue">New value to be changed</param>
-        public void EditContact(Guid id, int option, string newValue)
+        /// <param name="contact">New value to be changed</param>
+        public void EditContact(Guid id, ContactInfo contact)
         {
-            ContactInfo? person = this.GetContactById(id);
-
-            if (person == null)
-            {
-                return;
-            }
-
-            switch (option)
-            {
-                case 1:
-                    person.Name = newValue;
-                    break;
-
-                case 2:
-                    person.Email = newValue;
-                    break;
-
-                case 3:
-                    person.Phone = newValue;
-                    break;
-
-                case 4:
-                    person.Notes = newValue;
-                    break;
-
-                default:
-                    return;
-            }
+            ContactInfo? record = this.GetContactById(id);
+            record = contact;
         }
     }
 }
