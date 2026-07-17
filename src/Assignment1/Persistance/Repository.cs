@@ -25,13 +25,17 @@ namespace Assignment1.Persistance
         /// This deletes the contact in the _contact list
         /// </summary>
         /// <param name="id"> this is the contactName that should be updated to the list</param>
-        public void DeleteContactById(Guid id)
+        /// <returns>Returns status</returns>
+        public string DeleteContactById(Guid id)
         {
             ContactInfo? contact = this.GetContactById(id);
             if (contact != null)
             {
                 this._contactList.Remove(contact);
+                return "Contact Deleted Successfully";
             }
+
+            return "Failed to Delete Contact";
         }
 
         /// <summary>
@@ -63,13 +67,20 @@ namespace Assignment1.Persistance
         /// </summary>
         /// <param name="id">Id</param>
         /// <param name="contact">New value to be changed</param>
-        public void EditContact(Guid id, ContactInfo contact)
+        /// <returns>string to denote error</returns>
+        public string EditContact(Guid id, ContactInfo contact)
         {
             ContactInfo? record = this.GetContactById(id);
-            record.Name = contact.Name;
-            record.Phone = contact.Phone;
-            record.Email = contact.Email;
-            record.Notes = contact.Notes;
+            if (record != null)
+            {
+                record.Name = contact.Name;
+                record.Phone = contact.Phone;
+                record.Email = contact.Email;
+                record.Notes = contact.Notes;
+                return "Contact Updated Successfully";
+            }
+
+            return "Contact Not Found";
         }
 
         /// <summary>

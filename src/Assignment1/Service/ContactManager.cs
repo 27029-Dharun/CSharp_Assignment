@@ -79,25 +79,10 @@ namespace Assignment1.Services
         /// Delete Contact
         /// </summary>
         /// <param name="id">Index</param>
-        public void DeleteContact(Guid id)
+        /// <returns>Status of the operation</returns>
+        public string DeleteContact(Guid id)
         {
-            this._repository.DeleteContactById(id);
-        }
-
-        /// <summary>
-        /// Index Validation
-        /// </summary>
-        /// <param name="index">Index of contact</param>
-        /// <returns>Return boolean</returns>
-        public bool ValidateIndex(int index)
-        {
-            List<ContactInfo> contacts = this._repository.GetContacts();
-            if (index >= 0 && contacts.Count > index)
-            {
-                return true;
-            }
-
-            return false;
+            return this._repository.DeleteContactById(id);
         }
 
         /// <summary>
@@ -174,9 +159,7 @@ namespace Assignment1.Services
                     return "Invalid Option";
             }
 
-            this._repository.EditContact(id, person);
-
-            return "Editted Successfully !";
+            return this._repository.EditContact(id, person);
         }
 
         /// <summary>

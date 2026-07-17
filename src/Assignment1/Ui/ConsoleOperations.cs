@@ -41,6 +41,22 @@ namespace Assignments1
         }
 
         /// <summary>
+        /// Index Validation
+        /// </summary>
+        /// <param name="index">Index of contact</param>
+        /// <returns>Return boolean</returns>
+        public bool ValidateIndex(int index)
+        {
+            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            if (index >= 0 && contacts.Count > index)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// DIsplay the contact
         /// </summary>
         public void ViewContact()
@@ -59,63 +75,65 @@ namespace Assignments1
             {
                 Console.WriteLine("Nothing to Edit");
             }
-
-            Console.WriteLine("Select the contact to edit");
-            Console.WriteLine("Give the number as input");
-            this._display.PrintContact(contacts);
-
-            int valid = 0;
-            int index = -1;
-            while (valid != 1)
+            else
             {
-                string? input = Console.ReadLine();
-                if (int.TryParse(input, out int parsedValue))
+                Console.WriteLine("Select the contact to edit");
+                Console.WriteLine("Give the number as input");
+                this._display.PrintContact(contacts);
+
+                int valid = 0;
+                int index = -1;
+                while (valid != 1)
                 {
-                    index = parsedValue - 1;
-                    if (this._contactManager.ValidateIndex(index))
+                    string? input = Console.ReadLine();
+                    if (int.TryParse(input, out int parsedValue))
                     {
-                        valid = 1;
+                        index = parsedValue - 1;
+                        if (this.ValidateIndex(index))
+                        {
+                            valid = 1;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Enter a valid Index");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Enter a valid Index");
-                }
-            }
 
-            Guid id = contacts[index].Id;
-            Console.WriteLine("1.Name" + ": " + contacts[index].Name);
-            Console.WriteLine("2.Email" + ": " + contacts[index].Email);
-            Console.WriteLine("3.Phone" + ": " + contacts[index].Phone);
-            Console.WriteLine("4.Notes" + ": " + contacts[index].Notes);
-            Console.WriteLine();
-            Console.WriteLine("1 -> Edit Name");
-            Console.WriteLine("2 -> Edit Email");
-            Console.WriteLine("3 -> Edit Phone");
-            Console.WriteLine("4 -> Edit Notes");
-            Console.Write("Choose Field To edit : ");
-            int field;
-            while (true)
-            {
-                string? input = Console.ReadLine();
-                int.TryParse(input, out field);
-                if (field >= 1 && field <= 4)
+                Guid id = contacts[index].Id;
+                Console.WriteLine("1.Name" + ": " + contacts[index].Name);
+                Console.WriteLine("2.Email" + ": " + contacts[index].Email);
+                Console.WriteLine("3.Phone" + ": " + contacts[index].Phone);
+                Console.WriteLine("4.Notes" + ": " + contacts[index].Notes);
+                Console.WriteLine();
+                Console.WriteLine("1 -> Edit Name");
+                Console.WriteLine("2 -> Edit Email");
+                Console.WriteLine("3 -> Edit Phone");
+                Console.WriteLine("4 -> Edit Notes");
+                Console.Write("Choose Field To edit : ");
+                int field;
+                while (true)
                 {
-                    break;
+                    string? input = Console.ReadLine();
+                    int.TryParse(input, out field);
+                    if (field >= 1 && field <= 4)
+                    {
+                        break;
+                    }
+
+                    Console.WriteLine("Enter a valid input in range 1 to 4");
                 }
 
-                Console.WriteLine("Enter a valid input in range 1 to 4");
-            }
+                Console.Write("New Value : ");
+                string? value = Console.ReadLine();
+                if (value == null)
+                {
+                    throw new Exception("Value con't be null");
+                }
 
-            Console.Write("New Value : ");
-            string? value = Console.ReadLine();
-            if (value == null)
-            {
-                throw new Exception("Value con't be null");
+                string result = this._contactManager.EditContact(id, field, value);
+                Console.WriteLine(result);
             }
-
-            string result = this._contactManager.EditContact(id, field, value);
-            Console.WriteLine(result);
         }
 
         /// <summary>
@@ -126,41 +144,36 @@ namespace Assignments1
             List<ContactInfo> contacts = this._contactManager.GetContacts();
             if (contacts.Count == 0)
             {
-                Console.WriteLine("Nothing to Edit");
+                Console.WriteLine("Nothing to Delete");
             }
-
-            Console.WriteLine("Select the contact to Delete");
-            Console.WriteLine("Give the number as input");
-            this._display.PrintContact(contacts);
-
-            int valid = 0;
-            int index = -1;
-            while (valid != 1)
+            else
             {
-                string? input = Console.ReadLine();
+                Console.WriteLine("Select the contact to Delete");
+                Console.WriteLine("Give the number as input");
+                this._display.PrintContact(contacts);
 
-                if (int.TryParse(input, out int parsedValue))
+                int valid = 0;
+                int index = -1;
+                while (valid != 1)
                 {
-                    index = parsedValue - 1;
-                    if (this._contactManager.ValidateIndex(index))
+                    string? input = Console.ReadLine();
+
+                    if (int.TryParse(input, out int parsedValue))
                     {
-                        valid = 1;
+                        index = parsedValue - 1;
+                        if (this.ValidateIndex(index))
+                        {
+                            valid = 1;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid integer.");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid integer.");
-                }
-            }
 
-            Guid id = contacts[index].Id;
-            try
-            {
-                this._contactManager.DeleteContact(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
+                Guid id = contacts[index].Id;
+                Console.WriteLine(this._contactManager.DeleteContact(id));
             }
         }
 
