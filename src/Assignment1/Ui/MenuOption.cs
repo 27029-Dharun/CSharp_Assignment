@@ -32,7 +32,7 @@ namespace Assignment1.Ui
                 Console.WriteLine("6. Sort Contact");
                 Console.WriteLine("Type [exit] To Exit");
 
-                input = Console.ReadLine();
+                input = Console.ReadLine() ?? string.Empty;
                 Console.Clear();
 
                 switch (input)
