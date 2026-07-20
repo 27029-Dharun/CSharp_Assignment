@@ -28,5 +28,11 @@
 
             return decimal.Multiply((decimal)this.Salary, 0.15M);
         }
+
+        /// <summary>
+        /// This class displays the Details of the Employee
+        /// </summary>
+        /// <returns>the name and salary of Empluyee</returns>
+        public override string PrintDetails() => $"Developer {this.Name}, {this.Salary} {this.CalculateBonus()}";
     }
 }
