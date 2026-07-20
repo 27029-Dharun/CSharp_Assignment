@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Assignments1;
+﻿using Assignments1;
 
 namespace Assignment1.Ui
 {
@@ -42,7 +36,6 @@ namespace Assignment1.Ui
                         break;
 
                     case "2":
-                        Console.WriteLine("The Contact List");
                         consoleOperations.ViewContact();
                         break;
 

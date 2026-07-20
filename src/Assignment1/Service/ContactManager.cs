@@ -132,6 +132,10 @@ namespace Assignment1.Services
                     {
                         person.Name = newValue;
                     }
+                    else
+                    {
+                        return "Name can't be Empty";
+                    }
 
                     break;
 
@@ -139,6 +143,10 @@ namespace Assignment1.Services
                     if (Helper.IsValidEmail(newValue))
                     {
                         person.Email = newValue;
+                    }
+                    else
+                    {
+                        return "Email is Not valid";
                     }
 
                     break;
@@ -148,6 +156,10 @@ namespace Assignment1.Services
                     {
                         person.Phone = newValue;
                     }
+                    else
+                    {
+                        return "Invalid Mobile Number";
+                    }
 
                     break;
 
@@ -156,7 +168,7 @@ namespace Assignment1.Services
                     break;
 
                 default:
-                    return "Invalid Option";
+                    return "Invalid Option ";
             }
 
             return this._repository.EditContact(id, person);

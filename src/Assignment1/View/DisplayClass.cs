@@ -15,6 +15,7 @@ namespace Assignment1.Ui
         {
             if (contacts.Count > 0)
             {
+                Console.WriteLine("The Contacts list");
                 var i = 1;
                 foreach (ContactInfo contact in contacts)
                 {

@@ -83,6 +83,7 @@ namespace Assignments1
 
                 int valid = 0;
                 int index = -1;
+
                 while (valid != 1)
                 {
                     string? input = Console.ReadLine();
@@ -94,7 +95,8 @@ namespace Assignments1
                             valid = 1;
                         }
                     }
-                    else
+
+                    if (valid == 0)
                     {
                         Console.WriteLine("Enter a valid Index");
                     }
@@ -114,8 +116,8 @@ namespace Assignments1
                 int field;
                 while (true)
                 {
-                    string? input = Console.ReadLine();
-                    int.TryParse(input, out field);
+                    string? option = Console.ReadLine();
+                    int.TryParse(option, out field);
                     if (field >= 1 && field <= 4)
                     {
                         break;
@@ -128,11 +130,13 @@ namespace Assignments1
                 string? value = Console.ReadLine();
                 if (value == null)
                 {
-                    throw new Exception("Value con't be null");
+                    Console.WriteLine("Value con't be null");
                 }
-
-                string result = this._contactManager.EditContact(id, field, value);
-                Console.WriteLine(result);
+                else
+                {
+                    string result = this._contactManager.EditContact(id, field, value);
+                    Console.WriteLine(result);
+                }
             }
         }
 
@@ -166,7 +170,8 @@ namespace Assignments1
                             valid = 1;
                         }
                     }
-                    else
+
+                    if (valid == 0)
                     {
                         Console.WriteLine("Invalid input. Please enter a valid integer.");
                     }

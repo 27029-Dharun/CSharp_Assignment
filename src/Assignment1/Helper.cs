@@ -26,7 +26,7 @@ namespace Assignment1
 
             number = number.Trim();
 
-            return number.All(char.IsDigit);
+            return number.All(char.IsDigit) && number.Length == 10;
         }
 
         /// <summary>
