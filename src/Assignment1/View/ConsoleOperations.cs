@@ -20,12 +20,27 @@ namespace Assignments1
         {
             Console.Write("Enter Your Name: ");
             string name = (Console.ReadLine() ?? string.Empty).Trim();
+            while (name == string.Empty)
+            {
+                Console.WriteLine("Name can't be Empty");
+                name = (Console.ReadLine() ?? string.Empty).Trim();
+            }
 
             Console.Write("Enter Phone number: ");
             string phone = (Console.ReadLine() ?? string.Empty).Trim();
+            while (phone == string.Empty)
+            {
+                Console.WriteLine("Phone Number can't be Empty");
+                phone = (Console.ReadLine() ?? string.Empty).Trim();
+            }
 
             Console.Write("Enter Email Address: ");
             string email = (Console.ReadLine() ?? string.Empty).Trim();
+            while (email == string.Empty)
+            {
+                Console.WriteLine("Email can't be Empty");
+                email = (Console.ReadLine() ?? string.Empty).Trim();
+            }
 
             Console.Write("Enter Notes: ");
             string notes = (Console.ReadLine() ?? string.Empty).Trim();
