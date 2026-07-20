@@ -32,5 +32,11 @@
         {
             return Math.PI * this.Radius * this.Radius;
         }
+
+        /// <summary>
+        /// Returns the detail of the Rectangle object
+        /// </summary>
+        /// <returns>string containing color, shape type, and area.</returns>
+        public override string PrintDetails() => $"Circle Color: {this.Color} ,Area: {this.CalculateArea()}";
     }
 }
