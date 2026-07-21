@@ -10,13 +10,13 @@ namespace Assignment1.Persistance
     /// </summary>
     public class Repository
     {
-        private List<ContactInfo> _contactList = new ();
+        private List<Contact> _contactList = new ();
 
         /// <summary>
         /// This creates contact in the _contact list
         /// </summary>
         /// <param name="contact"> this is the contact that should bee added to the list</param>
-        public void AddContact(ContactInfo contact)
+        public void AddContact(Contact contact)
         {
             this._contactList.Add(contact);
         }
@@ -28,7 +28,7 @@ namespace Assignment1.Persistance
         /// <returns>Returns status</returns>
         public string DeleteContactById(Guid id)
         {
-            ContactInfo? contact = this.GetContactById(id);
+            Contact? contact = this.GetContactById(id);
             if (contact != null)
             {
                 this._contactList.Remove(contact);
@@ -43,12 +43,12 @@ namespace Assignment1.Persistance
         /// </summary>
         /// <param name="contactName"> this is the contactName that should be updated to the list</param>
         /// <returns>The contact list.</returns>
-        public List<ContactInfo> GetContacts()
+        public List<Contact> GetContacts()
         {
-            List<ContactInfo> copy = new List<ContactInfo>();
-            foreach (ContactInfo a in this._contactList)
+            List<Contact> copy = new List<Contact>();
+            foreach (Contact a in this._contactList)
             {
-                copy.Add(new ContactInfo { Id = a.Id, Name = a.Name, Phone = a.Phone, Email = a.Email, Notes = a.Notes });
+                copy.Add(new Contact { Id = a.Id, Name = a.Name, Phone = a.Phone, Email = a.Email, Notes = a.Notes });
             }
 
             return copy;
@@ -68,9 +68,9 @@ namespace Assignment1.Persistance
         /// <param name="id">Id</param>
         /// <param name="contact">New value to be changed</param>
         /// <returns>string to denote error</returns>
-        public string EditContact(Guid id, ContactInfo contact)
+        public string EditContact(Guid id, Contact contact)
         {
-            ContactInfo? record = this.GetContactById(id);
+            Contact? record = this.GetContactById(id);
             if (record != null)
             {
                 record.Name = contact.Name;
@@ -88,9 +88,9 @@ namespace Assignment1.Persistance
         /// </summary>
         /// <param name="id">Id of the Contact</param>
         /// <returns>A contact with id</returns>
-        private ContactInfo? GetContactById(Guid id)
+        private Contact? GetContactById(Guid id)
         {
-            foreach (ContactInfo contact in this._contactList)
+            foreach (Contact contact in this._contactList)
             {
                 if (contact.Id == id)
                 {

@@ -8,7 +8,7 @@ namespace Assignment1.Services
     /// </summary>
     public class ContactManager
     {
-        private Repository _repository = new Repository();
+        private ContactRepository _repository = new ContactRepository();
 
         /// <summary>
         /// Create a contact
@@ -38,7 +38,7 @@ namespace Assignment1.Services
             if (this.CheckUniqueContactNumber(phone))
             {
                 Guid id = Guid.NewGuid();
-                ContactInfo contact = new ContactInfo { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
+                Contact contact = new Contact { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
                 this._repository.AddContact(contact);
                 return "Contact Added Successfully";
             }
@@ -53,11 +53,11 @@ namespace Assignment1.Services
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>A List/returns>
-        public List<ContactInfo> SearchContactByName(string name)
+        public List<Contact> SearchContactByName(string name)
         {
-            List<ContactInfo> contact = this._repository.GetContacts();
-            List<ContactInfo> filtered = new ();
-            foreach (ContactInfo contactItem in contact)
+            List<Contact> contact = this._repository.GetContacts();
+            List<Contact> filtered = new ();
+            foreach (Contact contactItem in contact)
             {
                 if (contactItem?.Name == null)
                 {
@@ -77,7 +77,7 @@ namespace Assignment1.Services
         /// Display the contacts
         /// </summary>
         /// <returns>A list of contact</returns>
-        public List<ContactInfo> GetContacts()
+        public List<Contact> GetContacts()
         {
             return this._repository.GetContacts();
         }
@@ -97,10 +97,10 @@ namespace Assignment1.Services
         /// </summary>
         /// <param name="id">Guid </param>
         /// <returns>A valid contact</returns>
-        public ContactInfo? GetContactById(Guid id)
+        public Contact? GetContactById(Guid id)
         {
-            List<ContactInfo> contacts = this._repository.GetContacts();
-            foreach (ContactInfo contactItem in contacts)
+            List<Contact> contacts = this._repository.GetContacts();
+            foreach (Contact contactItem in contacts)
             {
                 if (contactItem.Id == id)
                 {
@@ -125,7 +125,7 @@ namespace Assignment1.Services
                 return "String can't be Empty";
             }
 
-            ContactInfo? person = this.GetContactById(id);
+            Contact? person = this.GetContactById(id);
 
             if (person == null)
             {
@@ -195,8 +195,8 @@ namespace Assignment1.Services
         /// <returns>boolean value</returns>
         private bool CheckUniqueContactNumber(string number)
         {
-            List<ContactInfo> contacts = this._repository.GetContacts();
-            foreach (ContactInfo contact in contacts)
+            List<Contact> contacts = this._repository.GetContacts();
+            foreach (Contact contact in contacts)
             {
                 if (contact.Phone == number)
                 {

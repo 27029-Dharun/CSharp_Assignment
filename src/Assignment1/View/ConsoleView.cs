@@ -62,7 +62,7 @@ namespace Assignments1
         /// <returns>Return boolean</returns>
         public bool ValidateIndex(int index)
         {
-            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            List<Contact> contacts = this._contactManager.GetContacts();
             if (index >= 0 && contacts.Count > index)
             {
                 return true;
@@ -76,7 +76,7 @@ namespace Assignments1
         /// </summary>
         public void ViewContact()
         {
-            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            List<Contact> contacts = this._contactManager.GetContacts();
             this._display.PrintContact(contacts);
         }
 
@@ -85,7 +85,7 @@ namespace Assignments1
         /// </summary>
         public void EditContact()
         {
-            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            List<Contact> contacts = this._contactManager.GetContacts();
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Nothing to Edit");
@@ -160,7 +160,7 @@ namespace Assignments1
         /// </summary>
         public void DeleteContact()
         {
-            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            List<Contact> contacts = this._contactManager.GetContacts();
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Nothing to Delete");
@@ -205,7 +205,7 @@ namespace Assignments1
             Console.Write("Enter the Name to search : ");
             string str = (Console.ReadLine() ?? string.Empty).Trim();
 
-            List<ContactInfo> res = this._contactManager.SearchContactByName(str);
+            List<Contact> res = this._contactManager.SearchContactByName(str);
             if (res.Count == 0)
             {
                 Console.WriteLine("No Match Found");
@@ -225,7 +225,7 @@ namespace Assignments1
         public void SortContact()
         {
             this._contactManager.SortContactByName();
-            List<ContactInfo> contacts = this._contactManager.GetContacts();
+            List<Contact> contacts = this._contactManager.GetContacts();
             this._display.PrintContact(contacts);
         }
     }

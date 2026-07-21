@@ -11,13 +11,13 @@ namespace Assignment1.Ui
         /// Print all the contact list
         /// </summary>
         /// <param name="contacts">Contacts list</param>
-        public void PrintContact(List<ContactInfo> contacts)
+        public void PrintContact(List<Contact> contacts)
         {
             if (contacts.Count > 0)
             {
                 Console.WriteLine("The Contacts list");
                 var i = 1;
-                foreach (ContactInfo contact in contacts)
+                foreach (Contact contact in contacts)
                 {
                     Console.WriteLine($"{i++}. {contact.Name} , {contact.Phone} , {contact.Email} , {contact.Notes} ");
                 }

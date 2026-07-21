@@ -13,7 +13,7 @@ namespace Assignment1.Ui
         public void DisplayMenu()
         {
             string? input;
-            ConsoleOperations consoleOperations = new ConsoleOperations();
+            ConsoleView consoleOperations = new ConsoleView();
             do
             {
                 Console.WriteLine();
