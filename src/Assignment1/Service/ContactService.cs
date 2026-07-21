@@ -1,44 +1,27 @@
 ﻿using Assignment1.Model;
 using Assignment1.Persistance;
+using Assignment1.Validation;
 
 namespace Assignment1.Services
 {
     /// <summary>
     /// Service class is for manipulating on list.
     /// </summary>
-    public class ContactManager
+    public class ContactService
     {
         private ContactRepository _repository = new ContactRepository();
 
         /// <summary>
         /// Create a contact
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="phone">phone number</param>
-        /// <param name="email">Email</param>
-        /// <param name="notes">Notes</param>
+        /// <param name="contact">Contact object</param>
         /// <returns>A new contact</returns>
-        public string CreateContact(string name, string phone, string email, string notes)
+        public string CreateContact(Contact contact)
         {
-            if (name == string.Empty)
-            {
-                return "Name can't be Empty";
-            }
-
-            if (!Helper.IsValidNumber(phone))
-            {
-                return "Invalid Phone";
-            }
-
-            if (!Helper.IsValidEmail(email))
-            {
-                return "Invalid Email";
-            }
-
-            if (this.CheckUniqueContactNumber(phone))
+            if (this.CheckUniqueContactNumber(contact.Phone))
             {
                 Guid id = Guid.NewGuid();
-                Contact contact = new Contact { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
+                contact.Id = id;
                 this._repository.AddContact(contact);
                 return "Contact Added Successfully";
             }
@@ -114,71 +97,11 @@ namespace Assignment1.Services
         /// <summary>
         /// Edit contact
         /// </summary>
-        /// <param name="id">Index</param>
-        /// <param name="option">Field to be edited</param>
-        /// <param name="newValue">Edited string</param>
+        /// <param name="contact">New contact object to replace</param>
         /// <returns>A boolean flag to represent the status</returns>
-        public string EditContact(Guid id, int option, string newValue)
+        public string EditContact(Contact contact)
         {
-            if (newValue == string.Empty)
-            {
-                return "String can't be Empty";
-            }
-
-            Contact? person = this.GetContactById(id);
-
-            if (person == null)
-            {
-                return "Invalid Option selected";
-            }
-
-            switch (option)
-            {
-                case 1:
-                    if (newValue != string.Empty)
-                    {
-                        person.Name = newValue;
-                    }
-                    else
-                    {
-                        return "Name can't be Empty";
-                    }
-
-                    break;
-
-                case 2:
-                    if (Helper.IsValidEmail(newValue))
-                    {
-                        person.Email = newValue;
-                    }
-                    else
-                    {
-                        return "Email is Not valid";
-                    }
-
-                    break;
-
-                case 3:
-                    if (Helper.IsValidNumber(newValue))
-                    {
-                        person.Phone = newValue;
-                    }
-                    else
-                    {
-                        return "Invalid Mobile Number";
-                    }
-
-                    break;
-
-                case 4:
-                    person.Notes = newValue;
-                    break;
-
-                default:
-                    return "Invalid Option ";
-            }
-
-            return this._repository.EditContact(id, person);
+            return this._repository.EditContact(contact.Id, contact);
         }
 
         /// <summary>

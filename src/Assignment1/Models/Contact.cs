@@ -9,7 +9,7 @@ namespace Assignment1.Model
     /// <summary>
     /// Model class
     /// </summary>
-    public class ContactInfo
+    public class Contact
     {
         /// <summary>
         /// Gets or sets the unique id of the Contact.

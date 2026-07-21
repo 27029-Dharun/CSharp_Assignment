@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Assignment1.Services;
-using Assignment1.Ui;
-using Assignments1;
+﻿using Assignment1.Controllers;
 
 namespace Assignment1
 {
@@ -14,8 +10,8 @@ namespace Assignment1
         private static void Main(string[] args)
         {
             Console.WriteLine("Contact Manager Application");
-            MenuOption menu = new MenuOption();
-            menu.DisplayMenu();
+            ContactController contactController = new ContactController();
+            contactController.Run();
             Console.WriteLine("Exited ...");
             Console.ReadKey();
         }

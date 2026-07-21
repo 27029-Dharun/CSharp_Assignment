@@ -8,7 +8,7 @@ namespace Assignment1.Persistance
     /// <summary>
     /// this is a repository class
     /// </summary>
-    public class Repository
+    public class ContactRepository
     {
         private List<Contact> _contactList = new ();
 
