@@ -35,10 +35,17 @@ namespace Assignment1.Services
                 return "Invalid Email";
             }
 
-            Guid id = Guid.NewGuid();
-            ContactInfo contact = new ContactInfo { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
-            this._repository.AddContact(contact);
-            return "Contact Added Successfully";
+            if (this.CheckUniqueContactNumber(phone))
+            {
+                Guid id = Guid.NewGuid();
+                ContactInfo contact = new ContactInfo { Id = id, Name = name, Phone = phone, Email = email, Notes = notes };
+                this._repository.AddContact(contact);
+                return "Contact Added Successfully";
+            }
+            else
+            {
+                return "Contact Number already Exists";
+            }
         }
 
         /// <summary>
@@ -46,7 +53,7 @@ namespace Assignment1.Services
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>A List/returns>
-        public List<ContactInfo> SearchContact(string name)
+        public List<ContactInfo> SearchContactByName(string name)
         {
             List<ContactInfo> contact = this._repository.GetContacts();
             List<ContactInfo> filtered = new ();
@@ -180,6 +187,24 @@ namespace Assignment1.Services
         public void SortContactByName()
         {
             this._repository.SortContactByName();
+        }
+
+        /// <summary>
+        /// Check unique number
+        /// </summary>
+        /// <returns>boolean value</returns>
+        private bool CheckUniqueContactNumber(string number)
+        {
+            List<ContactInfo> contacts = this._repository.GetContacts();
+            foreach (ContactInfo contact in contacts)
+            {
+                if (contact.Phone == number)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

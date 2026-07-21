@@ -205,7 +205,7 @@ namespace Assignments1
             Console.Write("Enter the Name to search : ");
             string str = (Console.ReadLine() ?? string.Empty).Trim();
 
-            List<ContactInfo> res = this._contactManager.SearchContact(str);
+            List<ContactInfo> res = this._contactManager.SearchContactByName(str);
             if (res.Count == 0)
             {
                 Console.WriteLine("No Match Found");

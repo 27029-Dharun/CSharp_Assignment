@@ -22,7 +22,7 @@ namespace Assignment1.Ui
                 Console.WriteLine("2. View the contact");
                 Console.WriteLine("3. Edit the contact");
                 Console.WriteLine("4. Delete the contact");
-                Console.WriteLine("5. Search contact");
+                Console.WriteLine("5. Search contact By Name");
                 Console.WriteLine("6. Sort Contact");
                 Console.WriteLine("Type [exit] To Exit");
 
