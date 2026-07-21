@@ -6,31 +6,20 @@
     internal abstract class Employee
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Employee"/> class.
-        /// </summary>
-        /// <param name="name">Name</param>
-        /// <param name="salary">Salary </param>
-        protected Employee(string name, decimal salary)
-        {
-            this.Name = name;
-            this.Salary = salary;
-        }
-
-        /// <summary>
-        /// Gets Name of the Employee
+        /// Gets or sets and sets Name of the Employee
         /// </summary>
         /// <value>
         /// Name of the Employee
         /// </value>
-        public string? Name { get; }
+        public string? Name { get; set; }
 
         /// <summary>
-        /// Gets salary of employee
+        /// Gets or sets and sets salary of employee
         /// </summary>
         /// <value>
         /// The Salary of all the individuals
         /// </value>
-        public decimal? Salary { get; }
+        public decimal? Salary { get; set; }
 
         /// <summary>
         /// Calculates Bonus of the Employee

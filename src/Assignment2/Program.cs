@@ -1,4 +1,5 @@
-﻿using Assignment2.EmployeeHierarchy;
+﻿using Assignment2.BankingSystem;
+using Assignment2.EmployeeHierarchy;
 using Assignment2.ShapeHierarchy;
 
 namespace Assignment2
@@ -28,23 +29,52 @@ namespace Assignment2
             {
                 case 1:
 
-                    Rectangle rectangle = new(10, 20, "Red");
+                    Rectangle rectangle = new (10, 20, "Red");
                     Console.WriteLine(rectangle.PrintDetails());
 
-                    Circle circle = new(10, "green");
+                    Circle circle = new (10, "green");
                     Console.WriteLine(circle.PrintDetails());
                     break;
 
                 case 2:
 
-                    Developer developer = new Developer("Dharun", 100000);
+                    Developer developer = new Developer()
+                    {
+                        Name = "Dharun",
+                        Salary = 100000,
+                    };
                     Console.WriteLine(developer.PrintDetails());
 
-                    Manager manager = new Manager("Ram", 300000);
+                    Manager manager = new Manager()
+                    {
+                        Name = "Ram",
+                        Salary = 300000,
+                    };
                     Console.WriteLine(manager.PrintDetails());
                     break;
 
                 case 3:
+                    SavingsAccount savings = new SavingsAccount()
+                    {
+                        AccountNumber = "123456",
+                        Balance = 10000M,
+                        MinimunBalance = 2000M,
+                    };
+                    Console.WriteLine(savings.PrintDetails());
+                    Console.WriteLine(savings.Withdraw(1000M));
+                    Console.WriteLine(savings.Deposit(500M));
+                    Console.WriteLine(savings.PrintDetails());
+
+                    CheckingAccount checking = new CheckingAccount()
+                    {
+                        AccountNumber = "123457",
+                        Balance = 10000M,
+                    };
+
+                    Console.WriteLine(checking.PrintDetails());
+                    Console.WriteLine(checking.Withdraw(1000M));
+                    Console.WriteLine(checking.Deposit(500M));
+                    Console.WriteLine(checking.PrintDetails());
                     break;
 
                 default:
