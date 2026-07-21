@@ -1,4 +1,4 @@
-﻿namespace Assignment2.EmployeeHierarchy
+﻿namespace Assignment2.Models.EmployeeHierarchy
 {
     /// <summary>
     /// This is a derived class from Employee
@@ -11,18 +11,18 @@
         /// <returns>Decimal bonus value</returns>
         public override decimal CalculateBonus()
         {
-            if (this.Salary == null)
+            if (Salary == null)
             {
                 return 0;
             }
 
-            return decimal.Multiply((decimal)this.Salary, 0.10M);
+            return decimal.Multiply((decimal)Salary, 0.10M);
         }
 
         /// <summary>
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public override string PrintDetails() => $"Manager {this.Name}, {this.Salary} {this.CalculateBonus()}";
+        public override string PrintDetails() => $"Manager {Name}, {Salary} {CalculateBonus()}";
     }
 }

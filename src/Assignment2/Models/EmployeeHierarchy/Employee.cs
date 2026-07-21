@@ -1,4 +1,4 @@
-﻿namespace Assignment2.EmployeeHierarchy
+﻿namespace Assignment2.Models.EmployeeHierarchy
 {
     /// <summary>
     /// This class contains Employee Details
@@ -31,6 +31,6 @@
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public virtual string PrintDetails() => $"{this.Name}, {this.Salary} {this.CalculateBonus()}";
+        public virtual string PrintDetails() => $"{Name}, {Salary} {CalculateBonus()}";
     }
 }

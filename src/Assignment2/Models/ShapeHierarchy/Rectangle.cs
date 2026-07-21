@@ -1,4 +1,4 @@
-﻿namespace Assignment2.ShapeHierarchy
+﻿namespace Assignment2.Models.ShapeHierarchy
 {
     /// <summary>
     /// This class derives from the Shape class and property for storing the dimensions
@@ -15,8 +15,8 @@
         public Rectangle(double length, double width, string color)
             : base(color)
         {
-            this.Length = length;
-            this.Width = width;
+            Length = length;
+            Width = width;
         }
 
         /// <summary>
@@ -42,18 +42,18 @@
         /// <returns>Area of type Double </returns>
         public override double CalculateArea()
         {
-            if (this.Length == 0 || this.Length == null || this.Width == null)
+            if (Length == 0 || Length == null || Width == null)
             {
                 return 0;
             }
 
-            return (double)(this.Width * this.Length);
+            return (double)(Width * Length);
         }
 
         /// <summary>
         /// Returns the detail of the Rectangle object
         /// </summary>
         /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"{this.Color} , Rectangle, {this.CalculateArea()}";
+        public override string PrintDetails() => $"{Color} , Rectangle, {CalculateArea()}";
     }
 }

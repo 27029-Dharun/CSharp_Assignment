@@ -1,4 +1,4 @@
-﻿namespace Assignment2.ShapeHierarchy
+﻿namespace Assignment2.Models.ShapeHierarchy
 {
     /// <summary>
     /// This abstract class contains the Shape and calculate Area method
@@ -12,7 +12,7 @@
         /// <param name="color">Color of the shape</param>
         public Shape(string color)
         {
-            this.Color = color;
+            Color = color;
         }
 
         /// <summary>
@@ -33,6 +33,6 @@
         /// This class prints the details of shape
         /// </summary>
         /// <returns>String output showing the Color and Area of the Shape </returns>
-        public virtual string PrintDetails() => $"{this.Color}, {this.CalculateArea()}";
+        public virtual string PrintDetails() => $"{Color}, {CalculateArea()}";
     }
 }

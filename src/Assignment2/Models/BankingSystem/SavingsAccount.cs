@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment2.BankingSystem
+namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
     /// This class id derived from the BankAccount
@@ -32,9 +32,9 @@ namespace Assignment2.BankingSystem
             }
 
             // checks balance if it is less than amount
-            if (this.Balance - this.MinimunBalance >= amount)
+            if (Balance - MinimunBalance >= amount)
             {
-                this.Balance = this.Balance - amount;
+                Balance = Balance - amount;
                 return $"Rupees: {amount} withdrawn Successfully";
             }
 
@@ -45,6 +45,6 @@ namespace Assignment2.BankingSystem
         /// This method prints the detail of the Account
         /// </summary>
         /// <returns>String containing account number And Balance</returns>
-        public override string PrintDetails() => $"Your Savings Account with Account Number: {this.AccountNumber} has Balance {this.Balance}";
+        public override string PrintDetails() => $"Your Savings Account with Account Number: {AccountNumber} has Balance {Balance}";
     }
 }

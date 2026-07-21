@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment2.BankingSystem
+namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
     /// This class contains Bank Account details and basic operations
@@ -39,7 +39,7 @@ namespace Assignment2.BankingSystem
                 return "Invalid Amount : Amount can't be empty";
             }
 
-            this.Balance = this.Balance + amount;
+            Balance = Balance + amount;
             return $"Rupees: {amount} Deposited Successfully";
         }
 
@@ -54,6 +54,6 @@ namespace Assignment2.BankingSystem
         /// This method prints the detail of the Account
         /// </summary>
         /// <returns>String containing account number And Balance</returns>
-        public virtual string PrintDetails() => $"Account NUmber {this.AccountNumber} Balance {this.Balance}";
+        public virtual string PrintDetails() => $"Account NUmber {AccountNumber} Balance {Balance}";
     }
 }

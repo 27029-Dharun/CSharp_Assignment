@@ -1,6 +1,6 @@
-﻿using Assignment2.BankingSystem;
-using Assignment2.EmployeeHierarchy;
-using Assignment2.ShapeHierarchy;
+﻿using Assignment2.Models.BankingSystem;
+using Assignment2.Models.EmployeeHierarchy;
+using Assignment2.Models.ShapeHierarchy;
 
 namespace Assignment2
 {
