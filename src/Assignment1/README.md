@@ -8,11 +8,11 @@ It allows you to **add, view, edit, and delete contacts**
 ## Features
 
 -  **Add Contact** — Save a new contact with name, phone, email, and notes.
--  **List Contacts** — View all saved contacts in a clean table format.
+-  **View Contacts** — View all saved contacts in a clean table format.
 -  **Edit Contact** — Update any field (name, email, phone, notes) for an existing contact.
-- **Delete Contact** — Remove a contact by selecting its number.
-- **Validation** — Ensures phone numbers and emails are in the correct format.
-- **In‑Memory Storage** — Data is stored while the app is running.
+-  **Delete Contact** — Remove a contact by selecting its number.
+-  **Search Contact** - Search Contact by entering Name
+-  **Sort Contact** - Sort all the contact
 
 ## How to View and Use
 Once you run the application, you’ll see the main menu in your terminal:
