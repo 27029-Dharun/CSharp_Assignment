@@ -1,4 +1,6 @@
 ﻿using Assignment1.Model;
+using Assignment1.Persistance;
+using Assignment1.Validation;
 
 namespace Assignment1.View
 {
@@ -71,17 +73,6 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// Index Validation
-        /// </summary>
-        /// <param name="index">Index of contact</param>
-        /// <param name="count">Length of the list</param>
-        /// <returns>Return boolean</returns>
-        public bool ValidateIndex(int index, int count)
-        {
-            return index >= 0 && index < count;
-        }
-
-        /// <summary>
         /// Edit contact View
         /// </summary>
         /// <param name="contacts">Contact List</param>
@@ -105,7 +96,7 @@ namespace Assignment1.View
                     if (int.TryParse(input, out int parsedValue))
                     {
                         index = parsedValue - 1; // Convert to zero-based index
-                        if (this.ValidateIndex(index, contacts.Count))
+                        if (ContactValidator.ValidateIndex(index, contacts.Count))
                         {
                             break;
                         }
@@ -182,7 +173,7 @@ namespace Assignment1.View
                 if (int.TryParse(input, out int parsedValue))
                 {
                     index = parsedValue - 1;
-                    if (this.ValidateIndex(index, contacts.Count))
+                    if (ContactValidator.ValidateIndex(index, contacts.Count))
                     {
                         valid = 1;
                     }
@@ -216,6 +207,18 @@ namespace Assignment1.View
         public void Display(string str)
         {
             Console.WriteLine(str);
+        }
+
+        /// <summary>
+        /// Display the Edited Contact
+        /// </summary>
+        /// <param name="contact">Contact object to Print</param>
+        public void DisplayContact(Contact contact)
+        {
+            Console.WriteLine($"Name: {contact.Name}");
+            Console.WriteLine($"Email: {contact.Email}");
+            Console.WriteLine($"Phone Number: {contact.Phone}");
+            Console.WriteLine($"Notes: {contact.Notes}");
         }
     }
 }

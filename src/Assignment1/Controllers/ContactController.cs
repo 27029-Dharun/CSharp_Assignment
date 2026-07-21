@@ -19,7 +19,7 @@ namespace Assignment1.Controllers
         /// </summary>
         public void Run()
         {
-            string? input;
+            string input;
 
             MenuView menu = new ();
             do
@@ -29,7 +29,7 @@ namespace Assignment1.Controllers
                 switch (input)
                 {
                     case "1":
-                        _view.Display(this.CreateContact());
+                        this._view.Display(this.CreateContact());
                         break;
 
                     case "2":
@@ -37,15 +37,15 @@ namespace Assignment1.Controllers
                         break;
 
                     case "3":
-                        _view.Display(this.EditContact());
+                        this._view.Display(this.EditContact());
                         break;
 
                     case "4":
-                        _view.Display(this.DeleteContact());
+                        this._view.Display(this.DeleteContact());
                         break;
 
                     case "5":
-                        _view.Display(this.SearchContact());
+                        this._view.Display(this.SearchContact());
                         break;
 
                     case "6":
@@ -72,10 +72,11 @@ namespace Assignment1.Controllers
         public string CreateContact()
         {
             Contact contact = this._view.GetContact();
-            string validatorOutput = ContactValidation.ValidateContactField(contact);
+            string validatorOutput = ContactValidator.ValidateContactField(contact);
             if (validatorOutput == string.Empty)
             {
                 this._service.CreateContact(contact);
+                this._view.DisplayContact(contact);
                 return "Contact Created Successfully";
             }
             else
@@ -117,14 +118,22 @@ namespace Assignment1.Controllers
             else
             {
                 Contact? newContact = this._view.EditContact(contacts);
-                string validatorOutput = ContactValidation.ValidateContactField(newContact);
-                if (validatorOutput == string.Empty)
+                if (newContact != null)
                 {
-                    return this._service.EditContact(newContact);
+                    string validatorOutput = ContactValidator.ValidateContactField(newContact);
+                    if (validatorOutput == string.Empty)
+                    {
+                        this._view.DisplayContact(newContact);
+                        return this._service.EditContact(newContact);
+                    }
+                    else
+                    {
+                        return validatorOutput;
+                    }
                 }
                 else
                 {
-                    return validatorOutput;
+                    return "Contact Can't Be NULL";
                 }
             }
         }

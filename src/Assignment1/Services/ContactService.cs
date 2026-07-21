@@ -18,6 +18,11 @@ namespace Assignment1.Services
         /// <returns>A new contact</returns>
         public string CreateContact(Contact contact)
         {
+            if (contact == null || contact.Phone == null)
+            {
+                return "Contact and Phone Number can't be NULL";
+            }
+
             if (this.CheckUniqueContactNumber(contact.Phone))
             {
                 Guid id = Guid.NewGuid();

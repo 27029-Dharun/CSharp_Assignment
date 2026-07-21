@@ -10,7 +10,7 @@ namespace Assignment1.Validation
     /// <summary>
     /// Contact Validation
     /// </summary>
-    internal class ContactValidation
+    internal class ContactValidator
     {
         /// <summary>
         /// Validate Contact
@@ -19,22 +19,38 @@ namespace Assignment1.Validation
         /// <returns>Error Info Value</returns>
         public static string ValidateContactField(Contact contact)
         {
+            if (contact == null)
+            {
+                return "Contact can't be NULL";
+            }
+
             if (contact.Name == string.Empty)
             {
                 return "Name can't be Empty";
             }
 
-            if (!Helper.IsValidNumber(contact.Phone))
+            if (contact.Phone == null || !Helper.IsValidNumber(contact.Phone))
             {
                 return "Invalid Phone";
             }
 
-            if (!Helper.IsValidEmail(contact.Email))
+            if (contact.Email == null || !Helper.IsValidEmail(contact.Email))
             {
                 return "Invalid Email";
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Index Validation
+        /// </summary>
+        /// <param name="index">Index of contact</param>
+        /// <param name="count">Length of the list</param>
+        /// <returns>Return boolean</returns>
+        public static bool ValidateIndex(int index, int count)
+        {
+            return index >= 0 && index < count;
         }
     }
 }
