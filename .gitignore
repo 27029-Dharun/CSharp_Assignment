@@ -69,7 +69,6 @@ ipch/
 *.psess
 *.vsp
 *.vspx
-*.editorconfig
 
 # Guidance Automation Toolkit
 *.gpState
