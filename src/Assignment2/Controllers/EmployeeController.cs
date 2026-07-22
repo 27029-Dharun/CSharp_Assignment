@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Models.EmployeeHierarchy;
+﻿using Assignment2.Models.EmployeeHierarchy;
 using Assignment2.Services;
 using Assignment2.Views;
 
@@ -42,17 +37,33 @@ namespace Assignment2.Controllers
             switch (option)
             {
                 case (int)EmployeeRole.Developer:
-                    this._employeeView.GetEmployee(out string developerName, out decimal developerSalary);
-                    Developer developer = this._employeeService.CreateDeveloper(developerName, developerSalary);
-                    this._employeeView.Print(developer);
+                    this.Developer();
                     break;
 
                 case (int)EmployeeRole.Manager:
-                    this._employeeView.GetEmployee(out string name, out decimal salary);
-                    Manager manager = this._employeeService.CreateManager(name, salary);
-                    this._employeeView.Print(manager);
+                    this.Manager();
                     break;
             }
+        }
+
+        /// <summary>
+        /// This class contains Manager operations
+        /// </summary>
+        private void Manager()
+        {
+            this._employeeView.GetEmployee(out string name, out decimal salary);
+            Manager manager = this._employeeService.CreateManager(name, salary);
+            this._employeeView.Print(manager);
+        }
+
+        /// <summary>
+        /// This methods contains Developer operatoins
+        /// </summary>
+        private void Developer()
+        {
+            this._employeeView.GetEmployee(out string developerName, out decimal developerSalary);
+            Developer developer = this._employeeService.CreateDeveloper(developerName, developerSalary);
+            this._employeeView.Print(developer);
         }
     }
 }

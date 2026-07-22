@@ -1,23 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Models.BankingSystem
+﻿namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
     /// This class id derived from the BankAccount
     /// </summary>
     internal class SavingsAccount : BankAccount
     {
+        private decimal _minimumBalance = 5000m;
+
         /// <summary>
-        /// Gets or sets minimum Balance for Savings Account
+        /// Gets minimum Balance for Savings Account
         /// </summary>
         /// <value>
         /// Minimum Balance value
         /// </value>
-        public decimal MinimunBalance { get; set; }
+        public decimal MinimumBalance
+        {
+            get
+            {
+                return this._minimumBalance;
+            }
+
+            private set
+            {
+                if (value >= 0)
+                {
+                    this._minimumBalance = value;
+                }
+            }
+        }
 
         /// <summary>
         /// THis methods overrides Withdraw from the BankAccount
@@ -31,8 +41,7 @@ namespace Assignment2.Models.BankingSystem
                 return "Invalid Amount: Amount can't be Negative or Zero";
             }
 
-            // checks balance if it is less than amount
-            if (this.Balance - this.MinimunBalance >= amount)
+            if (this.Balance - this.MinimumBalance >= amount)
             {
                 this.Balance = this.Balance - amount;
                 return $"Rupees: {amount} withdrawn Successfully";

@@ -12,6 +12,14 @@ namespace Assignment2.Models.BankingSystem
     internal abstract class BankAccount
     {
         /// <summary>
+        /// gets or sets Name of the Account Holder
+        /// </summary>
+        /// <value>
+        /// Name of the customer
+        /// </value>
+        public string Name { get; set; }
+
+        /// <summary>
         /// gets or sets Account Number
         /// </summary>
         /// <value>

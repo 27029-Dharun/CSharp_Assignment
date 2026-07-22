@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Models.BankingSystem
+﻿namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
     /// This class contains CheckingAccount withdraws without any restriction
@@ -26,7 +20,7 @@ namespace Assignment2.Models.BankingSystem
             // checks balance if it is less than amount
             if (this.Balance >= amount)
             {
-                this.Balance = this.Balance - amount;
+                this.Balance += this.Balance - amount;
                 return $"Rupees: {amount} withdrawn Successfully";
             }
 
