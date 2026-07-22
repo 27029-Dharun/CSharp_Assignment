@@ -31,6 +31,6 @@
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public virtual string PrintDetails() => $"{Name}, {Salary} {CalculateBonus()}";
+        public virtual string PrintDetails() => $"{this.Name}, {this.Salary} {this.CalculateBonus()}";
     }
 }

@@ -39,7 +39,7 @@ namespace Assignment2.Models.BankingSystem
                 return "Invalid Amount : Amount can't be empty";
             }
 
-            Balance = Balance + amount;
+            this.Balance = this.Balance + amount;
             return $"Rupees: {amount} Deposited Successfully";
         }
 
@@ -54,6 +54,6 @@ namespace Assignment2.Models.BankingSystem
         /// This method prints the detail of the Account
         /// </summary>
         /// <returns>String containing account number And Balance</returns>
-        public virtual string PrintDetails() => $"Account NUmber {AccountNumber} Balance {Balance}";
+        public virtual string PrintDetails() => $"Account NUmber {this.AccountNumber} Balance {this.Balance}";
     }
 }

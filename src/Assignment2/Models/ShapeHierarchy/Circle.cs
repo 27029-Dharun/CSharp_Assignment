@@ -13,7 +13,7 @@
         public Circle(double radius, string color)
             : base(color)
         {
-            Radius = radius;
+            this.Radius = radius;
         }
 
         /// <summary>
@@ -30,13 +30,13 @@
         /// <returns>Double value of Area of circle</returns>
         public override double CalculateArea()
         {
-            return Math.PI * Radius * Radius;
+            return Math.PI * this.Radius * this.Radius;
         }
 
         /// <summary>
         /// Returns the detail of the Rectangle object
         /// </summary>
         /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"Circle Color: {Color} ,Area: {CalculateArea()}";
+        public override string PrintDetails() => $"Circle Color: {this.Color} ,Area: {this.CalculateArea()}";
     }
 }

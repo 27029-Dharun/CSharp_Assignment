@@ -12,7 +12,7 @@
         /// <param name="color">Color of the shape</param>
         public Shape(string color)
         {
-            Color = color;
+            this.Color = color;
         }
 
         /// <summary>
@@ -33,6 +33,6 @@
         /// This class prints the details of shape
         /// </summary>
         /// <returns>String output showing the Color and Area of the Shape </returns>
-        public virtual string PrintDetails() => $"{Color}, {CalculateArea()}";
+        public virtual string PrintDetails() => $"{this.Color}, {this.CalculateArea()}";
     }
 }

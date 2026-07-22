@@ -15,8 +15,8 @@
         public Rectangle(double length, double width, string color)
             : base(color)
         {
-            Length = length;
-            Width = width;
+            this.Length = length;
+            this.Width = width;
         }
 
         /// <summary>
@@ -42,18 +42,18 @@
         /// <returns>Area of type Double </returns>
         public override double CalculateArea()
         {
-            if (Length == 0 || Length == null || Width == null)
+            if (this.Length == 0 || this.Length == null || this.Width == null)
             {
                 return 0;
             }
 
-            return (double)(Width * Length);
+            return (double)(this.Width * this.Length);
         }
 
         /// <summary>
         /// Returns the detail of the Rectangle object
         /// </summary>
         /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"{Color} , Rectangle, {CalculateArea()}";
+        public override string PrintDetails() => $"{this.Color} , Rectangle, {this.CalculateArea()}";
     }
 }

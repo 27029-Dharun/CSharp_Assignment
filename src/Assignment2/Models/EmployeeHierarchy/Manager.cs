@@ -11,18 +11,18 @@
         /// <returns>Decimal bonus value</returns>
         public override decimal CalculateBonus()
         {
-            if (Salary == null)
+            if (this.Salary == null)
             {
                 return 0;
             }
 
-            return decimal.Multiply((decimal)Salary, 0.10M);
+            return decimal.Multiply((decimal)this.Salary, 0.10M);
         }
 
         /// <summary>
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public override string PrintDetails() => $"Manager {Name}, {Salary} {CalculateBonus()}";
+        public override string PrintDetails() => $"Manager {this.Name}, {this.Salary} {this.CalculateBonus()}";
     }
 }

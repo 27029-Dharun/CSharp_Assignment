@@ -24,9 +24,9 @@ namespace Assignment2.Models.BankingSystem
             }
 
             // checks balance if it is less than amount
-            if (Balance >= amount)
+            if (this.Balance >= amount)
             {
-                Balance = Balance - amount;
+                this.Balance = this.Balance - amount;
                 return $"Rupees: {amount} withdrawn Successfully";
             }
 
@@ -37,6 +37,6 @@ namespace Assignment2.Models.BankingSystem
         /// This method prints the detail of the Account
         /// </summary>
         /// <returns>String containing account number And Balance</returns>
-        public override string PrintDetails() => $"Your Checking Account with Account Number: {AccountNumber} has Balance {Balance}";
+        public override string PrintDetails() => $"Your Checking Account with Account Number: {this.AccountNumber} has Balance {this.Balance}";
     }
 }
