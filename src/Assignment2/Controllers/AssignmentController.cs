@@ -62,6 +62,8 @@ namespace Assignment2.Controllers
                         break;
 
                     case (int)ChooseTask.Bank:
+                        BankController bankController = new BankController();
+                        bankController.Run();
                         break;
 
                     case (int)ChooseTask.Exit:
