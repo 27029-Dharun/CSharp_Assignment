@@ -1,5 +1,6 @@
 ﻿using Assignment2.Models.EmployeeHierarchy;
 using Assignment2.Services;
+using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
@@ -52,6 +53,18 @@ namespace Assignment2.Controllers
         private void Manager()
         {
             this._employeeView.GetEmployee(out string name, out decimal salary);
+            if (Validator.IsAllAlphabet(name) != string.Empty)
+            {
+                ConsoleView.PrintInfo(Validator.IsAllAlphabet(name));
+                return;
+            }
+
+            if (Validator.IsValidAmount(salary) != string.Empty)
+            {
+                ConsoleView.PrintInfo(Validator.IsValidAmount(salary));
+                return;
+            }
+
             Manager manager = this._employeeService.CreateManager(name, salary);
             this._employeeView.Print(manager);
         }
@@ -61,6 +74,19 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Developer()
         {
+            this._employeeView.GetEmployee(out string name, out decimal salary);
+            if (Validator.IsAllAlphabet(name) != string.Empty)
+            {
+                ConsoleView.PrintInfo(Validator.IsAllAlphabet(name));
+                return;
+            }
+
+            if (Validator.IsValidAmount(salary) != string.Empty)
+            {
+                ConsoleView.PrintInfo(Validator.IsValidAmount(salary));
+                return;
+            }
+
             this._employeeView.GetEmployee(out string developerName, out decimal developerSalary);
             Developer developer = this._employeeService.CreateDeveloper(developerName, developerSalary);
             this._employeeView.Print(developer);

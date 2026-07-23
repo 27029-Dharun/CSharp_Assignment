@@ -32,12 +32,12 @@ namespace Assignment2.Views
         /// </summary>
         /// <param name="radius">Radius</param>
         /// <param name="color">Color</param>
-        public void CreateCircle(out double radius, out string color)
+        public void GetCircleData(out double radius, out string color)
         {
             Console.WriteLine("Enter the Radius of the Circle");
             while (!double.TryParse(Console.ReadLine(), out radius))
             {
-                Console.WriteLine("Enter a Valid Input");
+                Console.WriteLine("Enter a Positive Decimal number");
             }
 
             Console.WriteLine("Enter the Color of the Circle");
@@ -60,14 +60,14 @@ namespace Assignment2.Views
             Console.WriteLine("Enter the Length of the Rectangle: ");
             while (!double.TryParse(Console.ReadLine(), out length))
             {
-                Console.WriteLine("Enter a Valid Input");
+                Console.WriteLine("Enter a Positive Decimal number");
             }
 
             Console.WriteLine("Enter the Width of the Rectangle: ");
 
             while (!double.TryParse(Console.ReadLine(), out width))
             {
-                Console.WriteLine("Enter a Valid Input");
+                Console.WriteLine("Enter a Positive Decimal number");
             }
 
             Console.WriteLine("Enter the Color of the Rectangle");

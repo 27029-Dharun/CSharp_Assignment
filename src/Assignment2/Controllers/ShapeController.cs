@@ -1,5 +1,6 @@
 ﻿using Assignment2.Models.ShapeHierarchy;
 using Assignment2.Services;
+using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
@@ -45,6 +46,9 @@ namespace Assignment2.Controllers
                     this.RectangleOperation();
 
                     break;
+
+                default:
+                    return;
             }
         }
 
@@ -54,6 +58,17 @@ namespace Assignment2.Controllers
         private void RectangleOperation()
         {
             this._shapeview.GetRectangleData(out double length, out double width, out string rectangleColor);
+            if (length <= 0 || width <= 0)
+            {
+                this._shapeview.PrintInfo("Dimensions can't be Negative");
+                return;
+            }
+
+            if (Validator.IsAllAlphabet(rectangleColor) != string.Empty)
+            {
+                this._shapeview.PrintInfo("Invalid Color");
+            }
+
             Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, rectangleColor);
             if (rectangle != null)
             {
@@ -70,7 +85,18 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CircleOperation()
         {
-            this._shapeview.CreateCircle(out double radius, out string circleColor);
+            this._shapeview.GetCircleData(out double radius, out string circleColor);
+            if (radius <= 0)
+            {
+                this._shapeview.PrintInfo("Dimensions can't be Negative");
+                return;
+            }
+
+            if (Validator.IsAllAlphabet(circleColor) != string.Empty)
+            {
+                this._shapeview.PrintInfo("Invalid Color");
+            }
+
             Circle? circle = this._shapeservice.CreateCircle(radius, circleColor);
             if (circle != null)
             {

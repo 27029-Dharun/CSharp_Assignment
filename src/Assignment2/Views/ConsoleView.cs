@@ -1,10 +1,16 @@
-﻿namespace Assignment2.Views
+﻿
+namespace Assignment2.Views
 {
     /// <summary>
     /// THis class contains all the console operations
     /// </summary>
     internal class ConsoleView
     {
+        internal static void PrintInfo(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Get Task to Perform
         /// </summary>

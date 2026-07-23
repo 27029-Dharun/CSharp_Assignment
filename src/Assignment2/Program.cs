@@ -12,7 +12,7 @@ namespace Assignment2
         /// </summary>
         public static void Main()
         {
-            AssignmentController controller = new AssignmentController();
+            MainController controller = new MainController();
             controller.Run();
             Console.WriteLine("Enter a Key to Exit");
             Console.ReadKey();

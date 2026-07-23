@@ -27,7 +27,7 @@ namespace Assignment2.Validators
             {
                 if (!char.IsLetter(c))
                 {
-                    return "Name can't have number";
+                    return "Name can't have symbols other than alphabets";
                 }
             }
 

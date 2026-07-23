@@ -141,40 +141,41 @@ namespace Assignment2.Controllers
             if (validateAccountNumber != string.Empty)
             {
                 this._bankView.PrintInfo(validateAccountNumber);
+                return;
             }
-            else if (!this._bankService.IsAccountExist(accountNumber))
+
+            if (!this._bankService.IsAccountExist(accountNumber))
             {
                 this._bankView.PrintInfo("Account doesn't exist");
+                return;
             }
-            else
+
+            this._bankView.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
+            int option;
+            do
             {
-                this._bankView.PrintInfo("Hello" + this._bankService.GetName(accountNumber));
-                int option;
-                do
+                option = this._bankView.GetOperation();
+                switch (option)
                 {
-                    option = this._bankView.GetOperation();
-                    switch (option)
-                    {
-                        case (int)LogInOperation.CheckBalance:
-                            this.DisplayBalance(accountNumber);
-                            break;
+                    case (int)LogInOperation.CheckBalance:
+                        this.DisplayBalance(accountNumber);
+                        break;
 
-                        case (int)LogInOperation.Withdraw:
-                            this.WithdrawAmount(accountNumber);
-                            break;
+                    case (int)LogInOperation.Withdraw:
+                        this.WithdrawAmount(accountNumber);
+                        break;
 
-                        case (int)LogInOperation.Deposit:
-                            this.DepositAmount(accountNumber);
-                            break;
+                    case (int)LogInOperation.Deposit:
+                        this.DepositAmount(accountNumber);
+                        break;
 
-                        case (int)LogInOperation.Exit:
-                            return;
+                    case (int)LogInOperation.Exit:
+                        return;
 
-                        default: return;
-                    }
+                    default: return;
                 }
-                while (option != (int)LogInOperation.Exit);
             }
+            while (option != (int)LogInOperation.Exit);
         }
 
         /// <summary>
