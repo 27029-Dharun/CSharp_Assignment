@@ -31,7 +31,7 @@ namespace Assignment2.Controllers
     /// <summary>
     /// THis is the assignment Controller
     /// </summary>
-    internal class AssignmentController
+    internal class MainController
     {
         private ConsoleView _view = new ();
 

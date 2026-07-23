@@ -1,21 +1,24 @@
-﻿
-namespace Assignment2.Views
+﻿namespace Assignment2.Views
 {
     /// <summary>
     /// THis class contains all the console operations
     /// </summary>
     internal class ConsoleView
     {
+        /// <summary>
+        /// This method prints info
+        /// </summary>
+        /// <param name="v">String to be printed</param>
         internal static void PrintInfo(string v)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(v);
         }
 
         /// <summary>
         /// Get Task to Perform
         /// </summary>
         /// <returns>A task presented by int</returns>
-        public int GetTask()
+        internal int GetTask()
         {
             int input;
             Console.WriteLine();

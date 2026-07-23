@@ -95,6 +95,7 @@ namespace Assignment2.Controllers
             if (Validator.IsAllAlphabet(circleColor) != string.Empty)
             {
                 this._shapeview.PrintInfo("Invalid Color");
+                return;
             }
 
             Circle? circle = this._shapeservice.CreateCircle(radius, circleColor);

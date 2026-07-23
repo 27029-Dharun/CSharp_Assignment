@@ -87,8 +87,7 @@ namespace Assignment2.Controllers
                 return;
             }
 
-            this._employeeView.GetEmployee(out string developerName, out decimal developerSalary);
-            Developer developer = this._employeeService.CreateDeveloper(developerName, developerSalary);
+            Developer developer = this._employeeService.CreateDeveloper(name, salary);
             this._employeeView.Print(developer);
         }
     }
