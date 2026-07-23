@@ -18,7 +18,6 @@ namespace Assignment2.Views
             Console.WriteLine("Enter the number to Create a Shape");
             Console.WriteLine("1. Circle");
             Console.WriteLine("2. Rectangle");
-            Console.WriteLine("3. Exit");
 
             while (!int.TryParse(Console.ReadLine(), out input))
             {
@@ -87,6 +86,15 @@ namespace Assignment2.Views
         public void Print(Shape shape)
         {
             Console.WriteLine(shape.PrintDetails());
+        }
+
+        /// <summary>
+        /// This print the info that is to be printed
+        /// </summary>
+        /// <param name="v">String to be printed</param>
+        internal void PrintInfo(string v)
+        {
+            Console.WriteLine(v);
         }
     }
 }

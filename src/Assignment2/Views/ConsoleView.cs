@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Views
+﻿namespace Assignment2.Views
 {
     /// <summary>
     /// THis class contains all the console operations

@@ -1,4 +1,5 @@
 ﻿using Assignment2.Models.ShapeHierarchy;
+using Assignment2.Validators;
 
 namespace Assignment2.Services
 {
@@ -14,9 +15,14 @@ namespace Assignment2.Services
         /// <param name="width">Width</param>
         /// <param name="color">Color</param>
         /// <returns>Returns the Rectangle Object</returns>
-        public Rectangle CreateRectangle(double length, double width, string color)
+        public Rectangle? CreateRectangle(double length, double width, string color)
         {
-            return new Rectangle(length, width, color);
+            if (length > 0 && width > 0 && !color.Any(char.IsDigit))
+            {
+                return new Rectangle(length, width, color);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -25,9 +31,14 @@ namespace Assignment2.Services
         /// <param name="radius">Radius</param>
         /// <param name="color">Color</param>
         /// <returns>Returns the circle object</returns>
-        public Circle CreateCircle(double radius, string color)
+        public Circle? CreateCircle(double radius, string color)
         {
-            return new Circle(radius, color);
+            if (radius > 0 && !color.Any(char.IsDigit))
+            {
+                return new Circle(radius, color);
+            }
+
+            return null;
         }
     }
 }

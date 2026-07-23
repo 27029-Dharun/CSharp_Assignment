@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Models.EmployeeHierarchy;
+﻿using Assignment2.Models.EmployeeHierarchy;
 
 namespace Assignment2.Views
 {

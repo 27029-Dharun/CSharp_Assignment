@@ -43,7 +43,7 @@
 
             if (this.Balance - this.MinimumBalance >= amount)
             {
-                this.Balance = this.Balance - amount;
+                this.Balance -= amount;
                 return $"Rupees: {amount} withdrawn Successfully";
             }
 

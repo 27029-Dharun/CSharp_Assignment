@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Models.BankingSystem;
+﻿using Assignment2.Models.BankingSystem;
 using Assignment2.Services;
+using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
@@ -25,18 +20,52 @@ namespace Assignment2.Controllers
         /// </summary>
         View = 2,
 
+        /// <summary>
+        /// Exit from the Banking Operation
+        /// </summary>
         Exit = 3,
     }
 
+    /// <summary>
+    /// This enum represents the LogIn Operations that are done after LogIn
+    /// </summary>
     internal enum LogInOperation
     {
+        /// <summary>
+        /// This select the check Balance Operation
+        /// </summary>
         CheckBalance = 1,
 
+        /// <summary>
+        /// This select withdrawn operation from a account
+        /// </summary>
         Withdraw = 2,
 
+        /// <summary>
+        /// This deposits amount into the account
+        /// </summary>
         Deposit = 3,
 
+        /// <summary>
+        /// Exit from the LogIn
+        /// </summary>
         Exit = 4,
+    }
+
+    /// <summary>
+    /// This enum represents the Account type
+    /// </summary>
+    internal enum AccounType
+    {
+        /// <summary>
+        /// Savings account with minimum balance
+        /// </summary>
+        SavingAccount = 1,
+
+        /// <summary>
+        /// Checking account with minimum balance
+        /// </summary>
+        CheckingAccount = 2,
     }
 
     /// <summary>
@@ -44,8 +73,8 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class BankController
     {
-        private readonly BankView _bankView = new();
-        private readonly BankService _bankService = new();
+        private readonly BankView _bankView = new ();
+        private readonly BankService _bankService = new ();
 
         /// <summary>
         /// This method is the starting point of the Banking System
@@ -73,65 +102,126 @@ namespace Assignment2.Controllers
             while (option != (int)BankOperation.Exit);
         }
 
+        /// <summary>
+        /// This creates a new account after getting the input from the user
+        /// </summary>
         private void CreateNewAccount()
         {
             this._bankView.GetAccountInfo(out string name, out int type, out decimal initialAmount);
-            if (type == 1)
+            string namevalidator = Validator.IsAllAlphabet(name);
+            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
+            if (namevalidator != string.Empty || initialAmountValidator != string.Empty)
             {
-                this._bankService.CreateSavingsAccount(name, initialAmount);
+                this._bankView.PrintInfo(namevalidator + initialAmountValidator);
             }
-            else if (type == 2)
+            else
             {
-                this._bankService.CreateCheckingAccount(name, initialAmount);
+                if (type == 1)
+                {
+                    this._bankView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
+                }
+                else if (type == 2)
+                {
+                    this._bankView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
+                }
+                else
+                {
+                    this._bankView.PrintInfo("Invalid Type of Account");
+                }
             }
         }
 
+        /// <summary>
+        /// This method logs in into the account if it exists
+        /// </summary>
         private void LogIn()
         {
             this._bankView.GetLogInDetails(out string accountNumber);
-            int option;
-            do
+            string validateAccountNumber = Validator.IsValidAccountNumber(accountNumber);
+            if (validateAccountNumber != string.Empty)
             {
-                option = this._bankView.GetOperation();
-                switch (option)
-                {
-                    case (int)LogInOperation.CheckBalance:
-                        this.CheckBalance(accountNumber);
-                        break;
-
-                    case (int)LogInOperation.Withdraw:
-                        this.WithdrawAmount(accountNumber);
-                        break;
-
-                    case (int)LogInOperation.Deposit:
-                        this.DepositAmount(accountNumber);
-                        break;
-
-                    case (int)LogInOperation.Exit:
-                        return;
-
-                    default: return;
-                }
+                this._bankView.PrintInfo(validateAccountNumber);
             }
-            while (option != (int)LogInOperation.Exit);
+            else if (!this._bankService.IsAccountExist(accountNumber))
+            {
+                this._bankView.PrintInfo("Account doesn't exist");
+            }
+            else
+            {
+                this._bankView.PrintInfo("Hello" + this._bankService.GetName(accountNumber));
+                int option;
+                do
+                {
+                    option = this._bankView.GetOperation();
+                    switch (option)
+                    {
+                        case (int)LogInOperation.CheckBalance:
+                            this.DisplayBalance(accountNumber);
+                            break;
+
+                        case (int)LogInOperation.Withdraw:
+                            this.WithdrawAmount(accountNumber);
+                            break;
+
+                        case (int)LogInOperation.Deposit:
+                            this.DepositAmount(accountNumber);
+                            break;
+
+                        case (int)LogInOperation.Exit:
+                            return;
+
+                        default: return;
+                    }
+                }
+                while (option != (int)LogInOperation.Exit);
+            }
         }
 
+        /// <summary>
+        /// This method controls the deposit operation
+        /// </summary>
+        /// <param name="accountNumber">Account number of the account</param>
         private void DepositAmount(string accountNumber)
         {
             decimal depositAmount = this._bankView.GetAmount("deposit");
-            Console.WriteLine(this._bankService.DepositAmount(accountNumber, depositAmount));
+            if (Validator.IsValidAmount(depositAmount) != string.Empty)
+            {
+                this._bankView.PrintInfo(Validator.IsValidAmount(depositAmount));
+            }
+
+            this._bankView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
         }
 
+        /// <summary>
+        /// This method controls the withdraw operation
+        /// </summary>
+        /// <param name="accountNumber">Account number of the account</param>
         private void WithdrawAmount(string accountNumber)
         {
             decimal withdrawAmount = this._bankView.GetAmount("withdraw");
-            Console.WriteLine(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
+            if (Validator.IsValidAmount(withdrawAmount) != string.Empty)
+            {
+                this._bankView.PrintInfo(Validator.IsValidAmount(withdrawAmount));
+            }
+
+            this._bankView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
         }
 
-        private void CheckBalance(string accountNumber)
+        /// <summary>
+        /// This checks the balance of the account number given
+        /// </summary>
+        /// <param name="accountNumber">Account number fr account to check balance</param>
+        private void DisplayBalance(string accountNumber)
         {
-            BankAccount account = this._bankService.GetBalance(accountNumber);
-            this._bankView.DisplayBalance(account);
+            BankAccount? account = this._bankService.GetBalance(accountNumber);
+            if (account != null)
+            {
+                this._bankView.DisplayBalance(account);
+            }
+            else
+            {
+                this._bankView.PrintInfo("Account not Found");
+            }
         }
     }
 }

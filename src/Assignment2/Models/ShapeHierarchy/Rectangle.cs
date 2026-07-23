@@ -54,6 +54,6 @@
         /// Returns the detail of the Rectangle object
         /// </summary>
         /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"{this.Color} , Rectangle, {this.CalculateArea()}";
+        public override string PrintDetails() => $"Rectangle with Color: {this.Color}, Area: {this.CalculateArea()}";
     }
 }

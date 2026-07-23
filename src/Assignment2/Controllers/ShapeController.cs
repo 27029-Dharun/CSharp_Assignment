@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Models.ShapeHierarchy;
+﻿using Assignment2.Models.ShapeHierarchy;
 using Assignment2.Services;
 using Assignment2.Views;
 
@@ -30,8 +25,8 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class ShapeController
     {
-        private ShapeView _shapeview = new ();
-        private ShapeService _shapeservice = new ();
+        private readonly ShapeView _shapeview = new ();
+        private readonly ShapeService _shapeservice = new ();
 
         /// <summary>
         /// This method is the entery point for Shape
@@ -42,18 +37,48 @@ namespace Assignment2.Controllers
             switch (input)
             {
                 case (int)ChooseShape.Circle:
-                    this._shapeview.CreateCircle(out double radius, out string circleColor);
-                    Circle circle = this._shapeservice.CreateCircle(radius, circleColor);
-                    this._shapeview.Print(circle);
+                    this.CircleOperation();
 
                     break;
 
                 case (int)ChooseShape.Rectangle:
-                    this._shapeview.GetRectangleData(out double length, out double width, out string rectangleColor);
-                    Rectangle rectangle = this._shapeservice.CreateRectangle(length, width, rectangleColor);
-                    this._shapeview.Print(rectangle);
+                    this.RectangleOperation();
 
                     break;
+            }
+        }
+
+        /// <summary>
+        /// This method performs all the rectangle operation
+        /// </summary>
+        private void RectangleOperation()
+        {
+            this._shapeview.GetRectangleData(out double length, out double width, out string rectangleColor);
+            Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, rectangleColor);
+            if (rectangle != null)
+            {
+                this._shapeview.Print(rectangle);
+            }
+            else
+            {
+                this._shapeview.PrintInfo("Invalid Dimension for the Rectangle");
+            }
+        }
+
+        /// <summary>
+        /// This method performs all the circle operations
+        /// </summary>
+        private void CircleOperation()
+        {
+            this._shapeview.CreateCircle(out double radius, out string circleColor);
+            Circle? circle = this._shapeservice.CreateCircle(radius, circleColor);
+            if (circle != null)
+            {
+                this._shapeview.Print(circle);
+            }
+            else
+            {
+                this._shapeview.PrintInfo("Invalid Dimension for the circle");
             }
         }
     }

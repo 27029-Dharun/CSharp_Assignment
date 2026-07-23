@@ -20,7 +20,7 @@
             // checks balance if it is less than amount
             if (this.Balance >= amount)
             {
-                this.Balance += this.Balance - amount;
+                this.Balance -= amount;
                 return $"Rupees: {amount} withdrawn Successfully";
             }
 
