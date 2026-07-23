@@ -11,7 +11,7 @@
         /// <value>
         /// Name of the customer
         /// </value>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// gets or sets Account Number
@@ -19,7 +19,7 @@
         /// <value>
         /// Account Number of the customer
         /// </value>
-        public string AccountNumber { get; set; }
+        public string? AccountNumber { get; set; }
 
         /// <summary>
         /// Gets or sets ts Balance

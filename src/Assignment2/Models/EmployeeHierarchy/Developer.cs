@@ -16,7 +16,7 @@
                 return 0;
             }
 
-            return decimal.Multiply((decimal)this.Salary, 0.15M);
+            return decimal.Multiply((decimal)this.Salary, 0.10M);
         }
 
         /// <summary>

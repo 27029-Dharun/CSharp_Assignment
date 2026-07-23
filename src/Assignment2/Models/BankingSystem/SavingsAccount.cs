@@ -5,7 +5,7 @@
     /// </summary>
     internal class SavingsAccount : BankAccount
     {
-        private decimal _minimumBalance = 5000m;
+        private decimal _minimumBalance = 1000m;
 
         /// <summary>
         /// Gets minimum Balance for Savings Account

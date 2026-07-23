@@ -73,7 +73,6 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class BankController
     {
-        private readonly BankView _bankView = new ();
         private readonly BankService _bankService = new ();
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace Assignment2.Controllers
             int option;
             do
             {
-                option = this._bankView.GetOption();
+                option = ConsoleView.GetOption();
                 switch (option)
                 {
                     case (int)BankOperation.Add:
@@ -107,27 +106,28 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CreateNewAccount()
         {
-            this._bankView.GetAccountInfo(out string name, out int type, out decimal initialAmount);
+            string name = ConsoleView.GetString("Enter your Name: ");
+            int type = ConsoleView.GetInteger("Select Your Account Type\n1. Saving Account\n2. Checking Account\n");
+            decimal initialAmount = ConsoleView.GetDecimal("Enter Initial Amount to create a account: ");
             string namevalidator = Validator.IsAllAlphabet(name);
             string initialAmountValidator = Validator.IsValidAmount(initialAmount);
             if (namevalidator != string.Empty || initialAmountValidator != string.Empty)
             {
-                this._bankView.PrintInfo(namevalidator + initialAmountValidator);
+                ConsoleView.PrintInfo(namevalidator + initialAmountValidator);
+                return;
+            }
+
+            if (type == 1)
+            {
+                ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
+            }
+            else if (type == 2)
+            {
+                ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
             }
             else
             {
-                if (type == 1)
-                {
-                    this._bankView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
-                }
-                else if (type == 2)
-                {
-                    this._bankView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
-                }
-                else
-                {
-                    this._bankView.PrintInfo("Invalid Type of Account");
-                }
+                ConsoleView.PrintInfo("Invalid Type of Account");
             }
         }
 
@@ -136,25 +136,25 @@ namespace Assignment2.Controllers
         /// </summary>
         private void LogIn()
         {
-            this._bankView.GetLogInDetails(out string accountNumber);
+            string accountNumber = ConsoleView.GetString("Enter the account number to LogIn: ");
             string validateAccountNumber = Validator.IsValidAccountNumber(accountNumber);
             if (validateAccountNumber != string.Empty)
             {
-                this._bankView.PrintInfo(validateAccountNumber);
+                ConsoleView.PrintInfo(validateAccountNumber);
                 return;
             }
 
             if (!this._bankService.IsAccountExist(accountNumber))
             {
-                this._bankView.PrintInfo("Account doesn't exist");
+                ConsoleView.PrintInfo("Account doesn't exist");
                 return;
             }
 
-            this._bankView.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
+            ConsoleView.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
             int option;
             do
             {
-                option = this._bankView.GetOperation();
+                option = ConsoleView.GetLogInOperation();
                 switch (option)
                 {
                     case (int)LogInOperation.CheckBalance:
@@ -184,13 +184,13 @@ namespace Assignment2.Controllers
         /// <param name="accountNumber">Account number of the account</param>
         private void DepositAmount(string accountNumber)
         {
-            decimal depositAmount = this._bankView.GetAmount("deposit");
+            decimal depositAmount = ConsoleView.GetDecimal("Enter amount to deposit: ");
             if (Validator.IsValidAmount(depositAmount) != string.Empty)
             {
-                this._bankView.PrintInfo(Validator.IsValidAmount(depositAmount));
+                ConsoleView.PrintInfo(Validator.IsValidAmount(depositAmount));
             }
 
-            this._bankView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
+            ConsoleView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
         }
 
         /// <summary>
@@ -199,13 +199,13 @@ namespace Assignment2.Controllers
         /// <param name="accountNumber">Account number of the account</param>
         private void WithdrawAmount(string accountNumber)
         {
-            decimal withdrawAmount = this._bankView.GetAmount("withdraw");
+            decimal withdrawAmount = ConsoleView.GetDecimal("Enter amount to withdraw: ");
             if (Validator.IsValidAmount(withdrawAmount) != string.Empty)
             {
-                this._bankView.PrintInfo(Validator.IsValidAmount(withdrawAmount));
+                ConsoleView.PrintInfo(Validator.IsValidAmount(withdrawAmount));
             }
 
-            this._bankView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
+            ConsoleView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
         }
 
         /// <summary>
@@ -217,11 +217,11 @@ namespace Assignment2.Controllers
             BankAccount? account = this._bankService.GetBalance(accountNumber);
             if (account != null)
             {
-                this._bankView.DisplayBalance(account);
+                ConsoleView.DisplayBalance(account);
             }
             else
             {
-                this._bankView.PrintInfo("Account not Found");
+                ConsoleView.PrintInfo("Account not Found");
             }
         }
     }

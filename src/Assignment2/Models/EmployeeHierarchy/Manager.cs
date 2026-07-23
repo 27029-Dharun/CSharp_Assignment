@@ -16,13 +16,13 @@
                 return 0;
             }
 
-            return decimal.Multiply((decimal)this.Salary, 0.10M);
+            return decimal.Multiply((decimal)this.Salary, 0.15M);
         }
 
         /// <summary>
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public override string PrintDetails() => $"Manager {this.Name}, {this.Salary} {this.CalculateBonus()}";
+        public override string PrintDetails() => $"Manager {this.Name}, Salary: {this.Salary} Bonus: {this.CalculateBonus()}";
     }
 }

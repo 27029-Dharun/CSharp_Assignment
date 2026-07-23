@@ -19,6 +19,11 @@ namespace Assignment2.Controllers
         /// Manager
         /// </summary>
         Manager = 2,
+
+        /// <summary>
+        /// Exit form operation
+        /// </summary>
+        Exit = 3,
     }
 
     /// <summary>
@@ -26,7 +31,6 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class EmployeeController
     {
-        private EmployeeView _employeeView = new ();
         private EmployeeService _employeeService = new EmployeeService();
 
         /// <summary>
@@ -34,17 +38,29 @@ namespace Assignment2.Controllers
         /// </summary>
         public void Run()
         {
-            int option = this._employeeView.GetEmployeeType();
-            switch (option)
+            int option;
+            do
             {
-                case (int)EmployeeRole.Developer:
-                    this.Developer();
-                    break;
+                option = ConsoleView.GetEmployeeType();
+                switch (option)
+                {
+                    case (int)EmployeeRole.Developer:
+                        this.Developer();
+                        break;
 
-                case (int)EmployeeRole.Manager:
-                    this.Manager();
-                    break;
+                    case (int)EmployeeRole.Manager:
+                        this.Manager();
+                        break;
+
+                    case (int)EmployeeRole.Exit:
+                        return;
+
+                    default:
+                        ConsoleView.PrintInfo("Enter a valid Integer in range 1-3");
+                        break;
+                }
             }
+            while (option != 3);
         }
 
         /// <summary>
@@ -52,7 +68,9 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Manager()
         {
-            this._employeeView.GetEmployee(out string name, out decimal salary);
+            string name = ConsoleView.GetString("Enter the Name of the Manager: ");
+            decimal salary = ConsoleView.GetDecimal("Enter the Salary of the Manager: ");
+
             if (Validator.IsAllAlphabet(name) != string.Empty)
             {
                 ConsoleView.PrintInfo(Validator.IsAllAlphabet(name));
@@ -66,7 +84,7 @@ namespace Assignment2.Controllers
             }
 
             Manager manager = this._employeeService.CreateManager(name, salary);
-            this._employeeView.Print(manager);
+            ConsoleView.PrintEmployee(manager);
         }
 
         /// <summary>
@@ -74,7 +92,8 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Developer()
         {
-            this._employeeView.GetEmployee(out string name, out decimal salary);
+            string name = ConsoleView.GetString("Enter the Name of the Developer: ");
+            decimal salary = ConsoleView.GetDecimal("Enter the Salary of the Developer: ");
             if (Validator.IsAllAlphabet(name) != string.Empty)
             {
                 ConsoleView.PrintInfo(Validator.IsAllAlphabet(name));
@@ -88,7 +107,7 @@ namespace Assignment2.Controllers
             }
 
             Developer developer = this._employeeService.CreateDeveloper(name, salary);
-            this._employeeView.Print(developer);
+            ConsoleView.PrintEmployee(developer);
         }
     }
 }

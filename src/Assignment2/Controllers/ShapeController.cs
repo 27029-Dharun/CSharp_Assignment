@@ -19,6 +19,11 @@ namespace Assignment2.Controllers
         /// Employee
         /// </summary>
         Rectangle = 2,
+
+        /// <summary>
+        /// Exit from operation
+        /// </summary>
+        Exit = 3,
     }
 
     /// <summary>
@@ -26,7 +31,6 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class ShapeController
     {
-        private readonly ShapeView _shapeview = new ();
         private readonly ShapeService _shapeservice = new ();
 
         /// <summary>
@@ -34,22 +38,29 @@ namespace Assignment2.Controllers
         /// </summary>
         public void Run()
         {
-            int input = this._shapeview.GetShapeOptions();
-            switch (input)
+            int input;
+            do
             {
-                case (int)ChooseShape.Circle:
-                    this.CircleOperation();
+                input = ConsoleView.GetShapeOptions();
+                switch (input)
+                {
+                    case (int)ChooseShape.Circle:
+                        this.CircleOperation();
+                        break;
 
-                    break;
+                    case (int)ChooseShape.Rectangle:
+                        this.RectangleOperation();
+                        break;
 
-                case (int)ChooseShape.Rectangle:
-                    this.RectangleOperation();
+                    case (int)ChooseShape.Exit:
+                        return;
 
-                    break;
-
-                default:
-                    return;
+                    default:
+                        ConsoleView.PrintInfo("Enter number in range 1 - 3");
+                        break;
+                }
             }
+            while (input != 3);
         }
 
         /// <summary>
@@ -57,26 +68,28 @@ namespace Assignment2.Controllers
         /// </summary>
         private void RectangleOperation()
         {
-            this._shapeview.GetRectangleData(out double length, out double width, out string rectangleColor);
+            double length = ConsoleView.GetDouble("Enter the Length of the Rectangle: ");
+            double width = ConsoleView.GetDouble("Enter the Width of the Rectangle: ");
+            string color = ConsoleView.GetString("Enter the color of the Rectangle: ");
             if (length <= 0 || width <= 0)
             {
-                this._shapeview.PrintInfo("Dimensions can't be Negative");
+                ConsoleView.PrintInfo("Dimensions can't be Negative");
                 return;
             }
 
-            if (Validator.IsAllAlphabet(rectangleColor) != string.Empty)
+            if (Validator.IsAllAlphabet(color) != string.Empty)
             {
-                this._shapeview.PrintInfo("Invalid Color");
+                ConsoleView.PrintInfo("Invalid Color");
             }
 
-            Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, rectangleColor);
+            Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, color);
             if (rectangle != null)
             {
-                this._shapeview.Print(rectangle);
+                ConsoleView.PrintShape(rectangle);
             }
             else
             {
-                this._shapeview.PrintInfo("Invalid Dimension for the Rectangle");
+                ConsoleView.PrintInfo("Invalid Dimension for the Rectangle");
             }
         }
 
@@ -85,27 +98,28 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CircleOperation()
         {
-            this._shapeview.GetCircleData(out double radius, out string circleColor);
+            double radius = ConsoleView.GetDouble("Enter the Radius of the Circle: ");
+            string color = ConsoleView.GetString("Enter the color of the Circle: ");
             if (radius <= 0)
             {
-                this._shapeview.PrintInfo("Dimensions can't be Negative");
+                ConsoleView.PrintInfo("Dimensions can't be Negative");
                 return;
             }
 
-            if (Validator.IsAllAlphabet(circleColor) != string.Empty)
+            if (Validator.IsAllAlphabet(color) != string.Empty)
             {
-                this._shapeview.PrintInfo("Invalid Color");
+                ConsoleView.PrintInfo("Invalid Color");
                 return;
             }
 
-            Circle? circle = this._shapeservice.CreateCircle(radius, circleColor);
+            Circle? circle = this._shapeservice.CreateCircle(radius, color);
             if (circle != null)
             {
-                this._shapeview.Print(circle);
+                ConsoleView.PrintShape(circle);
             }
             else
             {
-                this._shapeview.PrintInfo("Invalid Dimension for the circle");
+                ConsoleView.PrintInfo("Invalid Dimension for the circle");
             }
         }
     }

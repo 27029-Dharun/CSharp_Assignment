@@ -29,12 +29,10 @@ namespace Assignment2.Controllers
     }
 
     /// <summary>
-    /// THis is the assignment Controller
+    /// This is the assignment Controller
     /// </summary>
     internal class MainController
     {
-        private ConsoleView _view = new ();
-
         /// <summary>
         /// This method is the entery point
         /// </summary>
@@ -43,7 +41,7 @@ namespace Assignment2.Controllers
             int input;
             do
             {
-                input = this._view.GetTask();
+                input = ConsoleView.GetTask();
                 switch (input)
                 {
                     case (int)ChooseTask.Shape:
@@ -62,6 +60,10 @@ namespace Assignment2.Controllers
                         break;
 
                     case (int)ChooseTask.Exit:
+                        break;
+
+                    default:
+                        ConsoleView.PrintInfo("Enter a number in range 1-4");
                         break;
                 }
             }
