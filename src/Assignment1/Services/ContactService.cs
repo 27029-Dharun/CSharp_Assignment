@@ -12,28 +12,31 @@ namespace Assignment1.Services
         private ContactRepository _repository = new ContactRepository();
 
         /// <summary>
-        /// Create a contact
+        /// This method creates a new contact object and pass it to a repository
         /// </summary>
-        /// <param name="contact">Contact object</param>
-        /// <returns>A new contact</returns>
-        public string CreateContact(Contact contact)
+        /// <param name="name">Name</param>
+        /// <param name="phone">Phone number of the peson</param>
+        /// <param name="email">Email</param>
+        /// <param name="notes">Notes</param>
+        /// <returns>string message created or not</returns>
+        public Contact? CreateContact(string name, string phone, string email, string notes)
         {
-            if (contact == null || contact.Phone == null)
-            {
-                return "Contact and Phone Number can't be NULL";
-            }
-
-            if (this.CheckUniqueContactNumber(contact.Phone))
+            if (this.CheckUniqueContactNumber(phone))
             {
                 Guid id = Guid.NewGuid();
-                contact.Id = id;
+                Contact contact = new Contact()
+                {
+                    Id = id,
+                    Name = name,
+                    Phone = phone,
+                    Email = email,
+                    Notes = notes,
+                };
                 this._repository.AddContact(contact);
-                return "Contact Added Successfully";
+                return contact;
             }
-            else
-            {
-                return "Contact Number already Exists";
-            }
+
+            return null;
         }
 
         /// <summary>
@@ -100,13 +103,26 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Edit contact
+        /// This method updates the field and create a new contact object with same id
         /// </summary>
-        /// <param name="contact">New contact object to replace</param>
-        /// <returns>A boolean flag to represent the status</returns>
-        public string EditContact(Contact contact)
+        /// <param name="id">Id </param>
+        /// <param name="name">Name</param>
+        /// <param name="phone">Phone</param>
+        /// <param name="email">Email</param>
+        /// <param name="notes">Notes</param>
+        /// <returns>This return a string value</returns>
+        public string EditContact(Guid id, string name, string phone, string email, string notes)
         {
-            return this._repository.EditContact(contact.Id, contact);
+            Contact contact = new Contact
+            {
+                Id = id,
+                Name = name,
+                Email = email,
+                Phone = phone,
+                Notes = notes,
+            };
+
+            return this._repository.EditContact(id, contact);
         }
 
         /// <summary>

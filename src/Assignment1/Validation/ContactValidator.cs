@@ -13,28 +13,26 @@ namespace Assignment1.Validation
     internal class ContactValidator
     {
         /// <summary>
-        /// Validate Contact
+        /// This validates all the contact field
         /// </summary>
-        /// <param name="contact">Contact</param>
-        /// <returns>Error Info Value</returns>
-        public static string ValidateContactField(Contact contact)
+        /// <param name="name">Name of the contact</param>
+        /// <param name="phone">Phone number</param>
+        /// <param name="email">Email</param>
+        /// <param name="notes">Notes</param>
+        /// <returns>returns string output</returns>
+        public static string ValidateContactFields(string name, string phone, string email, string notes)
         {
-            if (contact == null)
-            {
-                return "Contact can't be NULL";
-            }
-
-            if (contact.Name == string.Empty)
+            if (name == string.Empty)
             {
                 return "Name can't be Empty";
             }
 
-            if (contact.Phone == null || !Helper.IsValidNumber(contact.Phone))
+            if (phone == null || !Helper.IsValidNumber(phone))
             {
                 return "Invalid Phone";
             }
 
-            if (contact.Email == null || !Helper.IsValidEmail(contact.Email))
+            if (email == null || !Helper.IsValidEmail(email))
             {
                 return "Invalid Email";
             }

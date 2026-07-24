@@ -10,6 +10,66 @@ namespace Assignment1.View
     internal class ConsoleView
     {
         /// <summary>
+        /// This methos gets the Integer input
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>int value that we got as input</returns>
+        public static string GetString(string message)
+        {
+            Console.Write(message);
+            string input = (Console.ReadLine() ?? string.Empty).Trim();
+            while (input == string.Empty)
+            {
+                Console.WriteLine("Field can't be Empty");
+                input = (Console.ReadLine() ?? string.Empty).Trim();
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Display the Edited Contact
+        /// </summary>
+        /// <param name="contact">Contact object to Print</param>
+        public static void DisplayContact(Contact contact)
+        {
+            Console.WriteLine($"Name: {contact.Name}");
+            Console.WriteLine($"Email: {contact.Email}");
+            Console.WriteLine($"Phone Number: {contact.Phone}");
+            Console.WriteLine($"Notes: {contact.Notes}");
+        }
+
+        /// <summary>
+        /// This methos gets the Integer input
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>int value that we got as input</returns>
+        public static string GetOptionalString(string message)
+        {
+            Console.Write(message);
+            string input = (Console.ReadLine() ?? string.Empty).Trim();
+
+            return input;
+        }
+
+        /// <summary>
+        /// This methos gets the Integer input
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>int value that we got as input</returns>
+        public static int GetInteger(string message)
+        {
+            int input;
+            Console.Write(message);
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.WriteLine("Please enter a positive Double value");
+            }
+
+            return input;
+        }
+
+        /// <summary>
         /// Print all the contact list
         /// </summary>
         /// <param name="contacts">Contacts list</param>
@@ -23,10 +83,12 @@ namespace Assignment1.View
                 {
                     Console.WriteLine($"{i++}. {contact.Name} , {contact.Phone} , {contact.Email} , {contact.Notes} ");
                 }
+
+                Console.WriteLine();
             }
             else
             {
-                Console.WriteLine("The Contacts are Empty");
+                Console.WriteLine("The Contacts are Empty\n");
             }
         }
 
@@ -73,84 +135,12 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// Edit contact View
+        /// This method prints the input
         /// </summary>
-        /// <param name="contacts">Contact List</param>
-        /// <returns>Contact of the Edited one</returns>
-        public Contact? EditContact(List<Contact> contacts)
+        /// <param name="v">The string to be printed</param>
+        internal static void PrintInfo(string v)
         {
-            if (contacts == null || contacts.Count == 0)
-            {
-                Console.WriteLine("No contacts available to edit.");
-                return null;
-            }
-            else
-            {
-                Console.WriteLine("Select the contact to edit (enter number):");
-                this.PrintContact(contacts);
-
-                int index = -1;
-                while (true)
-                {
-                    string? input = Console.ReadLine();
-                    if (int.TryParse(input, out int parsedValue))
-                    {
-                        index = parsedValue - 1; // Convert to zero-based index
-                        if (ContactValidator.ValidateIndex(index, contacts.Count))
-                        {
-                            break;
-                        }
-                    }
-
-                    Console.WriteLine("Enter a valid index.");
-                }
-
-                Guid id = contacts[index].Id;
-
-                // Show current details
-                Console.WriteLine($"1. Name  : {contacts[index].Name}");
-                Console.WriteLine($"2. Email : {contacts[index].Email}");
-                Console.WriteLine($"3. Phone : {contacts[index].Phone}");
-                Console.WriteLine($"4. Notes : {contacts[index].Notes}");
-                Console.WriteLine();
-                Console.WriteLine("1 -> Edit Name");
-                Console.WriteLine("2 -> Edit Email");
-                Console.WriteLine("3 -> Edit Phone");
-                Console.WriteLine("4 -> Edit Notes");
-                Console.Write("Choose field to edit: ");
-
-                int field;
-                while (true)
-                {
-                    string? option = Console.ReadLine();
-                    if (int.TryParse(option, out field) && field >= 1 && field <= 4)
-                    {
-                        break;
-                    }
-
-                    Console.WriteLine("Enter a valid input in range 1 to 4.");
-                }
-
-                Console.Write("New Value: ");
-                string? value = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    Console.WriteLine("Value can't be empty.");
-                    return null;
-                }
-
-                Contact editedContact = contacts[index];
-
-                switch (field)
-                {
-                    case 1: editedContact.Name = value; break;
-                    case 2: editedContact.Email = value; break;
-                    case 3: editedContact.Phone = value; break;
-                    case 4: editedContact.Notes = value; break;
-                }
-
-                return editedContact;
-            }
+            Console.WriteLine(v);
         }
 
         /// <summary>
@@ -158,7 +148,7 @@ namespace Assignment1.View
         /// </summary>
         /// <param name="contacts">Contact list to display </param>
         /// <returns>Index to delete</returns>
-        public int DeleteContact(List<Contact> contacts)
+        internal int DeleteContact(List<Contact> contacts)
         {
             Console.WriteLine("Select the contact to Delete");
             Console.WriteLine("Give the number as input");
@@ -192,7 +182,7 @@ namespace Assignment1.View
         /// Search Contact
         /// </summary>
         /// <returns>Returns The text string match pattern</returns>
-        public string GetSearchText()
+        internal string GetSearchText()
         {
             Console.Write("Enter the Name to search : ");
             string str = (Console.ReadLine() ?? string.Empty).Trim();
@@ -207,18 +197,6 @@ namespace Assignment1.View
         public void Display(string str)
         {
             Console.WriteLine(str);
-        }
-
-        /// <summary>
-        /// Display the Edited Contact
-        /// </summary>
-        /// <param name="contact">Contact object to Print</param>
-        public void DisplayContact(Contact contact)
-        {
-            Console.WriteLine($"Name: {contact.Name}");
-            Console.WriteLine($"Email: {contact.Email}");
-            Console.WriteLine($"Phone Number: {contact.Phone}");
-            Console.WriteLine($"Notes: {contact.Notes}");
         }
     }
 }

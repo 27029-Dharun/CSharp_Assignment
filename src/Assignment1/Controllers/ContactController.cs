@@ -25,6 +25,7 @@ namespace Assignment1.Controllers
             do
             {
                 input = menu.DisplayMenu();
+                Console.Clear();
 
                 switch (input)
                 {
@@ -37,7 +38,7 @@ namespace Assignment1.Controllers
                         break;
 
                     case "3":
-                        this._view.Display(this.EditContact());
+                        this.EditContact();
                         break;
 
                     case "4":
@@ -71,22 +72,30 @@ namespace Assignment1.Controllers
         /// <returns>Validation output</returns>
         public string CreateContact()
         {
-            Contact contact = this._view.GetContact();
-            string validatorOutput = ContactValidator.ValidateContactField(contact);
-            if (validatorOutput == string.Empty)
-            {
-                this._service.CreateContact(contact);
-                this._view.DisplayContact(contact);
-                return "Contact Created Successfully";
-            }
-            else
+            string name = ConsoleView.GetString("Enter name: ");
+            string phone = ConsoleView.GetString("Enter Phone Number: ");
+            string email = ConsoleView.GetString("Enter Email Address: ");
+            string notes = ConsoleView.GetOptionalString("Enter Notes: ");
+
+            string validatorOutput = ContactValidator.ValidateContactFields(name, phone, email, notes);
+            if (validatorOutput != string.Empty)
             {
                 return validatorOutput;
             }
+
+            Contact? contact = this._service.CreateContact(name, phone, email, notes);
+            if (contact == null)
+            {
+                return "Phone number already exists";
+            }
+
+            Console.WriteLine();
+            ConsoleView.DisplayContact(contact);
+            return "Contact Created Successfully";
         }
 
         /// <summary>
-        /// DIsplay the contact
+        /// Display the contact
         /// </summary>
         public void ViewContact()
         {
@@ -105,36 +114,60 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// Edit Contact
+        /// This edits the contact
         /// </summary>
-        /// <returns>Returns string</returns>
-        public string EditContact()
+        public void EditContact()
         {
-            List<Contact> contacts = this._service.GetContacts();
+            var contacts = this._service.GetContacts();
             if (contacts.Count == 0)
             {
-                return "Nothing to Edit";
+                ConsoleView.PrintInfo("Nothing to Edit");
+                return;
             }
-            else
+
+            ConsoleView.PrintInfo("Select the contact to edit (enter number): ");
+            this._view.PrintContact(contacts);
+            int index = this.GetValidContactIndex(contacts.Count);
+            Contact targetContact = contacts[index];
+
+            string updatedName = string.Empty;
+            string updatedEmail = string.Empty;
+            string updatedPhone = string.Empty;
+            string updatedNotes = string.Empty;
+
+            if (targetContact.Name != null && targetContact.Email != null && targetContact.Phone != null && targetContact.Notes != null)
             {
-                Contact? newContact = this._view.EditContact(contacts);
-                if (newContact != null)
+                updatedName = targetContact.Name;
+                updatedEmail = targetContact.Email;
+                updatedPhone = targetContact.Phone;
+                updatedNotes = targetContact.Notes;
+            }
+
+            ConsoleView.DisplayContact(targetContact);
+            int fieldOption = this.GetValidFieldOption();
+
+            // Loop until user input passes validation rules
+            while (true)
+            {
+                string newValue = ConsoleView.GetString("Enter the new value: ");
+
+                switch (fieldOption)
                 {
-                    string validatorOutput = ContactValidator.ValidateContactField(newContact);
-                    if (validatorOutput == string.Empty)
-                    {
-                        this._view.DisplayContact(newContact);
-                        return this._service.EditContact(newContact);
-                    }
-                    else
-                    {
-                        return validatorOutput;
-                    }
+                    case 1: updatedName = newValue; break;
+                    case 2: updatedEmail = newValue; break;
+                    case 3: updatedPhone = newValue; break;
+                    case 4: updatedNotes = newValue; break;
                 }
-                else
+
+                string errorOutput = ContactValidator.ValidateContactFields(updatedName, updatedPhone, updatedEmail, updatedNotes);
+
+                if (string.IsNullOrEmpty(errorOutput))
                 {
-                    return "Contact Can't Be NULL";
+                    ConsoleView.PrintInfo(this._service.EditContact(targetContact.Id, updatedName, updatedPhone, updatedEmail, updatedNotes));
+                    break;
                 }
+
+                ConsoleView.PrintInfo($"{errorOutput} Please try again.");
             }
         }
 
@@ -171,6 +204,44 @@ namespace Assignment1.Controllers
 
             Guid id = contacts[index].Id;
             return this._service.DeleteContact(id);
+        }
+
+        /// <summary>
+        /// This validates the contact index
+        /// </summary>
+        /// <param name="count">This is the contact </param>
+        /// <returns>this returns the </returns>
+        private int GetValidContactIndex(int count)
+        {
+            while (true)
+            {
+                int input = ConsoleView.GetInteger("Select the contact");
+                int zeroBasedIndex = input - 1;
+                if (ContactValidator.ValidateIndex(zeroBasedIndex, count))
+                {
+                    return zeroBasedIndex;
+                }
+
+                ConsoleView.PrintInfo("Enter a valid index.");
+            }
+        }
+
+        /// <summary>
+        /// This method gets the valid field to edit
+        /// </summary>
+        /// <returns>Integer field to edit</returns>
+        private int GetValidFieldOption()
+        {
+            while (true)
+            {
+                int option = ConsoleView.GetInteger("1 -> Edit Name\n2 -> Edit Email\n3 -> Edit Phone\n4 -> Edit Notes\nChoose field to edit: ");
+                if (option >= 1 && option <= 4)
+                {
+                    return option;
+                }
+
+                ConsoleView.PrintInfo("Enter a valid input in range 1 to 4.");
+            }
         }
     }
 }
