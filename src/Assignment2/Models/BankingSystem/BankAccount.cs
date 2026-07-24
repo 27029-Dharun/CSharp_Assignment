@@ -38,7 +38,7 @@
         {
             if (amount < 0)
             {
-                return "Invalid Amount : Amount can't be empty";
+                return "Invalid Amount : Amount should be positive";
             }
 
             this.Balance = this.Balance + amount;

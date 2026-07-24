@@ -34,6 +34,15 @@ namespace Assignment2.Controllers
         private EmployeeService _employeeService = new EmployeeService();
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="EmployeeController"/> class.
+        /// </summary>
+        /// <param name="employeeService">Employee service object</param>
+        public EmployeeController(EmployeeService employeeService)
+        {
+            this._employeeService = employeeService;
+        }
+
+        /// <summary>
         /// This is the Entry point of the Employee Task
         /// </summary>
         public void Run()

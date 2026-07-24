@@ -31,7 +31,16 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class ShapeController
     {
-        private readonly ShapeService _shapeservice = new ();
+        private readonly ShapeService _shapeservice;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeController"/> class.
+        /// </summary>
+        /// <param name="shapeservice">Shape service object</param>
+        public ShapeController(ShapeService shapeservice)
+        {
+            this._shapeservice = shapeservice;
+        }
 
         /// <summary>
         /// This method is the entery point for Shape

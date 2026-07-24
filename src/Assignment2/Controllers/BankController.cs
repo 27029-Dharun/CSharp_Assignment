@@ -73,7 +73,16 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class BankController
     {
-        private readonly BankService _bankService = new ();
+        private readonly BankService _bankService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BankController"/> class.
+        /// </summary>
+        /// <param name="bankService">Bank service object</param>
+        public BankController(BankService bankService)
+        {
+            this._bankService = bankService;
+        }
 
         /// <summary>
         /// This method is the starting point of the Banking System
@@ -188,6 +197,7 @@ namespace Assignment2.Controllers
             if (Validator.IsValidAmount(depositAmount) != string.Empty)
             {
                 ConsoleView.PrintInfo(Validator.IsValidAmount(depositAmount));
+                return;
             }
 
             ConsoleView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
@@ -203,6 +213,7 @@ namespace Assignment2.Controllers
             if (Validator.IsValidAmount(withdrawAmount) != string.Empty)
             {
                 ConsoleView.PrintInfo(Validator.IsValidAmount(withdrawAmount));
+                return;
             }
 
             ConsoleView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
@@ -215,14 +226,13 @@ namespace Assignment2.Controllers
         private void DisplayBalance(string accountNumber)
         {
             BankAccount? account = this._bankService.GetBalance(accountNumber);
-            if (account != null)
-            {
-                ConsoleView.DisplayBalance(account);
-            }
-            else
+            if (account == null)
             {
                 ConsoleView.PrintInfo("Account not Found");
+                return;
             }
+
+            ConsoleView.DisplayBalance(account);
         }
     }
 }

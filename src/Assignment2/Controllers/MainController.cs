@@ -1,4 +1,5 @@
-﻿using Assignment2.Views;
+﻿using Assignment2.Services;
+using Assignment2.Views;
 
 namespace Assignment2.Controllers
 {
@@ -33,6 +34,23 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class MainController
     {
+        private ShapeController _shapeController;
+        private EmployeeController _employeeController;
+        private BankController _bankController;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainController"/> class.
+        /// </summary>
+        /// <param name="shapeController">Shape controller object</param>
+        /// <param name="employeeController">Employee controller object</param>
+        /// <param name="bankController">Bank controller object</param>
+        public MainController(ShapeController shapeController, EmployeeController employeeController, BankController bankController)
+        {
+            this._shapeController = shapeController;
+            this._employeeController = employeeController;
+            this._bankController = bankController;
+        }
+
         /// <summary>
         /// This method is the entery point
         /// </summary>
@@ -45,18 +63,15 @@ namespace Assignment2.Controllers
                 switch (input)
                 {
                     case (int)ChooseTask.Shape:
-                        ShapeController shapeController = new ShapeController();
-                        shapeController.Run();
+                        this._shapeController.Run();
                         break;
 
                     case (int)ChooseTask.Employee:
-                        EmployeeController employeeController = new EmployeeController();
-                        employeeController.Run();
+                        this._employeeController.Run();
                         break;
 
                     case (int)ChooseTask.Bank:
-                        BankController bankController = new BankController();
-                        bankController.Run();
+                        this._bankController.Run();
                         break;
 
                     case (int)ChooseTask.Exit:
