@@ -50,7 +50,7 @@ namespace Assignment2.Controllers
             int input;
             do
             {
-                input = ConsoleView.GetShapeOptions();
+                input = ConsoleView.GetInteger("Select a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\n");
                 switch (input)
                 {
                     case (int)ChooseShape.Circle:

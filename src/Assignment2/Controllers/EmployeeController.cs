@@ -50,7 +50,7 @@ namespace Assignment2.Controllers
             int option;
             do
             {
-                option = ConsoleView.GetEmployeeType();
+                option = ConsoleView.GetInteger("Select Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\n");
                 switch (option)
                 {
                     case (int)EmployeeRole.Developer:

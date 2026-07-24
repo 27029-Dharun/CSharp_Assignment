@@ -92,7 +92,7 @@ namespace Assignment2.Controllers
             int option;
             do
             {
-                option = ConsoleView.GetOption();
+                option = ConsoleView.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n");
                 switch (option)
                 {
                     case (int)BankOperation.Add:
@@ -163,7 +163,7 @@ namespace Assignment2.Controllers
             int option;
             do
             {
-                option = ConsoleView.GetLogInOperation();
+                option = ConsoleView.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Exit\n");
                 switch (option)
                 {
                     case (int)LogInOperation.CheckBalance:
@@ -181,7 +181,9 @@ namespace Assignment2.Controllers
                     case (int)LogInOperation.Exit:
                         return;
 
-                    default: return;
+                    default:
+                        ConsoleView.PrintInfo("The number should be in range 1-4");
+                        break;
                 }
             }
             while (option != (int)LogInOperation.Exit);
@@ -232,7 +234,7 @@ namespace Assignment2.Controllers
                 return;
             }
 
-            ConsoleView.DisplayBalance(account);
+            ConsoleView.PrintBalance(account);
         }
     }
 }

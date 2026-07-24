@@ -56,6 +56,6 @@
         /// This method prints the detail of the Account
         /// </summary>
         /// <returns>String containing account number And Balance</returns>
-        public virtual string PrintDetails() => $"Account NUmber {this.AccountNumber} Balance {this.Balance}";
+        public virtual string PrintDetails() => $"Account Number {this.AccountNumber} Balance {this.Balance}";
     }
 }
