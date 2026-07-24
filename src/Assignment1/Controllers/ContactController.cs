@@ -30,7 +30,7 @@ namespace Assignment1.Controllers
                 switch (input)
                 {
                     case "1":
-                        this._view.Display(this.CreateContact());
+                        ConsoleView.PrintInfo(this.CreateContact());
                         break;
 
                     case "2":
@@ -42,11 +42,11 @@ namespace Assignment1.Controllers
                         break;
 
                     case "4":
-                        this._view.Display(this.DeleteContact());
+                        ConsoleView.PrintInfo(this.DeleteContact());
                         break;
 
                     case "5":
-                        this._view.Display(this.SearchContact());
+                        ConsoleView.PrintInfo(this.SearchContact());
                         break;
 
                     case "6":
@@ -55,11 +55,11 @@ namespace Assignment1.Controllers
 
                     case "exit":
                     case "7":
-                        Console.WriteLine("Exiting ...");
+                        ConsoleView.PrintInfo("Exiting ...");
                         break;
 
                     default:
-                        Console.WriteLine("Please enter a valid input");
+                        ConsoleView.PrintInfo("Please enter a valid input");
                         break;
                 }
             }
@@ -177,7 +177,7 @@ namespace Assignment1.Controllers
         /// <returns>String output for operation</returns>
         public string SearchContact()
         {
-            string str = this._view.GetSearchText();
+            string str = ConsoleView.GetString("Enter the name to search: ");
             List<Contact> res = this._service.SearchContactByName(str);
             if (res.Count == 0)
             {
@@ -200,7 +200,11 @@ namespace Assignment1.Controllers
                 return "Nothing to Delete";
             }
 
-            int index = this._view.DeleteContact(contacts);
+            ConsoleView.PrintInfo("Select the contact to Delete");
+            ConsoleView.PrintInfo("Give the number as input");
+            this._view.PrintContact(contacts);
+
+            int index = this.GetValidContactIndex(contacts.Count);
 
             Guid id = contacts[index].Id;
             return this._service.DeleteContact(id);
@@ -215,7 +219,7 @@ namespace Assignment1.Controllers
         {
             while (true)
             {
-                int input = ConsoleView.GetInteger("Select the contact");
+                int input = ConsoleView.GetInteger("Select the contact: ");
                 int zeroBasedIndex = input - 1;
                 if (ContactValidator.ValidateIndex(zeroBasedIndex, count))
                 {

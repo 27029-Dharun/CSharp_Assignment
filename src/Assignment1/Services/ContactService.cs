@@ -55,7 +55,7 @@ namespace Assignment1.Services
                     continue;
                 }
 
-                if (contactItem.Name.Contains(name))
+                if (contactItem.Name.ToLower().Contains(name.ToLower()))
                 {
                     filtered.Add(contactItem);
                 }
