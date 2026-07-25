@@ -9,9 +9,9 @@
         /// Menu OPtion display method
         /// </summary>
         /// <returns>Int option for the operation to continue</returns>
-        public string DisplayMenu()
+        public static int DisplayMenu()
         {
-            string input;
+            int input;
             Console.WriteLine();
             Console.WriteLine("Enter the number to Continue with an Operation");
             Console.WriteLine("1. Add the contact");
@@ -20,9 +20,13 @@
             Console.WriteLine("4. Delete the contact");
             Console.WriteLine("5. Search contact By Name");
             Console.WriteLine("6. Sort Contact");
-            Console.WriteLine("Type [exit] To Exit");
+            Console.WriteLine("7. Exit");
 
-            input = (Console.ReadLine() ?? string.Empty).Trim();
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.WriteLine("Enter a valid integer option");
+            }
+
             return input;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Assignment1.Model;
+using Assignment1.Models;
 using Assignment1.Services;
 using Assignment1.Validation;
 using Assignment1.View;
@@ -19,51 +20,48 @@ namespace Assignment1.Controllers
         /// </summary>
         public void Run()
         {
-            string input;
-
-            MenuView menu = new ();
+            int input;
             do
             {
-                input = menu.DisplayMenu();
+                input = MenuView.DisplayMenu();
                 Console.Clear();
 
                 switch (input)
                 {
-                    case "1":
+                    case (int)Enums.ContactManager.Create:
                         ConsoleView.PrintInfo(this.CreateContact());
                         break;
 
-                    case "2":
+                    case (int)Enums.ContactManager.View:
                         this.ViewContact();
                         break;
 
-                    case "3":
+                    case (int)Enums.ContactManager.Edit:
                         this.EditContact();
                         break;
 
-                    case "4":
+                    case (int)Enums.ContactManager.Delete:
                         ConsoleView.PrintInfo(this.DeleteContact());
                         break;
 
-                    case "5":
+                    case (int)Enums.ContactManager.Search:
                         ConsoleView.PrintInfo(this.SearchContact());
                         break;
 
-                    case "6":
+                    case (int)Enums.ContactManager.Sort:
                         this.SortContact();
                         break;
 
-                    case "exit":
-                    case "7":
+                    case (int)Enums.ContactManager.Exit:
                         ConsoleView.PrintInfo("Exiting ...");
-                        break;
+                        return;
 
                     default:
                         ConsoleView.PrintInfo("Please enter a valid input");
                         break;
                 }
             }
-            while (input.ToLower() != "exit");
+            while (input != (int)Enums.ContactManager.Exit);
         }
 
         /// <summary>

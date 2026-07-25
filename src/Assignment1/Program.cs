@@ -12,7 +12,7 @@ namespace Assignment1
             Console.WriteLine("Contact Manager Application");
             ContactController contactController = new ContactController();
             contactController.Run();
-            Console.WriteLine("Exited ...");
+            Console.WriteLine("Enter a Key to Exit");
             Console.ReadKey();
         }
     }
