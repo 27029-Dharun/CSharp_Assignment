@@ -36,13 +36,8 @@
         /// <returns>Result of Operation</returns>
         public string Deposit(decimal amount)
         {
-            if (amount < 0)
-            {
-                return "Invalid Amount : Amount should be positive";
-            }
-
             this.Balance = this.Balance + amount;
-            return $"Rupees: {amount} Deposited Successfully";
+            return $"Rs: {amount} Deposited Successfully";
         }
 
         /// <summary>

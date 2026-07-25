@@ -39,7 +39,7 @@
             if (this.Balance - this.MinimumBalance >= amount)
             {
                 this.Balance -= amount;
-                return $"Rupees: {amount} withdrawn Successfully";
+                return $"Rs: {amount} withdrawn Successfully";
             }
 
             return $"Insufficient Balance";
