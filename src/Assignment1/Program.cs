@@ -1,4 +1,6 @@
 ﻿using Assignment1.Controllers;
+using Assignment1.Services;
+using Assignment1.View;
 
 namespace Assignment1
 {
@@ -9,9 +11,10 @@ namespace Assignment1
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Contact Manager Application");
-            ContactController contactController = new ContactController();
-            contactController.Run();
+            ConsoleView view = new ConsoleView();
+            ContactService service = new ContactService();
+            ContactController contactController = new ContactController(view, service);
+            contactController.RunContactManager();
             Console.WriteLine("Enter a Key to Exit");
             Console.ReadKey();
         }

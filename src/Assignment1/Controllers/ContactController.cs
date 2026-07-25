@@ -7,23 +7,34 @@ using Assignment1.View;
 namespace Assignment1.Controllers
 {
     /// <summary>
-    /// Contact controller
+    /// Contact controller class.
     /// </summary>
     internal class ContactController
     {
-        private ConsoleView _view = new ConsoleView();
-
-        private ContactService _service = new ContactService();
+        private ConsoleView _view;
+        private ContactService _service;
 
         /// <summary>
-        /// Menu OPtion display method
+        /// Initializes a new instance of the <see cref="ContactController"/> class.
         /// </summary>
-        public void Run()
+        /// <param name="view">View object</param>
+        /// <param name="service">Services object</param>
+        public ContactController(ConsoleView view, ContactService service)
         {
+            this._view = view;
+            this._service = service;
+        }
+
+        /// <summary>
+        /// Runs the contact manager.
+        /// </summary>
+        public void RunContactManager()
+        {
+            ConsoleView.PrintInfo("Contact Manager Application");
             int input;
             do
             {
-                input = MenuView.DisplayMenu();
+                input = ConsoleView.GetInteger("1. Create New Contact\n 2. View Contact\n3. Edit contact\n4. Delete Contact\n5. Search Contact\n6. Sort contact\n7. Exit\n");
                 Console.Clear();
 
                 switch (input)
@@ -45,11 +56,11 @@ namespace Assignment1.Controllers
                         break;
 
                     case (int)Enums.ContactManager.Search:
-                        ConsoleView.PrintInfo(this.SearchContact());
+                        ConsoleView.PrintInfo(this.SearchContactByName());
                         break;
 
                     case (int)Enums.ContactManager.Sort:
-                        this.SortContact();
+                        this.SortContactByName();
                         break;
 
                     case (int)Enums.ContactManager.Exit:
@@ -62,10 +73,12 @@ namespace Assignment1.Controllers
                 }
             }
             while (input != (int)Enums.ContactManager.Exit);
+
+            ConsoleView.PrintInfo("Enter a Key to Exit");
         }
 
         /// <summary>
-        /// This creates contact and validates the input
+        /// Creates contact and validates the input.
         /// </summary>
         /// <returns>Validation output</returns>
         public string CreateContact()
@@ -93,7 +106,7 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// Display the contact
+        /// Displays the contact list.
         /// </summary>
         public void ViewContact()
         {
@@ -102,9 +115,9 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// Sort all the contact
+        /// Sorts all the contact by name.
         /// </summary>
-        public void SortContact()
+        public void SortContactByName()
         {
             this._service.SortContactByName();
             List<Contact> contacts = this._service.GetContacts();
@@ -112,7 +125,7 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// This edits the contact
+        /// Edits the contact by index.
         /// </summary>
         public void EditContact()
         {
@@ -170,10 +183,10 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// Search Contact Controller
+        /// Search Contact By Name
         /// </summary>
         /// <returns>String output for operation</returns>
-        public string SearchContact()
+        public string SearchContactByName()
         {
             string str = ConsoleView.GetString("Enter the name to search: ");
             List<Contact> res = this._service.SearchContactByName(str);
@@ -209,7 +222,7 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// This validates the contact index
+        /// Validates the contact index
         /// </summary>
         /// <param name="count">This is the contact </param>
         /// <returns>this returns the </returns>
@@ -229,14 +242,14 @@ namespace Assignment1.Controllers
         }
 
         /// <summary>
-        /// This method gets the valid field to edit
+        /// Gets the valid field to edit
         /// </summary>
         /// <returns>Integer field to edit</returns>
         private int GetValidFieldOption()
         {
             while (true)
             {
-                int option = ConsoleView.GetInteger("1 -> Edit Name\n2 -> Edit Email\n3 -> Edit Phone\n4 -> Edit Notes\nChoose field to edit: ");
+                int option = ConsoleView.GetInteger("1. Edit Name\n2. Edit Email\n3. Edit Phone\n4. Edit Notes\nChoose field to edit: ");
                 if (option >= 1 && option <= 4)
                 {
                     return option;

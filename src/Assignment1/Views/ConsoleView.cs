@@ -1,6 +1,4 @@
 ﻿using Assignment1.Model;
-using Assignment1.Persistance;
-using Assignment1.Validation;
 
 namespace Assignment1.View
 {
@@ -10,7 +8,7 @@ namespace Assignment1.View
     internal class ConsoleView
     {
         /// <summary>
-        /// This methos gets the Integer input
+        /// Gets the Integer input.
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>int value that we got as input</returns>
@@ -28,7 +26,7 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// Display the Edited Contact
+        /// Displays the Edited Contact.
         /// </summary>
         /// <param name="contact">Contact object to Print</param>
         public static void DisplayContact(Contact contact)
@@ -40,10 +38,10 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// This methos gets the Integer input
+        /// Gets the string input.
         /// </summary>
         /// <param name="message">Message to be printed</param>
-        /// <returns>int value that we got as input</returns>
+        /// <returns>string value that we got as input</returns>
         public static string GetOptionalString(string message)
         {
             Console.Write(message);
@@ -53,7 +51,7 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// This methos gets the Integer input
+        /// Gets the Integer input
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>int value that we got as input</returns>
@@ -70,7 +68,7 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// Print all the contact list
+        /// Prints all the contact list
         /// </summary>
         /// <param name="contacts">Contacts list</param>
         public void PrintContact(List<Contact> contacts)
@@ -93,12 +91,12 @@ namespace Assignment1.View
         }
 
         /// <summary>
-        /// This method prints the input
+        /// Prints the input string
         /// </summary>
-        /// <param name="v">The string to be printed</param>
-        internal static void PrintInfo(string v)
+        /// <param name="message">The string to be printed</param>
+        internal static void PrintInfo(string message)
         {
-            Console.WriteLine(v);
+            Console.WriteLine(message);
         }
 
         /// <summary>
