@@ -83,7 +83,7 @@ namespace Assignment2.Services
         internal string GetName(string accountNumber)
         {
             BankAccount? bankAccount = this._repository.GetAccountByAccountNumber(accountNumber);
-            if (bankAccount != null)
+            if (bankAccount != null && bankAccount.Name != null)
             {
                 return bankAccount.Name;
             }
