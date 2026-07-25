@@ -30,7 +30,10 @@
         /// <returns>Double value of Area of circle</returns>
         public override double CalculateArea()
         {
-            return Math.PI * this.Radius * this.Radius;
+            double area = Math.PI * this.Radius * this.Radius;
+            double roundedArea = Math.Round(area, 2);
+
+            return roundedArea;
         }
 
         /// <summary>

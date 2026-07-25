@@ -36,11 +36,6 @@
         /// <returns>Error Message</returns>
         public override string Withdraw(decimal amount)
         {
-            if (amount <= 0)
-            {
-                return "Invalid Amount: Amount can't be Negative or Zero";
-            }
-
             if (this.Balance - this.MinimumBalance >= amount)
             {
                 this.Balance -= amount;

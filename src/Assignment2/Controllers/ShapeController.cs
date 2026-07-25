@@ -77,29 +77,12 @@ namespace Assignment2.Controllers
         /// </summary>
         private void RectangleOperation()
         {
-            double length = ConsoleView.GetDouble("Enter the Length of the Rectangle: ");
-            double width = ConsoleView.GetDouble("Enter the Width of the Rectangle: ");
-            string color = ConsoleView.GetString("Enter the color of the Rectangle: ");
-            if (length <= 0 || width <= 0)
-            {
-                ConsoleView.PrintInfo("Dimensions can't be Negative");
-                return;
-            }
+            double length = this.GetValidDimension("Enter the Length of the Rectangle: ");
+            double width = this.GetValidDimension("Enter the Width of the Rectangle: ");
+            string color = this.GetValidString("Enter the color of the Rectangle: ");
 
-            if (Validator.IsAllAlphabet(color) != string.Empty)
-            {
-                ConsoleView.PrintInfo("Invalid Color");
-            }
-
-            Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, color);
-            if (rectangle != null)
-            {
-                ConsoleView.PrintShape(rectangle);
-            }
-            else
-            {
-                ConsoleView.PrintInfo("Invalid Dimension for the Rectangle");
-            }
+            Rectangle rectangle = this._shapeservice.CreateRectangle(length, width, color);
+            ConsoleView.PrintShape(rectangle);
         }
 
         /// <summary>
@@ -107,29 +90,62 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CircleOperation()
         {
-            double radius = ConsoleView.GetDouble("Enter the Radius of the Circle: ");
-            string color = ConsoleView.GetString("Enter the color of the Circle: ");
-            if (radius <= 0)
+            double radius = this.GetValidDimension("Enter the Radius of the circle: ");
+            string color = this.GetValidString("Enter the color of the circle: ");
+
+            Circle circle = this._shapeservice.CreateCircle(radius, color);
+            ConsoleView.PrintShape(circle);
+        }
+
+        /// <summary>
+        /// This is a Valid Dimension
+        /// </summary>
+        /// <param name="message">The message to be printed</param>
+        /// <returns>Double dimension field</returns>
+        private double GetValidDimension(string message)
+        {
+            double input = ConsoleView.GetDouble(message);
+            int tries = 3;
+            while (input <= 0 && tries > 0)
             {
-                ConsoleView.PrintInfo("Dimensions can't be Negative");
-                return;
+                ConsoleView.PrintInfo("Dimensions should be positive");
+                ConsoleView.PrintInfo($"Tries Left: {tries}");
+                tries--;
+                input = ConsoleView.GetDouble("Enter the Radius of the Circle: ");
+            }
+
+            if (input <= 0)
+            {
+                return -1;
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// This is a Valid Dimension
+        /// </summary>
+        /// <param name="message">The message to be printed</param>
+        /// <returns>Double dimension field</returns>
+        private string GetValidString(string message)
+        {
+            int tries = 3;
+            string color = ConsoleView.GetString(message);
+            while (Validator.IsAllAlphabet(color) != string.Empty)
+            {
+                ConsoleView.PrintInfo("Invalid Color");
+                ConsoleView.PrintInfo($"Tries Left: {tries}");
+                tries--;
+                color = ConsoleView.GetString(message);
             }
 
             if (Validator.IsAllAlphabet(color) != string.Empty)
             {
                 ConsoleView.PrintInfo("Invalid Color");
-                return;
+                return string.Empty;
             }
 
-            Circle? circle = this._shapeservice.CreateCircle(radius, color);
-            if (circle != null)
-            {
-                ConsoleView.PrintShape(circle);
-            }
-            else
-            {
-                ConsoleView.PrintInfo("Invalid Dimension for the circle");
-            }
+            return color;
         }
     }
 }

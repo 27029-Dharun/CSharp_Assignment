@@ -59,7 +59,7 @@ namespace Assignment2.Controllers
             int input;
             do
             {
-                input = ConsoleView.GetInteger("Enter the number to Continue with a Task\n1. Shape\n2. Employee\n3. Banking System\n");
+                input = ConsoleView.GetInteger("Enter the number to Continue with a Task\n1. Shape\n2. Employee\n3. Banking System\n4. Exit\n");
                 switch (input)
                 {
                     case (int)ChooseTask.Shape:

@@ -12,11 +12,6 @@
         /// <returns>Result of the Operation</returns>
         public override string Withdraw(decimal amount)
         {
-            if (amount <= 0)
-            {
-                return "Invalid Amount: Amount can't be Negative or Zero";
-            }
-
             // checks balance if it is less than amount
             if (this.Balance >= amount)
             {

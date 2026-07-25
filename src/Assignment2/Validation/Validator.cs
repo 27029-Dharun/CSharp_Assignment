@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assignment2.Views;
 
 namespace Assignment2.Validators
 {
@@ -25,7 +26,7 @@ namespace Assignment2.Validators
 
             foreach (char c in input)
             {
-                if (!char.IsLetter(c))
+                if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                 {
                     return "Name can't have symbols other than alphabets";
                 }
@@ -84,7 +85,7 @@ namespace Assignment2.Validators
                 return string.Empty;
             }
 
-            return "Amount can't be Negative";
+            return "Amount should be Positive";
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Assignment2.Views
             while (!decimal.TryParse(Console.ReadLine(), out amount))
             {
                 Console.WriteLine("Please enter a positive decimal value");
+                Console.Write(operation);
             }
 
             return amount;
@@ -47,6 +48,7 @@ namespace Assignment2.Views
             while (!double.TryParse(Console.ReadLine(), out amount))
             {
                 Console.WriteLine("Please enter a positive Double value");
+                Console.Write(operation);
             }
 
             return amount;
@@ -64,6 +66,7 @@ namespace Assignment2.Views
             while (input == string.Empty)
             {
                 Console.WriteLine("String can't be Empty");
+                Console.Write(operation);
                 input = (Console.ReadLine() ?? string.Empty).Trim();
             }
 

@@ -92,7 +92,7 @@ namespace Assignment2.Controllers
             int option;
             do
             {
-                option = ConsoleView.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n");
+                option = ConsoleView.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Exit\n");
                 switch (option)
                 {
                     case (int)BankOperation.Add:
@@ -103,7 +103,11 @@ namespace Assignment2.Controllers
                         this.LogIn();
                         break;
 
+                    case (int)BankOperation.Exit:
+                        return;
+
                     default:
+                        ConsoleView.PrintInfo("Enter a valid input in range 1-3");
                         break;
                 }
             }
@@ -153,6 +157,7 @@ namespace Assignment2.Controllers
                 return;
             }
 
+            // check if account exists
             if (!this._bankService.IsAccountExist(accountNumber))
             {
                 ConsoleView.PrintInfo("Account doesn't exist");

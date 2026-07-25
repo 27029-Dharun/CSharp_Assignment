@@ -7,7 +7,7 @@
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape"/> class.
-        /// THis class assigns color
+        /// This class assigns color
         /// </summary>
         /// <param name="color">Color of the shape</param>
         public Shape(string color)

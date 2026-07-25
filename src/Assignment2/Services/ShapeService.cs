@@ -15,14 +15,9 @@ namespace Assignment2.Services
         /// <param name="width">Width</param>
         /// <param name="color">Color</param>
         /// <returns>Returns the Rectangle Object</returns>
-        public Rectangle? CreateRectangle(double length, double width, string color)
+        public Rectangle CreateRectangle(double length, double width, string color)
         {
-            if (length > 0 && width > 0 && !color.Any(char.IsDigit))
-            {
-                return new Rectangle(length, width, color);
-            }
-
-            return null;
+            return new Rectangle(length, width, color);
         }
 
         /// <summary>
@@ -31,14 +26,9 @@ namespace Assignment2.Services
         /// <param name="radius">Radius</param>
         /// <param name="color">Color</param>
         /// <returns>Returns the circle object</returns>
-        public Circle? CreateCircle(double radius, string color)
+        public Circle CreateCircle(double radius, string color)
         {
-            if (radius > 0 && !color.Any(char.IsDigit))
-            {
-                return new Circle(radius, color);
-            }
-
-            return null;
+            return new Circle(radius, color);
         }
     }
 }
