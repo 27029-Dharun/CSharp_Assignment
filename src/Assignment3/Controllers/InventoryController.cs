@@ -17,6 +17,15 @@ namespace Assignment3.Controllers
         private InventoryService _inventoryService = new InventoryService();
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="InventoryController"/> class.
+        /// </summary>
+        /// <param name="inventoryService">Service object</param>
+        public InventoryController(InventoryService inventoryService)
+        {
+            this._inventoryService = inventoryService;
+        }
+
+        /// <summary>
         /// Add Product operation
         /// </summary>
         internal void AddProduct()

@@ -1,7 +1,5 @@
 ﻿using Assignment3.Controllers;
-using Assignment3.Models;
 using Assignment3.Services;
-using Assignment3.View;
 
 namespace Assignment3
 {
@@ -17,7 +15,7 @@ namespace Assignment3
         {
             InventoryService inventoryService = new InventoryService();
             InventoryController controller = new InventoryController(inventoryService);
-            RunInventory inventoryManager = new RunInventory(controller);
+            InventoryManager inventoryManager = new InventoryManager(controller);
             inventoryManager.Run();
         }
     }

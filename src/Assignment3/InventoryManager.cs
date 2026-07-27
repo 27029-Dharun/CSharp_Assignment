@@ -7,14 +7,24 @@ namespace Assignment3
     /// <summary>
     /// Runs the Inventory
     /// </summary>
-    internal class RunInventory
+    internal class InventoryManager
     {
+        private InventoryController _controller;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InventoryManager"/> class.
+        /// </summary>
+        /// <param name="controller">Controller object</param>
+        public InventoryManager(InventoryController controller)
+        {
+            this._controller = controller;
+        }
+
         /// <summary>
         /// Displays the operation and gets input
         /// </summary>
         public void Run()
         {
-            InventoryController controller = new InventoryController();
             ConsoleView.PrintInfo("Welcome to Inventory Management Application");
             int option;
             do
@@ -23,11 +33,11 @@ namespace Assignment3
                 switch (option)
                 {
                     case (int)Enums.InventoryOperation.Add:
-                        controller.AddProduct();
+                        this._controller.AddProduct();
                         break;
 
                     case (int)Enums.InventoryOperation.View:
-                        controller.ViewProduct();
+                        this._controller.ViewProduct();
                         break;
 
                     case (int)Enums.InventoryOperation.Update:

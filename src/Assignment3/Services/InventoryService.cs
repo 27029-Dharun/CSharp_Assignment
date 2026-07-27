@@ -23,14 +23,18 @@ namespace Assignment3.Services
         /// <param name="quantity">Quantity of the Product</param>
         public void CreateInventoryProduct(string name, decimal price, int quantity)
         {
-            Guid id = new Guid();
+            Guid id = Guid.NewGuid();
             Inventory product = new (id, name, price, quantity);
             this._inventoryRepository.AddProduct(product);
         }
 
+        /// <summary>
+        /// returns Inventory Products
+        /// </summary>
+        /// <returns>Lists of all the inventory Objects</returns>
         public List<Inventory> GetInventoryProducts()
         {
-            return _inventoryRepository.GetInventories();
+            return this._inventoryRepository.GetInventories();
         }
     }
 }

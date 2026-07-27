@@ -56,6 +56,10 @@ namespace Assignment3.Repository
             this._inventories.Remove(product);
         }
 
+        /// <summary>
+        /// Gets the Inventory objects and returns it
+        /// </summary>
+        /// <returns>List of inventory objects</returns>
         public List<Inventory> GetInventories()
         {
             return this._inventories;
