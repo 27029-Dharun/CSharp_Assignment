@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace Assignment3.Models
 {
-    /// <summary>
-    /// Contains Enums
-    /// </summary>
-    internal static class Enums
-    {
         /// <summary>
         /// Inventory Operation Enums
         /// </summary>
@@ -42,4 +37,3 @@ namespace Assignment3.Models
             Exit = 5,
         }
     }
-}

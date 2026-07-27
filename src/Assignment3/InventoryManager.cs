@@ -32,22 +32,22 @@ namespace Assignment3
                 option = ConsoleView.GetInteger("1. Add a Product\n2. View all product\n3. Editing Producr\n4. Delete Product\n5. Exit\n");
                 switch (option)
                 {
-                    case (int)Enums.InventoryOperation.Add:
+                    case (int)InventoryOperation.Add:
                         this._controller.AddProduct();
                         break;
 
-                    case (int)Enums.InventoryOperation.View:
+                    case (int)InventoryOperation.View:
                         this._controller.ViewProduct();
                         break;
 
-                    case (int)Enums.InventoryOperation.Update:
+                    case (int)InventoryOperation.Update:
                         break;
 
-                    case (int)Enums.InventoryOperation.Delete:
+                    case (int)InventoryOperation.Delete:
                         this._controller.DeleteProduct();
                         break;
 
-                    case (int)Enums.InventoryOperation.Exit:
+                    case (int)InventoryOperation.Exit:
                         break;
 
                     default:
@@ -55,7 +55,7 @@ namespace Assignment3
                         break;
                 }
             }
-            while (option != (int)Enums.InventoryOperation.Exit);
+            while (option != (int)InventoryOperation.Exit);
         }
     }
 }
