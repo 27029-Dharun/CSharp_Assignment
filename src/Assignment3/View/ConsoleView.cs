@@ -77,5 +77,22 @@ namespace Assignment3.View
                 Console.WriteLine();
             }
         }
+
+        /// <summary>
+        /// Prints the list of the inventory object linearly
+        /// </summary>
+        /// <param name="inventories">List of Inventory objects</param>
+        internal static void PrintInventoryLinear(List<Inventory> inventories)
+        {
+            int i = 1;
+            foreach (Inventory inventory in inventories)
+            {
+                Console.Write(i++);
+                Console.Write(". Id: " + inventory.ProductId);
+                Console.Write(", Name: " + inventory.ProductName);
+                Console.Write(", Price: " + inventory.ProductPrice);
+                Console.WriteLine(", Quantity: " + inventory.ProductQuantity);
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Assignment3
                         break;
 
                     case (int)Enums.InventoryOperation.Delete:
+                        this._controller.DeleteProduct();
                         break;
 
                     case (int)Enums.InventoryOperation.Exit:

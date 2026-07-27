@@ -36,5 +36,14 @@ namespace Assignment3.Services
         {
             return this._inventoryRepository.GetInventories();
         }
+
+        /// <summary>
+        /// Delete the product
+        /// </summary>
+        /// <param name="product">Product to be deleted</param>
+        internal void DeleteProductById(Inventory product)
+        {
+            this._inventoryRepository.RemoveProduct(product);
+        }
     }
 }
