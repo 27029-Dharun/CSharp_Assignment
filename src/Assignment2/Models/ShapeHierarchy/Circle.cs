@@ -31,9 +31,7 @@
         public override double CalculateArea()
         {
             double area = Math.PI * this.Radius * this.Radius;
-            double roundedArea = Math.Round(area, 2);
-
-            return roundedArea;
+            return Math.Round(area, 2);
         }
 
         /// <summary>

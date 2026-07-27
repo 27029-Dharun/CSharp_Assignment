@@ -48,9 +48,7 @@
             }
 
             double area = (double)(this.Width * this.Length);
-            double roundedArea = Math.Round(area, 3);
-
-            return roundedArea;
+            return Math.Round(area, 3);
         }
 
         /// <summary>

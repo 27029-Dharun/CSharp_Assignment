@@ -78,8 +78,25 @@ namespace Assignment2.Controllers
         private void RectangleOperation()
         {
             double length = this.GetValidDimension("Enter the Length of the Rectangle: ");
+            if (length == -1)
+            {
+                ConsoleView.PrintInfo("Creation failed Please try again");
+                return;
+            }
+
             double width = this.GetValidDimension("Enter the Width of the Rectangle: ");
+            if (width == -1)
+            {
+                ConsoleView.PrintInfo("Creation failed Please try again");
+                return;
+            }
+
             string color = this.GetValidString("Enter the color of the Rectangle: ");
+            if (color == string.Empty)
+            {
+                ConsoleView.PrintInfo("Creation failed Please try again");
+                return;
+            }
 
             Rectangle rectangle = this._shapeservice.CreateRectangle(length, width, color);
             ConsoleView.PrintShape(rectangle);
@@ -91,7 +108,18 @@ namespace Assignment2.Controllers
         private void CircleOperation()
         {
             double radius = this.GetValidDimension("Enter the Radius of the circle: ");
+            if (radius == -1)
+            {
+                ConsoleView.PrintInfo("Creation failed Please try again");
+                return;
+            }
+
             string color = this.GetValidString("Enter the color of the circle: ");
+            if (color == string.Empty)
+            {
+                ConsoleView.PrintInfo("Creation failed Please try again");
+                return;
+            }
 
             Circle circle = this._shapeservice.CreateCircle(radius, color);
             ConsoleView.PrintShape(circle);
@@ -131,7 +159,7 @@ namespace Assignment2.Controllers
         {
             int tries = 3;
             string color = ConsoleView.GetString(message);
-            while (Validator.IsAllAlphabet(color) != string.Empty)
+            while (Validator.IsAllAlphabet(color) != string.Empty && tries > 0)
             {
                 ConsoleView.PrintInfo("Invalid Color");
                 ConsoleView.PrintInfo($"Tries Left: {tries}");

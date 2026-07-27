@@ -55,7 +55,7 @@ namespace Assignment2.Controllers
     /// <summary>
     /// This enum represents the Account type
     /// </summary>
-    internal enum AccounType
+    internal enum AccountType
     {
         /// <summary>
         /// Savings account with minimum balance
@@ -122,11 +122,11 @@ namespace Assignment2.Controllers
             string name = ConsoleView.GetString("Enter your Name: ");
             int type = ConsoleView.GetInteger("Select Your Account Type\n1. Saving Account\n2. Checking Account\n");
             decimal initialAmount = ConsoleView.GetDecimal("Enter Initial Amount to create a account: ");
-            string namevalidator = Validator.IsAllAlphabet(name);
+            string nameValidator = Validator.IsAllAlphabet(name);
             string initialAmountValidator = Validator.IsValidAmount(initialAmount);
-            if (namevalidator != string.Empty || initialAmountValidator != string.Empty)
+            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
             {
-                ConsoleView.PrintInfo(namevalidator + initialAmountValidator);
+                ConsoleView.PrintInfo(nameValidator + initialAmountValidator);
                 return;
             }
 
