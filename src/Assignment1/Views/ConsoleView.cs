@@ -98,14 +98,5 @@ namespace Assignment1.View
         {
             Console.WriteLine(message);
         }
-
-        /// <summary>
-        /// This class Displays the String
-        /// </summary>
-        /// <param name="str">Result of all operations</param>
-        internal void Display(string str)
-        {
-            Console.WriteLine(str);
-        }
     }
 }
