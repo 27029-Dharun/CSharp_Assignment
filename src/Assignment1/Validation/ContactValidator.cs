@@ -30,6 +30,11 @@
                 return "Invalid Email";
             }
 
+            if (notes == null)
+            {
+                return "Not specified";
+            }
+
             return string.Empty;
         }
 

@@ -53,10 +53,10 @@ Choose the contact to edit.
 
 You’ll see the current details and a menu:
 
-1 -> Edit Name
-2 -> Edit Email
-3 -> Edit Phone
-4 -> Edit Notes
+1. Edit Name
+2. Edit Email
+3. Edit Phone
+4. Edit Notes
 Choose the field you want to change and enter the new value.
 The app will confirm:
 

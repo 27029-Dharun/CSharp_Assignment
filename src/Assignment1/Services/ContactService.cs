@@ -20,7 +20,7 @@ namespace Assignment1.Services
         /// <returns>string message created or not</returns>
         public Contact? CreateContact(string name, string phone, string email, string notes)
         {
-            if (this.CheckUniqueContactNumber(phone))
+            if (this.CheckUniqueContactNumber(phone) && this.CheckUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
                 Contact contact = new Contact()
@@ -109,19 +109,25 @@ namespace Assignment1.Services
         /// <param name="phone">Phone</param>
         /// <param name="email">Email</param>
         /// <param name="notes">Notes</param>
+        /// <param name="existingPhone">Existing phone number</param>
+        /// <param name="existingName">Exisiting Name</param>
         /// <returns>This return a string value</returns>
-        public string EditContact(Guid id, string name, string phone, string email, string notes)
+        public string EditContact(Guid id, string name, string phone, string email, string notes, string existingPhone, string existingName)
         {
-            Contact contact = new Contact
+            if (this.CheckUniqueContactNumber(phone, existingPhone) && this.CheckUniqueContactName(name, existingName))
             {
-                Id = id,
-                Name = name,
-                Email = email,
-                Phone = phone,
-                Notes = notes,
-            };
+                Contact contact = new Contact
+                {
+                    Id = id,
+                    Name = name,
+                    Email = email,
+                    Phone = phone,
+                    Notes = notes,
+                };
+                return this._repository.EditContact(id, contact);
+            }
 
-            return this._repository.EditContact(id, contact);
+            return "Mobile Number or Name already Exist";
         }
 
         /// <summary>
@@ -133,15 +139,36 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Check unique number
+        /// Checks unique mobile number
         /// </summary>
+        /// <param name="number">Number</param>
+        /// <param name="exisitingPhone">Existing number only when editing</param>
         /// <returns>boolean value</returns>
-        private bool CheckUniqueContactNumber(string number)
+        private bool CheckUniqueContactNumber(string number, string? exisitingPhone = null)
         {
             List<Contact> contacts = this._repository.GetContacts();
             foreach (Contact contact in contacts)
             {
-                if (contact.Phone == number)
+                if (contact.Phone == number && exisitingPhone != number)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks the name is unique
+        /// </summary>
+        /// <param name="name">Name of the contact</param>
+        /// <returns>Returns boolean</returns>
+        private bool CheckUniqueContactName(string name, string? existingName = null)
+        {
+            List<Contact> contacts = this._repository.GetContacts();
+            foreach (Contact contact in contacts)
+            {
+                if (contact.Name == name && existingName != name)
                 {
                     return false;
                 }
