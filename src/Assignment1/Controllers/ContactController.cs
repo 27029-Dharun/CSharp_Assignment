@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using Assignment1.Model;
-using Assignment1.Models;
+﻿using Assignment1.Model;
 using Assignment1.Services;
 using Assignment1.Validation;
 using Assignment1.View;
@@ -40,31 +38,31 @@ namespace Assignment1.Controllers
 
                 switch (input)
                 {
-                    case (int)Enums.ContactManager.Create:
+                    case (int)ContactManagerMenuOption.Create:
                         ConsoleView.PrintInfo(this.CreateContact());
                         break;
 
-                    case (int)Enums.ContactManager.View:
+                    case (int)ContactManagerMenuOption.View:
                         this.ViewContact();
                         break;
 
-                    case (int)Enums.ContactManager.Edit:
+                    case (int)ContactManagerMenuOption.Edit:
                         this.EditContact();
                         break;
 
-                    case (int)Enums.ContactManager.Delete:
+                    case (int)ContactManagerMenuOption.Delete:
                         ConsoleView.PrintInfo(this.DeleteContact());
                         break;
 
-                    case (int)Enums.ContactManager.Search:
+                    case (int)ContactManagerMenuOption.Search:
                         ConsoleView.PrintInfo(this.SearchContactByName());
                         break;
 
-                    case (int)Enums.ContactManager.Sort:
+                    case (int)ContactManagerMenuOption.Sort:
                         this.SortContactByName();
                         break;
 
-                    case (int)Enums.ContactManager.Exit:
+                    case (int)ContactManagerMenuOption.Exit:
                         ConsoleView.PrintInfo("Exiting ...");
                         return;
 
@@ -73,7 +71,7 @@ namespace Assignment1.Controllers
                         break;
                 }
             }
-            while (input != (int)Enums.ContactManager.Exit);
+            while (input != (int)ContactManagerMenuOption.Exit);
 
             ConsoleView.PrintInfo("Enter a Key to Exit");
         }
@@ -85,7 +83,7 @@ namespace Assignment1.Controllers
         public string CreateContact()
         {
             string name = ConsoleView.GetString("Enter name: ");
-            string phone = ConsoleView.GetString("Enter Phone Number: ");
+            string phoneNumber = ConsoleView.GetString("Enter Phone Number: ");
             string email = ConsoleView.GetString("Enter Email Address: ");
             string notes = ConsoleView.GetOptionalString("Enter Notes: ");
             if (notes == string.Empty)
@@ -93,16 +91,16 @@ namespace Assignment1.Controllers
                 notes = "Not Specified";
             }
 
-            string validatorOutput = ContactValidator.ValidateContactFields(name, phone, email, notes);
+            string validatorOutput = ContactValidator.ValidateContactFields(name, phoneNumber, email, notes);
             if (validatorOutput != string.Empty)
             {
                 return validatorOutput;
             }
 
-            Contact? contact = this._service.CreateContact(name, phone, email, notes);
+            Contact? contact = this._service.CreateContact(name, phoneNumber, email, notes);
             if (contact == null)
             {
-                return "Phone number and Name should be Unique";
+                return "Phone Number and Name should be Unique";
             }
 
             Console.WriteLine();
@@ -143,24 +141,24 @@ namespace Assignment1.Controllers
 
             ConsoleView.PrintInfo("Select the contact to edit (enter index): ");
             this._view.PrintContact(contacts);
-            int index = this.GetValidContactIndex(contacts.Count);
+            int index = this._view.GetValidContactIndex(contacts.Count);
             Contact targetContact = contacts[index];
 
             string updatedName = string.Empty;
             string updatedEmail = string.Empty;
-            string updatedPhone = string.Empty;
+            string updatedPhoneNumber = string.Empty;
             string updatedNotes = string.Empty;
 
-            if (targetContact.Name != null && targetContact.Email != null && targetContact.Phone != null && targetContact.Notes != null)
+            if (targetContact.Name != null && targetContact.Email != null && targetContact.PhoneNumber != null && targetContact.Notes != null)
             {
                 updatedName = targetContact.Name;
                 updatedEmail = targetContact.Email;
-                updatedPhone = targetContact.Phone;
+                updatedPhoneNumber = targetContact.PhoneNumber;
                 updatedNotes = targetContact.Notes;
             }
 
             ConsoleView.DisplayContact(targetContact);
-            int fieldOption = this.GetValidFieldOption();
+            int fieldOption = this._view.GetValidFieldOption();
 
             // Loop until user input passes validation rules
             while (true)
@@ -173,7 +171,7 @@ namespace Assignment1.Controllers
                         updatedName = newValue;
                         break;
                     case 2:
-                        updatedPhone = newValue;
+                        updatedPhoneNumber = newValue;
                         break;
                     case 3:
                         updatedEmail = newValue;
@@ -183,11 +181,11 @@ namespace Assignment1.Controllers
                         break;
                 }
 
-                string errorOutput = ContactValidator.ValidateContactFields(updatedName, updatedPhone, updatedEmail, updatedNotes);
+                string errorOutput = ContactValidator.ValidateContactFields(updatedName, updatedPhoneNumber, updatedEmail, updatedNotes);
 
-                if (string.IsNullOrEmpty(errorOutput) && targetContact.Phone != null && targetContact.Name != null)
+                if (string.IsNullOrEmpty(errorOutput) && targetContact.PhoneNumber != null && targetContact.Name != null)
                 {
-                    ConsoleView.PrintInfo(this._service.EditContact(targetContact.Id, updatedName, updatedPhone, updatedEmail, updatedNotes, targetContact.Phone, targetContact.Name));
+                    ConsoleView.PrintInfo(this._service.EditContact(targetContact.Id, updatedName, updatedPhoneNumber, updatedEmail, updatedNotes, targetContact.PhoneNumber, targetContact.Name));
                     break;
                 }
 
@@ -228,48 +226,10 @@ namespace Assignment1.Controllers
             ConsoleView.PrintInfo("Give the index as input");
             this._view.PrintContact(contacts);
 
-            int index = this.GetValidContactIndex(contacts.Count);
+            int index = this._view.GetValidContactIndex(contacts.Count);
 
             Guid id = contacts[index].Id;
             return this._service.DeleteContact(id);
-        }
-
-        /// <summary>
-        /// Validates the contact index
-        /// </summary>
-        /// <param name="count">This is the contact </param>
-        /// <returns>this returns the </returns>
-        private int GetValidContactIndex(int count)
-        {
-            while (true)
-            {
-                int input = ConsoleView.GetInteger("Select the contact: ");
-                int zeroBasedIndex = input - 1;
-                if (ContactValidator.ValidateIndex(zeroBasedIndex, count))
-                {
-                    return zeroBasedIndex;
-                }
-
-                ConsoleView.PrintInfo("Enter a valid index.");
-            }
-        }
-
-        /// <summary>
-        /// Gets the valid field to edit
-        /// </summary>
-        /// <returns>Integer field to edit</returns>
-        private int GetValidFieldOption()
-        {
-            while (true)
-            {
-                int option = ConsoleView.GetInteger("1. Edit Name\n2. Edit Phone\n3. Edit Email\n4. Edit Notes\nChoose field to edit: ");
-                if (option >= 1 && option <= 4)
-                {
-                    return option;
-                }
-
-                ConsoleView.PrintInfo("Enter a valid input in range 1 to 4.");
-            }
         }
     }
 }

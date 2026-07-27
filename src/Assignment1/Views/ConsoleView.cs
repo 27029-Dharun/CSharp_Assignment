@@ -1,4 +1,5 @@
 ﻿using Assignment1.Model;
+using Assignment1.Validation;
 
 namespace Assignment1.View
 {
@@ -33,7 +34,7 @@ namespace Assignment1.View
         {
             Console.WriteLine($"Name: {contact.Name}");
             Console.WriteLine($"Email: {contact.Email}");
-            Console.WriteLine($"Phone Number: {contact.Phone}");
+            Console.WriteLine($"PhoneNumber Number: {contact.PhoneNumber}");
             Console.WriteLine($"Notes: {contact.Notes}");
         }
 
@@ -79,7 +80,7 @@ namespace Assignment1.View
                 var i = 1;
                 foreach (Contact contact in contacts)
                 {
-                    Console.WriteLine($"{i++}. {contact.Name} , {contact.Phone} , {contact.Email} , {contact.Notes} ");
+                    Console.WriteLine($"{i++}. {contact.Name} , {contact.PhoneNumber} , {contact.Email} , {contact.Notes} ");
                 }
 
                 Console.WriteLine();
@@ -97,6 +98,44 @@ namespace Assignment1.View
         internal static void PrintInfo(string message)
         {
             Console.WriteLine(message);
+        }
+
+        /// <summary>
+        /// Gets valid Contact Index
+        /// </summary>
+        /// <param name="count">Count of the contacts available</param>
+        /// <returns>Integer value</returns>
+        internal int GetValidContactIndex(int count)
+        {
+            while (true)
+            {
+                int input = ConsoleView.GetInteger("Select the contact: ");
+                int zeroBasedIndex = input - 1;
+                if (zeroBasedIndex >= 0 && count > zeroBasedIndex)
+                {
+                    return zeroBasedIndex;
+                }
+
+                Console.WriteLine("Enter a valid index. Maximum Value: " + (count - 1));
+            }
+        }
+
+        /// <summary>
+        /// Gets the valid field to edit
+        /// </summary>
+        /// <returns>Integer field to edit</returns>
+        internal int GetValidFieldOption()
+        {
+            while (true)
+            {
+                int option = ConsoleView.GetInteger("1. Edit Name\n2. Edit PhoneNumber\n3. Edit Email\n4. Edit Notes\nChoose field to edit: ");
+                if (option >= 1 && option <= 4)
+                {
+                    return option;
+                }
+
+                Console.WriteLine("Enter a valid input in range 1 to 4.");
+            }
         }
     }
 }

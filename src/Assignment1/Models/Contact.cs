@@ -27,7 +27,7 @@
         /// Gets or sets the phone number of the Contact.
         /// </summary>
         /// <value>The phone number of the Contact.</value>
-        public string? Phone { get; set; }
+        public string? PhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the Description of the Contact.

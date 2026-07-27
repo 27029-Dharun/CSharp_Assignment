@@ -1,5 +1,6 @@
 ﻿using Assignment1.Model;
 using Assignment1.Persistance;
+using Assignment1.Validation;
 
 namespace Assignment1.Services
 {
@@ -14,20 +15,28 @@ namespace Assignment1.Services
         /// This method creates a new contact object and pass it to a repository
         /// </summary>
         /// <param name="name">Name</param>
-        /// <param name="phone">Phone number of the peson</param>
+        /// <param name="phoneNumber">PhoneNumber number of the peson</param>
         /// <param name="email">Email</param>
         /// <param name="notes">Notes</param>
         /// <returns>string message created or not</returns>
-        public Contact? CreateContact(string name, string phone, string email, string notes)
+        public Contact? CreateContact(string name, string phoneNumber, string email, string notes)
         {
-            if (this.CheckUniqueContactNumber(phone) && this.CheckUniqueContactName(name))
+
+
+            string validatorOutput = ContactValidator.ValidateContactFields(name, phoneNumber, email, notes);
+            if (validatorOutput != string.Empty)
+            {
+                return validatorOutput;
+            }
+
+            if (this.CheckUniqueContactNumber(phoneNumber) && this.CheckUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
                 Contact contact = new Contact()
                 {
                     Id = id,
                     Name = name,
-                    Phone = phone,
+                    PhoneNumber = phoneNumber,
                     Email = email,
                     Notes = notes,
                 };
@@ -106,10 +115,10 @@ namespace Assignment1.Services
         /// </summary>
         /// <param name="id">Id </param>
         /// <param name="name">Name</param>
-        /// <param name="phone">Phone</param>
+        /// <param name="phone">PhoneNumber</param>
         /// <param name="email">Email</param>
         /// <param name="notes">Notes</param>
-        /// <param name="existingPhone">Existing phone number</param>
+        /// <param name="existingPhone">Existing phoneNumber number</param>
         /// <param name="existingName">Exisiting Name</param>
         /// <returns>This return a string value</returns>
         public string EditContact(Guid id, string name, string phone, string email, string notes, string existingPhone, string existingName)
@@ -121,7 +130,7 @@ namespace Assignment1.Services
                     Id = id,
                     Name = name,
                     Email = email,
-                    Phone = phone,
+                    PhoneNumber = phone,
                     Notes = notes,
                 };
                 return this._repository.EditContact(id, contact);
@@ -149,7 +158,7 @@ namespace Assignment1.Services
             List<Contact> contacts = this._repository.GetContacts();
             foreach (Contact contact in contacts)
             {
-                if (contact.Phone == number && exisitingPhone != number)
+                if (contact.PhoneNumber == number && exisitingPhone != number)
                 {
                     return false;
                 }

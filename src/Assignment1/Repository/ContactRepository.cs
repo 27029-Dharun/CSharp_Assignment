@@ -45,7 +45,7 @@ namespace Assignment1.Persistance
             List<Contact> copy = new List<Contact>();
             foreach (Contact a in this._contactList)
             {
-                copy.Add(new Contact { Id = a.Id, Name = a.Name, Phone = a.Phone, Email = a.Email, Notes = a.Notes });
+                copy.Add(new Contact { Id = a.Id, Name = a.Name, PhoneNumber = a.PhoneNumber, Email = a.Email, Notes = a.Notes });
             }
 
             return copy;
@@ -71,7 +71,7 @@ namespace Assignment1.Persistance
             if (record != null)
             {
                 record.Name = contact.Name;
-                record.Phone = contact.Phone;
+                record.PhoneNumber = contact.PhoneNumber;
                 record.Email = contact.Email;
                 record.Notes = contact.Notes;
                 return "Contact Updated Successfully";
