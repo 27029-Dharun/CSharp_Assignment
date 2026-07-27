@@ -6,27 +6,6 @@ using Assignment2.Views;
 namespace Assignment2.Controllers
 {
     /// <summary>
-    /// This enum represents all the Task as enum
-    /// </summary>
-    internal enum ChooseShape
-    {
-        /// <summary>
-        /// Shape
-        /// </summary>
-        Circle = 1,
-
-        /// <summary>
-        /// Employee
-        /// </summary>
-        Rectangle = 2,
-
-        /// <summary>
-        /// Exit from operation
-        /// </summary>
-        Exit = 3,
-    }
-
-    /// <summary>
     /// THis is the Shape Controller
     /// </summary>
     internal class ShapeController
@@ -45,7 +24,7 @@ namespace Assignment2.Controllers
         /// <summary>
         /// This method is the entery point for Shape
         /// </summary>
-        public void Run()
+        public void RunShapeOperations()
         {
             int input;
             do

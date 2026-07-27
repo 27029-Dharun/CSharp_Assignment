@@ -1,5 +1,4 @@
-﻿using Assignment2.Services;
-using Assignment2.Views;
+﻿using Assignment2.Views;
 
 namespace Assignment2.Controllers
 {
@@ -63,15 +62,15 @@ namespace Assignment2.Controllers
                 switch (input)
                 {
                     case (int)ChooseTask.Shape:
-                        this._shapeController.Run();
+                        this._shapeController.RunShapeOperations();
                         break;
 
                     case (int)ChooseTask.Employee:
-                        this._employeeController.Run();
+                        this._employeeController.RunEmployeeOperations();
                         break;
 
                     case (int)ChooseTask.Bank:
-                        this._bankController.Run();
+                        this._bankController.RunBankOperations();
                         break;
 
                     case (int)ChooseTask.Exit:

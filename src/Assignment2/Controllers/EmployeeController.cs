@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using Assignment2.Models.EmployeeHierarchy;
+﻿using Assignment2.Models.EmployeeHierarchy;
+using Assignment2.Models.Enums;
 using Assignment2.Services;
 using Assignment2.Validators;
 using Assignment2.Views;
@@ -7,28 +7,7 @@ using Assignment2.Views;
 namespace Assignment2.Controllers
 {
     /// <summary>
-    /// This is the Employee Role enum
-    /// </summary>
-    internal enum EmployeeRole
-    {
-        /// <summary>
-        /// Developer
-        /// </summary>
-        Developer = 1,
-
-        /// <summary>
-        /// Manager
-        /// </summary>
-        Manager = 2,
-
-        /// <summary>
-        /// Exit form operation
-        /// </summary>
-        Exit = 3,
-    }
-
-    /// <summary>
-    /// THis is the Employee Controller
+    /// This is the Employee Controller.
     /// </summary>
     internal class EmployeeController
     {
@@ -44,9 +23,9 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This is the Entry point of the Employee Task
+        /// This is the Entry point of the Employee Task.
         /// </summary>
-        public void Run()
+        public void RunEmployeeOperations()
         {
             int option;
             do
@@ -74,7 +53,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This class contains Manager operations
+        /// This class contains Manager operations.
         /// </summary>
         private void Manager()
         {
@@ -97,7 +76,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This methods contains Developer operations
+        /// This methods contains Developer operations.
         /// </summary>
         private void Developer()
         {
@@ -120,7 +99,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This Validates the decimal salary value
+        /// This Validates the decimal salary value.
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>returns decimal</returns>
@@ -145,7 +124,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This is a Valid Dimension
+        /// This is a Valid Dimension.
         /// </summary>
         /// <param name="message">The message to be printed</param>
         /// <returns>Double dimension field</returns>

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Views;
-
-namespace Assignment2.Validators
+﻿namespace Assignment2.Validators
 {
     /// <summary>
     /// This class contains Validator for the Project

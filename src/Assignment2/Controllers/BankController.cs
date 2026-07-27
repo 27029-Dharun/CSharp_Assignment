@@ -87,7 +87,7 @@ namespace Assignment2.Controllers
         /// <summary>
         /// This method is the starting point of the Banking System
         /// </summary>
-        public void Run()
+        public void RunBankOperations()
         {
             int option;
             do
