@@ -21,14 +21,6 @@ namespace Assignment1.Services
         /// <returns>string message created or not</returns>
         public Contact? CreateContact(string name, string phoneNumber, string email, string notes)
         {
-
-
-            string validatorOutput = ContactValidator.ValidateContactFields(name, phoneNumber, email, notes);
-            if (validatorOutput != string.Empty)
-            {
-                return validatorOutput;
-            }
-
             if (this.CheckUniqueContactNumber(phoneNumber) && this.CheckUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
