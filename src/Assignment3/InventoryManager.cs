@@ -1,6 +1,6 @@
 ﻿using Assignment3.Controllers;
 using Assignment3.Models;
-using Assignment3.View;
+using Assignment3.Utility;
 
 namespace Assignment3
 {
@@ -25,11 +25,12 @@ namespace Assignment3
         /// </summary>
         public void Run()
         {
-            ConsoleView.PrintInfo("Welcome to Inventory Management Application");
+            IOUtility.PrintInfo("Welcome to Inventory Management Application");
             int option;
             do
             {
-                option = ConsoleView.GetInteger("1. Add a Product\n2. View all product\n3. Editing Producr\n4. Delete Product\n5. Exit\n");
+                option = IOUtility.GetInteger("1. Add a Product\n2. View all product\n3. Editing Producr\n4. Delete Product\n5. Exit\n");
+                Console.Clear();
                 switch (option)
                 {
                     case (int)InventoryOperation.Add:
@@ -41,6 +42,7 @@ namespace Assignment3
                         break;
 
                     case (int)InventoryOperation.Update:
+                        this._controller.EditProduct();
                         break;
 
                     case (int)InventoryOperation.Delete:
@@ -48,10 +50,10 @@ namespace Assignment3
                         break;
 
                     case (int)InventoryOperation.Exit:
-                        break;
+                        return;
 
                     default:
-                        ConsoleView.PrintInfo("Enter an option in range 1 - 5");
+                        IOUtility.PrintInfo("Enter an option in range 1 - 5");
                         break;
                 }
             }

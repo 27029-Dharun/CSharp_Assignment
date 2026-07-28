@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment3.Models
+﻿namespace Assignment3.Models
 {
     /// <summary>
     /// Inventory Data
     /// </summary>
-    internal class Inventory
+    internal class Product
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Inventory"/> class.
+        /// Initializes a new instance of the <see cref="Product"/> class.
         /// </summary>
         /// <param name="id">Product Id</param>
         /// <param name="name">Product Name</param>
         /// <param name="price">Product price</param>
         /// <param name="quantity">Product Quantity</param>
         /// Used constructor because all are necessary to create a inventory object
-        public Inventory(Guid id, string name, decimal price, int quantity)
+        public Product(int id, string name, decimal price, int quantity)
         {
-            this.ProductId = id;
-            this.ProductName = name;
-            this.ProductPrice = price;
-            this.ProductQuantity = quantity;
+            this.Id = id;
+            this.Name = name;
+            this.Price = price;
+            this.Quantity = quantity;
         }
 
         /// <summary>
@@ -33,7 +27,7 @@ namespace Assignment3.Models
         /// <value>
         /// Id of the Product
         /// </value>
-        public Guid ProductId { get; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets or sets product Name
@@ -41,7 +35,7 @@ namespace Assignment3.Models
         /// <value>
         /// Name of the Product
         /// </value>
-        public string? ProductName { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// gets or sets Product Price
@@ -49,7 +43,7 @@ namespace Assignment3.Models
         /// <value>
         /// Price of the Product
         /// </value>
-        public decimal ProductPrice { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// gets or sets Product Quantity
@@ -57,6 +51,6 @@ namespace Assignment3.Models
         /// <value>
         /// Quantity of the Product
         /// </value>
-        public int ProductQuantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

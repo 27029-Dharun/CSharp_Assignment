@@ -10,16 +10,16 @@ namespace Assignment3.Repository
     /// <summary>
     /// Inventory Repository
     /// </summary>
-    internal class InventoryRepository
+    internal class InventoryRepository : IRepository
     {
-        private List<Inventory> _inventories = new List<Inventory>();
+        private List<Product> _inventories = new List<Product>();
 
         /// <summary>
         /// Adds the product to the list
         /// </summary>
         /// <param name="product">Product Object</param>
         /// <returns>String output to denote the error</returns>
-        public string AddProduct(Inventory product)
+        public string AddProduct(Product product)
         {
             if (product == null)
             {
@@ -35,24 +35,24 @@ namespace Assignment3.Repository
         /// </summary>
         /// <param name="id">Id of the Product</param>
         /// <returns>Inventory object</returns>
-        public Inventory GetProductById(Guid id)
+        public Product? GetProductById(int id)
         {
-            foreach (Inventory item in this._inventories)
+            foreach (Product item in this._inventories)
             {
-                if (item.ProductId == id)
+                if (item.Id == id)
                 {
                     return item;
                 }
             }
 
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>
         /// Remove the product from the list
         /// </summary>
         /// <param name="product">Product object to be Deleted</param>
-        public void RemoveProduct(Inventory product)
+        public void RemoveProduct(Product product)
         {
             this._inventories.Remove(product);
         }
@@ -61,7 +61,7 @@ namespace Assignment3.Repository
         /// Gets the Inventory objects and returns it
         /// </summary>
         /// <returns>List of inventory objects</returns>
-        public List<Inventory> GetInventories()
+        public List<Product> GetInventories()
         {
             return this._inventories;
         }

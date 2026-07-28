@@ -1,4 +1,5 @@
-﻿namespace Assignment3.Validation
+﻿
+namespace Assignment3.Validation
 {
     /// <summary>
     /// Validator class
@@ -10,7 +11,7 @@
         /// </summary>
         /// <param name="price">Price of the Product</param>
         /// <returns>True if the price is positive</returns>
-        public bool ValidatePrice(decimal price)
+        public bool IsValidatePrice(decimal price)
         {
             return price > 0;
         }
@@ -30,7 +31,7 @@
         /// </summary>
         /// <param name="name">Name of the Product</param>
         /// <returns>True if name is valid</returns>
-        public bool ValidateName(string name)
+        public bool IsValidateName(string name)
         {
             if (name == null || name.Length == 0)
             {
@@ -57,6 +58,11 @@
         internal bool ValidateIndex(int index, int v)
         {
             return index >= 0 && index < v;
+        }
+
+        internal bool CheckUniqueId(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

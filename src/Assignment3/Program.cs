@@ -1,6 +1,7 @@
 ﻿using Assignment3.Controllers;
 using Assignment3.Services;
 using Assignment3.Validation;
+using Assignment3.View;
 
 namespace Assignment3
 {
@@ -15,8 +16,9 @@ namespace Assignment3
         internal static void Main()
         {
             InventoryValidator validator = new InventoryValidator();
+            ConsoleView view = new ConsoleView();
             InventoryService inventoryService = new InventoryService(validator);
-            InventoryController controller = new InventoryController(inventoryService);
+            InventoryController controller = new InventoryController(inventoryService, view);
             InventoryManager inventoryManager = new InventoryManager(controller);
             inventoryManager.Run();
         }
