@@ -18,8 +18,8 @@ namespace Assignment3.Repository
         /// Adds the product to the list
         /// </summary>
         /// <param name="product">Product Object</param>
-        /// <exception cref="ArgumentNullException">If the Product object is Null</exception>
-        public void AddProduct(Inventory product)
+        /// <returns>String output to denote the error</returns>
+        public string AddProduct(Inventory product)
         {
             if (product == null)
             {
@@ -27,6 +27,7 @@ namespace Assignment3.Repository
             }
 
             this._inventories.Add(product);
+            return "Product Added Successfully";
         }
 
         /// <summary>

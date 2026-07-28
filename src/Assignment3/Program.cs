@@ -14,9 +14,9 @@ namespace Assignment3
         /// </summary>
         internal static void Main()
         {
-            InventoryService inventoryService = new InventoryService();
             InventoryValidator validator = new InventoryValidator();
-            InventoryController controller = new InventoryController(inventoryService, validator);
+            InventoryService inventoryService = new InventoryService(validator);
+            InventoryController controller = new InventoryController(inventoryService);
             InventoryManager inventoryManager = new InventoryManager(controller);
             inventoryManager.Run();
         }

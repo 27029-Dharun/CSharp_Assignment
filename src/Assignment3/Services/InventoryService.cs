@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Assignment3.Models;
 using Assignment3.Repository;
+using Assignment3.Validation;
 
 namespace Assignment3.Services
 {
@@ -14,6 +15,16 @@ namespace Assignment3.Services
     internal class InventoryService
     {
         private InventoryRepository _inventoryRepository = new InventoryRepository();
+        private InventoryValidator _validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InventoryService"/> class.
+        /// </summary>
+        /// <param name="validator">Validator object</param>
+        public InventoryService(InventoryValidator validator)
+        {
+            this._validator = validator;
+        }
 
         /// <summary>
         /// Creates a product object to inventory
@@ -21,11 +32,21 @@ namespace Assignment3.Services
         /// <param name="name">Name of the Product</param>
         /// <param name="price">Price</param>
         /// <param name="quantity">Quantity of the Product</param>
-        public void CreateInventoryProduct(string name, decimal price, int quantity)
+        public string CreateInventoryProduct(string name, decimal price, int quantity)
         {
+            if (this._validator.ValidateName(name))
+            {
+                return "Invalid Name";
+            }
+
+            if (this._validator.ValidatePrice(price))
+            {
+                return "Invalid Price: Price can't be Negative";
+            }
+
             Guid id = Guid.NewGuid();
             Inventory product = new (id, name, price, quantity);
-            this._inventoryRepository.AddProduct(product);
+            return this._inventoryRepository.AddProduct(product);
         }
 
         /// <summary>
