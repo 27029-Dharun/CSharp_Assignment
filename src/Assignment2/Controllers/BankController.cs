@@ -122,14 +122,6 @@ namespace Assignment2.Controllers
             string name = ConsoleView.GetString("Enter your Name: ");
             int type = ConsoleView.GetInteger("Select Your Account Type\n1. Saving Account\n2. Checking Account\n");
             decimal initialAmount = ConsoleView.GetDecimal("Enter Initial Amount to create a account: ");
-            string nameValidator = Validator.IsAllAlphabet(name);
-            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
-            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
-            {
-                ConsoleView.PrintInfo(nameValidator + initialAmountValidator);
-                return;
-            }
-
             if (type == 1)
             {
                 ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
@@ -150,17 +142,11 @@ namespace Assignment2.Controllers
         private void LogIn()
         {
             string accountNumber = ConsoleView.GetString("Enter the account number to LogIn: ");
-            string validateAccountNumber = Validator.IsValidAccountNumber(accountNumber);
-            if (validateAccountNumber != string.Empty)
-            {
-                ConsoleView.PrintInfo(validateAccountNumber);
-                return;
-            }
+            string validateLogIn = this._bankService.LogInAccount(accountNumber);
 
-            // check if account exists
-            if (!this._bankService.IsAccountExist(accountNumber))
+            if (validateLogIn != string.Empty)
             {
-                ConsoleView.PrintInfo("Account doesn't exist");
+                ConsoleView.PrintInfo(validateLogIn);
                 return;
             }
 
@@ -201,12 +187,6 @@ namespace Assignment2.Controllers
         private void DepositAmount(string accountNumber)
         {
             decimal depositAmount = ConsoleView.GetDecimal("Enter amount to deposit: ");
-            if (Validator.IsValidAmount(depositAmount) != string.Empty)
-            {
-                ConsoleView.PrintInfo(Validator.IsValidAmount(depositAmount));
-                return;
-            }
-
             ConsoleView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
         }
 
@@ -217,12 +197,6 @@ namespace Assignment2.Controllers
         private void WithdrawAmount(string accountNumber)
         {
             decimal withdrawAmount = ConsoleView.GetDecimal("Enter amount to withdraw: ");
-            if (Validator.IsValidAmount(withdrawAmount) != string.Empty)
-            {
-                ConsoleView.PrintInfo(Validator.IsValidAmount(withdrawAmount));
-                return;
-            }
-
             ConsoleView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
         }
 

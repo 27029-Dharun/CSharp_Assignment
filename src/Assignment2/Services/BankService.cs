@@ -1,5 +1,7 @@
 ﻿using Assignment2.Models.BankingSystem;
 using Assignment2.Repository;
+using Assignment2.Validators;
+using Assignment2.Views;
 
 namespace Assignment2.Services
 {
@@ -19,6 +21,13 @@ namespace Assignment2.Services
         /// <returns>String account number that is created</returns>
         internal string CreateCheckingAccount(string name, decimal initialAmount)
         {
+            string nameValidator = Validator.IsAllAlphabet(name);
+            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
+            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
+            {
+                return nameValidator + initialAmountValidator;
+            }
+
             CheckingAccount checkingAccount = new CheckingAccount()
             {
                 Name = name,
@@ -38,6 +47,13 @@ namespace Assignment2.Services
         /// <returns>String account number that is created</returns>
         internal string CreateSavingsAccount(string name, decimal initialAmount)
         {
+            string nameValidator = Validator.IsAllAlphabet(name);
+            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
+            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
+            {
+                return nameValidator + initialAmountValidator;
+            }
+
             SavingsAccount savings = new SavingsAccount()
             {
                 Name = name,
@@ -57,6 +73,11 @@ namespace Assignment2.Services
         /// <returns>string that tell the status of the operation</returns>
         internal string DepositAmount(string accountNumber, decimal depositAmount)
         {
+            if (Validator.IsValidAmount(depositAmount) != string.Empty)
+            {
+                return Validator.IsValidAmount(depositAmount);
+            }
+
             return this._repository.DepositAmount(accountNumber, depositAmount);
         }
 
@@ -102,6 +123,28 @@ namespace Assignment2.Services
         }
 
         /// <summary>
+        /// LogIn to account
+        /// </summary>
+        /// <param name="accountNumber">Account number to LogIn</param>
+        /// <returns>String output</returns>
+        internal string LogInAccount(string accountNumber)
+        {
+            string validateAccountNumber = Validator.IsValidAccountNumber(accountNumber);
+            if (validateAccountNumber != string.Empty)
+            {
+                return validateAccountNumber;
+            }
+
+            // check if account exists
+            if (!this.IsAccountExist(accountNumber))
+            {
+                return "Account doesn't exist";
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
         /// This method withdraws amount into a Account with account number
         /// </summary>
         /// <param name="accountNumber">This contains the account number where amount is to be withdrawed.</param>
@@ -109,6 +152,11 @@ namespace Assignment2.Services
         /// <returns>This returns the string that tell the status of the operations</returns>
         internal string WithdrawAmount(string accountNumber, decimal amount)
         {
+            if (Validator.IsValidAmount(amount) != string.Empty)
+            {
+                return Validator.IsValidAmount(amount);
+            }
+
             return this._repository.WithdrawAmount(accountNumber, amount);
         }
     }
