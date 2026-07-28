@@ -1,33 +1,8 @@
-﻿using Assignment2.Views;
+﻿using Assignment2.Models.Enums;
+using Assignment2.Views;
 
 namespace Assignment2.Controllers
 {
-    /// <summary>
-    /// This enum represents all the Task as enum
-    /// </summary>
-    internal enum ChooseTask
-    {
-        /// <summary>
-        /// Shape
-        /// </summary>
-        Shape = 1,
-
-        /// <summary>
-        /// Employee
-        /// </summary>
-        Employee = 2,
-
-        /// <summary>
-        /// Bank
-        /// </summary>
-        Bank = 3,
-
-        /// <summary>
-        /// Exit
-        /// </summary>
-        Exit = 4,
-    }
-
     /// <summary>
     /// This is the assignment Controller
     /// </summary>

@@ -1,4 +1,5 @@
-﻿using Assignment2.Models.ShapeHierarchy;
+﻿using Assignment2.Models.Enums;
+using Assignment2.Models.ShapeHierarchy;
 using Assignment2.Services;
 using Assignment2.Validators;
 using Assignment2.Views;
@@ -32,15 +33,15 @@ namespace Assignment2.Controllers
                 input = ConsoleView.GetInteger("Select a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\n");
                 switch (input)
                 {
-                    case (int)ChooseShape.Circle:
+                    case (int)ShapeOption.Circle:
                         this.CircleOperation();
                         break;
 
-                    case (int)ChooseShape.Rectangle:
+                    case (int)ShapeOption.Rectangle:
                         this.RectangleOperation();
                         break;
 
-                    case (int)ChooseShape.Exit:
+                    case (int)ShapeOption.Exit:
                         return;
 
                     default:
