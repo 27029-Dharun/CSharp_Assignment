@@ -1,5 +1,4 @@
-﻿
-namespace Assignment3.Validation
+﻿namespace Assignment3.Validation
 {
     /// <summary>
     /// Validator class
@@ -21,7 +20,7 @@ namespace Assignment3.Validation
         /// </summary>
         /// <param name="quantity">Quantity of the product</param>
         /// <returns>True if quantity is positive</returns>
-        public bool ValidateQuantity(decimal quantity)
+        public bool IsValidateQuantity(decimal quantity)
         {
             return quantity > 0;
         }
@@ -47,22 +46,6 @@ namespace Assignment3.Validation
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Validates Index
-        /// </summary>
-        /// <param name="index">Index</param>
-        /// <param name="v">Length of product inventory</param>
-        /// <returns>Boolean value true if valid</returns>
-        internal bool ValidateIndex(int index, int v)
-        {
-            return index >= 0 && index < v;
-        }
-
-        internal bool CheckUniqueId(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

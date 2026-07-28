@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment3.Models;
+﻿using Assignment3.Models;
 
 namespace Assignment3.Services
 {
@@ -18,14 +13,13 @@ namespace Assignment3.Services
         /// <param name="name">Name of the Product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the Product</param>
-        /// <returns>returns the string output</returns>
-        string CreateInventoryProduct(string name, decimal price, int quantity);
+        void CreateInventoryProduct(string name, decimal price, int quantity);
 
         /// <summary>
         /// Gets the Inventory Product
         /// </summary>
         /// <returns>Returns the Product</returns>
-        List<Inventory> GetInventoryProducts();
+        List<Product> GetInventoryProducts();
 
         /// <summary>
         /// Deletes the Product By ID
@@ -41,7 +35,6 @@ namespace Assignment3.Services
         /// <param name="name">Name of the Product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the Product</param>
-        /// <returns>returns the string output</returns>
-        string EditProductById(int id, string name, decimal price, int quantity);
+        void EditProductById(int id, string name, decimal price, int quantity);
     }
 }

@@ -28,21 +28,25 @@ namespace Assignment3.Services
         /// <param name="name">Name of the Product</param>
         /// <param name="price">Price</param>
         /// <param name="quantity">Quantity of the Product</param>
-        /// <returns>Returns string product</returns>
-        public string CreateInventoryProduct(string name, decimal price, int quantity)
+        public void CreateInventoryProduct(string name, decimal price, int quantity)
         {
             if (!this._validator.IsValidateName(name))
             {
-                return "Invalid Name";
+                throw new ArgumentException("Invalid Product Name");
             }
 
             if (!this._validator.IsValidatePrice(price))
             {
-                return "Invalid Price: Price can't be Negative";
+                throw new ArgumentException("Invalid Price: Price can't be Negative");
+            }
+
+            if (!this._validator.IsValidateQuantity(quantity))
+            {
+                throw new ArgumentException("Invalid Quantity: Quantity can't be Negative");
             }
 
             Product product = new Product(this._id++, name, price, quantity);
-            return this._inventoryRepository.AddProduct(product);
+            this._inventoryRepository.AddProduct(product);
         }
 
         /// <summary>
@@ -61,12 +65,7 @@ namespace Assignment3.Services
         /// <returns>String output</returns>
         public string DeleteProductById(int id)
         {
-            Product? product = this._inventoryRepository.GetProductById(id);
-            if (product == null)
-            {
-                return "Product Id is Invalid";
-            }
-
+            Product product = this._inventoryRepository.GetProductById(id);
             this._inventoryRepository.RemoveProduct(product);
             return "Product Deleted Successfully";
         }
@@ -78,21 +77,16 @@ namespace Assignment3.Services
         /// <param name="name">Name of the product to update</param>
         /// <param name="price">Price of the product to update</param>
         /// <param name="quantity">Quantity of the Product</param>
-        /// <returns>String output</returns>
-        public string EditProductById(int id, string name, decimal price, int quantity)
+        public void EditProductById(int id, string name, decimal price, int quantity)
         {
-            Product? product = this._inventoryRepository.GetProductById(id);
-            if (product == null)
-            {
-                return "Product Id is Invalid";
-            }
+            Product product = this._inventoryRepository.GetProductById(id);
 
             // If name is Empty the Name is Not Edited
             if (name != string.Empty)
             {
                 if (!this._validator.IsValidateName(name))
                 {
-                    return "Invalid Name";
+                    throw new ArgumentException("Invalid Product Name");
                 }
 
                 product.Name = name;
@@ -103,7 +97,7 @@ namespace Assignment3.Services
             {
                 if (!this._validator.IsValidatePrice(price))
                 {
-                    return "Invalid Price: Price can't be Negative";
+                    throw new ArgumentException("Invalid Price: Price can't be Negative");
                 }
 
                 product.Price = price;
@@ -112,15 +106,22 @@ namespace Assignment3.Services
             // If the quanity is -1 the Quantity is not Edited
             if (quantity != -1)
             {
-                if (!this._validator.ValidateQuantity(quantity))
+                if (!this._validator.IsValidateQuantity(quantity))
                 {
-                    return "Invalid Quanity: Quantity can't be negative";
+                    throw new ArgumentException("Invalid Quantity: Quanity can't be Negative");
                 }
 
                 product.Quantity = quantity;
             }
+        }
 
-            return "Product Edited Successfully";
+        /// <summary>
+        /// Checks the Id is valid
+        /// </summary>
+        /// <param name="id">Product Id entered by User</param>
+        internal void CheckProductId(int id)
+        {
+            this._inventoryRepository.GetProductById(id);
         }
     }
 }

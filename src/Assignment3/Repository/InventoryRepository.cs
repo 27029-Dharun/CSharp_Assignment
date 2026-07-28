@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment3.Models;
+﻿using Assignment3.Models;
 
 namespace Assignment3.Repository
 {
@@ -18,16 +13,9 @@ namespace Assignment3.Repository
         /// Adds the product to the list
         /// </summary>
         /// <param name="product">Product Object</param>
-        /// <returns>String output to denote the error</returns>
-        public string AddProduct(Product product)
+        public void AddProduct(Product product)
         {
-            if (product == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             this._inventories.Add(product);
-            return "Product Added Successfully";
         }
 
         /// <summary>
@@ -35,7 +23,7 @@ namespace Assignment3.Repository
         /// </summary>
         /// <param name="id">Id of the Product</param>
         /// <returns>Inventory object</returns>
-        public Product? GetProductById(int id)
+        public Product GetProductById(int id)
         {
             foreach (Product item in this._inventories)
             {
@@ -45,7 +33,7 @@ namespace Assignment3.Repository
                 }
             }
 
-            return null;
+            throw new KeyNotFoundException("Product Id not Found");
         }
 
         /// <summary>

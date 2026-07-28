@@ -19,8 +19,15 @@ namespace Assignment3
             ConsoleView view = new ConsoleView();
             InventoryService inventoryService = new InventoryService(validator);
             InventoryController controller = new InventoryController(inventoryService, view);
-            InventoryManager inventoryManager = new InventoryManager(controller);
-            inventoryManager.Run();
+            InventoryManager inventoryManager = new InventoryManager(controller, view);
+            try
+            {
+                inventoryManager.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Assignment3.Models;
 using Assignment3.Services;
-using Assignment3.Utility;
 using Assignment3.View;
 
 namespace Assignment3.Controllers
@@ -18,7 +17,7 @@ namespace Assignment3.Controllers
         /// </summary>
         /// <param name="inventoryService">Service object</param>
         /// <param name="view">View object</param>
-        public InventoryController(InventoryService inventoryService, ConsoleView view)
+        public InventoryController(InventoryService inventoryService, View.ConsoleView view)
         {
             this._inventoryService = inventoryService;
             this._consoleView = view;
@@ -29,10 +28,11 @@ namespace Assignment3.Controllers
         /// </summary>
         public void AddProduct()
         {
-            string name = IOUtility.GetString("Enter the Product Name: ");
-            decimal price = IOUtility.GetDecimal("Enter the Price of the Product: ");
-            int quantity = IOUtility.GetInteger("Enter the Quantity of the Product: ");
-            IOUtility.PrintInfo(this._inventoryService.CreateInventoryProduct(name, price, quantity));
+            string name = this._consoleView.GetString("Enter the Product Name: ");
+            decimal price = this._consoleView.GetDecimal("Enter the Price of the Product: ");
+            int quantity = this._consoleView.GetInteger("Enter the Quantity of the Product: ");
+            this._inventoryService.CreateInventoryProduct(name, price, quantity);
+            this._consoleView.PrintInfo("Product Added Successfully");
         }
 
         /// <summary>
@@ -40,15 +40,15 @@ namespace Assignment3.Controllers
         /// </summary>
         public void ViewProduct()
         {
-            List<Inventory> inventories = this._inventoryService.GetInventoryProducts();
+            List<Product> inventories = this._inventoryService.GetInventoryProducts();
             if (inventories.Any())
             {
-                IOUtility.PrintInfo("Products in Inventory");
+                this._consoleView.PrintInfo("Products in Inventory");
                 this._consoleView.PrintInventory(inventories);
             }
             else
             {
-                IOUtility.PrintInfo("Inventort is Empty");
+                this._consoleView.PrintInfo("Inventory is Empty");
             }
         }
 
@@ -57,15 +57,16 @@ namespace Assignment3.Controllers
         /// </summary>
         public void DeleteProduct()
         {
-            List<Inventory> inventories = this._inventoryService.GetInventoryProducts();
-            if (inventories.Count() == 0)
+            List<Product> inventories = this._inventoryService.GetInventoryProducts();
+            if (inventories.Count == 0)
             {
-                IOUtility.PrintInfo("Nothing to Delete.");
+                this._consoleView.PrintInfo("Nothing to Delete.");
                 return;
             }
 
             int id = this.GetProductID(inventories, "delete");
-            IOUtility.PrintInfo(this._inventoryService.DeleteProductById(id));
+            this._inventoryService.CheckProductId(id);
+            this._consoleView.PrintInfo(this._inventoryService.DeleteProductById(id));
         }
 
         /// <summary>
@@ -73,20 +74,20 @@ namespace Assignment3.Controllers
         /// </summary>
         public void EditProduct()
         {
-            List<Inventory> inventories = this._inventoryService.GetInventoryProducts();
-            if (inventories.Count() == 0)
+            List<Product> inventories = this._inventoryService.GetInventoryProducts();
+            if (inventories.Count == 0)
             {
-                IOUtility.PrintInfo("Nothing to Delete.");
+                this._consoleView.PrintInfo("Nothing to Edit.");
                 return;
             }
 
             int id = this.GetProductID(inventories, "edit");
-
-            string name = IOUtility.GetOptionalString("Enter the Product Name: ");
-            decimal price = IOUtility.GetOptinalDecimal("Enter the Price of the Product: ");
-            int quantity = IOUtility.GetOptinalInteger("Enter the Quanity of the Product: ");
-
-            IOUtility.PrintInfo(this._inventoryService.EditProductById(id, name, price, quantity));
+            this._inventoryService.CheckProductId(id);
+            string name = this._consoleView.GetOptionalString("Enter the Product Name: ");
+            decimal price = this._consoleView.GetOptinalDecimal("Enter the Price of the Product: ");
+            int quantity = this._consoleView.GetOptinalInteger("Enter the Quanity of the Product: ");
+            this._inventoryService.EditProductById(id, name, price, quantity);
+            this._consoleView.PrintInfo("Product Edited Successfully");
         }
 
         /// <summary>
@@ -94,12 +95,12 @@ namespace Assignment3.Controllers
         /// </summary>
         /// <param name="inventories">List of inventory product</param>
         /// <returns>Index value that user entered</returns>
-        private int GetProductID(List<Inventory> inventories, string option)
+        private int GetProductID(List<Product> inventories, string option)
         {
-            IOUtility.PrintInfo("Select the Product by ID");
+            this._consoleView.PrintInfo("Select the Product by ID");
             this._consoleView.PrintInventoryLinear(inventories);
 
-            return IOUtility.GetInteger($"Enter the ID to {option}: ");
+            return this._consoleView.GetInteger($"Enter the Id to {option}: ");
         }
     }
 }

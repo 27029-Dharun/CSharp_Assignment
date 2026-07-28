@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment3.Models;
+﻿using Assignment3.Models;
 
 namespace Assignment3.Repository
 {
@@ -35,7 +30,6 @@ namespace Assignment3.Repository
         /// adds a product to Inventory
         /// </summary>
         /// <param name="product">Product to be added</param>
-        /// <returns>returns a string</returns>
-        public string AddProduct(Product product);
+        public void AddProduct(Product product);
     }
 }
