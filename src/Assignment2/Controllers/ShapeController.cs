@@ -1,7 +1,6 @@
 ﻿using Assignment2.Models.Enums;
 using Assignment2.Models.ShapeHierarchy;
 using Assignment2.Services;
-using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
@@ -57,28 +56,16 @@ namespace Assignment2.Controllers
         /// </summary>
         private void RectangleOperation()
         {
-            double length = this.GetValidDimension("Enter the Length of the Rectangle: ");
-            if (length == -1)
+            double length = ConsoleView.GetDouble("Enter the Length of the Rectangle: ");
+            double width = ConsoleView.GetDouble("Enter the Width of the Rectangle: ");
+            string color = ConsoleView.GetString("Enter the color of the Rectangle: ");
+            Rectangle? rectangle = this._shapeservice.CreateRectangle(length, width, color);
+            if (rectangle == null)
             {
-                ConsoleView.PrintInfo("Creation failed Please try again");
+                ConsoleView.PrintInfo("Dimension should be Positive and Color can't have symbols other than alphabets");
                 return;
             }
 
-            double width = this.GetValidDimension("Enter the Width of the Rectangle: ");
-            if (width == -1)
-            {
-                ConsoleView.PrintInfo("Creation failed Please try again");
-                return;
-            }
-
-            string color = this.GetValidString("Enter the color of the Rectangle: ");
-            if (color == string.Empty)
-            {
-                ConsoleView.PrintInfo("Creation failed Please try again");
-                return;
-            }
-
-            Rectangle rectangle = this._shapeservice.CreateRectangle(length, width, color);
             ConsoleView.PrintShape(rectangle);
         }
 
@@ -87,73 +74,16 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CircleOperation()
         {
-            double radius = this.GetValidDimension("Enter the Radius of the circle: ");
-            if (radius == -1)
+            double radius = ConsoleView.GetDouble("Enter the Radius of the circle: ");
+            string color = ConsoleView.GetString("Enter the color of the circle: ");
+            Circle? circle = this._shapeservice.CreateCircle(radius, color);
+            if (circle == null)
             {
-                ConsoleView.PrintInfo("Creation failed Please try again");
+                ConsoleView.PrintInfo("Dimension should be Positive and Color can't have symbols other than alphabets");
                 return;
             }
 
-            string color = this.GetValidString("Enter the color of the circle: ");
-            if (color == string.Empty)
-            {
-                ConsoleView.PrintInfo("Creation failed Please try again");
-                return;
-            }
-
-            Circle circle = this._shapeservice.CreateCircle(radius, color);
             ConsoleView.PrintShape(circle);
-        }
-
-        /// <summary>
-        /// This is a Valid Dimension
-        /// </summary>
-        /// <param name="message">The message to be printed</param>
-        /// <returns>Double dimension field</returns>
-        private double GetValidDimension(string message)
-        {
-            double input = ConsoleView.GetDouble(message);
-            int tries = 3;
-            while (input <= 0 && tries > 0)
-            {
-                ConsoleView.PrintInfo("Dimensions should be positive");
-                ConsoleView.PrintInfo($"Tries Left: {tries}");
-                tries--;
-                input = ConsoleView.GetDouble("Enter the Radius of the Circle: ");
-            }
-
-            if (input <= 0)
-            {
-                return -1;
-            }
-
-            return input;
-        }
-
-        /// <summary>
-        /// This is a Valid Dimension
-        /// </summary>
-        /// <param name="message">The message to be printed</param>
-        /// <returns>Double dimension field</returns>
-        private string GetValidString(string message)
-        {
-            int tries = 3;
-            string color = ConsoleView.GetString(message);
-            while (Validator.IsAllAlphabet(color) != string.Empty && tries > 0)
-            {
-                ConsoleView.PrintInfo("Invalid Color");
-                ConsoleView.PrintInfo($"Tries Left: {tries}");
-                tries--;
-                color = ConsoleView.GetString(message);
-            }
-
-            if (Validator.IsAllAlphabet(color) != string.Empty)
-            {
-                ConsoleView.PrintInfo("Invalid Color");
-                return string.Empty;
-            }
-
-            return color;
         }
     }
 }
