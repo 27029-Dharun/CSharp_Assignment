@@ -15,7 +15,7 @@ namespace Assignment1.Validation
         /// <param name="email">Email</param>
         /// <param name="notes">Notes</param>
         /// <returns>returns string output</returns>
-        public static string ValidateContactFields(string name, string phone, string email, string notes)
+        public static string IsValidContactFields(string name, string phone, string email, string notes)
         {
             if (name == string.Empty)
             {
@@ -24,7 +24,7 @@ namespace Assignment1.Validation
 
             if (phone == null || !IsValidNumber(phone))
             {
-                return "Invalid PhoneNumber";
+                return "Invalid Phone Number";
             }
 
             if (email == null || !IsValidEmail(email))

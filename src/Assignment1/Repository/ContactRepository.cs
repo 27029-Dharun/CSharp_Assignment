@@ -3,32 +3,32 @@
 namespace Assignment1.Persistance
 {
     /// <summary>
-    /// this is a repository class
+    /// Contacts stored as list
     /// </summary>
     public class ContactRepository
     {
-        private List<Contact> _contactList = new ();
+        private readonly List<Contact> _contacts = new();
 
         /// <summary>
-        /// This creates contact in the _contact list
+        /// Creates contact in the _contacts list.
         /// </summary>
-        /// <param name="contact"> this is the contact that should bee added to the list</param>
+        /// <param name="contact">The contact to add.</param>
         public void AddContact(Contact contact)
         {
-            this._contactList.Add(contact);
+            this._contacts.Add(contact);
         }
 
         /// <summary>
-        /// This deletes the contact in the _contact list
+        /// Deletes the contact in the _contacts list
         /// </summary>
-        /// <param name="id"> this is the contactName that should be updated to the list</param>
+        /// <param name="id">Id that should be deleted</param>
         /// <returns>Returns status</returns>
         public string DeleteContactById(Guid id)
         {
             Contact? contact = this.GetContactById(id);
             if (contact != null)
             {
-                this._contactList.Remove(contact);
+                this._contacts.Remove(contact);
                 return "Contact Deleted Successfully";
             }
 
@@ -36,31 +36,17 @@ namespace Assignment1.Persistance
         }
 
         /// <summary>
-        /// This updates the contact in the _contact list
+        /// Updates the contact in the _contacts list
         /// </summary>
         /// <param name="contactName"> this is the contactName that should be updated to the list</param>
         /// <returns>The contact list.</returns>
-        public List<Contact> GetContacts()
+        public IReadOnlyList<Contact> GetAll()
         {
-            List<Contact> copy = new List<Contact>();
-            foreach (Contact a in this._contactList)
-            {
-                copy.Add(new Contact { Id = a.Id, Name = a.Name, PhoneNumber = a.PhoneNumber, Email = a.Email, Notes = a.Notes });
-            }
-
-            return copy;
+            return this._contacts.ToList();
         }
 
         /// <summary>
-        /// Sort the contact by Name
-        /// </summary>
-        public void SortContactByName()
-        {
-            this._contactList.Sort((a, b) => string.Compare(a.Name, b.Name));
-        }
-
-        /// <summary>
-        /// Edit contact with Id
+        /// Edit contact by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <param name="contact">New value to be changed</param>
@@ -85,17 +71,9 @@ namespace Assignment1.Persistance
         /// </summary>
         /// <param name="id">Id of the Contact</param>
         /// <returns>A contact with id</returns>
-        private Contact? GetContactById(Guid id)
+        public Contact? GetContactById(Guid id)
         {
-            foreach (Contact contact in this._contactList)
-            {
-                if (contact.Id == id)
-                {
-                    return contact;
-                }
-            }
-
-            return null;
+            return this._contacts.FirstOrDefault(contact => contact.Id == id);
         }
     }
 }

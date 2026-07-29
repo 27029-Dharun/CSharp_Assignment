@@ -5,7 +5,7 @@ using Assignment1.View;
 namespace Assignment1
 {
     /// <summary>
-    /// Program class.
+    /// Application entry point and composition root. Wires up the dependencies once
     /// </summary>
     internal class Program
     {

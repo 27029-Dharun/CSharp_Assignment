@@ -34,7 +34,7 @@ namespace Assignment1.View
         {
             Console.WriteLine($"Name: {contact.Name}");
             Console.WriteLine($"Email: {contact.Email}");
-            Console.WriteLine($"PhoneNumber Number: {contact.PhoneNumber}");
+            Console.WriteLine($"Phone Number: {contact.PhoneNumber}");
             Console.WriteLine($"Notes: {contact.Notes}");
         }
 
@@ -72,7 +72,7 @@ namespace Assignment1.View
         /// Prints all the contact list
         /// </summary>
         /// <param name="contacts">Contacts list</param>
-        public void PrintContact(List<Contact> contacts)
+        public void PrintContact(IReadOnlyList<Contact> contacts)
         {
             if (contacts.Count > 0)
             {

@@ -6,37 +6,37 @@
     internal enum ContactManagerMenuOption
     {
         /// <summary>
-        /// This create a Contact
+        /// Create a new Contact.
         /// </summary>
         Create = 1,
 
         /// <summary>
-        /// This helps use to view the contacts created
+        /// View all the contacts.
         /// </summary>
         View = 2,
 
         /// <summary>
-        /// This edits the contact
+        /// Edits the exisiting contact.
         /// </summary>
         Edit = 3,
 
         /// <summary>
-        /// This deletes the contact
+        /// Deletes the contact.
         /// </summary>
         Delete = 4,
 
         /// <summary>
-        /// This search the contact
+        /// Find contact by name.
         /// </summary>
         Search = 5,
 
         /// <summary>
-        /// This sort the contact
+        /// Order the contact by Name.
         /// </summary>
         Sort = 6,
 
         /// <summary>
-        /// This exits from the application
+        /// Exits from the application.
         /// </summary>
         Exit = 7,
     }

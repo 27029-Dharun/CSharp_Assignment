@@ -1,6 +1,5 @@
 ﻿using Assignment1.Model;
 using Assignment1.Persistance;
-using Assignment1.Validation;
 
 namespace Assignment1.Services
 {
@@ -12,26 +11,19 @@ namespace Assignment1.Services
         private ContactRepository _repository = new ContactRepository();
 
         /// <summary>
-        /// This method creates a new contact object and pass it to a repository
+        /// Creates a new contacts object and pass it to a repository
         /// </summary>
-        /// <param name="name">Name</param>
-        /// <param name="phoneNumber">PhoneNumber number of the peson</param>
-        /// <param name="email">Email</param>
-        /// <param name="notes">Notes</param>
+        /// <param name="name">Name of the contacts</param>
+        /// <param name="phoneNumber">PhoneNumber number of the contacts</param>
+        /// <param name="email">Email of the contacts</param>
+        /// <param name="notes">Optinal Notes of the contacts</param>
         /// <returns>string message created or not</returns>
         public Contact? CreateContact(string name, string phoneNumber, string email, string notes)
         {
-            if (this.CheckUniqueContactNumber(phoneNumber) && this.CheckUniqueContactName(name))
+            if (this.IsUniqueContactNumber(phoneNumber) && this.IsUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
-                Contact contact = new Contact()
-                {
-                    Id = id,
-                    Name = name,
-                    PhoneNumber = phoneNumber,
-                    Email = email,
-                    Notes = notes,
-                };
+                Contact contact = new Contact(id, name, phoneNumber, email, notes);
                 this._repository.AddContact(contact);
                 return contact;
             }
@@ -40,41 +32,29 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Search the contact by name
+        /// Finds the contacts that containing the name
         /// </summary>
-        /// <param name="name">name</param>
-        /// <returns>A List/returns>
-        public List<Contact> SearchContactByName(string name)
+        /// <param name="name">Optional Name of the person to search</param>
+        /// <returns>Contacts containing the name</returns>
+        public IReadOnlyList<Contact> FindByNameContaining(string name)
         {
-            List<Contact> contact = this._repository.GetContacts();
-            List<Contact> filtered = new ();
-            foreach (Contact contactItem in contact)
-            {
-                if (contactItem?.Name == null)
-                {
-                    continue;
-                }
-
-                if (contactItem.Name.ToLower().Contains(name.ToLower()))
-                {
-                    filtered.Add(contactItem);
-                }
-            }
+            IReadOnlyList<Contact> contacts = this._repository.GetAll();
+            var filtered = contacts.Where(c => c.Name != null && c.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
 
             return filtered;
         }
 
         /// <summary>
-        /// Display the contacts
+        /// Gets the contacts from repository.
         /// </summary>
-        /// <returns>A list of contact</returns>
-        public List<Contact> GetContacts()
+        /// <returns>A list of contacts</returns>
+        public IReadOnlyList<Contact> GetContacts()
         {
-            return this._repository.GetContacts();
+            return this._repository.GetAll();
         }
 
         /// <summary>
-        /// Delete Contact
+        /// Delete Contact by Id.
         /// </summary>
         /// <param name="id">Index</param>
         /// <returns>Status of the operation</returns>
@@ -84,13 +64,13 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Contact Filtered By Id
+        /// Gets contacts filtered By Id
         /// </summary>
         /// <param name="id">Guid </param>
-        /// <returns>A valid contact</returns>
+        /// <returns>A valid contacts</returns>
         public Contact? GetContactById(Guid id)
         {
-            List<Contact> contacts = this._repository.GetContacts();
+            IReadOnlyList<Contact> contacts = this._repository.GetAll();
             foreach (Contact contactItem in contacts)
             {
                 if (contactItem.Id == id)
@@ -103,29 +83,48 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// This method updates the field and create a new contact object with same id
+        /// This method updates the field and create a new contacts object with same id
         /// </summary>
-        /// <param name="id">Id </param>
-        /// <param name="name">Name</param>
-        /// <param name="phone">PhoneNumber</param>
-        /// <param name="email">Email</param>
-        /// <param name="notes">Notes</param>
-        /// <param name="existingPhone">Existing phoneNumber number</param>
-        /// <param name="existingName">Exisiting Name</param>
+        /// <param name="id">Id of the contacts</param>
+        /// <param name="name">Name of the contacts</param>
+        /// <param name="phoneNumber">PhoneNumber of the contacts</param>
+        /// <param name="email">Email of the contacts</param>
+        /// <param name="notes">Notes of the contacts</param>
+        /// <param name="existingPhone">Existing phone number of the contacts</param>
+        /// <param name="existingName">Exisiting Name of the contacts</param>
         /// <returns>This return a string value</returns>
-        public string EditContact(Guid id, string name, string phone, string email, string notes, string existingPhone, string existingName)
+        public string EditContact(Guid id, string name, string phoneNumber, string email, string notes, string? existingPhone = null, string? existingName = null)
         {
-            if (this.CheckUniqueContactNumber(phone, existingPhone) && this.CheckUniqueContactName(name, existingName))
+            Contact? contact = this._repository.GetContactById(id);
+            if (contact == null)
             {
-                Contact contact = new Contact
+                return "Contact Id Not found";
+            }
+
+            // Ignores existing name and phone number while checking unique name and number
+            if (this.IsUniqueContactNumber(phoneNumber, existingPhone) && this.IsUniqueContactName(name, existingName))
+            {
+                if (name != string.Empty)
                 {
-                    Id = id,
-                    Name = name,
-                    Email = email,
-                    PhoneNumber = phone,
-                    Notes = notes,
-                };
-                return this._repository.EditContact(id, contact);
+                    contact.Name = name;
+                }
+
+                if (phoneNumber != string.Empty)
+                {
+                    contact.PhoneNumber = phoneNumber;
+                }
+
+                if (email != string.Empty)
+                {
+                    contact.Email = email;
+                }
+
+                if (notes != string.Empty)
+                {
+                    contact.Notes = notes;
+                }
+
+                return "Updated Successfully";
             }
 
             return "Mobile Number or Name already Exist";
@@ -134,9 +133,10 @@ namespace Assignment1.Services
         /// <summary>
         /// Sort by Name all the contacts
         /// </summary>
-        public void SortContactByName()
+        /// <returns>Sorted contacts list</returns>
+        public IReadOnlyList<Contact> GetSortedByName()
         {
-            this._repository.SortContactByName();
+            return this._repository.GetAll().OrderBy(x => x.Name).ToList();
         }
 
         /// <summary>
@@ -145,9 +145,9 @@ namespace Assignment1.Services
         /// <param name="number">Number</param>
         /// <param name="exisitingPhone">Existing number only when editing</param>
         /// <returns>boolean value</returns>
-        private bool CheckUniqueContactNumber(string number, string? exisitingPhone = null)
+        private bool IsUniqueContactNumber(string number, string? exisitingPhone = null)
         {
-            List<Contact> contacts = this._repository.GetContacts();
+            IReadOnlyList<Contact> contacts = this._repository.GetAll();
             foreach (Contact contact in contacts)
             {
                 if (contact.PhoneNumber == number && exisitingPhone != number)
@@ -162,11 +162,11 @@ namespace Assignment1.Services
         /// <summary>
         /// Checks the name is unique
         /// </summary>
-        /// <param name="name">Name of the contact</param>
+        /// <param name="name">Name of the contacts</param>
         /// <returns>Returns boolean</returns>
-        private bool CheckUniqueContactName(string name, string? existingName = null)
+        private bool IsUniqueContactName(string name, string? existingName = null)
         {
-            List<Contact> contacts = this._repository.GetContacts();
+            IReadOnlyList<Contact> contacts = this._repository.GetAll();
             foreach (Contact contact in contacts)
             {
                 if (contact.Name == name && existingName != name)

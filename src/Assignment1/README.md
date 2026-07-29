@@ -7,12 +7,12 @@ It allows you to **add, view, edit, search, sort and delete contacts**.
 
 ## Features
 
--  **Add Contact** — Create a new contact with name, phone number, email, and notes.
--  **View Contacts** — View all saved contacts as a List.
+-  **Add Contact** — Create a new contact with `name`, `phoneNumber`, `email`, and `notes`.
+-  **View Contacts** — Displays the details of all available contacts.
 -  **Edit Contact** — Update any field (`name`, `email`, `phoneNumber`, `notes`) from an existing contact.
 -  **Delete Contact** — Delete a contact by selecting its index.
 -  **Search Contact** - Find the contact by entering their name.
--  **Sort Contact** - View contacts sorted alphabetically.
+-  **Sort Contact** - Displays the details of all available contacts sorted by `name`.
 
 ## Usage
 

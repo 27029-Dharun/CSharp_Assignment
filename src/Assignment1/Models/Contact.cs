@@ -6,10 +6,27 @@
     public class Contact
     {
         /// <summary>
-        /// Gets or sets the unique id of the Contact.
+        /// Initializes a new instance of the <see cref="Contact"/> class.
         /// </summary>
-        /// <value>The unique id of the Contact.</value>
-        public Guid Id { get; set; }
+        /// <param name="id">Unique Id assigned during creation</param>
+        /// <param name="name">Name of the contact</param>
+        /// <param name="email">Email of the contact</param>
+        /// <param name="phoneNumber">Phone Number of the contact</param>
+        /// <param name="notes">Notes</param>
+        public Contact(Guid id, string name, string phoneNumber, string email, string notes)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.Notes = notes;
+        }
+
+        /// <summary>
+        /// Gets the unique Id of the Contact assigned at creation time.
+        /// </summary>
+        /// <value>The unique Id of the Contact.</value>
+        public Guid Id { get; }
 
         /// <summary>
         /// Gets or sets the Name of the Contact.
@@ -20,7 +37,7 @@
         /// <summary>
         /// Gets or sets the Email of the Contact.
         /// </summary>
-        /// <value>The Email of the Contact.</value>
+        /// <value>The Email address of the Contact.</value>
         public string? Email { get; set; }
 
         /// <summary>
