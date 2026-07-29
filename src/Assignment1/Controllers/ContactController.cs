@@ -93,21 +93,7 @@ namespace Assignment1.Controllers
                 notes = "Not Specified";
             }
 
-            string validatorOutput = ContactValidator.IsValidContactFields(name, phoneNumber, email, notes);
-            if (validatorOutput != string.Empty)
-            {
-                return validatorOutput;
-            }
-
-            Contact? contact = this._service.CreateContact(name, phoneNumber, email, notes);
-            if (contact == null)
-            {
-                return "Phone Number and Name should be Unique";
-            }
-
-            Console.WriteLine();
-            ConsoleView.DisplayContact(contact);
-            return "Contact Created Successfully\n";
+            return this._service.CreateContact(name, phoneNumber, email, notes);
         }
 
         /// <summary>
@@ -152,8 +138,7 @@ namespace Assignment1.Controllers
             string phoneNumber = ConsoleView.GetOptionalString("Enter the Phone Number: ");
             string email = ConsoleView.GetOptionalString("Enter the Email: ");
             string notes = ConsoleView.GetOptionalString("Enter the Notes: ");
-            this._service.EditContact(id, name, phoneNumber, email, notes, exisitingPhone, exisitingName);
-            ConsoleView.PrintInfo("Product Edited Successfully");
+            ConsoleView.PrintInfo(this._service.EditContact(id, name, phoneNumber, email, notes, exisitingPhone, exisitingName));
         }
 
         /// <summary>

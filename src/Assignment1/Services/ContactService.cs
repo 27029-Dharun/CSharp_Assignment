@@ -1,5 +1,6 @@
 ﻿using Assignment1.Model;
 using Assignment1.Persistance;
+using Assignment1.Validation;
 
 namespace Assignment1.Services
 {
@@ -18,17 +19,23 @@ namespace Assignment1.Services
         /// <param name="email">Email of the contacts</param>
         /// <param name="notes">Optinal Notes of the contacts</param>
         /// <returns>string message created or not</returns>
-        public Contact? CreateContact(string name, string phoneNumber, string email, string notes)
+        public string CreateContact(string name, string phoneNumber, string email, string notes)
         {
+            string validatorOutput = ContactValidator.IsValidContactFields(name, phoneNumber, email, notes);
+            if (validatorOutput != string.Empty)
+            {
+                return validatorOutput;
+            }
+
             if (this.IsUniqueContactNumber(phoneNumber) && this.IsUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
                 Contact contact = new Contact(id, name, phoneNumber, email, notes);
                 this._repository.AddContact(contact);
-                return contact;
+                return "Contact Added Successfully";
             }
 
-            return null;
+            return "Name and Phone Number should be Unique";
         }
 
         /// <summary>
@@ -64,25 +71,6 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Gets contacts filtered By Id
-        /// </summary>
-        /// <param name="id">Guid </param>
-        /// <returns>A valid contacts</returns>
-        public Contact? GetContactById(Guid id)
-        {
-            IReadOnlyList<Contact> contacts = this._repository.GetAll();
-            foreach (Contact contactItem in contacts)
-            {
-                if (contactItem.Id == id)
-                {
-                    return contactItem;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// This method updates the field and create a new contacts object with same id
         /// </summary>
         /// <param name="id">Id of the contacts</param>
@@ -111,11 +99,21 @@ namespace Assignment1.Services
 
                 if (phoneNumber != string.Empty)
                 {
+                    if (!ContactValidator.IsValidNumber(phoneNumber))
+                    {
+                        return "Phone Number Invalid";
+                    }
+
                     contact.PhoneNumber = phoneNumber;
                 }
 
                 if (email != string.Empty)
                 {
+                    if (!ContactValidator.IsValidEmail(email))
+                    {
+                        return "Invalid Email";
+                    }
+
                     contact.Email = email;
                 }
 
