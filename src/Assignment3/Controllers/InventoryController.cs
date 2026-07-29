@@ -128,7 +128,7 @@ namespace InventoryManager.Controllers
         private int GetProductID(List<Product> inventories, string option)
         {
             this._consoleView.PrintInfo("Select the Product by ID");
-            this._consoleView.PrintInventoryLinear(inventories);
+            this._consoleView.PrintInventory(inventories);
 
             return this._consoleView.GetInteger($"Enter the Id to {option}: ");
         }

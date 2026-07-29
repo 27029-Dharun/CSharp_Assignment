@@ -1,4 +1,5 @@
-﻿using InventoryManager.Models;
+﻿using ConsoleTables;
+using InventoryManager.Models;
 
 namespace InventoryManager.View
 {
@@ -13,29 +14,14 @@ namespace InventoryManager.View
         /// <param name="inventories">List of Inventory objects</param>
         internal void PrintInventory(List<Product> inventories)
         {
-            foreach (Product inventory in inventories)
-            {
-                Console.WriteLine("Product Id: " + inventory.Id);
-                Console.WriteLine("Product Name: " + inventory.Name);
-                Console.WriteLine("Product Price: " + inventory.Price);
-                Console.WriteLine("Product Quantity: " + inventory.Quantity);
-                Console.WriteLine();
-            }
-        }
+            var table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Quantity");
 
-        /// <summary>
-        /// Prints the list of the inventory object linearly
-        /// </summary>
-        /// <param name="inventories">List of Inventory objects</param>
-        internal void PrintInventoryLinear(List<Product> inventories)
-        {
             foreach (Product inventory in inventories)
             {
-                Console.Write("Id: " + inventory.Id);
-                Console.Write(", Name: " + inventory.Name);
-                Console.Write(", Price: " + inventory.Price);
-                Console.WriteLine(", Quantity: " + inventory.Quantity);
+                table.AddRow(inventory.Id, inventory.Name, inventory.Price, inventory.Quantity);
             }
+
+            table.Write();
         }
 
         /// <summary>
