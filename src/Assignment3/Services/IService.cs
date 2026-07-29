@@ -1,6 +1,6 @@
-﻿using Assignment3.Models;
+﻿using InventoryManager.Models;
 
-namespace Assignment3.Services
+namespace InventoryManager.Services
 {
     /// <summary>
     /// Service Interface
@@ -36,5 +36,25 @@ namespace Assignment3.Services
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the Product</param>
         void EditProductById(int id, string name, decimal price, int quantity);
+
+        /// <summary>
+        /// Sort the product by Name, Price, Quantity and Id
+        /// </summary>
+        /// <param name="option">Option</param>
+        /// <returns>sorted product</returns>
+        List<Product> SortProducts(int option);
+
+        /// <summary>
+        /// Checks the product existance in the product
+        /// </summary>
+        /// <param name="id">Id of product to check</param>
+        void CheckProductId(int id);
+
+        /// <summary>
+        /// Search Product by Id or name entered by the User
+        /// </summary>
+        /// <param name="search_query">Name or ID entered By user</param>
+        /// <returns>list of filtered products</returns>
+        List<Product> SearchProductByNameOrId(string search_query);
     }
 }

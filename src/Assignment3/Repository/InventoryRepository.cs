@@ -1,6 +1,6 @@
-﻿using Assignment3.Models;
+﻿using InventoryManager.Models;
 
-namespace Assignment3.Repository
+namespace InventoryManager.Repository
 {
     /// <summary>
     /// Inventory Repository
@@ -49,9 +49,9 @@ namespace Assignment3.Repository
         /// Gets the Inventory objects and returns it
         /// </summary>
         /// <returns>List of inventory objects</returns>
-        public List<Product> GetInventories()
+        public IReadOnlyList<Product> GetInventory()
         {
-            return this._inventories;
+            return this._inventories.ToList();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Assignment3.Controllers;
-using Assignment3.Services;
-using Assignment3.Validation;
-using Assignment3.View;
+﻿using InventoryManager.Controllers;
+using InventoryManager.Services;
+using InventoryManager.Validation;
+using InventoryManager.View;
 
-namespace Assignment3
+namespace InventoryManager
 {
     /// <summary>
     /// Inventory management with In-memory storage
@@ -19,14 +19,14 @@ namespace Assignment3
             ConsoleView view = new ConsoleView();
             InventoryService inventoryService = new InventoryService(validator);
             InventoryController controller = new InventoryController(inventoryService, view);
-            InventoryManager inventoryManager = new InventoryManager(controller, view);
+            Controllers.InventoryManager inventoryManager = new Controllers.InventoryManager(controller, view);
             try
             {
                 inventoryManager.Run();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.Message);
             }
         }
     }

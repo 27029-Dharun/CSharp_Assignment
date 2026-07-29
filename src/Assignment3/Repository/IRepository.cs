@@ -1,6 +1,6 @@
-﻿using Assignment3.Models;
+﻿using InventoryManager.Models;
 
-namespace Assignment3.Repository
+namespace InventoryManager.Repository
 {
     /// <summary>
     /// Interface Repository
@@ -11,7 +11,7 @@ namespace Assignment3.Repository
         /// returns the inventory List
         /// </summary>
         /// <returns>List of all product in inventory</returns>
-        public List<Product> GetInventories();
+        public IReadOnlyList<Product> GetInventory();
 
         /// <summary>
         /// Remove product from inventory

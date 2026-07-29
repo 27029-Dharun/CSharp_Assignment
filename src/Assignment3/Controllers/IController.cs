@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Controllers
+﻿namespace InventoryManager.Controllers
 {
     /// <summary>
     /// Controller Interface
@@ -24,5 +24,10 @@
         /// Edits the product from the inventory
         /// </summary>
         void EditProduct();
+
+        /// <summary>
+        /// Search the product in inventory
+        /// </summary>
+        void SearchProduct();
     }
 }

@@ -1,8 +1,8 @@
-﻿using Assignment3.Models;
-using Assignment3.Services;
-using Assignment3.View;
+﻿using InventoryManager.Models;
+using InventoryManager.Services;
+using InventoryManager.View;
 
-namespace Assignment3.Controllers
+namespace InventoryManager.Controllers
 {
     /// <summary>
     /// Inventory Controller
@@ -83,11 +83,41 @@ namespace Assignment3.Controllers
 
             int id = this.GetProductID(inventories, "edit");
             this._inventoryService.CheckProductId(id);
+            this._consoleView.PrintInfo("Enter value for field that you only want to Edit");
             string name = this._consoleView.GetOptionalString("Enter the Product Name: ");
             decimal price = this._consoleView.GetOptinalDecimal("Enter the Price of the Product: ");
             int quantity = this._consoleView.GetOptinalInteger("Enter the Quanity of the Product: ");
             this._inventoryService.EditProductById(id, name, price, quantity);
             this._consoleView.PrintInfo("Product Edited Successfully");
+        }
+
+        /// <summary>
+        /// Search the product in inventory by matching the name and product id
+        /// </summary>
+        public void SearchProduct()
+        {
+            string search_query = this._consoleView.GetString("Enter the Name or Product Id to search: ");
+            List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(search_query);
+            if (filteredProducts.Any())
+            {
+                this._consoleView.PrintInfo("Products Matched Are: ");
+                this._consoleView.PrintInventory(filteredProducts);
+            }
+            else
+            {
+                this._consoleView.PrintInfo("No Products Matched");
+            }
+        }
+
+        /// <summary>
+        /// Sort the products in Inventory
+        /// </summary>
+        internal void SortProduct()
+        {
+            this._consoleView.PrintInfo("Sort Product By\n1. Id\n2. Name\n3. Price\n4. Quantity");
+            int option = this._consoleView.GetInteger("Enter the Option to Sort By: ");
+            List<Product> products = this._inventoryService.SortProducts(option);
+            this._consoleView.PrintInventory(products);
         }
 
         /// <summary>

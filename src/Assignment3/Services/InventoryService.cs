@@ -1,8 +1,8 @@
-﻿using Assignment3.Models;
-using Assignment3.Repository;
-using Assignment3.Validation;
+﻿using InventoryManager.Models;
+using InventoryManager.Repository;
+using InventoryManager.Validation;
 
-namespace Assignment3.Services
+namespace InventoryManager.Services
 {
     /// <summary>
     /// Inventory services
@@ -30,10 +30,7 @@ namespace Assignment3.Services
         /// <param name="quantity">Quantity of the Product</param>
         public void CreateInventoryProduct(string name, decimal price, int quantity)
         {
-            if (!this._validator.IsValidateName(name))
-            {
-                throw new ArgumentException("Invalid Product Name");
-            }
+            this._validator.IsValidateName(name);
 
             if (!this._validator.IsValidatePrice(price))
             {
@@ -55,7 +52,7 @@ namespace Assignment3.Services
         /// <returns>Lists of all the inventory Objects</returns>
         public List<Product> GetInventoryProducts()
         {
-            return this._inventoryRepository.GetInventories();
+            return this._inventoryRepository.GetInventory().ToList();
         }
 
         /// <summary>
@@ -81,14 +78,16 @@ namespace Assignment3.Services
         {
             Product product = this._inventoryRepository.GetProductById(id);
 
+            // If all the fields are Empty throws an Exception
+            if (name == string.Empty && price == -1 && quantity == -1)
+            {
+                throw new Exception("Noting to Edit");
+            }
+
             // If name is Empty the Name is Not Edited
             if (name != string.Empty)
             {
-                if (!this._validator.IsValidateName(name))
-                {
-                    throw new ArgumentException("Invalid Product Name");
-                }
-
+                this._validator.IsValidateName(name);
                 product.Name = name;
             }
 
@@ -116,10 +115,60 @@ namespace Assignment3.Services
         }
 
         /// <summary>
+        /// Sort the Products in the Inventory
+        /// </summary>
+        /// <param name="option">Option to search</param>
+        /// <returns>Sorted list of products in Inventory</returns>
+        public List<Product> SortProducts(int option)
+        {
+            switch (option)
+            {
+                case 1:
+                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Id).ToList();
+
+                case 2:
+                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Name).ToList();
+
+                case 3:
+                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Price).ToList();
+
+                case 4:
+                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Quantity).ToList();
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
+        /// Search Product By Name
+        /// </summary>
+        /// <param name="search_query">Name or Id to search Product</param>
+        /// <returns>List of product matched with the String</returns>
+        public List<Product> SearchProductByNameOrId(string search_query)
+        {
+            List<Product> products = this._inventoryRepository.GetInventory().ToList();
+            List<Product> filtered = new List<Product>();
+            foreach (Product product in products)
+            {
+                if (product.Name != null && product.Name.ToLower().Contains(search_query.ToLower()))
+                {
+                    filtered.Add(product);
+                }
+                else if (product.Id.ToString().Contains(search_query))
+                {
+                    filtered.Add(product);
+                }
+            }
+
+            return filtered;
+        }
+
+        /// <summary>
         /// Checks the Id is valid
         /// </summary>
         /// <param name="id">Product Id entered by User</param>
-        internal void CheckProductId(int id)
+        public void CheckProductId(int id)
         {
             this._inventoryRepository.GetProductById(id);
         }

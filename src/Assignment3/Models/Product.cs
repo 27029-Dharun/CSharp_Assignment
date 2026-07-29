@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Models
+﻿namespace InventoryManager.Models
 {
     /// <summary>
     /// Inventory Data

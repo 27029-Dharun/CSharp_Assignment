@@ -1,6 +1,6 @@
-﻿using Assignment3.Models;
+﻿using InventoryManager.Models;
 
-namespace Assignment3.View
+namespace InventoryManager.View
 {
     /// <summary>
     /// Console Operations
@@ -157,6 +157,22 @@ namespace Assignment3.View
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Reads a Key
+        /// </summary>
+        internal void ReadKey()
+        {
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Prints Enpty Line
+        /// </summary>
+        internal void PrintEmptyLine()
+        {
+            Console.WriteLine();
         }
     }
 }

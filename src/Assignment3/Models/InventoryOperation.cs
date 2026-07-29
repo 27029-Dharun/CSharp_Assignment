@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Models
+﻿namespace InventoryManager.Models
 {
     /// <summary>
     /// Inventory Operation Enums
@@ -26,8 +26,18 @@
         Delete = 4,
 
         /// <summary>
+        /// Search the Products in inventory by Name or Id
+        /// </summary>
+        Search = 5,
+
+        /// <summary>
+        /// Sort the Products in Inventory
+        /// </summary>
+        Sort = 6,
+
+        /// <summary>
         /// Exit from the application
         /// </summary>
-        Exit = 5,
+        Exit = 7,
     }
 }

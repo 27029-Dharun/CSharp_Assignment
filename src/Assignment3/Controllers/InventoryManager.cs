@@ -1,7 +1,7 @@
-﻿using Assignment3.Models;
-using Assignment3.View;
+﻿using InventoryManager.Models;
+using InventoryManager.View;
 
-namespace Assignment3.Controllers
+namespace InventoryManager.Controllers
 {
     /// <summary>
     /// Runs the Inventory
@@ -39,6 +39,10 @@ namespace Assignment3.Controllers
                 {
                     this._view.PrintInfo(ex.Message);
                 }
+                catch (InvalidOperationException ex)
+                {
+                    this._view.PrintInfo(ex.Message);
+                }
                 catch (ArgumentException ex)
                 {
                     this._view.PrintInfo(ex.Message);
@@ -53,11 +57,15 @@ namespace Assignment3.Controllers
                 }
             }
             while (option != false);
+
+            this._view.PrintInfo("Enter a Key to Exit...");
+            this._view.ReadKey();
         }
 
         private bool InventoryOptions()
         {
-            int option = this._view.GetInteger("1. Add a Product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Exit\n");
+            this._view.PrintEmptyLine();
+            int option = this._view.GetInteger("1. Add a Product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
             Console.Clear();
             switch (option)
             {
@@ -77,11 +85,19 @@ namespace Assignment3.Controllers
                     this._controller.DeleteProduct();
                     break;
 
+                case (int)InventoryOperation.Search:
+                    this._controller.SearchProduct();
+                    break;
+
+                case (int)InventoryOperation.Sort:
+                    this._controller.SortProduct();
+                    break;
+
                 case (int)InventoryOperation.Exit:
                     return false;
 
                 default:
-                    this._view.PrintInfo("Enter an option in range 1 - 5");
+                    this._view.PrintInfo("Enter an option in range 1 - 7");
                     break;
             }
 

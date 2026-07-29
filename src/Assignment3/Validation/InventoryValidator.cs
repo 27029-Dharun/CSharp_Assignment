@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Validation
+﻿namespace InventoryManager.Validation
 {
     /// <summary>
     /// Validator class
@@ -32,16 +32,16 @@
         /// <returns>True if name is valid</returns>
         public bool IsValidateName(string name)
         {
-            if (name == null || name.Length == 0)
+            if (name == null || name.Length < 3)
             {
-                return false;
+                throw new ArgumentException("Name should have at least 3 Characters");
             }
 
             foreach (char c in name)
             {
                 if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                 {
-                    return false;
+                    throw new ArgumentException("Name should only contain Alphabets");
                 }
             }
 
