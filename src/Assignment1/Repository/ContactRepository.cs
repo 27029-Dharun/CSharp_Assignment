@@ -7,7 +7,7 @@ namespace Assignment1.Persistance
     /// </summary>
     public class ContactRepository
     {
-        private readonly List<Contact> _contacts = new();
+        private readonly List<Contact> _contacts = new ();
 
         /// <summary>
         /// Creates contact in the _contacts list.
@@ -43,27 +43,6 @@ namespace Assignment1.Persistance
         public IReadOnlyList<Contact> GetAll()
         {
             return this._contacts.ToList();
-        }
-
-        /// <summary>
-        /// Edit contact by Id
-        /// </summary>
-        /// <param name="id">Id</param>
-        /// <param name="contact">New value to be changed</param>
-        /// <returns>string to denote error</returns>
-        public string EditContact(Guid id, Contact contact)
-        {
-            Contact? record = this.GetContactById(id);
-            if (record != null)
-            {
-                record.Name = contact.Name;
-                record.PhoneNumber = contact.PhoneNumber;
-                record.Email = contact.Email;
-                record.Notes = contact.Notes;
-                return "Contact Updated Successfully";
-            }
-
-            return "Contact Not Found";
         }
 
         /// <summary>
