@@ -172,5 +172,14 @@ namespace InventoryManager.Services
         {
             this._inventoryRepository.GetProductById(id);
         }
+
+        /// <summary>
+        /// Checks if inventory is Empty
+        /// </summary>
+        /// <returns>True if </returns>
+        internal bool IsInventoryEmpty()
+        {
+            return !this._inventoryRepository.GetInventory().Any();
+        }
     }
 }

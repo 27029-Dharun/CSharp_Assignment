@@ -44,6 +44,7 @@ namespace InventoryManager.View
             int input;
             while (!int.TryParse(Console.ReadLine(), out input))
             {
+                Console.Clear();
                 Console.WriteLine("Enter a valid integer");
                 Console.Write(message);
             }

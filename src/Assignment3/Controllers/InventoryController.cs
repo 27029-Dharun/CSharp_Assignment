@@ -28,11 +28,11 @@ namespace InventoryManager.Controllers
         /// </summary>
         public void AddProduct()
         {
-            string name = this._consoleView.GetString("Enter the Product Name: ");
-            decimal price = this._consoleView.GetDecimal("Enter the Price of the Product: ");
-            int quantity = this._consoleView.GetInteger("Enter the Quantity of the Product: ");
+            string name = this._consoleView.GetString("Enter the product name: ");
+            decimal price = this._consoleView.GetDecimal("Enter the price of the product: ");
+            int quantity = this._consoleView.GetInteger("Enter the quantity of the product: ");
             this._inventoryService.CreateInventoryProduct(name, price, quantity);
-            this._consoleView.PrintInfo("Product Added Successfully");
+            this._consoleView.PrintInfo("PRODUCT ADDED SUCCESSFULLY !!");
         }
 
         /// <summary>
@@ -43,12 +43,12 @@ namespace InventoryManager.Controllers
             List<Product> inventories = this._inventoryService.GetInventoryProducts();
             if (inventories.Any())
             {
-                this._consoleView.PrintInfo("Products in Inventory");
+                this._consoleView.PrintInfo("PRODUCTS IN INVENTORY");
                 this._consoleView.PrintInventory(inventories);
             }
             else
             {
-                this._consoleView.PrintInfo("Inventory is Empty");
+                this._consoleView.PrintInfo("INVENTORY IS EMPTY");
             }
         }
 
@@ -60,7 +60,7 @@ namespace InventoryManager.Controllers
             List<Product> inventories = this._inventoryService.GetInventoryProducts();
             if (inventories.Count == 0)
             {
-                this._consoleView.PrintInfo("Nothing to Delete.");
+                this._consoleView.PrintInfo("NOTHING TO DELETE");
                 return;
             }
 
@@ -77,18 +77,18 @@ namespace InventoryManager.Controllers
             List<Product> inventories = this._inventoryService.GetInventoryProducts();
             if (inventories.Count == 0)
             {
-                this._consoleView.PrintInfo("Nothing to Edit.");
+                this._consoleView.PrintInfo("NOTHING TO EDIT.");
                 return;
             }
 
             int id = this.GetProductID(inventories, "edit");
             this._inventoryService.CheckProductId(id);
             this._consoleView.PrintInfo("Enter value for field that you only want to Edit");
-            string name = this._consoleView.GetOptionalString("Enter the Product Name: ");
-            decimal price = this._consoleView.GetOptinalDecimal("Enter the Price of the Product: ");
-            int quantity = this._consoleView.GetOptinalInteger("Enter the Quanity of the Product: ");
+            string name = this._consoleView.GetOptionalString("Enter the product name: ");
+            decimal price = this._consoleView.GetOptinalDecimal("Enter the price of the product: ");
+            int quantity = this._consoleView.GetOptinalInteger("Enter the quanity of the product: ");
             this._inventoryService.EditProductById(id, name, price, quantity);
-            this._consoleView.PrintInfo("Product Edited Successfully");
+            this._consoleView.PrintInfo("PRODUCT EDITED SUCCESSFULLY !!");
         }
 
         /// <summary>
@@ -96,7 +96,13 @@ namespace InventoryManager.Controllers
         /// </summary>
         public void SearchProduct()
         {
-            string search_query = this._consoleView.GetString("Enter the Name or Product Id to search: ");
+            if (this._inventoryService.IsInventoryEmpty())
+            {
+                this._consoleView.PrintInfo("INVENTORY IS EMPTY");
+                return;
+            }
+
+            string search_query = this._consoleView.GetString("Enter the name or product Id to search: ");
             List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(search_query);
             if (filteredProducts.Any())
             {
@@ -105,7 +111,7 @@ namespace InventoryManager.Controllers
             }
             else
             {
-                this._consoleView.PrintInfo("No Products Matched");
+                this._consoleView.PrintInfo("NO PRODUCT MATCHED");
             }
         }
 
@@ -114,7 +120,13 @@ namespace InventoryManager.Controllers
         /// </summary>
         internal void SortProduct()
         {
-            this._consoleView.PrintInfo("Sort Product By\n1. Id\n2. Name\n3. Price\n4. Quantity");
+            if (this._inventoryService.IsInventoryEmpty())
+            {
+                this._consoleView.PrintInfo("INVENTORY IS EMPTY");
+                return;
+            }
+
+            this._consoleView.PrintInfo("Sort Product By\n1. Name\n2. Price\n3. Quantity");
             int option = this._consoleView.GetInteger("Enter the Option to Sort By: ");
             List<Product> products = this._inventoryService.SortProducts(option);
             this._consoleView.PrintInventory(products);
