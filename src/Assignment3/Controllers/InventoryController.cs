@@ -24,14 +24,15 @@ namespace InventoryManager.Controllers
         }
 
         /// <summary>
-        /// Add Product operation
+        /// Add product operation
         /// </summary>
         public void AddProduct()
         {
             string name = this._consoleView.GetString("Enter the product name: ");
             decimal price = this._consoleView.GetDecimal("Enter the price of the product: ");
             int quantity = this._consoleView.GetInteger("Enter the quantity of the product: ");
-            this._inventoryService.CreateInventoryProduct(name, price, quantity);
+            Product product = this._inventoryService.CreateInventoryProduct(name, price, quantity);
+            this._consoleView.PrintProduct(product);
             this._consoleView.PrintInfo("PRODUCT ADDED SUCCESSFULLY !!");
         }
 
@@ -53,7 +54,7 @@ namespace InventoryManager.Controllers
         }
 
         /// <summary>
-        /// Deletes product from the Inventory
+        /// Deletes product from the inventory
         /// </summary>
         public void DeleteProduct()
         {
@@ -66,11 +67,13 @@ namespace InventoryManager.Controllers
 
             int id = this.GetProductID(inventories, "delete");
             this._inventoryService.CheckProductId(id);
-            this._consoleView.PrintInfo(this._inventoryService.DeleteProductById(id));
+            Product product = this._inventoryService.DeleteProductById(id);
+            this._consoleView.PrintProduct(product);
+            this._consoleView.PrintInfo("PRODUCT DELETED SUCCESSFULLY !!");
         }
 
         /// <summary>
-        /// Edit product
+        /// Edit product fields
         /// </summary>
         public void EditProduct()
         {
@@ -87,7 +90,8 @@ namespace InventoryManager.Controllers
             string name = this._consoleView.GetOptionalString("Enter the product name: ");
             decimal price = this._consoleView.GetOptinalDecimal("Enter the price of the product: ");
             int quantity = this._consoleView.GetOptinalInteger("Enter the quanity of the product: ");
-            this._inventoryService.EditProductById(id, name, price, quantity);
+            Product product = this._inventoryService.EditProductById(id, name, price, quantity);
+            this._consoleView.PrintProduct(product);
             this._consoleView.PrintInfo("PRODUCT EDITED SUCCESSFULLY !!");
         }
 
@@ -116,7 +120,7 @@ namespace InventoryManager.Controllers
         }
 
         /// <summary>
-        /// Sort the products in Inventory
+        /// Sort the products in inventory
         /// </summary>
         internal void SortProduct()
         {

@@ -8,7 +8,7 @@
         /// <summary>
         /// Validates price
         /// </summary>
-        /// <param name="price">Price of the Product</param>
+        /// <param name="price">Price of the product</param>
         /// <returns>True if the price is positive</returns>
         public bool IsValidatePrice(decimal price)
         {
@@ -28,7 +28,7 @@
         /// <summary>
         /// validates name to contain only alphabets
         /// </summary>
-        /// <param name="name">Name of the Product</param>
+        /// <param name="name">Name of the product</param>
         /// <returns>True if name is valid</returns>
         public bool IsValidateName(string name)
         {

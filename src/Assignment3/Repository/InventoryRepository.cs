@@ -19,7 +19,7 @@ namespace InventoryManager.Repository
         }
 
         /// <summary>
-        /// Gets the inventory object by Id
+        /// Gets the inventory object by id
         /// </summary>
         /// <param name="id">Id of the Product</param>
         /// <returns>Inventory object</returns>
@@ -39,14 +39,14 @@ namespace InventoryManager.Repository
         /// <summary>
         /// Remove the product from the list
         /// </summary>
-        /// <param name="product">Product object to be Deleted</param>
+        /// <param name="product">Product object to be deleted</param>
         public void RemoveProduct(Product product)
         {
             this._inventories.Remove(product);
         }
 
         /// <summary>
-        /// Gets the Inventory objects and returns it
+        /// Gets the inventory objects and returns it
         /// </summary>
         /// <returns>List of inventory objects</returns>
         public IReadOnlyList<Product> GetInventory()

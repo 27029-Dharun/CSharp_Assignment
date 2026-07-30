@@ -8,7 +8,7 @@ namespace InventoryManager.Repository
     internal interface IRepository
     {
         /// <summary>
-        /// returns the inventory List
+        /// returns the inventory list
         /// </summary>
         /// <returns>List of all product in inventory</returns>
         public IReadOnlyList<Product> GetInventory();
@@ -20,14 +20,14 @@ namespace InventoryManager.Repository
         public void RemoveProduct(Product product);
 
         /// <summary>
-        /// gets the Product by Id
+        /// gets the product by id
         /// </summary>
         /// <param name="id">Id of the Product</param>
         /// <returns>Inventory object</returns>
         public Product GetProductById(int id);
 
         /// <summary>
-        /// adds a product to Inventory
+        /// adds a product to inventory
         /// </summary>
         /// <param name="product">Product to be added</param>
         public void AddProduct(Product product);

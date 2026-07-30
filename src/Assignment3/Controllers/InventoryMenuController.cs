@@ -4,7 +4,7 @@ using InventoryManager.View;
 namespace InventoryManager.Controllers
 {
     /// <summary>
-    /// Runs the Inventory
+    /// Runs the inventory
     /// </summary>
     internal class InventoryMenuController
     {

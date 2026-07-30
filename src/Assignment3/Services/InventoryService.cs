@@ -25,10 +25,11 @@ namespace InventoryManager.Services
         /// <summary>
         /// Creates a product object to inventory
         /// </summary>
-        /// <param name="name">Name of the Product</param>
-        /// <param name="price">Price</param>
-        /// <param name="quantity">Quantity of the Product</param>
-        public void CreateInventoryProduct(string name, decimal price, int quantity)
+        /// <param name="name">Name of the product</param>
+        /// <param name="price">Price of the product</param>
+        /// <param name="quantity">Quantity of the product</param>
+        /// <returns>Product object created is returned</returns>
+        public Product CreateInventoryProduct(string name, decimal price, int quantity)
         {
             this._validator.IsValidateName(name);
 
@@ -44,10 +45,11 @@ namespace InventoryManager.Services
 
             Product product = new Product(this._id++, name, price, quantity);
             this._inventoryRepository.AddProduct(product);
+            return product;
         }
 
         /// <summary>
-        /// returns Inventory Products
+        /// Returns inventory products
         /// </summary>
         /// <returns>Lists of all the inventory Objects</returns>
         public List<Product> GetInventoryProducts()
@@ -58,23 +60,24 @@ namespace InventoryManager.Services
         /// <summary>
         /// Delete the product
         /// </summary>
-        /// <param name="id">Id of the Product</param>
-        /// <returns>String output</returns>
-        public string DeleteProductById(int id)
+        /// <param name="id">Id of the product</param>
+        /// <returns>Product object</returns>
+        public Product DeleteProductById(int id)
         {
             Product product = this._inventoryRepository.GetProductById(id);
             this._inventoryRepository.RemoveProduct(product);
-            return "Product Deleted Successfully";
+            return product;
         }
 
         /// <summary>
-        /// Edit Product By Id
+        /// Edit product by id
         /// </summary>
         /// <param name="id">Product Id to be edited</param>
         /// <param name="name">Name of the product to update</param>
         /// <param name="price">Price of the product to update</param>
-        /// <param name="quantity">Quantity of the Product</param>
-        public void EditProductById(int id, string name, decimal price, int quantity)
+        /// <param name="quantity">Quantity of the Product to update</param>
+        /// <returns>Updated Product object</returns>
+        public Product EditProductById(int id, string name, decimal price, int quantity)
         {
             Product product = this._inventoryRepository.GetProductById(id);
 
@@ -84,14 +87,14 @@ namespace InventoryManager.Services
                 throw new Exception("Noting to Edit");
             }
 
-            // If name is Empty the Name is Not Edited
+            // If name is not empty the name is updated
             if (name != string.Empty)
             {
                 this._validator.IsValidateName(name);
                 product.Name = name;
             }
 
-            // If the Price is -1 the Price is not Edited
+            // If the price is -1 the price is edited
             if (price != -1)
             {
                 if (!this._validator.IsValidatePrice(price))
@@ -102,7 +105,7 @@ namespace InventoryManager.Services
                 product.Price = price;
             }
 
-            // If the quanity is -1 the Quantity is not Edited
+            // If the quantity is -1 the quantity is edited
             if (quantity != -1)
             {
                 if (!this._validator.IsValidateQuantity(quantity))
@@ -112,13 +115,15 @@ namespace InventoryManager.Services
 
                 product.Quantity = quantity;
             }
+
+            return product;
         }
 
         /// <summary>
-        /// Sort the Products in the Inventory
+        /// Sort the products in the inventory
         /// </summary>
         /// <param name="option">Option to search</param>
-        /// <returns>Sorted list of products in Inventory</returns>
+        /// <returns>Sorted list of products in inventory</returns>
         public List<Product> SortProducts(int option)
         {
             switch (option)
@@ -138,10 +143,10 @@ namespace InventoryManager.Services
         }
 
         /// <summary>
-        /// Search Product By Name
+        /// Search product by name
         /// </summary>
-        /// <param name="search_query">Name or Id to search Product</param>
-        /// <returns>List of product matched with the String</returns>
+        /// <param name="search_query">Name or id to search product</param>
+        /// <returns>List of product matched with the string</returns>
         public List<Product> SearchProductByNameOrId(string search_query)
         {
             List<Product> products = this._inventoryRepository.GetInventory().ToList();
@@ -162,18 +167,21 @@ namespace InventoryManager.Services
         }
 
         /// <summary>
-        /// Checks the Id is valid
+        /// Checks the id is valid
         /// </summary>
-        /// <param name="id">Product Id entered by User</param>
-        public void CheckProductId(int id)
+        /// <param name="id">Product id entered by user</param>
+        /// <returns>True if exists</returns>
+        public bool CheckProductId(int id)
         {
+            // Throws exception if the id is not present
             this._inventoryRepository.GetProductById(id);
+            return true;
         }
 
         /// <summary>
-        /// Checks if inventory is Empty
+        /// Checks if inventory is empty
         /// </summary>
-        /// <returns>True if </returns>
+        /// <returns>True if empty</returns>
         internal bool IsInventoryEmpty()
         {
             return !this._inventoryRepository.GetInventory().Any();

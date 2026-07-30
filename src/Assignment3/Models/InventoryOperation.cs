@@ -6,12 +6,12 @@
     public enum InventoryOperation
     {
         /// <summary>
-        /// Add new Product
+        /// Add new product
         /// </summary>
         Add = 1,
 
         /// <summary>
-        /// View all Available product
+        /// View all available product
         /// </summary>
         View = 2,
 
@@ -26,12 +26,12 @@
         Delete = 4,
 
         /// <summary>
-        /// Search the Products in inventory by Name or Id
+        /// Search the products in inventory by name or id
         /// </summary>
         Search = 5,
 
         /// <summary>
-        /// Sort the Products in Inventory
+        /// Sort the products in inventory
         /// </summary>
         Sort = 6,
 
