@@ -22,7 +22,7 @@
         /// <returns>True if quantity is positive</returns>
         public bool IsValidateQuantity(decimal quantity)
         {
-            return quantity > 0;
+            return quantity >= 0;
         }
 
         /// <summary>

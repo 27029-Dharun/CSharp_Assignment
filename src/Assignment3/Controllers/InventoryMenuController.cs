@@ -6,17 +6,17 @@ namespace InventoryManager.Controllers
     /// <summary>
     /// Runs the Inventory
     /// </summary>
-    internal class InventoryManager
+    internal class InventoryMenuController
     {
         private InventoryController _controller;
         private ConsoleView _view;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InventoryManager"/> class.
+        /// Initializes a new instance of the <see cref="InventoryMenuController"/> class.
         /// </summary>
         /// <param name="controller">Controller object</param>
         /// <param name="view">View Object</param>
-        public InventoryManager(InventoryController controller, ConsoleView view)
+        public InventoryMenuController(InventoryController controller, ConsoleView view)
         {
             this._controller = controller;
             this._view = view;

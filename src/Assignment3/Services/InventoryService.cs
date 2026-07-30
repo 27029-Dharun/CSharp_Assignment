@@ -34,7 +34,7 @@ namespace InventoryManager.Services
 
             if (!this._validator.IsValidatePrice(price))
             {
-                throw new ArgumentException("Invalid Price: Price can't be Negative");
+                throw new ArgumentException("Invalid Price: Price should be positive");
             }
 
             if (!this._validator.IsValidateQuantity(quantity))
@@ -124,15 +124,12 @@ namespace InventoryManager.Services
             switch (option)
             {
                 case 1:
-                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Id).ToList();
-
-                case 2:
                     return this._inventoryRepository.GetInventory().OrderBy(x => x.Name).ToList();
 
-                case 3:
+                case 2:
                     return this._inventoryRepository.GetInventory().OrderBy(x => x.Price).ToList();
 
-                case 4:
+                case 3:
                     return this._inventoryRepository.GetInventory().OrderBy(x => x.Quantity).ToList();
 
                 default:
