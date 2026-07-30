@@ -7,7 +7,7 @@ namespace InventoryManager.Controllers
     /// <summary>
     /// Inventory Controller
     /// </summary>
-    internal class InventoryController : IController
+    internal class InventoryController
     {
         private InventoryService _inventoryService;
         private ConsoleView _consoleView;
@@ -106,7 +106,7 @@ namespace InventoryManager.Controllers
             List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(search_query);
             if (filteredProducts.Any())
             {
-                this._consoleView.PrintInfo("Products Matched Are: ");
+                this._consoleView.PrintInfo("Products matched are: ");
                 this._consoleView.PrintInventory(filteredProducts);
             }
             else
@@ -127,7 +127,7 @@ namespace InventoryManager.Controllers
             }
 
             this._consoleView.PrintInfo("Sort Product By\n1. Name\n2. Price\n3. Quantity");
-            int option = this._consoleView.GetInteger("Enter the Option to Sort By: ");
+            int option = this._consoleView.GetInteger("Enter the option to sort: ");
             List<Product> products = this._inventoryService.SortProducts(option);
             this._consoleView.PrintInventory(products);
         }
@@ -139,10 +139,9 @@ namespace InventoryManager.Controllers
         /// <returns>Index value that user entered</returns>
         private int GetProductID(List<Product> inventories, string option)
         {
-            this._consoleView.PrintInfo("Select the Product by ID");
             this._consoleView.PrintInventory(inventories);
 
-            return this._consoleView.GetInteger($"Enter the Id to {option}: ");
+            return this._consoleView.GetInteger($"Enter the product Id to {option}: ");
         }
     }
 }

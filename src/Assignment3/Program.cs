@@ -19,7 +19,7 @@ namespace InventoryManager
             ConsoleView view = new ConsoleView();
             InventoryService inventoryService = new InventoryService(validator);
             InventoryController controller = new InventoryController(inventoryService, view);
-            Controllers.InventoryManager inventoryManager = new Controllers.InventoryManager(controller, view);
+            Controllers.InventoryMenuController inventoryManager = new Controllers.InventoryMenuController(controller, view);
             try
             {
                 inventoryManager.Run();
