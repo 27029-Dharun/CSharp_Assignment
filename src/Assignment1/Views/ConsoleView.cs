@@ -19,7 +19,7 @@ namespace Assignment1.View
             string input = (Console.ReadLine() ?? string.Empty).Trim();
             while (input == string.Empty)
             {
-                Console.WriteLine("Field can't be Empty");
+                Console.WriteLine("Field can't be empty");
                 input = (Console.ReadLine() ?? string.Empty).Trim();
             }
 
@@ -87,7 +87,7 @@ namespace Assignment1.View
             }
             else
             {
-                Console.WriteLine("The Contacts are Empty\n");
+                Console.WriteLine("The Contacts are empty\n");
             }
         }
 

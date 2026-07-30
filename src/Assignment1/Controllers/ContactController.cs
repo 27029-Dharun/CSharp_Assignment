@@ -33,7 +33,7 @@ namespace Assignment1.Controllers
             int input;
             do
             {
-                input = ConsoleView.GetInteger("1. Create New Contact\n2. View Contact\n3. Edit contact\n4. Delete Contact\n5. Search Contact\n6. Sort contact\n7. Exit\nChoose a option: ");
+                input = ConsoleView.GetInteger("1. Create new contact\n2. View contact\n3. Edit contact\n4. Delete contact\n5. Search contact\n6. Sort contact\n7. Exit\nChoose an option: ");
                 Console.Clear();
 
                 switch (input)
@@ -73,7 +73,7 @@ namespace Assignment1.Controllers
             }
             while (input != (int)ContactManagerMenuOption.Exit);
 
-            ConsoleView.PrintInfo("Enter a Key to Exit");
+            ConsoleView.PrintInfo("Enter a key to exit");
         }
 
         /// <summary>
@@ -83,14 +83,14 @@ namespace Assignment1.Controllers
         public string CreateContact()
         {
             string name = ConsoleView.GetString("Enter name: ");
-            string phoneNumber = ConsoleView.GetString("Enter Phone Number: ");
-            string email = ConsoleView.GetString("Enter Email Address: ");
-            string notes = ConsoleView.GetOptionalString("Enter Notes: ");
+            string phoneNumber = ConsoleView.GetString("Enter phone number: ");
+            string email = ConsoleView.GetString("Enter email address: ");
+            string notes = ConsoleView.GetOptionalString("Enter notes: ");
 
             // Default value of the Notes if not entered
             if (notes == string.Empty)
             {
-                notes = "Not Specified";
+                notes = "Not specified";
             }
 
             return this._service.CreateContact(name, phoneNumber, email, notes);
@@ -122,7 +122,7 @@ namespace Assignment1.Controllers
             var contacts = this._service.GetContacts();
             if (contacts.Count == 0)
             {
-                ConsoleView.PrintInfo("Nothing to Edit");
+                ConsoleView.PrintInfo("Nothing to edit");
                 return;
             }
 
@@ -133,11 +133,11 @@ namespace Assignment1.Controllers
             string? exisitingPhone = contacts[index].PhoneNumber;
             string? exisitingName = contacts[index].Name;
 
-            ConsoleView.PrintInfo("Enter value for field that you only want to Edit");
-            string name = ConsoleView.GetOptionalString("Enter the Name: ");
-            string phoneNumber = ConsoleView.GetOptionalString("Enter the Phone Number: ");
-            string email = ConsoleView.GetOptionalString("Enter the Email: ");
-            string notes = ConsoleView.GetOptionalString("Enter the Notes: ");
+            ConsoleView.PrintInfo("Enter value for field that you only want to edit");
+            string name = ConsoleView.GetOptionalString("Enter the name: ");
+            string phoneNumber = ConsoleView.GetOptionalString("Enter the phone number: ");
+            string email = ConsoleView.GetOptionalString("Enter the email: ");
+            string notes = ConsoleView.GetOptionalString("Enter the notes: ");
             ConsoleView.PrintInfo(this._service.EditContact(id, name, phoneNumber, email, notes, exisitingPhone, exisitingName));
         }
 
@@ -151,7 +151,7 @@ namespace Assignment1.Controllers
             IReadOnlyList<Contact> res = this._service.FindByNameContaining(str);
             if (res.Count == 0)
             {
-                return "No Match Found";
+                return "No match found";
             }
 
             this._view.PrintContact(res);
@@ -167,10 +167,10 @@ namespace Assignment1.Controllers
             IReadOnlyList<Contact> contacts = this._service.GetContacts();
             if (contacts.Count == 0)
             {
-                return "Nothing to Delete";
+                return "Nothing to delete";
             }
 
-            ConsoleView.PrintInfo("Select the contact to Delete");
+            ConsoleView.PrintInfo("Select the contact to delete");
             ConsoleView.PrintInfo("Give the index as input");
             this._view.PrintContact(contacts);
 
