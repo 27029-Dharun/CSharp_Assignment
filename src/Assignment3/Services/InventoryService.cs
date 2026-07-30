@@ -31,7 +31,15 @@ namespace InventoryManager.Services
         /// <returns>Product object created is returned</returns>
         public Product CreateInventoryProduct(string name, decimal price, int quantity)
         {
-            this._validator.IsValidateName(name);
+            if (!this._validator.IsValidateName(name))
+            {
+                throw new ArgumentException("Invalid Name: Name should be like more than 3 character");
+            }
+
+            if (!this.IsUniqueName(name))
+            {
+                throw new ArgumentException("Invalid Name: Name should be unique");
+            }
 
             if (!this._validator.IsValidatePrice(price))
             {
@@ -94,7 +102,7 @@ namespace InventoryManager.Services
                 product.Name = name;
             }
 
-            // If the price is -1 the price is edited
+            // If the price is not -1 the price is edited
             if (price != -1)
             {
                 if (!this._validator.IsValidatePrice(price))
@@ -105,7 +113,7 @@ namespace InventoryManager.Services
                 product.Price = price;
             }
 
-            // If the quantity is -1 the quantity is edited
+            // If the quantity is not -1 the quantity is edited
             if (quantity != -1)
             {
                 if (!this._validator.IsValidateQuantity(quantity))
@@ -185,6 +193,20 @@ namespace InventoryManager.Services
         internal bool IsInventoryEmpty()
         {
             return !this._inventoryRepository.GetInventory().Any();
+        }
+
+        private bool IsUniqueName(string name, string? exisitingName = null)
+        {
+            List<Product> products = this._inventoryRepository.GetInventory().ToList();
+            foreach (Product product in products)
+            {
+                if (product.Name == name && exisitingName != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
