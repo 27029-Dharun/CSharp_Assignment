@@ -3,57 +3,60 @@
 namespace InventoryManager.Services
 {
     /// <summary>
-    /// Service Interface
+    /// Service interface
     /// </summary>
     internal interface IService
     {
         /// <summary>
-        /// Creates a Inventory
+        /// Creates a product
         /// </summary>
-        /// <param name="name">Name of the Product</param>
+        /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the Product</param>
-        void CreateInventoryProduct(string name, decimal price, int quantity);
+        /// <param name="quantity">Quantity of the product</param>
+        /// <returns>Product created</returns>
+        Product CreateInventoryProduct(string name, decimal price, int quantity);
 
         /// <summary>
-        /// Gets the Inventory Product
+        /// Gets the inventory product
         /// </summary>
-        /// <returns>Returns the Product</returns>
+        /// <returns>Returns the product</returns>
         List<Product> GetInventoryProducts();
 
         /// <summary>
-        /// Deletes the Product By ID
+        /// Deletes the product by id
         /// </summary>
-        /// <param name="id">Id of the product to be Deleted</param>
-        /// <returns>returns the string output</returns>
-        string DeleteProductById(int id);
+        /// <param name="id">Id of the product to be deleted</param>
+        /// <returns>product deleted</returns>
+        Product DeleteProductById(int id);
 
         /// <summary>
-        /// Edit the Product By Id
+        /// Edit the product by id
         /// </summary>
-        /// <param name="id">Id of the Product to be deleted</param>
-        /// <param name="name">Name of the Product</param>
+        /// <param name="id">Id of the product to be deleted</param>
+        /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the Product</param>
-        void EditProductById(int id, string name, decimal price, int quantity);
+        /// <param name="quantity">Quantity of the product</param>
+        /// <returns>Product edited</returns>
+        Product EditProductById(int id, string name, decimal price, int quantity);
 
         /// <summary>
-        /// Sort the product by Name, Price, Quantity and Id
+        /// Sort the product by name, price, quantity
         /// </summary>
-        /// <param name="option">Option</param>
+        /// <param name="option">option to sort by</param>
         /// <returns>sorted product</returns>
         List<Product> SortProducts(int option);
 
         /// <summary>
-        /// Checks the product existance in the product
+        /// Checks the product existence in the product
         /// </summary>
         /// <param name="id">Id of product to check</param>
-        void CheckProductId(int id);
+        /// <returns>true if the contact exists</returns>
+        bool CheckProductId(int id);
 
         /// <summary>
-        /// Search Product by Id or name entered by the User
+        /// Search Product by id or name entered by the user
         /// </summary>
-        /// <param name="search_query">Name or ID entered By user</param>
+        /// <param name="search_query">Name or id entered by user</param>
         /// <returns>list of filtered products</returns>
         List<Product> SearchProductByNameOrId(string search_query);
     }

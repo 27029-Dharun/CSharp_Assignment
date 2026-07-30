@@ -4,14 +4,14 @@ using InventoryManager.Models;
 namespace InventoryManager.View
 {
     /// <summary>
-    /// Console Operations
+    /// Console operations
     /// </summary>
     internal class ConsoleView
     {
         /// <summary>
         /// Prints the list of the inventory object
         /// </summary>
-        /// <param name="inventories">List of Inventory objects</param>
+        /// <param name="inventories">List of inventory objects</param>
         internal void PrintInventory(List<Product> inventories)
         {
             var table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Quantity");
@@ -74,7 +74,7 @@ namespace InventoryManager.View
         /// Gets decimal input
         /// </summary>
         /// <param name="message">Message to be printed</param>
-        /// <returns>deecimal input</returns>
+        /// <returns>decimal input</returns>
         internal decimal GetDecimal(string message)
         {
             Console.Write(message);
@@ -89,10 +89,10 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// Gets the string input and returns string.Empty if null
+        /// Gets the string input as optional field
         /// </summary>
-        /// <param name="message">message to Print</param>
-        /// <returns>string input</returns>
+        /// <param name="message">Message to print</param>
+        /// <returns>returns string.Empty if null</returns>
         internal string GetOptionalString(string message)
         {
             Console.Write(message);
@@ -101,7 +101,7 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// Get the Optional Decimal Value
+        /// Get the optional decimal value
         /// </summary>
         /// <param name="message">Message to print</param>
         /// <returns>Returns the decimal input</returns>
@@ -124,7 +124,7 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// Gets the optional Integer value
+        /// Gets the optional integer value
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>Returns the integer value</returns>
@@ -146,7 +146,7 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// Reads a Key
+        /// Reads a key
         /// </summary>
         internal void ReadKey()
         {
@@ -154,11 +154,23 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// Prints Enpty Line
+        /// Prints empty line
         /// </summary>
         internal void PrintEmptyLine()
         {
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Prints the product object in console
+        /// </summary>
+        /// <param name="product">Product object to be printed</param>
+        internal void PrintProduct(Product product)
+        {
+            Console.WriteLine("Product Id: " + product.Id);
+            Console.WriteLine("Product name: " + product.Name);
+            Console.WriteLine("Product price: " + product.Price);
+            Console.WriteLine("Product quantity: " + product.Quantity);
         }
     }
 }
