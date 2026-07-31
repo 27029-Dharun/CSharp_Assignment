@@ -15,13 +15,14 @@ namespace InventoryManager
         /// </summary>
         internal static void Main()
         {
-            InventoryValidator validator = new InventoryValidator();
-            ConsoleView view = new ConsoleView();
-            InventoryService inventoryService = new InventoryService(validator);
-            InventoryController controller = new InventoryController(inventoryService, view);
-            Controllers.InventoryMenuController inventoryManager = new Controllers.InventoryMenuController(controller, view);
             try
             {
+                InventoryValidator validator = new InventoryValidator();
+                ConsoleView view = new ConsoleView();
+                InventoryService inventoryService = new InventoryService(validator);
+                InventoryController controller = new InventoryController(inventoryService, view);
+                InventoryMenuController inventoryManager = new Controllers.InventoryMenuController(controller, view);
+
                 inventoryManager.Run();
             }
             catch (Exception ex)
