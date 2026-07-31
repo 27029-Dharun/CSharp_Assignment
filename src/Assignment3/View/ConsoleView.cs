@@ -37,14 +37,21 @@ namespace InventoryManager.View
         /// Get the integer
         /// </summary>
         /// <param name="message">Message to be printed</param>
+        /// <param name="tries">Tries left to enter a valid Integer</param>
         /// <returns>Integer input</returns>
-        internal int GetInteger(string message)
+        internal int GetInteger(string message, int tries = 3)
         {
             Console.Write(message);
             int input;
             while (!int.TryParse(Console.ReadLine(), out input))
             {
-                Console.WriteLine("Enter a valid integer");
+                if (tries <= 0)
+                {
+                    throw new InvalidCastException("Enter a valid interger");
+                }
+
+                Console.WriteLine($"Tries left: {tries--}");
+                Console.WriteLine("Enter a valid integer\n");
                 Console.Write(message);
             }
 
@@ -55,15 +62,23 @@ namespace InventoryManager.View
         /// Gets the string
         /// </summary>
         /// <param name="message">Message to be displayed</param>
+        /// <param name="tries">Tries left to enter a valid string</param>
         /// <returns>String given as input</returns>
-        internal string GetString(string message)
+        internal string GetString(string message, int tries = 3)
         {
             Console.Write(message);
             string input = Console.ReadLine() ?? string.Empty;
 
             while (input == string.Empty)
             {
-                Console.WriteLine("Entered String can't be Empty");
+                if (tries <= 0)
+                {
+                    throw new InvalidCastException("Enter a valid string");
+                }
+
+                Console.WriteLine($"Tries Left: {tries--}");
+                Console.WriteLine("Entered string can't be empty\n");
+                Console.Write(message);
                 input = Console.ReadLine() ?? string.Empty;
             }
 
@@ -74,14 +89,21 @@ namespace InventoryManager.View
         /// Gets decimal input
         /// </summary>
         /// <param name="message">Message to be printed</param>
+        /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>decimal input</returns>
-        internal decimal GetDecimal(string message)
+        internal decimal GetDecimal(string message, int tries = 3)
         {
             Console.Write(message);
             decimal input;
             while (!decimal.TryParse(Console.ReadLine(), out input))
             {
-                Console.WriteLine("Enter a valid integer");
+                if (tries <= 0)
+                {
+                    throw new InvalidCastException("Enter a valid decimal");
+                }
+
+                Console.WriteLine($"Tries Left: {tries--}");
+                Console.WriteLine("Enter a valid decimal\n");
                 Console.Write(message);
             }
 

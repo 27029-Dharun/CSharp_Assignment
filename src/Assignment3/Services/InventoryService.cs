@@ -33,7 +33,7 @@ namespace InventoryManager.Services
         {
             if (!this._validator.IsValidateName(name))
             {
-                throw new ArgumentException("Invalid Name: Name should be like more than 3 character");
+                throw new ArgumentException("Invalid Name: Name should contain more than 3 character");
             }
 
             if (!this.IsUniqueName(name))
@@ -92,7 +92,7 @@ namespace InventoryManager.Services
             // If all the fields are Empty throws an Exception
             if (name == string.Empty && price == -1 && quantity == -1)
             {
-                throw new Exception("Noting to Edit");
+                throw new Exception("Nothing to Edit");
             }
 
             // If name is not empty the name is updated
@@ -178,12 +178,10 @@ namespace InventoryManager.Services
         /// Checks the id is valid
         /// </summary>
         /// <param name="id">Product id entered by user</param>
-        /// <returns>True if exists</returns>
-        public bool CheckProductId(int id)
+        public void ValidateProductId(int id)
         {
             // Throws exception if the id is not present
             this._inventoryRepository.GetProductById(id);
-            return true;
         }
 
         /// <summary>

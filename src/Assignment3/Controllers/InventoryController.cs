@@ -66,7 +66,7 @@ namespace InventoryManager.Controllers
             }
 
             int id = this.GetProductID(inventories, "delete");
-            this._inventoryService.CheckProductId(id);
+            this._inventoryService.ValidateProductId(id);
             Product product = this._inventoryService.DeleteProductById(id);
             this._consoleView.PrintProduct(product);
             this._consoleView.PrintInfo("PRODUCT DELETED SUCCESSFULLY !!");
@@ -85,7 +85,7 @@ namespace InventoryManager.Controllers
             }
 
             int id = this.GetProductID(inventories, "edit");
-            this._inventoryService.CheckProductId(id);
+            this._inventoryService.ValidateProductId(id);
             this._consoleView.PrintInfo("Enter value for field that you only want to Edit");
             string name = this._consoleView.GetOptionalString("Enter the product name: ");
             decimal price = this._consoleView.GetOptinalDecimal("Enter the price of the product: ");

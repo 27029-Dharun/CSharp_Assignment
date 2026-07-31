@@ -50,8 +50,7 @@ namespace InventoryManager.Services
         /// Checks the product existence in the product
         /// </summary>
         /// <param name="id">Id of product to check</param>
-        /// <returns>true if the contact exists</returns>
-        bool CheckProductId(int id);
+        void ValidateProductId(int id);
 
         /// <summary>
         /// Search Product by id or name entered by the user
