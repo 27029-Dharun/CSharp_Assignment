@@ -227,16 +227,21 @@ namespace Assignment4.View
             Console.WriteLine();
         }
 
-        internal void PrintTransaction(List<Transaction> expenses)
+        /// <summary>
+        /// Prints the Transactions 
+        /// </summary>
+        /// <param name="transactions"></param>
+        internal void PrintTransaction(List<Transaction> transactions)
         {
-            var table = new ConsoleTable("Transaction Id", "Transaction Name", "Transaction Price", "Transaction Quantity");
+            //var table = new ConsoleTable("Transaction Id", "Transaction Name", "Transaction Price", "Transaction Quantity");
 
-            foreach (Transaction expense in expenses)
+            foreach (Transaction transaction in transactions)
             {
-                table.AddRow(expense.Id, expense.Name, expense.Price, expense.Quantity);
+                //table.AddRow(transaction.Id, transaction.Name, transaction.Price, transaction.Quantity);
+                Console.WriteLine($"{transaction.Id}, {transaction.Type}, {transaction.Category} {transaction.Date} {transaction.Amount}");
             }
 
-            table.Write();
+            //table.Write();
         }
     }
 }

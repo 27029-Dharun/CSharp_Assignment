@@ -70,14 +70,28 @@ namespace Assignment4.Services
             return true;
         }
 
+        /// <summary>
+        /// Get the expense from the repository
+        /// </summary>
+        /// <returns>returns a list of expenses</returns>
         internal List<Transaction> GetExpense()
         {
-            throw new NotImplementedException();
+            List<Transaction> transactions = this._repository.GetAll().ToList();
+
+            var filtered = transactions.Where(x => x.Type == TransactionType.Expense).ToList();
+            return filtered;
         }
 
+        /// <summary>
+        /// Get the income from the repository
+        /// </summary>
+        /// <returns>returns a list of incomes</returns>
         internal List<Transaction> GetIncome()
         {
-            throw new NotImplementedException();
+            List<Transaction> transactions = this._repository.GetAll().ToList();
+
+            var filtered = transactions.Where(x => x.Type == TransactionType.Income).ToList();
+            return filtered;
         }
     }
 }
