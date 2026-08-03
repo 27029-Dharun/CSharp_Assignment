@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment4.Models
+﻿namespace Assignment4.Models
 {
-    internal class TransactionType
+    /// <summary>
+    /// Represents that the transaction is expense or Income
+    /// </summary>
+    internal enum TransactionType
     {
+        /// <summary>
+        /// Transaction is Expense
+        /// </summary>
+        Expense = 1,
+
+        /// <summary>
+        /// Transaction is Income
+        /// </summary>
+        Income = 2,
     }
 }

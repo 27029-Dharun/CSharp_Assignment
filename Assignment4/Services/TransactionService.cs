@@ -1,4 +1,5 @@
 ﻿using Assignment4.Models;
+using Assignment4.Repository;
 using Assignment4.Validation;
 
 namespace Assignment4.Services
@@ -9,6 +10,7 @@ namespace Assignment4.Services
     internal class TransactionService
     {
         private TransactionValidator _validator;
+        private TransactionRepository _repository = new TransactionRepository();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
@@ -22,7 +24,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Creates a Transaction object and returns it.
         /// </summary>
-        /// <param name="name">Name of the transaction</param>
+        /// <param name="name">Title of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
@@ -37,7 +39,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Validates the transaction fiels
         /// </summary>
-        /// <param name="name">Name of the transaction</param>
+        /// <param name="name">Title of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
@@ -55,6 +57,17 @@ namespace Assignment4.Services
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Add a transaction to the Transaction list
+        /// </summary>
+        /// <param name="transaction">Transaction to be added</param>
+        /// <returns>boolean value true if added</returns>
+        public bool AddTransaction(Transaction transaction)
+        {
+            this._repository.Add(transaction);
+            return true;
         }
     }
 }

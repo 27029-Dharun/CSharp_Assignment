@@ -17,7 +17,5 @@ namespace Assignment4.Repository
         {
             this._transactions.Add(transaction);
         }
-
-
     }
 }

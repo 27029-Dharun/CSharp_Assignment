@@ -10,15 +10,15 @@
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
         /// <param name="id">Id of the transaction</param>
-        /// <param name="name">Name of the transaction</param>
+        /// <param name="title">Title of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount used in the transaction</param>
-        public Transaction(string id, string name, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
+        public Transaction(string id, string title, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
         {
             this.Id = id;
-            this.Name = name;
+            this.Title = title;
             this.Date = date;
             this.Type = type;
             this.Category = category;
@@ -39,7 +39,7 @@
         /// <value>
         /// The name of the transaction
         /// </value>
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// gets or sets the Date of the transaction

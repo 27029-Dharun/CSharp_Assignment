@@ -1,4 +1,7 @@
-﻿namespace Assignment4.View
+﻿using System.Globalization;
+using Assignment4.Helper;
+
+namespace Assignment4.View
 {
     /// <summary>
     /// Contains the console operations that prints and gets input from user
@@ -12,6 +15,32 @@
         internal void PrintInfo(string message)
         {
             Console.WriteLine(message);
+        }
+
+        /// <summary>
+        /// Displays the enum value and gets input from the user
+        /// </summary>
+        /// <typeparam name="T">Type variable that should be struct</typeparam>
+        /// <param name="message">String to be printed</param>
+        /// <returns>returns a enum value entered by use</returns>
+        internal T GetEnumValues<T>(string message)
+            where T : Enum
+        {
+            int length = 0;
+
+            foreach (T value in EnumHelper.GetAllEnumValues<T>())
+            {
+                Console.WriteLine($"{Convert.ToInt32(value)}. {value}");
+                length++;
+            }
+
+            int input = this.GetInteger(message);
+            while (!Enum.IsDefined(typeof(T), input))
+            {
+                input = this.GetInteger(message);
+            }
+
+            return (T)Enum.ToObject(typeof(T), input);
         }
 
         /// <summary>
@@ -32,7 +61,7 @@
                 }
 
                 Console.WriteLine($"Tries left: {tries--}");
-                Console.WriteLine("Enter a valid integer\n");
+                Console.WriteLine($"Enter a valid integer\n");
                 Console.Write(message);
             }
 
@@ -153,28 +182,28 @@
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries for user to retry</param>
-        /// <returns>DateOnly value entered by user</returns>
-        internal DateOnly GetDate(string message, int tries = 3)
+        /// <returns>DateTime value entered by user</returns>
+        internal DateTime GetDate(string message, int tries = 3)
         {
-            DateOnly validDate;
+            DateTime validDate;
             string input;
             string format = "dd/MM/yyyy";
             Console.Write(message);
             Console.WriteLine($"Enter a date in format ({format}):");
 
             input = Console.ReadLine() ?? string.Empty;
-            while (DateOnly.TryParseExact(input, format, out validDate))
+            while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
             {
                 if (tries <= 0)
                 {
-                    return DateOnly.MinValue;
+                    return DateTime.MinValue;
                 }
 
                 Console.WriteLine($"Invalid date. Please enter in format {format}:");
-                tries--;
 
                 Console.WriteLine($"Tries Left: {tries--}");
                 Console.WriteLine(message);
+                input = Console.ReadLine() ?? string.Empty;
             }
 
             return validDate;

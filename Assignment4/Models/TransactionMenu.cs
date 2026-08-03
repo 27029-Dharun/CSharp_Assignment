@@ -16,12 +16,28 @@
         EditTransaction = 2,
 
         /// <summary>
-        /// Delete a t
+        /// Delete a transaction
         /// </summary>
         DeleteTransaction = 3,
 
-        ViewBalance = 4,
+        /// <summary>
+        /// View summary
+        /// </summary>
+        ViewSummary = 4,
 
-        ViewSummary = 5,
+        /// <summary>
+        /// View expense alone
+        /// </summary>
+        ViewExpense = 5,
+
+        /// <summary>
+        /// View Income
+        /// </summary>
+        ViewIncome = 6,
+
+        /// <summary>
+        /// Exit from the application
+        /// </summary>
+        Exit = 7,
     }
 }
