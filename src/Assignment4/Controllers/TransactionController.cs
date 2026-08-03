@@ -68,12 +68,15 @@ namespace Assignment4.Controllers
 
         private void ViewIncome()
         {
-            throw new NotImplementedException();
+            List<Transaction> income = this._service.GetIncome();
+            this._view.PrintTransaction(income);
         }
 
         private void ViewExpense()
         {
-            throw new NotImplementedException();
+            List<Transaction> expense = this._service.GetExpense();
+            this._view.PrintTransaction(expense);
+
         }
 
         private void ViewSummary()
@@ -109,6 +112,8 @@ namespace Assignment4.Controllers
 
             Transaction transaction = this._service.CreateTransaction(title, date, type, category, amount);
             this._service.AddTransaction(transaction);
+
+            this._view.PrintInfo($"{type} added successfully");
         }
 
         private int GetMenuOption(int max)

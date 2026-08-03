@@ -69,5 +69,15 @@ namespace Assignment4.Services
             this._repository.Add(transaction);
             return true;
         }
+
+        internal List<Transaction> GetExpense()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal List<Transaction> GetIncome()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

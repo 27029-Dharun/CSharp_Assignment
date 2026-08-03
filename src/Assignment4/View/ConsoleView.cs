@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Assignment4.Helper;
+using Assignment4.Models;
 
 namespace Assignment4.View
 {
@@ -37,6 +38,7 @@ namespace Assignment4.View
             int input = this.GetInteger(message);
             while (!Enum.IsDefined(typeof(T), input))
             {
+                this.PrintInfo("Enter a valid integer in range");
                 input = this.GetInteger(message);
             }
 
@@ -223,6 +225,18 @@ namespace Assignment4.View
         internal void PrintEmptyLine()
         {
             Console.WriteLine();
+        }
+
+        internal void PrintTransaction(List<Transaction> expenses)
+        {
+            var table = new ConsoleTable("Transaction Id", "Transaction Name", "Transaction Price", "Transaction Quantity");
+
+            foreach (Transaction expense in expenses)
+            {
+                table.AddRow(expense.Id, expense.Name, expense.Price, expense.Quantity);
+            }
+
+            table.Write();
         }
     }
 }
