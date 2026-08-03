@@ -44,7 +44,7 @@ namespace InventoryManager.Services
         /// </summary>
         /// <param name="option">option to sort by</param>
         /// <returns>sorted product</returns>
-        List<Product> SortProducts(int option);
+        List<Product>? SortProducts(int option);
 
         /// <summary>
         /// Checks the product existence in the product

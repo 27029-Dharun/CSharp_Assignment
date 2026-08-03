@@ -189,10 +189,10 @@ namespace InventoryManager.View
         /// <param name="product">Product object to be printed</param>
         internal void PrintProduct(Product product)
         {
-            Console.WriteLine("Product Id: " + product.Id);
+            Console.WriteLine("\nProduct Id: " + product.Id);
             Console.WriteLine("Product name: " + product.Name);
             Console.WriteLine("Product price: " + product.Price);
-            Console.WriteLine("Product quantity: " + product.Quantity);
+            Console.WriteLine("Product quantity: " + product.Quantity + "\n");
         }
     }
 }

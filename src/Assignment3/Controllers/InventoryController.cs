@@ -66,8 +66,13 @@ namespace InventoryManager.Controllers
             }
 
             int id = this.GetProductID(inventories, "delete");
-            this._inventoryService.ValidateProductId(id);
-            Product product = this._inventoryService.DeleteProductById(id);
+            Product? product = this._inventoryService.DeleteProductById(id);
+            if (product == null)
+            {
+                this._consoleView.PrintInfo("Product id is not valid");
+                return;
+            }
+
             this._consoleView.PrintProduct(product);
             this._consoleView.PrintInfo("PRODUCT DELETED SUCCESSFULLY !!");
         }
