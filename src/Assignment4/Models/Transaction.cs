@@ -1,4 +1,6 @@
-﻿namespace Assignment4.Models
+﻿using Assignment4.Models.Enums;
+
+namespace Assignment4.Models
 {
     /// <summary>
     /// Represents a transaction in the system

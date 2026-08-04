@@ -1,4 +1,5 @@
 ﻿using Assignment4.Models;
+using Assignment4.Models.Enums;
 using Assignment4.Services;
 using Assignment4.View;
 
@@ -69,14 +70,13 @@ namespace Assignment4.Controllers
         private void ViewIncome()
         {
             List<Transaction> income = this._service.GetIncome();
-            this._view.PrintTransaction(income);
+            this._view.PrintTransactionTable(income);
         }
 
         private void ViewExpense()
         {
             List<Transaction> expense = this._service.GetExpense();
-            this._view.PrintTransaction(expense);
-
+            this._view.PrintTransactionTable(expense);
         }
 
         private void ViewSummary()

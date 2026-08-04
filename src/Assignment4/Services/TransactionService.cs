@@ -1,4 +1,5 @@
 ﻿using Assignment4.Models;
+using Assignment4.Models.Enums;
 using Assignment4.Repository;
 using Assignment4.Validation;
 
@@ -32,7 +33,7 @@ namespace Assignment4.Services
         /// <returns>returns a Transaction object</returns>
         public Transaction CreateTransaction(string name, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
         {
-            string id = Guid.NewGuid().ToString();
+            string id = this.GenerateTransactionId(type);
             return new Transaction(id, name, date, type, category, amount);
         }
 
@@ -47,7 +48,7 @@ namespace Assignment4.Services
         /// <returns>returns the validation output and empty string if are fiels are valid</returns>
         public string ValidateTransaction(string name, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
         {
-            string nameValidator = this._validator.ValidateName(name);
+            string nameValidator = this._validator.ValidateTitle(name);
             string dateValidator = this._validator.ValidateDate(date);
             string amountValidator = this._validator.ValidateAmount(amount);
 
@@ -92,6 +93,24 @@ namespace Assignment4.Services
 
             var filtered = transactions.Where(x => x.Type == TransactionType.Income).ToList();
             return filtered;
+        }
+
+        /// <summary>
+        /// Generates transaction id for the transaction
+        /// </summary>
+        /// <param name="type">Transaction type</param>
+        /// <returns>unique transaction id</returns>
+        private string GenerateTransactionId(TransactionType type)
+        {
+            int eId = 100;
+            int iId = 100;
+
+            if (type == TransactionType.Expense)
+            {
+                return "E" + (eId++);
+            }
+
+            return "I" + (iId++);
         }
     }
 }

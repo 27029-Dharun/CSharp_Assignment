@@ -14,7 +14,7 @@
         {
             if (amount < 0)
             {
-                return "Amount should be positive";
+                return "Amount should be positive\n";
             }
 
             return string.Empty;
@@ -29,7 +29,7 @@
         {
             if (date > DateTime.Now)
             {
-                return "Date should not be ";
+                return "Date should not be valid\n";
             }
 
             return string.Empty;
@@ -40,18 +40,18 @@
         /// </summary>
         /// <param name="name">Title of the transaction</param>
         /// <returns>returns the validation output</returns>
-        internal string ValidateName(string name)
+        internal string ValidateTitle(string name)
         {
             if (name == null || name.Length < 3)
             {
-                return "Name should have at least 3 Characters";
+                return "Title should have at least 3 Characters\n";
             }
 
             foreach (char c in name)
             {
                 if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                 {
-                    return "Name should only contain Alphabets";
+                    return "Title should only contain Alphabets\n";
                 }
             }
 

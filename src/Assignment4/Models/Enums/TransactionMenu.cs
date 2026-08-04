@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models
+﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
     /// Contains the transaction menu operations

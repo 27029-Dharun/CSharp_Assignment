@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models
+﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
     /// Represents that the transaction is expense or Income

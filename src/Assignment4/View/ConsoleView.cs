@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Assignment4.Helper;
 using Assignment4.Models;
+using ConsoleTables;
 
 namespace Assignment4.View
 {
@@ -191,7 +192,7 @@ namespace Assignment4.View
             string input;
             string format = "dd/MM/yyyy";
             Console.Write(message);
-            Console.WriteLine($"Enter a date in format ({format}):");
+            Console.WriteLine($"Enter a date in format ({format}): ");
 
             input = Console.ReadLine() ?? string.Empty;
             while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
@@ -228,20 +229,19 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Prints the Transactions 
+        /// Prints the Transactions
         /// </summary>
-        /// <param name="transactions"></param>
-        internal void PrintTransaction(List<Transaction> transactions)
+        /// <param name="transactions">Transactions to be printed</param>
+        internal void PrintTransactionTable(List<Transaction> transactions)
         {
-            //var table = new ConsoleTable("Transaction Id", "Transaction Name", "Transaction Price", "Transaction Quantity");
+            var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Amount", "Transaction Category");
 
             foreach (Transaction transaction in transactions)
             {
-                //table.AddRow(transaction.Id, transaction.Name, transaction.Price, transaction.Quantity);
-                Console.WriteLine($"{transaction.Id}, {transaction.Type}, {transaction.Category} {transaction.Date} {transaction.Amount}");
+                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Amount, transaction.Category);
             }
 
-            //table.Write();
+            table.Write();
         }
     }
 }
