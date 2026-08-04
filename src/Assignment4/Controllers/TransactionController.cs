@@ -53,12 +53,8 @@ namespace Assignment4.Controllers
                         this.ViewSummary();
                         break;
 
-                    case TransactionMenu.ViewExpense:
-                        this.ViewExpense();
-                        break;
-
-                    case TransactionMenu.ViewIncome:
-                        this.ViewIncome();
+                    case TransactionMenu.ViewTransaction:
+                        this.ViewTransaction();
                         break;
 
                     case TransactionMenu.Exit:
@@ -67,15 +63,43 @@ namespace Assignment4.Controllers
             }
         }
 
+        /// <summary>
+        /// View all the transaction
+        /// </summary>
+        private void ViewTransaction()
+        {
+            ViewTransactionOption option = this._view.GetEnumValues<ViewTransactionOption>("\nEnter the option to view: ");
+            switch (option)
+            {
+                case ViewTransactionOption.Expense:
+                    this.ViewExpense();
+                    break;
+
+                case ViewTransactionOption.Income:
+                    this.ViewIncome();
+                    break;
+
+                case ViewTransactionOption.All:
+                    this.ViewAllTransaction();
+                    break;
+            }
+        }
+
+        private void ViewAllTransaction()
+        {
+            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
+            this._view.PrintTransactionTable(transactions);
+        }
+
         private void ViewIncome()
         {
-            List<Transaction> income = this._service.GetIncome();
+            IReadOnlyList<Transaction> income = this._service.GetIncome();
             this._view.PrintTransactionTable(income);
         }
 
         private void ViewExpense()
         {
-            List<Transaction> expense = this._service.GetExpense();
+            IReadOnlyList<Transaction> expense = this._service.GetExpense();
             this._view.PrintTransactionTable(expense);
         }
 
@@ -86,21 +110,52 @@ namespace Assignment4.Controllers
 
         private void DeleteTransaction()
         {
-            throw new NotImplementedException();
+            string id = this.GetTransactionId();
+            if (!this._service.IsValidTransactionId(id))
+            {
+                this._view.PrintInfo("Enter a valid transaction id");
+                return;
+            }
+
+            this._service.DeleteTransaction(id);
+            this._view.PrintInfo("Transaction deleted successfully !!");
         }
 
         private void EditTransaction()
         {
-            throw new NotImplementedException();
+            string id = this.GetTransactionId();
+            if (!this._service.IsValidTransactionId(id))
+            {
+                this._view.PrintInfo("Enter a valid transaction id");
+                return;
+            }
         }
 
         private void CreateTransaction()
         {
-            TransactionType type = this._view.GetEnumValues<TransactionType>("Select the Type of the transaction");
+            TransactionType type = this._view.GetEnumValues<TransactionType>("Select the Type of the transaction: ");
             string title = this._view.GetString($"Enter the {type} title: ");
+            if (title == string.Empty)
+            {
+                this._view.PrintInfo("Transaction failed, Please try again");
+                return;
+            }
+
             decimal amount = this._view.GetDecimal($"Enter the {type} amount: ");
-            DateTime date = this._view.GetDate("Enter the date: ");
-            TransactionCategory category = this._view.GetEnumValues<TransactionCategory>("Select the type of the transaction");
+            if (amount == -1)
+            {
+                this._view.PrintInfo("Transaction failed, Please try again");
+                return;
+            }
+
+            DateTime date = this._view.GetDate();
+            if (date == DateTime.MinValue)
+            {
+                this._view.PrintInfo("Transaction failed, Please try again");
+                return;
+            }
+
+            TransactionCategory category = this._view.GetEnumValues<TransactionCategory>("Select the category of the transaction: ");
 
             string validatedoutput = this._service.ValidateTransaction(title, date, type, category, amount);
 
@@ -116,9 +171,17 @@ namespace Assignment4.Controllers
             this._view.PrintInfo($"{type} added successfully");
         }
 
+        private string GetTransactionId()
+        {
+            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
+            this._view.PrintTransactionTable(transactions);
+            string id = this._view.GetString("Select the transaction by id to delete: ");
+            return id;
+        }
+
         private int GetMenuOption(int max)
         {
-            this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View Expense\n6. View Income\n7. Exit\n");
+            this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
             int option = this._view.GetInteger("Select an option to proceed: ");
             while (option > max)
             {

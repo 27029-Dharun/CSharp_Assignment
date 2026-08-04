@@ -183,15 +183,13 @@ namespace Assignment4.View
         /// <summary>
         /// Gets the Date from the user
         /// </summary>
-        /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries for user to retry</param>
         /// <returns>DateTime value entered by user</returns>
-        internal DateTime GetDate(string message, int tries = 3)
+        internal DateTime GetDate(int tries = 3)
         {
             DateTime validDate;
             string input;
             string format = "dd/MM/yyyy";
-            Console.Write(message);
             Console.WriteLine($"Enter a date in format ({format}): ");
 
             input = Console.ReadLine() ?? string.Empty;
@@ -205,7 +203,6 @@ namespace Assignment4.View
                 Console.WriteLine($"Invalid date. Please enter in format {format}:");
 
                 Console.WriteLine($"Tries Left: {tries--}");
-                Console.WriteLine(message);
                 input = Console.ReadLine() ?? string.Empty;
             }
 
@@ -232,7 +229,7 @@ namespace Assignment4.View
         /// Prints the Transactions
         /// </summary>
         /// <param name="transactions">Transactions to be printed</param>
-        internal void PrintTransactionTable(List<Transaction> transactions)
+        internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
             var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Amount", "Transaction Category");
 

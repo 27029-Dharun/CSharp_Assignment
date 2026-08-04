@@ -28,16 +28,11 @@
         /// <summary>
         /// View expense alone
         /// </summary>
-        ViewExpense = 5,
-
-        /// <summary>
-        /// View Income
-        /// </summary>
-        ViewIncome = 6,
+        ViewTransaction = 5,
 
         /// <summary>
         /// Exit from the application
         /// </summary>
-        Exit = 7,
+        Exit = 6,
     }
 }

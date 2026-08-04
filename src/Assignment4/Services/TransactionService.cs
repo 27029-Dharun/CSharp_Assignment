@@ -75,24 +75,48 @@ namespace Assignment4.Services
         /// Get the expense from the repository
         /// </summary>
         /// <returns>returns a list of expenses</returns>
-        internal List<Transaction> GetExpense()
+        internal IReadOnlyList<Transaction> GetExpense()
         {
-            List<Transaction> transactions = this._repository.GetAll().ToList();
+            IReadOnlyList<Transaction> transactions = this._repository.GetAll();
 
-            var filtered = transactions.Where(x => x.Type == TransactionType.Expense).ToList();
-            return filtered;
+            var filtered = transactions.Where(x => x.Type == TransactionType.Expense);
+            return filtered.ToList();
         }
 
         /// <summary>
         /// Get the income from the repository
         /// </summary>
         /// <returns>returns a list of incomes</returns>
-        internal List<Transaction> GetIncome()
+        internal IReadOnlyList<Transaction> GetIncome()
         {
-            List<Transaction> transactions = this._repository.GetAll().ToList();
+            IReadOnlyList<Transaction> transactions = this._repository.GetAll();
 
-            var filtered = transactions.Where(x => x.Type == TransactionType.Income).ToList();
-            return filtered;
+            var filtered = transactions.Where(x => x.Type == TransactionType.Income);
+            return filtered.ToList();
+        }
+
+        /// <summary>
+        /// Gets all the transactions from the repository
+        /// </summary>
+        /// <returns>list of transaction</returns>
+        internal IReadOnlyList<Transaction> GetAllTransaction()
+        {
+            return this._repository.GetAll();
+        }
+
+        /// <summary>
+        /// checks if the id is valid
+        /// </summary>
+        /// <param name="id">Id of the transaction to be validated</param>
+        /// <returns>boolean true if valid</returns>
+        internal bool IsValidTransactionId(string id)
+        {
+            if (this._repository.GetTransactionById(id) == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -111,6 +135,11 @@ namespace Assignment4.Services
             }
 
             return "I" + (iId++);
+        }
+
+        internal void DeleteTransaction(string id)
+        {
+            this._repository.DeleteTransactionById(id);
         }
     }
 }
