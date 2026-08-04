@@ -139,6 +139,15 @@ namespace Assignment4.Services
         }
 
         /// <summary>
+        /// Check if any transactions exists
+        /// </summary>
+        /// <returns>true if any transaction exists, false if it is empty</returns>
+        internal bool CheckTransactionsExist()
+        {
+            return this._repository.IsAny();
+        }
+
+        /// <summary>
         /// Update the exisiting transaction
         /// </summary>
         /// <param name="editedTransaction">Transaction to be updated in the place of exisiting transaction</param>
@@ -155,6 +164,31 @@ namespace Assignment4.Services
             transaction.Date = editedTransaction.Date;
             transaction.Amount = editedTransaction.Amount;
             transaction.Category = editedTransaction.Category;
+        }
+
+        /// <summary>
+        /// Generates the summary of the transaction
+        /// </summary>
+        /// <returns>TransactionsSummary object that contains the summary data</returns>
+        internal TransactionSummary GenerateSummary()
+        {
+            IReadOnlyList<Transaction> transactions = this._repository.GetAll();
+            decimal income = 0;
+            decimal expense = 0;
+
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction.Type == TransactionType.Expense)
+                {
+                    income += transaction.Amount;
+                }
+                else
+                {
+                    expense += transaction.Amount;
+                }
+            }
+
+            return new TransactionSummary(income, expense);
         }
     }
 }

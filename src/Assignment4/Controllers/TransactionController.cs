@@ -61,6 +61,8 @@ namespace Assignment4.Controllers
                     case TransactionMenu.Exit:
                         return;
                 }
+
+                this._view.PauseMenu();
             }
         }
 
@@ -69,6 +71,12 @@ namespace Assignment4.Controllers
         /// </summary>
         private void ViewTransaction()
         {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to view");
+                return;
+            }
+
             ViewTransactionOption option = this._view.GetEnumValues<ViewTransactionOption>("\nEnter the option to view: ");
             switch (option)
             {
@@ -84,6 +92,8 @@ namespace Assignment4.Controllers
                     this.ViewAllTransaction();
                     break;
             }
+
+            this._view.PauseMenu();
         }
 
         private void ViewAllTransaction()
@@ -106,11 +116,20 @@ namespace Assignment4.Controllers
 
         private void ViewSummary()
         {
-            throw new NotImplementedException();
+            TransactionSummary summary = this._service.GenerateSummary();
+            this._view.PrintInfo($"Total income: {summary.Income}");
+            this._view.PrintInfo($"Total expense: {summary.Expense}");
+            this._view.PrintInfo($"Total income: {summary.GetBalance()}");
         }
 
         private void DeleteTransaction()
         {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to delete");
+                return;
+            }
+
             string id = this.GetTransactionId();
             if (!this._service.IsValidTransactionId(id))
             {
@@ -124,6 +143,12 @@ namespace Assignment4.Controllers
 
         private void EditTransaction()
         {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to edit");
+                return;
+            }
+
             string id = this.GetTransactionId();
             Transaction? transaction = this._service.GetTransactionById(id);
             if (transaction is null)

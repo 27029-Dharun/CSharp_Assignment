@@ -240,6 +240,15 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Pause the console until a key is entered
+        /// </summary>
+        internal void PauseMenu()
+        {
+            Console.WriteLine("Press any key to continue ...");
+            Console.ReadKey();
+        }
+
+        /// <summary>
         /// Reads a key
         /// </summary>
         internal void ReadKey()

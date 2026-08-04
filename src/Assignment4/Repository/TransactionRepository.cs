@@ -51,5 +51,14 @@ namespace Assignment4.Repository
 
             this._transactions.Remove(transaction);
         }
+
+        /// <summary>
+        /// Checks if any transactions exists
+        /// </summary>
+        /// <returns>true if any transaction exists, false if it is empty</returns>
+        internal bool IsAny()
+        {
+            return this._transactions.Any();
+        }
     }
 }

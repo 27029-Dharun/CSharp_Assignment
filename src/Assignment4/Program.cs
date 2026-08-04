@@ -1,4 +1,5 @@
 ﻿using Assignment4.Controllers;
+using Assignment4.Helper;
 using Assignment4.Services;
 using Assignment4.Validation;
 using Assignment4.View;
@@ -17,7 +18,8 @@ namespace Assignments
         {
             TransactionValidator validator = new TransactionValidator();
             ConsoleView view = new ConsoleView();
-            TransactionService service = new TransactionService(validator);
+            TransactionIdGenerator idGenerator = new TransactionIdGenerator();
+            TransactionService service = new TransactionService(validator, idGenerator);
             TransactionController controller = new TransactionController(service, view);
 
             controller.RunExpenseTracker();
