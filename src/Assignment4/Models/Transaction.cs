@@ -17,7 +17,7 @@ namespace Assignment4.Models
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount used in the transaction</param>
-        public Transaction(string id, string title, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
+        public Transaction(string id, string title, DateTime date, TransactionType type, string category, decimal amount)
         {
             this.Id = id;
             this.Title = title;
@@ -65,7 +65,7 @@ namespace Assignment4.Models
         /// <value>
         /// Category of the transaction
         /// </value>
-        public TransactionCategory Category { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// Gets or sets the Amount used in the transaction

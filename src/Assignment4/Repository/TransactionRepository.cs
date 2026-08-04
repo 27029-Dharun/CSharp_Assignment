@@ -32,7 +32,7 @@ namespace Assignment4.Repository
         /// </summary>
         /// <param name="id">Id to find the transaction</param>
         /// <returns>Transaction object</returns>
-        public Transaction? GetTransactionById(string id)
+        public Transaction? GetById(string id)
         {
             return this._transactions.FirstOrDefault(x => id == x.Id);
         }
@@ -43,7 +43,7 @@ namespace Assignment4.Repository
         /// <param name="id">Id of the transaction to be deleted</param>
         internal void DeleteTransactionById(string id)
         {
-            Transaction? transaction = this.GetTransactionById(id);
+            Transaction? transaction = this.GetById(id);
             if (transaction == null)
             {
                 return;

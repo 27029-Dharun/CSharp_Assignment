@@ -1,4 +1,5 @@
-﻿using Assignment4.Models;
+﻿using Assignment4.Helper;
+using Assignment4.Models;
 using Assignment4.Models.Enums;
 using Assignment4.Repository;
 using Assignment4.Validation;
@@ -12,14 +13,17 @@ namespace Assignment4.Services
     {
         private TransactionValidator _validator;
         private TransactionRepository _repository = new TransactionRepository();
+        private TransactionIdGenerator _idGenerator = new TransactionIdGenerator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
         /// <param name="validator">Validator object</param>
-        public TransactionService(TransactionValidator validator)
+        /// <param name="idGenerator">IdGenerator object</param>
+        public TransactionService(TransactionValidator validator, TransactionIdGenerator idGenerator)
         {
             this._validator = validator;
+            this._idGenerator = idGenerator;
         }
 
         /// <summary>
@@ -31,26 +35,22 @@ namespace Assignment4.Services
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount of the transaction</param>
         /// <returns>returns a Transaction object</returns>
-        public Transaction CreateTransaction(string name, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
+        public Transaction CreateTransaction(string name, DateTime date, TransactionType type, string category, decimal amount)
         {
-            string id = this.GenerateTransactionId(type);
+            string id = this._idGenerator.GetNextId(type);
             return new Transaction(id, name, date, type, category, amount);
         }
 
         /// <summary>
         /// Validates the transaction fiels
         /// </summary>
-        /// <param name="name">Title of the transaction</param>
-        /// <param name="date">Date of the transaction</param>
-        /// <param name="type">Type of the transaction</param>
-        /// <param name="category">Category of the transaction</param>
-        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="transaction">transaction object to be</param>
         /// <returns>returns the validation output and empty string if are fiels are valid</returns>
-        public string ValidateTransaction(string name, DateTime date, TransactionType type, TransactionCategory category, decimal amount)
+        public string ValidateTransaction(Transaction transaction)
         {
-            string nameValidator = this._validator.ValidateTitle(name);
-            string dateValidator = this._validator.ValidateDate(date);
-            string amountValidator = this._validator.ValidateAmount(amount);
+            string nameValidator = this._validator.ValidateTitle(transaction.Title);
+            string dateValidator = this._validator.ValidateDate(transaction.Date);
+            string amountValidator = this._validator.ValidateAmount(transaction.Amount);
 
             if (nameValidator != string.Empty || dateValidator != string.Empty || amountValidator != string.Empty)
             {
@@ -96,6 +96,15 @@ namespace Assignment4.Services
         }
 
         /// <summary>
+        /// Deletes the transaction by id
+        /// </summary>
+        /// <param name="id">Unique id of the transaction to be deleted</param>
+        internal void DeleteTransaction(string id)
+        {
+            this._repository.DeleteTransactionById(id);
+        }
+
+        /// <summary>
         /// Gets all the transactions from the repository
         /// </summary>
         /// <returns>list of transaction</returns>
@@ -111,7 +120,7 @@ namespace Assignment4.Services
         /// <returns>boolean true if valid</returns>
         internal bool IsValidTransactionId(string id)
         {
-            if (this._repository.GetTransactionById(id) == null)
+            if (this._repository.GetById(id) == null)
             {
                 return false;
             }
@@ -120,26 +129,32 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Generates transaction id for the transaction
+        /// get the transaction by id
         /// </summary>
-        /// <param name="type">Transaction type</param>
-        /// <returns>unique transaction id</returns>
-        private string GenerateTransactionId(TransactionType type)
+        /// <param name="id">id of the transaction</param>
+        /// <returns>Transaction with matching id</returns>
+        internal Transaction? GetTransactionById(string id)
         {
-            int eId = 100;
-            int iId = 100;
-
-            if (type == TransactionType.Expense)
-            {
-                return "E" + (eId++);
-            }
-
-            return "I" + (iId++);
+            return this._repository.GetById(id);
         }
 
-        internal void DeleteTransaction(string id)
+        /// <summary>
+        /// Update the exisiting transaction
+        /// </summary>
+        /// <param name="editedTransaction">Transaction to be updated in the place of exisiting transaction</param>
+        internal void UpdateTransaction(Transaction editedTransaction)
         {
-            this._repository.DeleteTransactionById(id);
+            string id = editedTransaction.Id;
+            Transaction? transaction = this._repository.GetById(id);
+            if (transaction is null)
+            {
+                return;
+            }
+
+            transaction.Title = editedTransaction.Title;
+            transaction.Date = editedTransaction.Date;
+            transaction.Amount = editedTransaction.Amount;
+            transaction.Category = editedTransaction.Category;
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents that the transaction is expense or Income
     /// </summary>
-    internal enum TransactionType
+    public enum TransactionType
     {
         /// <summary>
         /// Transaction is Expense

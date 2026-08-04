@@ -29,7 +29,7 @@ namespace Assignment4.View
             where T : Enum
         {
             int length = 0;
-
+            Console.WriteLine();
             foreach (T value in EnumHelper.GetAllEnumValues<T>())
             {
                 Console.WriteLine($"{Convert.ToInt32(value)}. {value}");
@@ -190,7 +190,7 @@ namespace Assignment4.View
             DateTime validDate;
             string input;
             string format = "dd/MM/yyyy";
-            Console.WriteLine($"Enter a date in format ({format}): ");
+            Console.Write($"Enter a date in format ({format}): ");
 
             input = Console.ReadLine() ?? string.Empty;
             while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
@@ -210,6 +210,36 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Gets the Date from the user as optional field
+        /// </summary>
+        /// <returns>DateTime value entered by user</returns>
+        internal DateTime GetOptionalDate()
+        {
+            DateTime validDate;
+            string input;
+            string format = "dd/MM/yyyy";
+            Console.Write($"Enter a date in format ({format}): ");
+
+            input = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrEmpty(input))
+            {
+                return DateTime.MinValue;
+            }
+
+            while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
+            {
+                Console.WriteLine($"Invalid date. Please enter in format {format}:");
+                input = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrEmpty(input))
+                {
+                    return DateTime.MinValue;
+                }
+            }
+
+            return validDate;
+        }
+
+        /// <summary>
         /// Reads a key
         /// </summary>
         internal void ReadKey()
@@ -218,11 +248,52 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Prints empty line
+        /// Prints a empty line
         /// </summary>
         internal void PrintEmptyLine()
         {
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Clears the console messages
+        /// </summary>
+        internal void ClearConsole()
+        {
+            Console.Clear();
+        }
+
+        /// <summary>
+        /// prints the error message in red color
+        /// </summary>
+        /// <param name="message">message to be printed</param>
+        internal void PrintError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
+        /// <summary>
+        /// prints the success message in green color
+        /// </summary>
+        /// <param name="message">message to be printed</param>
+        internal void PrintSuccess(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
+        /// <summary>
+        /// prints the error message in red color
+        /// </summary>
+        /// <param name="message">message to be printed</param>
+        internal void PrintWarning(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         /// <summary>

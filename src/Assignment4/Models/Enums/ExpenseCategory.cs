@@ -1,9 +1,9 @@
 ﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
-    /// Stores the expense category
+    /// Category of the expenses
     /// </summary>
-    internal enum TransactionCategory
+    internal enum ExpenseCategory
     {
         /// <summary>
         /// Rent category
@@ -19,15 +19,5 @@
         /// Transport category
         /// </summary>
         Transport = 3,
-
-        /// <summary>
-        /// Income from Salary
-        /// </summary>
-        Salary = 4,
-
-        /// <summary>
-        /// Income from freelanching work
-        /// </summary>
-        Freelancing = 5,
     }
 }
