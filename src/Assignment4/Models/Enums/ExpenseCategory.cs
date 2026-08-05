@@ -19,5 +19,15 @@
         /// Transport category
         /// </summary>
         Transport = 3,
+
+        /// <summary>
+        /// Entertainment category
+        /// </summary>
+        Entertainment = 4,
+
+        /// <summary>
+        /// Other categories of expense
+        /// </summary>
+        Others = 5,
     }
 }

@@ -8,7 +8,7 @@ namespace Assignment4.View
     /// <summary>
     /// Contains the console operations that prints and gets input from user
     /// </summary>
-    internal class ConsoleView
+    public class ConsoleView
     {
         /// <summary>
         /// Print the message in console
@@ -240,15 +240,6 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Pause the console until a key is entered
-        /// </summary>
-        internal void PauseMenu()
-        {
-            Console.WriteLine("Press any key to continue ...");
-            Console.ReadKey();
-        }
-
-        /// <summary>
         /// Reads a key
         /// </summary>
         internal void ReadKey()
@@ -319,6 +310,24 @@ namespace Assignment4.View
             }
 
             table.Write();
+        }
+
+        /// <summary>
+        /// Pause the flow until a key is entered
+        /// </summary>
+        internal void PauseAndReturn()
+        {
+            Console.WriteLine("Press any key to return to main menu");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        /// <summary>
+        /// Prints the seperator line
+        /// </summary>
+        internal void PrintSeperator()
+        {
+            Console.WriteLine("--------------------");
         }
     }
 }

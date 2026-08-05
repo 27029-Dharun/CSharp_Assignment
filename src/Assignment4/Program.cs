@@ -1,5 +1,7 @@
-﻿using Assignment4.Controllers;
+﻿using Assignment4;
+using Assignment4.Controllers;
 using Assignment4.Helper;
+using Assignment4.Repository;
 using Assignment4.Services;
 using Assignment4.Validation;
 using Assignment4.View;
@@ -19,10 +21,12 @@ namespace Assignments
             TransactionValidator validator = new TransactionValidator();
             ConsoleView view = new ConsoleView();
             TransactionIdGenerator idGenerator = new TransactionIdGenerator();
-            TransactionService service = new TransactionService(validator, idGenerator);
+            TransactionRepository repository = new TransactionRepository();
+            TransactionService service = new TransactionService(validator, idGenerator, repository);
             TransactionController controller = new TransactionController(service, view);
+            ApplicationRunner runner = new ApplicationRunner(view, controller);
 
-            controller.RunExpenseTracker();
+            runner.RunExpenseTracker();
         }
     }
 }

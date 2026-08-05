@@ -14,5 +14,15 @@
         /// Income from freelanching work
         /// </summary>
         Freelancing = 2,
+
+        /// <summary>
+        /// Income from investment
+        /// </summary>
+        Investment = 3,
+
+        /// <summary>
+        /// All other ways of income
+        /// </summary>
+        Others = 4,
     }
 }

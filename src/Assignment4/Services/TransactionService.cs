@@ -12,18 +12,20 @@ namespace Assignment4.Services
     internal class TransactionService
     {
         private TransactionValidator _validator;
-        private TransactionRepository _repository = new TransactionRepository();
-        private TransactionIdGenerator _idGenerator = new TransactionIdGenerator();
+        private TransactionRepository _repository;
+        private TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
         /// <param name="validator">Validator object</param>
         /// <param name="idGenerator">IdGenerator object</param>
-        public TransactionService(TransactionValidator validator, TransactionIdGenerator idGenerator)
+        /// <param name="repository">repository object</param>
+        public TransactionService(TransactionValidator validator, TransactionIdGenerator idGenerator, TransactionRepository repository)
         {
             this._validator = validator;
             this._idGenerator = idGenerator;
+            this._repository = repository;
         }
 
         /// <summary>
@@ -180,11 +182,11 @@ namespace Assignment4.Services
             {
                 if (transaction.Type == TransactionType.Expense)
                 {
-                    income += transaction.Amount;
+                    expense += transaction.Amount;
                 }
                 else
                 {
-                    expense += transaction.Amount;
+                    income += transaction.Amount;
                 }
             }
 

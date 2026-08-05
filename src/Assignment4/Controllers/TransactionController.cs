@@ -25,44 +25,35 @@ namespace Assignment4.Controllers
         }
 
         /// <summary>
-        /// Expense Tracker application entry point
+        /// Handles the menu returns from the application runner
         /// </summary>
-        public void RunExpenseTracker()
+        /// <param name="menu">Menu option selected from the user</param>
+        public void HandleMenu(TransactionMenu menu)
         {
-            this._view.PrintInfo("Expense Tracker Application\n");
-            while (true)
+            switch (menu)
             {
-                int option = this.GetMenuOption(6);
-                this._view.ClearConsole();
-                TransactionMenu menu = (TransactionMenu)option;
+                case TransactionMenu.AddTransaction:
+                    this.CreateTransaction();
+                    break;
 
-                switch (menu)
-                {
-                    case TransactionMenu.AddTransaction:
-                        this.CreateTransaction();
-                        break;
+                case TransactionMenu.EditTransaction:
+                    this.EditTransaction();
+                    break;
 
-                    case TransactionMenu.EditTransaction:
-                        this.EditTransaction();
-                        break;
+                case TransactionMenu.DeleteTransaction:
+                    this.DeleteTransaction();
+                    break;
 
-                    case TransactionMenu.DeleteTransaction:
-                        this.DeleteTransaction();
-                        break;
+                case TransactionMenu.ViewSummary:
+                    this.ViewSummary();
+                    break;
 
-                    case TransactionMenu.ViewSummary:
-                        this.ViewSummary();
-                        break;
+                case TransactionMenu.ViewTransaction:
+                    this.ViewTransaction();
+                    break;
 
-                    case TransactionMenu.ViewTransaction:
-                        this.ViewTransaction();
-                        break;
-
-                    case TransactionMenu.Exit:
-                        return;
-                }
-
-                this._view.PauseMenu();
+                case TransactionMenu.Exit:
+                    return;
             }
         }
 
@@ -92,8 +83,6 @@ namespace Assignment4.Controllers
                     this.ViewAllTransaction();
                     break;
             }
-
-            this._view.PauseMenu();
         }
 
         private void ViewAllTransaction()
@@ -119,7 +108,7 @@ namespace Assignment4.Controllers
             TransactionSummary summary = this._service.GenerateSummary();
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
-            this._view.PrintInfo($"Total income: {summary.GetBalance()}");
+            this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
         }
 
         private void DeleteTransaction()
@@ -164,18 +153,21 @@ namespace Assignment4.Controllers
                 title = transaction.Title;
             }
 
+            this._view.PrintSeperator();
             decimal amount = this._view.GetOptinalDecimal($"Enter the {type} amount: ");
             if (amount == -1)
             {
                 amount = transaction.Amount;
             }
 
+            this._view.PrintSeperator();
             DateTime date = this._view.GetOptionalDate();
             if (date == DateTime.MinValue)
             {
                 date = transaction.Date;
             }
 
+            this._view.PrintSeperator();
             string category = this.GetCategory(type);
 
             Transaction editedTransaction = new Transaction(id, title, date, type, category, amount);
@@ -194,6 +186,8 @@ namespace Assignment4.Controllers
         private void CreateTransaction()
         {
             TransactionType type = this._view.GetEnumValues<TransactionType>("Select the Type of the transaction: ");
+
+            this._view.PrintSeperator();
             string title = this._view.GetString($"Enter the {type} title: ");
             if (title == string.Empty)
             {
@@ -201,6 +195,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
+            this._view.PrintSeperator();
             decimal amount = this._view.GetDecimal($"Enter the {type} amount: ");
             if (amount == -1)
             {
@@ -208,6 +203,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
+            this._view.PrintSeperator();
             DateTime date = this._view.GetDate();
             if (date == DateTime.MinValue)
             {
@@ -215,6 +211,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
+            this._view.PrintSeperator();
             string category = this.GetCategory(type);
 
             Transaction transaction = this._service.CreateTransaction(title, date, type, category, amount);
@@ -233,11 +230,11 @@ namespace Assignment4.Controllers
         {
             if (type == TransactionType.Expense)
             {
-                return this._view.GetEnumValues<ExpenseCategory>($"Select the category of the {nameof(type)}: ").ToString();
+                return this._view.GetEnumValues<ExpenseCategory>($"Select the category of the {type}: ").ToString();
             }
             else
             {
-                return this._view.GetEnumValues<IncomeCategory>($"Select the category of the {nameof(type)}: ").ToString();
+                return this._view.GetEnumValues<IncomeCategory>($"Select the category of the {type}: ").ToString();
             }
         }
 
@@ -247,19 +244,6 @@ namespace Assignment4.Controllers
             this._view.PrintTransactionTable(transactions);
             string id = this._view.GetString("Select the transaction by id to delete: ");
             return id;
-        }
-
-        private int GetMenuOption(int max)
-        {
-            this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
-            int option = this._view.GetInteger("Select an option to proceed: ");
-            while (option > max)
-            {
-                this._view.PrintInfo($"Enter the interger in range 1 - {max}");
-                option = this._view.GetInteger("Select an option to proceed: ");
-            }
-
-            return option;
         }
     }
 }
