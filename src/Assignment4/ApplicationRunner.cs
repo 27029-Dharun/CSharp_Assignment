@@ -29,15 +29,15 @@ namespace Assignment4
         public void RunExpenseTracker()
         {
             this._view.PrintInfo("Expense Tracker Application\n");
-            while (true)
+            int option = this.GetMenuOption(6);
+            while (option != 6)
             {
-                int option = this.GetMenuOption(6);
-                this._view.ClearConsole();
                 TransactionMenu menu = (TransactionMenu)option;
-
                 this._controller.HandleMenu(menu);
 
                 this._view.PauseAndReturn();
+                option = this.GetMenuOption(6);
+                this._view.ClearConsole();
             }
         }
 

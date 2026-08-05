@@ -200,9 +200,8 @@ namespace Assignment4.View
                     return DateTime.MinValue;
                 }
 
-                Console.WriteLine($"Invalid date. Please enter in format {format}:");
-
                 Console.WriteLine($"Tries Left: {tries--}");
+                Console.Write($"Invalid date. Please enter in format {format}: ");
                 input = Console.ReadLine() ?? string.Empty;
             }
 
