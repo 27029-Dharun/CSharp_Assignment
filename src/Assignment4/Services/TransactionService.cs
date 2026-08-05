@@ -31,21 +31,21 @@ namespace Assignment4.Services
         /// <summary>
         /// Creates a Transaction object and returns it.
         /// </summary>
-        /// <param name="name">Title of the transaction</param>
+        /// <param name="description">Title of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount of the transaction</param>
         /// <param name="id">Optional id of the transaction</param>
         /// <returns>returns a Transaction object</returns>
-        public Transaction CreateTransaction(string name, DateTime date, TransactionType type, string category, decimal amount, string? id = null)
+        public Transaction CreateTransaction(string description, DateTime date, TransactionType type, string category, decimal amount, string? id = null)
         {
             if (id == null)
             {
                 id = this._idGenerator.GetNextId(type);
             }
 
-            return new Transaction(id, name, date, type, category, amount);
+            return new Transaction(id, description, date, type, category, amount);
         }
 
         /// <summary>

@@ -191,12 +191,7 @@ namespace Assignment4.Controllers
             TransactionType type = this._view.GetEnumValues<TransactionType>("Select the type of the transaction: ");
 
             this._view.PrintSeperator();
-            string title = this._view.GetString($"Enter the {type} title: ");
-            if (title == string.Empty)
-            {
-                this._view.PrintError("Transaction failed, Please try again");
-                return;
-            }
+            string category = this.GetCategory(type);
 
             this._view.PrintSeperator();
             decimal amount = this._view.GetDecimal($"Enter the {type} amount: ");
@@ -215,9 +210,14 @@ namespace Assignment4.Controllers
             }
 
             this._view.PrintSeperator();
-            string category = this.GetCategory(type);
+            string description = this._view.GetString($"Enter the {type} description: ");
+            if (description == string.Empty)
+            {
+                this._view.PrintError("Transaction failed, Please try again");
+                return;
+            }
 
-            Transaction transaction = this._service.CreateTransaction(title, date, type, category, amount);
+            Transaction transaction = this._service.CreateTransaction(description, date, type, category, amount);
             string validatedoutput = this._service.ValidateTransaction(transaction);
             if (!string.IsNullOrEmpty(validatedoutput))
             {

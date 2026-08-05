@@ -304,7 +304,7 @@ namespace Assignment4.View
 
             foreach (Transaction transaction in transactions)
             {
-                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Date.Date, transaction.Amount, transaction.Category);
+                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Category);
             }
 
             table.Write();
