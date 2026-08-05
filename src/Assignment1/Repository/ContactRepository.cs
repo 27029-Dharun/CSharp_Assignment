@@ -7,7 +7,7 @@ namespace Assignment1.Persistance
     /// </summary>
     public class ContactRepository
     {
-        private readonly List<Contact> _contacts = new();
+        private readonly List<Contact> _contacts = new List<Contact>();
 
         /// <summary>
         /// Creates contact in the _contacts list.
