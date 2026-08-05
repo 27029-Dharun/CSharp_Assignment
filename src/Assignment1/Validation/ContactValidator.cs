@@ -17,17 +17,17 @@ namespace Assignment1.Validation
         /// <returns>returns string output</returns>
         public static string IsValidContactFields(string name, string phone, string email, string notes)
         {
-            if (name == string.Empty)
+            if (name.Length <= 3)
             {
-                return "Name can't be Empty";
+                return "Name should be greater than 3 characters";
             }
 
-            if (phone == null || !IsValidNumber(phone))
+            if (!IsValidNumber(phone))
             {
                 return "Invalid Phone Number";
             }
 
-            if (email == null || !IsValidEmail(email))
+            if (!IsValidEmail(email))
             {
                 return "Invalid Email";
             }
@@ -38,17 +38,6 @@ namespace Assignment1.Validation
             }
 
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Index Validation
-        /// </summary>
-        /// <param name="index">Index of contact</param>
-        /// <param name="count">Length of the list</param>
-        /// <returns>Return boolean</returns>
-        public static bool ValidateIndex(int index, int count)
-        {
-            return index >= 0 && index < count;
         }
 
         /// <summary>

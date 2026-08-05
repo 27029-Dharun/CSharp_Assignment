@@ -82,12 +82,6 @@ namespace Assignment1.Controllers
             string email = ConsoleView.GetString("Enter email address: ");
             string notes = ConsoleView.GetOptionalString("Enter notes: ");
 
-            // Default value of the Notes if not entered
-            if (notes == string.Empty)
-            {
-                notes = "Not specified";
-            }
-
             ConsoleView.PrintInfo(this._service.CreateContact(name, phoneNumber, email, notes));
             ConsoleView.PrintEmptyLine();
         }

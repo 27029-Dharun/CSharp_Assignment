@@ -36,6 +36,12 @@ namespace Assignment1.Services
                 return validatorOutput;
             }
 
+            // Default value of the Notes if not entered
+            if (notes == string.Empty)
+            {
+                notes = "Not specified";
+            }
+
             if (this.IsUniqueContactNumber(phoneNumber) && this.IsUniqueContactName(name))
             {
                 Guid id = Guid.NewGuid();
