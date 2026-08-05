@@ -11,9 +11,9 @@ namespace Assignment4.Services
     /// </summary>
     internal class TransactionService
     {
-        private TransactionValidator _validator;
-        private TransactionRepository _repository;
-        private TransactionIdGenerator _idGenerator;
+        private readonly TransactionValidator _validator;
+        private readonly TransactionRepository _repository;
+        private readonly TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
@@ -36,10 +36,15 @@ namespace Assignment4.Services
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount of the transaction</param>
+        /// <param name="id">Optional id of the transaction</param>
         /// <returns>returns a Transaction object</returns>
-        public Transaction CreateTransaction(string name, DateTime date, TransactionType type, string category, decimal amount)
+        public Transaction CreateTransaction(string name, DateTime date, TransactionType type, string category, decimal amount, string? id = null)
         {
-            string id = this._idGenerator.GetNextId(type);
+            if (id == null)
+            {
+                id = this._idGenerator.GetNextId(type);
+            }
+
             return new Transaction(id, name, date, type, category, amount);
         }
 

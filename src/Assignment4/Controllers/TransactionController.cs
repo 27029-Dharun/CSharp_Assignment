@@ -10,8 +10,8 @@ namespace Assignment4.Controllers
     /// </summary>
     internal class TransactionController
     {
-        private TransactionService _service;
-        private ConsoleView _view;
+        private readonly TransactionService _service;
+        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
@@ -128,6 +128,7 @@ namespace Assignment4.Controllers
 
             this._service.DeleteTransaction(id);
             this._view.PrintSuccess("Transaction deleted successfully !!");
+            this.ViewAllTransaction();
         }
 
         private void EditTransaction()
@@ -170,7 +171,7 @@ namespace Assignment4.Controllers
             this._view.PrintSeperator();
             string category = this.GetCategory(type);
 
-            Transaction editedTransaction = new Transaction(id, title, date, type, category, amount);
+            Transaction editedTransaction = this._service.CreateTransaction(title, date, type, category, amount, id);
 
             string validatedoutput = this._service.ValidateTransaction(editedTransaction);
             if (!string.IsNullOrEmpty(validatedoutput))
@@ -180,12 +181,14 @@ namespace Assignment4.Controllers
             }
 
             this._service.UpdateTransaction(editedTransaction);
+            this._view.PrintSeperator();
             this._view.PrintSuccess($"{type} edited successfully !!\n");
+            this.ViewAllTransaction();
         }
 
         private void CreateTransaction()
         {
-            TransactionType type = this._view.GetEnumValues<TransactionType>("Select the Type of the transaction: ");
+            TransactionType type = this._view.GetEnumValues<TransactionType>("Select the type of the transaction: ");
 
             this._view.PrintSeperator();
             string title = this._view.GetString($"Enter the {type} title: ");
@@ -223,7 +226,9 @@ namespace Assignment4.Controllers
             }
 
             this._service.AddTransaction(transaction);
-            this._view.PrintSuccess($"{type} added successfully !!\n");
+            this._view.PrintSeperator();
+            this._view.PrintSuccess($"{type} added successfully !!");
+            this.ViewAllTransaction();
         }
 
         private string GetCategory(TransactionType type)

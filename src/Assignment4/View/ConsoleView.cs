@@ -149,8 +149,7 @@ namespace Assignment4.View
                 return -1;
             }
 
-            decimal value;
-            if (!decimal.TryParse(input, out value))
+            if (!decimal.TryParse(input, out decimal value))
             {
                 throw new FormatException("The input is not in the correct format.");
             }
@@ -301,11 +300,11 @@ namespace Assignment4.View
         /// <param name="transactions">Transactions to be printed</param>
         internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
-            var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Amount", "Transaction Category");
+            var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Date", "Transaction Amount", "Transaction Category");
 
             foreach (Transaction transaction in transactions)
             {
-                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Amount, transaction.Category);
+                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Date.Date, transaction.Amount, transaction.Category);
             }
 
             table.Write();

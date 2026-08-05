@@ -9,8 +9,8 @@ namespace Assignment4
     /// </summary>
     internal class ApplicationRunner
     {
-        private ConsoleView _view;
-        private TransactionController _controller;
+        private readonly ConsoleView _view;
+        private readonly TransactionController _controller;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationRunner"/> class.
