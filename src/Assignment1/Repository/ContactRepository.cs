@@ -7,7 +7,7 @@ namespace Assignment1.Persistance
     /// </summary>
     public class ContactRepository
     {
-        private readonly List<Contact> _contacts = new ();
+        private readonly List<Contact> _contacts = new();
 
         /// <summary>
         /// Creates contact in the _contacts list.
@@ -22,17 +22,17 @@ namespace Assignment1.Persistance
         /// Deletes the contact in the _contacts list
         /// </summary>
         /// <param name="id">Id that should be deleted</param>
-        /// <returns>Returns status</returns>
-        public string DeleteContactById(Guid id)
+        /// <returns>Returns status of the operation with boolean</returns>
+        public bool DeleteContactById(Guid id)
         {
             Contact? contact = this.GetContactById(id);
             if (contact != null)
             {
                 this._contacts.Remove(contact);
-                return "Contact Deleted Successfully";
+                return true;
             }
 
-            return "Failed to Delete Contact";
+            return false;
         }
 
         /// <summary>

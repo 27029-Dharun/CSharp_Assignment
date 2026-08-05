@@ -1,4 +1,5 @@
 ﻿using Assignment1.Controllers;
+using Assignment1.Persistance;
 using Assignment1.Services;
 using Assignment1.View;
 
@@ -12,11 +13,10 @@ namespace Assignment1
         private static void Main(string[] args)
         {
             ConsoleView view = new ConsoleView();
-            ContactService service = new ContactService();
+            ContactRepository repository = new ContactRepository();
+            ContactService service = new ContactService(repository);
             ContactController contactController = new ContactController(view, service);
             contactController.RunContactManager();
-            Console.WriteLine("Enter a Key to Exit");
-            Console.ReadKey();
         }
     }
 }

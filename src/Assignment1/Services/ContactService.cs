@@ -9,7 +9,16 @@ namespace Assignment1.Services
     /// </summary>
     public class ContactService
     {
-        private ContactRepository _repository = new ContactRepository();
+        private ContactRepository _repository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactService"/> class.
+        /// </summary>
+        /// <param name="repository">Repository object</param>
+        public ContactService(ContactRepository repository)
+        {
+            this._repository = repository;
+        }
 
         /// <summary>
         /// Creates a new contacts object and pass it to a repository
@@ -64,8 +73,8 @@ namespace Assignment1.Services
         /// Delete Contact by Id.
         /// </summary>
         /// <param name="id">Index</param>
-        /// <returns>Status of the operation</returns>
-        public string DeleteContact(Guid id)
+        /// <returns>Boolean status of the operation</returns>
+        public bool DeleteContact(Guid id)
         {
             return this._repository.DeleteContactById(id);
         }
@@ -78,16 +87,17 @@ namespace Assignment1.Services
         /// <param name="phoneNumber">PhoneNumber of the contacts</param>
         /// <param name="email">Email of the contacts</param>
         /// <param name="notes">Notes of the contacts</param>
-        /// <param name="existingPhone">Existing phone number of the contacts</param>
-        /// <param name="existingName">Exisiting Name of the contacts</param>
         /// <returns>This return a string value</returns>
-        public string EditContact(Guid id, string name, string phoneNumber, string email, string notes, string? existingPhone = null, string? existingName = null)
+        public string EditContact(Guid id, string name, string phoneNumber, string email, string notes)
         {
             Contact? contact = this._repository.GetContactById(id);
             if (contact == null)
             {
-                return "Contact Id Not found";
+                return "Contact Id Not found\n";
             }
+
+            string? existingPhone = contact.PhoneNumber;
+            string? existingName = contact.Name;
 
             // Ignores existing name and phone number while checking unique name and number
             if (this.IsUniqueContactNumber(phoneNumber, existingPhone) && this.IsUniqueContactName(name, existingName))

@@ -1,6 +1,5 @@
 ﻿using Assignment1.Model;
 using Assignment1.Services;
-using Assignment1.Validation;
 using Assignment1.View;
 
 namespace Assignment1.Controllers
@@ -30,40 +29,39 @@ namespace Assignment1.Controllers
         public void RunContactManager()
         {
             ConsoleView.PrintInfo("Contact Manager Application");
-            int input;
+            ContactManagerMenuOption option;
             do
             {
-                input = ConsoleView.GetInteger("1. Create new contact\n2. View contact\n3. Edit contact\n4. Delete contact\n5. Search contact\n6. Sort contact\n7. Exit\nChoose an option: ");
+                option = (ContactManagerMenuOption)ConsoleView.GetInteger("1. Create new contact\n2. View contact\n3. Edit contact\n4. Delete contact\n5. Search contact by name\n6. Sort contact by name\n7. Exit\nChoose an option: ");
                 Console.Clear();
 
-                switch (input)
+                switch (option)
                 {
-                    case (int)ContactManagerMenuOption.Create:
-                        ConsoleView.PrintInfo(this.CreateContact());
+                    case ContactManagerMenuOption.Create:
+                        this.CreateContact();
                         break;
 
-                    case (int)ContactManagerMenuOption.View:
+                    case ContactManagerMenuOption.View:
                         this.ViewContact();
                         break;
 
-                    case (int)ContactManagerMenuOption.Edit:
+                    case ContactManagerMenuOption.Edit:
                         this.EditContact();
                         break;
 
-                    case (int)ContactManagerMenuOption.Delete:
-                        ConsoleView.PrintInfo(this.DeleteContact());
+                    case ContactManagerMenuOption.Delete:
+                        this.DeleteContact();
                         break;
 
-                    case (int)ContactManagerMenuOption.Search:
-                        ConsoleView.PrintInfo(this.SearchContactByName());
+                    case ContactManagerMenuOption.Search:
+                        this.SearchContactByName();
                         break;
 
-                    case (int)ContactManagerMenuOption.Sort:
+                    case ContactManagerMenuOption.Sort:
                         this.SortContactByName();
                         break;
 
-                    case (int)ContactManagerMenuOption.Exit:
-                        ConsoleView.PrintInfo("Exiting...");
+                    case ContactManagerMenuOption.Exit:
                         return;
 
                     default:
@@ -71,16 +69,13 @@ namespace Assignment1.Controllers
                         break;
                 }
             }
-            while (input != (int)ContactManagerMenuOption.Exit);
-
-            ConsoleView.PrintInfo("Enter a key to exit");
+            while (option != ContactManagerMenuOption.Exit);
         }
 
         /// <summary>
-        /// Creates contact and validates the input.
+        /// Creates contact and validates the option.
         /// </summary>
-        /// <returns>Validation output</returns>
-        public string CreateContact()
+        public void CreateContact()
         {
             string name = ConsoleView.GetString("Enter name: ");
             string phoneNumber = ConsoleView.GetString("Enter phone number: ");
@@ -93,7 +88,8 @@ namespace Assignment1.Controllers
                 notes = "Not specified";
             }
 
-            return this._service.CreateContact(name, phoneNumber, email, notes);
+            ConsoleView.PrintInfo(this._service.CreateContact(name, phoneNumber, email, notes));
+            ConsoleView.PrintEmptyLine();
         }
 
         /// <summary>
@@ -112,6 +108,7 @@ namespace Assignment1.Controllers
         {
             IReadOnlyList<Contact> contacts = this._service.GetSortedByName();
             this._view.PrintContact(contacts);
+            ConsoleView.PrintEmptyLine();
         }
 
         /// <summary>
@@ -122,7 +119,7 @@ namespace Assignment1.Controllers
             var contacts = this._service.GetContacts();
             if (contacts.Count == 0)
             {
-                ConsoleView.PrintInfo("Nothing to edit");
+                ConsoleView.PrintInfo("Nothing to edit\n");
                 return;
             }
 
@@ -130,44 +127,48 @@ namespace Assignment1.Controllers
             this._view.PrintContact(contacts);
             int index = this._view.GetValidContactIndex(contacts.Count);
             Guid id = contacts[index].Id;
-            string? exisitingPhone = contacts[index].PhoneNumber;
-            string? exisitingName = contacts[index].Name;
 
             ConsoleView.PrintInfo("Enter value for field that you only want to edit");
             string name = ConsoleView.GetOptionalString("Enter the name: ");
             string phoneNumber = ConsoleView.GetOptionalString("Enter the phone number: ");
             string email = ConsoleView.GetOptionalString("Enter the email: ");
             string notes = ConsoleView.GetOptionalString("Enter the notes: ");
-            ConsoleView.PrintInfo(this._service.EditContact(id, name, phoneNumber, email, notes, exisitingPhone, exisitingName));
+            ConsoleView.PrintInfo(this._service.EditContact(id, name, phoneNumber, email, notes));
+            ConsoleView.PrintEmptyLine();
         }
 
         /// <summary>
         /// Search Contact By Name
         /// </summary>
-        /// <returns>String output for operation</returns>
-        public string SearchContactByName()
+        public void SearchContactByName()
         {
+            IReadOnlyList<Contact> contacts = this._service.GetContacts();
+            if (contacts.Count == 0)
+            {
+                ConsoleView.PrintInfo("No contact available to search\n");
+                return;
+            }
+
             string str = ConsoleView.GetOptionalString("Enter the name to search: ");
             IReadOnlyList<Contact> res = this._service.FindByNameContaining(str);
             if (res.Count == 0)
             {
-                return "No match found";
+                ConsoleView.PrintInfo("No match found\n");
             }
 
             this._view.PrintContact(res);
-            return string.Empty;
         }
 
         /// <summary>
         /// Removes the contacts selected.
         /// </summary>
-        /// <returns>String output of operation</returns>
-        public string DeleteContact()
+        public void DeleteContact()
         {
             IReadOnlyList<Contact> contacts = this._service.GetContacts();
             if (contacts.Count == 0)
             {
-                return "Nothing to delete";
+                ConsoleView.PrintInfo("Nothing to delete\n");
+                return;
             }
 
             ConsoleView.PrintInfo("Select the contact to delete");
@@ -177,7 +178,16 @@ namespace Assignment1.Controllers
             int index = this._view.GetValidContactIndex(contacts.Count);
 
             Guid id = contacts[index].Id;
-            return this._service.DeleteContact(id);
+            if (this._service.DeleteContact(id))
+            {
+                ConsoleView.PrintInfo("Contact deleted successfully");
+            }
+            else
+            {
+                ConsoleView.PrintInfo("Failed to delete contact");
+            }
+
+            ConsoleView.PrintEmptyLine();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Assignment1.Model;
-using Assignment1.Validation;
 
 namespace Assignment1.View
 {
@@ -25,6 +24,11 @@ namespace Assignment1.View
 
             return input;
         }
+
+        /// <summary>
+        /// Prints the empty line
+        /// </summary>
+        public static void PrintEmptyLine() => Console.WriteLine();
 
         /// <summary>
         /// Displays the Edited Contact.

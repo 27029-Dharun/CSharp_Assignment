@@ -32,9 +32,9 @@ namespace Assignment1.Validation
                 return "Invalid Email";
             }
 
-            if (notes == null)
+            if (notes.Length > 250)
             {
-                return "Not specified";
+                return "Can't be greater than 250 characters";
             }
 
             return string.Empty;
