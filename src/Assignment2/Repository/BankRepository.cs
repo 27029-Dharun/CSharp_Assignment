@@ -7,7 +7,7 @@ namespace Assignment2.Repository
     /// </summary>
     internal class BankRepository
     {
-        private List<BankAccount> _accounts = new List<BankAccount>();
+        private List<BankAccount> _accounts = new();
 
         /// <summary>
         /// This creates the Account for a new customer
@@ -69,7 +69,7 @@ namespace Assignment2.Repository
             if (!string.IsNullOrEmpty(accountNumber))
             {
                 BankAccount? account = this.GetAccountByAccountNumber(accountNumber);
-                if (account == null)
+                if (account is null)
                 {
                     return "Account not Found";
                 }

@@ -29,21 +29,6 @@
         }
 
         /// <summary>
-        /// This validates dimension
-        /// </summary>
-        /// <param name="dimension">Dimension of the shape</param>
-        /// <returns>string output</returns>
-        public static string IsValidDimension(double dimension)
-        {
-            if (dimension > 0)
-            {
-                return "Dimension can't be Negative or Zero";
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
         /// This validates the account number
         /// </summary>
         /// <param name="number">The account number to be validated</param>

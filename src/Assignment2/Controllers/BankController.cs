@@ -6,7 +6,7 @@ using Assignment2.Views;
 namespace Assignment2.Controllers
 {
     /// <summary>
-    /// This is the controller of the Banking System
+    /// Controller coordinating between view and service layer.
     /// </summary>
     internal class BankController
     {
@@ -15,14 +15,14 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="BankController"/> class.
         /// </summary>
-        /// <param name="bankService">Bank service object</param>
+        /// <param name="bankService"> Instance of bank service. </param>
         public BankController(BankService bankService)
         {
             this._bankService = bankService;
         }
 
         /// <summary>
-        /// This method is the starting point of the Banking System
+        /// Starting point of the bank system.
         /// </summary>
         public void RunBankOperations()
         {
@@ -54,7 +54,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This creates a new account after getting the input from the user
+        /// Gets input from user and creates bank account.
         /// </summary>
         private void CreateNewAccount()
         {
@@ -76,7 +76,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This method logs in into the account if it exists
+        /// Login into user account.
         /// </summary>
         private void LogIn()
         {
@@ -120,9 +120,9 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This method controls the deposit operation
+        /// Performs deposit operation.
         /// </summary>
-        /// <param name="accountNumber">Account number of the account</param>
+        /// <param name="accountNumber"> Account number of the account. </param>
         private void DepositAmount(string accountNumber)
         {
             decimal depositAmount = ConsoleView.GetDecimal("Enter amount to deposit: ");
@@ -130,9 +130,9 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This method controls the withdraw operation
+        /// Perform withdraw operation.
         /// </summary>
-        /// <param name="accountNumber">Account number of the account</param>
+        /// <param name="accountNumber"> Account number of the account. </param>
         private void WithdrawAmount(string accountNumber)
         {
             decimal withdrawAmount = ConsoleView.GetDecimal("Enter amount to withdraw: ");
@@ -140,13 +140,13 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This checks the balance of the account number given
+        /// Displays bank account balance.
         /// </summary>
-        /// <param name="accountNumber">Account number fr account to check balance</param>
+        /// <param name="accountNumber"> Account number. </param>
         private void DisplayBalance(string accountNumber)
         {
             BankAccount? account = this._bankService.GetBalance(accountNumber);
-            if (account == null)
+            if (account is null)
             {
                 ConsoleView.PrintInfo("Account not Found");
                 return;

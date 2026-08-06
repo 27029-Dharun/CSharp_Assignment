@@ -11,7 +11,7 @@
         /// <returns>Decimal bonus value</returns>
         public override decimal CalculateBonus()
         {
-            if (this.Salary == null)
+            if (this.Salary is null)
             {
                 return 0;
             }

@@ -65,7 +65,7 @@ namespace Assignment2.Services
             SavingsAccount savings = new SavingsAccount()
             {
                 Name = name,
-                AccountNumber = (string)(accountNum++).ToString(),
+                AccountNumber = (accountNum++).ToString(),
                 Balance = initialAmount,
             };
 
@@ -96,7 +96,7 @@ namespace Assignment2.Services
         /// <returns>this returns the string </returns>
         internal BankAccount? GetBalance(string accountNumber)
         {
-            if (accountNumber == null)
+            if (accountNumber is null)
             {
                 return null;
             }

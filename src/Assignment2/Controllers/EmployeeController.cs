@@ -10,7 +10,7 @@ namespace Assignment2.Controllers
     /// </summary>
     internal class EmployeeController
     {
-        private EmployeeService _employeeService = new EmployeeService();
+        private EmployeeService _employeeService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmployeeController"/> class.
@@ -75,7 +75,7 @@ namespace Assignment2.Controllers
             decimal salary = ConsoleView.GetDecimal("Enter the Salary of the Developer: ");
 
             Developer? developer = this._employeeService.CreateDeveloper(name, salary);
-            if (developer == null)
+            if (developer is null)
             {
                 ConsoleView.PrintInfo("Salary can't be Negative");
                 return;
