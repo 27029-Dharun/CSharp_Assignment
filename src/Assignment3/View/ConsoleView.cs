@@ -1,5 +1,5 @@
-﻿using ConsoleTables;
-using Assignment3.Models;
+﻿using Assignment3.Models;
+using ConsoleTables;
 
 namespace Assignment3.View
 {
