@@ -228,7 +228,11 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            this._service.UpdateTransaction(transaction);
+            if (!this._service.UpdateTransaction(transaction))
+            {
+                this._view.PrintError("Failed to update");
+            }
+
             this._view.ClearConsole();
             this._view.PrintSuccess($"{type} edited successfully !!\n");
             this.ViewAllTransaction();

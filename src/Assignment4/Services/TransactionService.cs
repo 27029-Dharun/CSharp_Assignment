@@ -155,19 +155,21 @@ namespace Assignment4.Services
         /// Update the exisiting transaction
         /// </summary>
         /// <param name="editedTransaction">Transaction to be updated in the place of exisiting transaction</param>
-        internal void UpdateTransaction(Transaction editedTransaction)
+        /// <returns>Boolean value true represents the success and false represents failure</returns>
+        internal bool UpdateTransaction(Transaction editedTransaction)
         {
             string id = editedTransaction.Id;
             Transaction? transaction = this._repository.GetById(id);
             if (transaction is null)
             {
-                return;
+                return false;
             }
 
             transaction.Title = editedTransaction.Title;
             transaction.Date = editedTransaction.Date;
             transaction.Amount = editedTransaction.Amount;
             transaction.Category = editedTransaction.Category;
+            return true;
         }
 
         /// <summary>
