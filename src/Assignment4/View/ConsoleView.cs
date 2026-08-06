@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Assignment4.Helper;
 using Assignment4.Models;
 using ConsoleTables;
 
@@ -10,6 +9,9 @@ namespace Assignment4.View
     /// </summary>
     public class ConsoleView
     {
+        private const string BORDER = "=========================================";
+        private const int TRIES = 3;
+
         /// <summary>
         /// Print the message in console
         /// </summary>
@@ -25,25 +27,51 @@ namespace Assignment4.View
         /// <typeparam name="T">Type variable that should be struct</typeparam>
         /// <param name="message">String to be printed</param>
         /// <returns>returns a enum value entered by use</returns>
-        internal T GetEnumValues<T>(string message)
-            where T : Enum
+        internal T GetEnumValue<T>(string message)
+            where T : struct, Enum
         {
-            int length = 0;
-            Console.WriteLine();
-            foreach (T value in EnumHelper.GetAllEnumValues<T>())
+            Console.WriteLine($"\n{message}");
+
+            foreach (var value in Enum.GetValues<T>())
             {
                 Console.WriteLine($"{Convert.ToInt32(value)}. {value}");
-                length++;
             }
 
-            int input = this.GetInteger(message);
-            while (!Enum.IsDefined(typeof(T), input))
+            string input = Console.ReadLine() ?? string.Empty;
+            int integer;
+            while (!int.TryParse(input, out integer) || !Enum.IsDefined(typeof(T), integer))
             {
-                this.PrintInfo("Enter a valid integer in range");
-                input = this.GetInteger(message);
+                Console.WriteLine("Enter the valid integer");
+                Console.WriteLine($"{message}");
+                input = Console.ReadLine() ?? string.Empty;
             }
 
-            return (T)Enum.ToObject(typeof(T), input);
+            return (T)Enum.ToObject(typeof(T), integer);
+        }
+
+        /// <summary>
+        /// Get the integer
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <param name="input">Input entered by the user</param>
+        /// <param name="tries">Tries left to enter a valid Integer</param>
+        /// <returns>status of the operation</returns>
+        internal bool GetInteger(string message, out int input, int tries = TRIES)
+        {
+            Console.Write(message);
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                if (tries <= 0)
+                {
+                    return true;
+                }
+
+                Console.WriteLine($"Tries left: {tries--}");
+                Console.WriteLine($"Enter a valid integer\n");
+                Console.Write(message);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -51,20 +79,13 @@ namespace Assignment4.View
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries left to enter a valid Integer</param>
-        /// <returns>Integer input</returns>
-        internal int GetInteger(string message, int tries = 3)
+        /// <returns>status of the operation</returns>
+        internal int GetOptionalInteger(string message, int tries = TRIES)
         {
-            Console.Write(message);
             int input;
+            Console.Write(message);
             while (!int.TryParse(Console.ReadLine(), out input))
             {
-                if (tries <= 0)
-                {
-                    return -1;
-                }
-
-                Console.WriteLine($"Tries left: {tries--}");
-                Console.WriteLine($"Enter a valid integer\n");
                 Console.Write(message);
             }
 
@@ -75,18 +96,19 @@ namespace Assignment4.View
         /// Gets the string
         /// </summary>
         /// <param name="message">Message to be displayed</param>
+        /// <param name="input">out param that returns the string input</param>
         /// <param name="tries">Tries left to enter a valid string</param>
-        /// <returns>String given as input</returns>
-        internal string GetString(string message, int tries = 3)
+        /// <returns>Returns false if the user enters repeated invalid input</returns>
+        internal bool GetString(string message, out string input, int tries = TRIES)
         {
             Console.Write(message);
-            string input = Console.ReadLine() ?? string.Empty;
+            input = Console.ReadLine() ?? string.Empty;
 
             while (input == string.Empty)
             {
                 if (tries <= 0)
                 {
-                    return string.Empty;
+                    return false;
                 }
 
                 Console.WriteLine($"Tries Left: {tries--}");
@@ -95,24 +117,24 @@ namespace Assignment4.View
                 input = Console.ReadLine() ?? string.Empty;
             }
 
-            return input;
+            return true;
         }
 
         /// <summary>
         /// Gets decimal input
         /// </summary>
         /// <param name="message">Message to be printed</param>
+        /// <param name="input">out param that returns the decimal input</param>
         /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>decimal input</returns>
-        internal decimal GetDecimal(string message, int tries = 3)
+        internal bool GetDecimal(string message, out decimal input, int tries = TRIES)
         {
             Console.Write(message);
-            decimal input;
             while (!decimal.TryParse(Console.ReadLine(), out input))
             {
                 if (tries <= 0)
                 {
-                    return -1;
+                    return false;
                 }
 
                 Console.WriteLine($"Tries Left: {tries--}");
@@ -120,73 +142,17 @@ namespace Assignment4.View
                 Console.Write(message);
             }
 
-            return input;
-        }
-
-        /// <summary>
-        /// Gets the string input as optional field
-        /// </summary>
-        /// <param name="message">Message to print</param>
-        /// <returns>returns string.Empty if null</returns>
-        internal string GetOptionalString(string message)
-        {
-            Console.Write(message);
-            string input = Console.ReadLine() ?? string.Empty;
-            return input;
-        }
-
-        /// <summary>
-        /// Get the optional decimal value
-        /// </summary>
-        /// <param name="message">Message to print</param>
-        /// <returns>Returns the decimal input</returns>
-        internal decimal GetOptinalDecimal(string message)
-        {
-            Console.Write(message);
-            string input = Console.ReadLine() ?? string.Empty;
-            if (input == string.Empty)
-            {
-                return -1;
-            }
-
-            if (!decimal.TryParse(input, out decimal value))
-            {
-                throw new FormatException("The input is not in the correct format.");
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Gets the optional integer value
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <returns>Returns the integer value</returns>
-        internal int GetOptinalInteger(string message)
-        {
-            Console.Write(message);
-            string input = Console.ReadLine() ?? string.Empty;
-            if (input == string.Empty)
-            {
-                return -1;
-            }
-
-            if (!int.TryParse(input, out int value))
-            {
-                throw new FormatException("The input is not in the correct format.");
-            }
-
-            return value;
+            return true;
         }
 
         /// <summary>
         /// Gets the Date from the user
         /// </summary>
+        /// <param name="validDate">Out param that returns the valid date</param>
         /// <param name="tries">Tries for user to retry</param>
         /// <returns>DateTime value entered by user</returns>
-        internal DateTime GetDate(int tries = 3)
+        internal bool GetDate(out DateTime validDate, int tries = TRIES)
         {
-            DateTime validDate;
             string input;
             string format = "dd/MM/yyyy";
             Console.Write($"Enter a date in format ({format}): ");
@@ -196,7 +162,7 @@ namespace Assignment4.View
             {
                 if (tries <= 0)
                 {
-                    return DateTime.MinValue;
+                    return false;
                 }
 
                 Console.WriteLine($"Tries Left: {tries--}");
@@ -204,53 +170,7 @@ namespace Assignment4.View
                 input = Console.ReadLine() ?? string.Empty;
             }
 
-            return validDate;
-        }
-
-        /// <summary>
-        /// Gets the Date from the user as optional field
-        /// </summary>
-        /// <returns>DateTime value entered by user</returns>
-        internal DateTime GetOptionalDate()
-        {
-            DateTime validDate;
-            string input;
-            string format = "dd/MM/yyyy";
-            Console.Write($"Enter a date in format ({format}): ");
-
-            input = Console.ReadLine() ?? string.Empty;
-            if (string.IsNullOrEmpty(input))
-            {
-                return DateTime.MinValue;
-            }
-
-            while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
-            {
-                Console.WriteLine($"Invalid date. Please enter in format {format}:");
-                input = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrEmpty(input))
-                {
-                    return DateTime.MinValue;
-                }
-            }
-
-            return validDate;
-        }
-
-        /// <summary>
-        /// Reads a key
-        /// </summary>
-        internal void ReadKey()
-        {
-            Console.ReadKey();
-        }
-
-        /// <summary>
-        /// Prints a empty line
-        /// </summary>
-        internal void PrintEmptyLine()
-        {
-            Console.WriteLine();
+            return true;
         }
 
         /// <summary>
@@ -258,6 +178,8 @@ namespace Assignment4.View
         /// </summary>
         internal void ClearConsole()
         {
+            // Erases the entire scrollback buffer history
+            Console.Write("\x1b[3J");
             Console.Clear();
         }
 
@@ -317,15 +239,30 @@ namespace Assignment4.View
         {
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
+
+            // Erases the entire scrollback buffer history
+            Console.Write("\x1b[3J");
             Console.Clear();
         }
 
         /// <summary>
-        /// Prints the seperator line
+        /// Displays the menu
         /// </summary>
-        internal void PrintSeperator()
+        internal void DisplayMainMenu()
         {
-            Console.WriteLine("--------------------");
+            Console.WriteLine(BORDER);
+            Console.WriteLine("       FINANCE TRACKER - MAIN MENU       ");
+            Console.WriteLine(BORDER);
+
+            Console.WriteLine("[1] Add Transaction (Income/Expense)");
+            Console.WriteLine("[2] Edit Transaction");
+            Console.WriteLine("[3] Delete Transaction");
+            Console.WriteLine("[4] View Financial Summary");
+            Console.WriteLine("[5] View History / Transactions");
+            Console.WriteLine("[6] Exit Application");
+
+            Console.WriteLine(BORDER);
+            Console.WriteLine("Please enter your choice (1-6): ");
         }
     }
 }

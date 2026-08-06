@@ -28,7 +28,6 @@ namespace Assignment4
         /// </summary>
         public void RunExpenseTracker()
         {
-            this._view.PrintInfo("Expense Tracker Application\n");
             int option = this.GetMenuOption(6);
             while (option != 6)
             {
@@ -48,14 +47,15 @@ namespace Assignment4
         /// <returns>integer value representing the task</returns>
         private int GetMenuOption(int max)
         {
-            this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
-            int option = this._view.GetOptinalInteger("Select an option to proceed: ");
+            this._view.DisplayMainMenu();
+            int option = this._view.GetOptionalInteger("Select an option to proceed: ");
+
             while (option > max)
             {
                 this._view.ClearConsole();
                 this._view.PrintInfo($"Enter an input in range 1 - {max}");
                 this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
-                option = this._view.GetOptinalInteger("Select an option to proceed: ");
+                option = this._view.GetOptionalInteger("Select an option to proceed: ");
             }
 
             return option;

@@ -68,7 +68,13 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            ViewTransactionOption option = this._view.GetEnumValues<ViewTransactionOption>("\nEnter the option to view: ");
+            ViewTransactionOption? option = this._view.GetEnumValue<ViewTransactionOption>("\nEnter the option to view: ");
+            if (option is null)
+            {
+                this._view.PrintInfo("Invalid option, Please try again");
+                return;
+            }
+
             switch (option)
             {
                 case ViewTransactionOption.Expense:
@@ -94,12 +100,22 @@ namespace Assignment4.Controllers
         private void ViewIncome()
         {
             IReadOnlyList<Transaction> income = this._service.GetIncome();
+            if (!income.Any())
+            {
+                this._view.PrintInfo("No income recorded");
+            }
+
             this._view.PrintTransactionTable(income);
         }
 
         private void ViewExpense()
         {
             IReadOnlyList<Transaction> expense = this._service.GetExpense();
+            if (!expense.Any())
+            {
+                this._view.PrintInfo("No expense recorded");
+            }
+
             this._view.PrintTransactionTable(expense);
         }
 
@@ -119,8 +135,8 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            string id = this.GetTransactionId();
-            if (!this._service.IsValidTransactionId(id))
+            string? id = this.GetTransactionId();
+            if (id is null || !this._service.IsValidTransactionId(id))
             {
                 this._view.PrintWarning("Enter a valid transaction id");
                 return;
@@ -139,84 +155,127 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            string id = this.GetTransactionId();
+            // Gets id of the transaction to edit
+            string? id = this.GetTransactionId();
+            if (id is null || !this._service.IsValidTransactionId(id))
+            {
+                this._view.PrintWarning("Enter a valid transaction id");
+                return;
+            }
+
             Transaction? transaction = this._service.GetTransactionById(id);
             if (transaction is null)
             {
-                this._view.PrintError("Invalid Transaction id");
+                this._view.PrintError("Invalid transaction id");
                 return;
             }
 
             TransactionType type = transaction.Type;
-            string category = this.GetCategory(type);
 
-            this._view.PrintSeperator();
-            decimal amount = this._view.GetOptinalDecimal($"Enter the {type} amount: ");
-            if (amount == -1)
+            int option = this._view.GetOptionalInteger("Enter the field to edit.\n1. Category\n2. Amount\n3. Date\n4. Description\n");
+
+            switch (option)
             {
-                amount = transaction.Amount;
+                case 1:
+
+                    string? category = this.GetCategory(type);
+                    if (category is null)
+                    {
+                        this._view.PrintError("Failed to edit, please try again");
+                        return;
+                    }
+
+                    transaction.Category = category;
+                    break;
+
+                case 2:
+
+                    bool valid = this._view.GetDecimal($"Enter the {type} amount: ", out decimal amount);
+                    if (!valid)
+                    {
+                        this._view.PrintError("Failed to edit, please try again");
+                        return;
+                    }
+
+                    transaction.Amount = amount;
+                    break;
+
+                case 3:
+                    if (!this._view.GetDate(out DateTime date))
+                    {
+                        this._view.PrintError("Failed to edit, please try again");
+                        return;
+                    }
+
+                    transaction.Date = date;
+                    break;
+
+                case 4:
+                    if (!this._view.GetString($"Enter the {type} title: ", out string description))
+                    {
+                        this._view.PrintError("Failed to edit, please try again");
+                        return;
+                    }
+
+                    transaction.Title = description;
+                    break;
             }
 
-            this._view.PrintSeperator();
-            DateTime date = this._view.GetOptionalDate();
-            if (date == DateTime.MinValue)
-            {
-                date = transaction.Date;
-            }
-
-            this._view.PrintSeperator();
-            string title = this._view.GetOptionalString($"Enter the {type} title: ");
-            if (title == string.Empty)
-            {
-                title = transaction.Title;
-            }
-
-            Transaction editedTransaction = this._service.CreateTransaction(title, date, type, category, amount, id);
-
-            string validatedoutput = this._service.ValidateTransaction(editedTransaction);
+            string validatedoutput = this._service.ValidateTransaction(transaction);
             if (!string.IsNullOrEmpty(validatedoutput))
             {
                 this._view.PrintWarning(validatedoutput);
                 return;
             }
 
-            this._service.UpdateTransaction(editedTransaction);
-            this._view.PrintSeperator();
+            this._service.UpdateTransaction(transaction);
+            this._view.ClearConsole();
             this._view.PrintSuccess($"{type} edited successfully !!\n");
             this.ViewAllTransaction();
         }
 
         private void CreateTransaction()
         {
-            TransactionType type = this._view.GetEnumValues<TransactionType>("Select the type of the transaction: ");
+            // gets the type of transaction income/expense
+            TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
 
-            this._view.PrintSeperator();
-            string category = this.GetCategory(type);
-
-            this._view.PrintSeperator();
-            decimal amount = this._view.GetDecimal($"Enter the {type} amount: ");
-            if (amount == -1)
+            // gets the category of the transaction
+            this._view.ClearConsole();
+            string? category = this.GetCategory(type);
+            if (category is null)
             {
                 this._view.PrintError("Transaction failed, Please try again");
                 return;
             }
 
-            this._view.PrintSeperator();
-            DateTime date = this._view.GetDate();
-            if (date == DateTime.MinValue)
+            // Gets the amount involved in the transaction
+            this._view.ClearConsole();
+            bool valid = this._view.GetDecimal($"Enter the {type} amount: ", out decimal amount);
+            if (!valid)
+            {
+                this._view.PrintError("Transaction failed, Please try again");
+                return;
+            }
+
+            // Gets the date of the transaction
+            this._view.ClearConsole();
+            valid = this._view.GetDate(out DateTime date);
+            if (!valid)
             {
                 this._view.PrintError("Transaction failed, Please try again\n");
                 return;
             }
 
-            this._view.PrintSeperator();
-            string description = this._view.GetString($"Enter the {type} description: ");
-            if (description == string.Empty)
+            // Gets the description
+            this._view.ClearConsole();
+            valid = this._view.GetString($"Enter the {type} description: ", out string description);
+            if (!valid)
             {
                 this._view.PrintError("Transaction failed, Please try again");
                 return;
             }
 
+            // Creates the transaction
             Transaction transaction = this._service.CreateTransaction(description, date, type, category, amount);
             string validatedoutput = this._service.ValidateTransaction(transaction);
             if (!string.IsNullOrEmpty(validatedoutput))
@@ -226,29 +285,33 @@ namespace Assignment4.Controllers
             }
 
             this._service.AddTransaction(transaction);
-            this._view.PrintSeperator();
             this._view.PrintSuccess($"{type} added successfully !!");
             this.ViewAllTransaction();
         }
 
-        private string GetCategory(TransactionType type)
+        private string? GetCategory(TransactionType? type)
         {
             if (type == TransactionType.Expense)
             {
-                return this._view.GetEnumValues<ExpenseCategory>($"Select the category of the {type}: ").ToString();
+                return this._view.GetEnumValue<ExpenseCategory>($"Select the category of the {type}: ").ToString();
             }
             else
             {
-                return this._view.GetEnumValues<IncomeCategory>($"Select the category of the {type}: ").ToString();
+                return this._view.GetEnumValue<IncomeCategory>($"Select the category of the {type}: ").ToString();
             }
         }
 
-        private string GetTransactionId()
+        private string? GetTransactionId()
         {
             IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
             this._view.PrintTransactionTable(transactions);
-            string id = this._view.GetString("Select the transaction by id to delete: ");
-            return id;
+            bool valid = this._view.GetString("Select the transaction by id: ", out string id);
+            if (valid)
+            {
+                return id;
+            }
+
+            return null;
         }
     }
 }

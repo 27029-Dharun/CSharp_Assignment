@@ -18,15 +18,22 @@ namespace Assignments
         /// </summary>
         public static void Main()
         {
-            TransactionValidator validator = new TransactionValidator();
-            ConsoleView view = new ConsoleView();
-            TransactionIdGenerator idGenerator = new TransactionIdGenerator();
-            TransactionRepository repository = new TransactionRepository();
-            TransactionService service = new TransactionService(validator, idGenerator, repository);
-            TransactionController controller = new TransactionController(service, view);
-            ApplicationRunner runner = new ApplicationRunner(view, controller);
+            try
+            {
+                TransactionValidator validator = new TransactionValidator();
+                ConsoleView view = new ConsoleView();
+                TransactionIdGenerator idGenerator = new TransactionIdGenerator();
+                TransactionRepository repository = new TransactionRepository();
+                TransactionService service = new TransactionService(validator, idGenerator, repository);
+                TransactionController controller = new TransactionController(service, view);
+                ApplicationRunner runner = new ApplicationRunner(view, controller);
 
-            runner.RunExpenseTracker();
+                runner.RunExpenseTracker();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

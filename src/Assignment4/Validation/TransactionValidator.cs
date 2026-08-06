@@ -29,7 +29,7 @@
         {
             if (date > DateTime.Now)
             {
-                return "Date should not be valid\n";
+                return "Future date can't be recorded\n";
             }
 
             return string.Empty;
