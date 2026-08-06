@@ -40,10 +40,7 @@ namespace Assignment4.Services
         /// <returns>returns a Transaction object</returns>
         public Transaction CreateTransaction(string description, DateTime date, TransactionType type, string category, decimal amount, string? id = null)
         {
-            if (id == null)
-            {
-                id = this._idGenerator.GetNextId(type);
-            }
+            id ??= this._idGenerator.GetNextId(type);
 
             return new Transaction(id, description, date, type, category, amount);
         }

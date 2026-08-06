@@ -143,16 +143,12 @@ namespace Assignment4.Controllers
             Transaction? transaction = this._service.GetTransactionById(id);
             if (transaction is null)
             {
-                this._view.PrintError("Invalid Transactio id");
+                this._view.PrintError("Invalid Transaction id");
                 return;
             }
 
             TransactionType type = transaction.Type;
-            string title = this._view.GetOptionalString($"Enter the {type} title: ");
-            if (title == string.Empty)
-            {
-                title = transaction.Title;
-            }
+            string category = this.GetCategory(type);
 
             this._view.PrintSeperator();
             decimal amount = this._view.GetOptinalDecimal($"Enter the {type} amount: ");
@@ -169,7 +165,11 @@ namespace Assignment4.Controllers
             }
 
             this._view.PrintSeperator();
-            string category = this.GetCategory(type);
+            string title = this._view.GetOptionalString($"Enter the {type} title: ");
+            if (title == string.Empty)
+            {
+                title = transaction.Title;
+            }
 
             Transaction editedTransaction = this._service.CreateTransaction(title, date, type, category, amount, id);
 
