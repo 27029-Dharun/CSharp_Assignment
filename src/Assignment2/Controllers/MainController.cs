@@ -30,33 +30,33 @@ namespace Assignment2.Controllers
         /// </summary>
         public void Run()
         {
-            int input;
+            ChooseTask input;
             do
             {
-                input = ConsoleView.GetInteger("Enter the number to Continue with a Task\n1. Shape\n2. Employee\n3. Banking System\n4. Exit\n");
+                input = (ChooseTask)ConsoleView.GetInteger("Application Main Menu\n1. Shape\n2. Employee\n3. Banking System\n4. Exit\nEnter an operation to continue: ");
                 switch (input)
                 {
-                    case (int)ChooseTask.Shape:
+                    case ChooseTask.Shape:
                         this._shapeController.RunShapeOperations();
                         break;
 
-                    case (int)ChooseTask.Employee:
+                    case ChooseTask.Employee:
                         this._employeeController.RunEmployeeOperations();
                         break;
 
-                    case (int)ChooseTask.Bank:
+                    case ChooseTask.Bank:
                         this._bankController.RunBankOperations();
                         break;
 
-                    case (int)ChooseTask.Exit:
-                        break;
+                    case ChooseTask.Exit:
+                        return;
 
                     default:
                         ConsoleView.PrintInfo("Enter a number in range 1-4");
                         break;
                 }
             }
-            while (input != 4);
+            while (input != ChooseTask.Exit);
         }
     }
 }

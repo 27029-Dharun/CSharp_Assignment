@@ -1,7 +1,6 @@
 ﻿using Assignment2.Models.EmployeeHierarchy;
 using Assignment2.Models.Enums;
 using Assignment2.Services;
-using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
@@ -27,29 +26,26 @@ namespace Assignment2.Controllers
         /// </summary>
         public void RunEmployeeOperations()
         {
-            int option;
-            do
+            EmployeeRole option = (EmployeeRole)ConsoleView.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\nEnter the option: ");
+            switch (option)
             {
-                option = ConsoleView.GetInteger("Select Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\n");
-                switch (option)
-                {
-                    case (int)EmployeeRole.Developer:
-                        this.Developer();
-                        break;
+                case EmployeeRole.Developer:
+                    this.Developer();
+                    break;
 
-                    case (int)EmployeeRole.Manager:
-                        this.Manager();
-                        break;
+                case EmployeeRole.Manager:
+                    this.Manager();
+                    break;
 
-                    case (int)EmployeeRole.Exit:
-                        return;
+                case EmployeeRole.Exit:
+                    return;
 
-                    default:
-                        ConsoleView.PrintInfo("Enter a valid Integer in range 1-3");
-                        break;
-                }
+                default:
+                    ConsoleView.PrintInfo("Enter a valid Integer in range 1-3");
+                    break;
             }
-            while (option != 3);
+
+            ConsoleView.PauseAndReturn();
         }
 
         /// <summary>

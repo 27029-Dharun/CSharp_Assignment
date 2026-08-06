@@ -1,7 +1,6 @@
 ﻿using Assignment2.Models.BankingSystem;
 using Assignment2.Repository;
 using Assignment2.Validators;
-using Assignment2.Views;
 
 namespace Assignment2.Services
 {
@@ -11,7 +10,16 @@ namespace Assignment2.Services
     internal class BankService
     {
         private static long accountNum = 100000000000;
-        private readonly BankRepository _repository = new ();
+        private readonly BankRepository _repository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BankService"/> class.
+        /// </summary>
+        /// <param name="repository">Repository object injected from the program.cs</param>
+        public BankService(BankRepository repository)
+        {
+            this._repository = repository;
+        }
 
         /// <summary>
         /// This method creates a checking account object

@@ -1,73 +1,10 @@
 ﻿using Assignment2.Models.BankingSystem;
+using Assignment2.Models.Enums;
 using Assignment2.Services;
-using Assignment2.Validators;
 using Assignment2.Views;
 
 namespace Assignment2.Controllers
 {
-    /// <summary>
-    /// This enum contais the Bank OPerations
-    /// </summary>
-    internal enum BankOperation
-    {
-        /// <summary>
-        /// This Option creates a New account
-        /// </summary>
-        Add = 1,
-
-        /// <summary>
-        /// This Option logs into an existing account
-        /// </summary>
-        View = 2,
-
-        /// <summary>
-        /// Exit from the Banking Operation
-        /// </summary>
-        Exit = 3,
-    }
-
-    /// <summary>
-    /// This enum represents the LogIn Operations that are done after LogIn
-    /// </summary>
-    internal enum LogInOperation
-    {
-        /// <summary>
-        /// This select the check Balance Operation
-        /// </summary>
-        CheckBalance = 1,
-
-        /// <summary>
-        /// This select withdrawn operation from a account
-        /// </summary>
-        Withdraw = 2,
-
-        /// <summary>
-        /// This deposits amount into the account
-        /// </summary>
-        Deposit = 3,
-
-        /// <summary>
-        /// Exit from the LogIn
-        /// </summary>
-        Exit = 4,
-    }
-
-    /// <summary>
-    /// This enum represents the Account type
-    /// </summary>
-    internal enum AccountType
-    {
-        /// <summary>
-        /// Savings account with minimum balance
-        /// </summary>
-        SavingAccount = 1,
-
-        /// <summary>
-        /// Checking account with minimum balance
-        /// </summary>
-        CheckingAccount = 2,
-    }
-
     /// <summary>
     /// This is the controller of the Banking System
     /// </summary>
@@ -110,6 +47,8 @@ namespace Assignment2.Controllers
                         ConsoleView.PrintInfo("Enter a valid input in range 1-3");
                         break;
                 }
+
+                ConsoleView.PauseAndReturn();
             }
             while (option != (int)BankOperation.Exit);
         }

@@ -79,7 +79,7 @@ namespace Assignment2.Views
         /// <param name="employee">The employee object</param>
         internal static void PrintEmployee(Employee employee)
         {
-            Console.WriteLine(employee.PrintDetails());
+            Console.WriteLine(Environment.NewLine + employee.PrintDetails());
         }
 
         /// <summary>
@@ -116,6 +116,19 @@ namespace Assignment2.Views
         {
             Console.WriteLine($"Account Number: {account.AccountNumber}");
             Console.WriteLine($"Balance: {account.Balance}");
+        }
+
+        /// <summary>
+        /// Pause the flow until a key is entered
+        /// </summary>
+        internal static void PauseAndReturn()
+        {
+            Console.WriteLine("Press any key to return to main menu");
+            Console.ReadKey();
+
+            // Erases the entire scrollback buffer history
+            Console.Write("\x1b[3J");
+            Console.Clear();
         }
     }
 }

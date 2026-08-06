@@ -23,6 +23,6 @@
         /// This class displays the Details of the Employee
         /// </summary>
         /// <returns>the name and salary of Empluyee</returns>
-        public override string PrintDetails() => $"Developer Name: {this.Name}, Salary: {this.Salary} Bonus: {this.CalculateBonus()}";
+        public override string PrintDetails() => $"Developer Name: {this.Name}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
     }
 }

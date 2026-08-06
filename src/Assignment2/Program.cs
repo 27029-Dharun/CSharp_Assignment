@@ -1,4 +1,5 @@
 ﻿using Assignment2.Controllers;
+using Assignment2.Repository;
 using Assignment2.Services;
 
 namespace Assignment2
@@ -14,8 +15,9 @@ namespace Assignment2
         public static void Main()
         {
             EmployeeService employeeService = new EmployeeService();
-            BankService bankService = new ();
-            ShapeService shapeservice = new ();
+            ShapeService shapeservice = new ShapeService();
+            BankRepository repository = new BankRepository();
+            BankService bankService = new BankService(repository);
             ShapeController shapeController = new ShapeController(shapeservice);
             BankController bankController = new BankController(bankService);
             EmployeeController employeeController = new EmployeeController(employeeService);

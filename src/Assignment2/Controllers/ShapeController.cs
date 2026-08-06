@@ -26,29 +26,26 @@ namespace Assignment2.Controllers
         /// </summary>
         public void RunShapeOperations()
         {
-            int input;
-            do
+            ShapeOption input = (ShapeOption)ConsoleView.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\nEnter the option: ");
+            switch (input)
             {
-                input = ConsoleView.GetInteger("Select a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\n");
-                switch (input)
-                {
-                    case (int)ShapeOption.Circle:
-                        this.CircleOperation();
-                        break;
+                case ShapeOption.Circle:
+                    this.CircleOperation();
+                    break;
 
-                    case (int)ShapeOption.Rectangle:
-                        this.RectangleOperation();
-                        break;
+                case ShapeOption.Rectangle:
+                    this.RectangleOperation();
+                    break;
 
-                    case (int)ShapeOption.Exit:
-                        return;
+                case ShapeOption.Exit:
+                    return;
 
-                    default:
-                        ConsoleView.PrintInfo("Enter number in range 1 - 3");
-                        break;
-                }
+                default:
+                    ConsoleView.PrintInfo("Enter number in range 1 - 3");
+                    break;
             }
-            while (input != 3);
+
+            ConsoleView.PauseAndReturn();
         }
 
         /// <summary>
