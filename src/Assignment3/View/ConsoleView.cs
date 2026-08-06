@@ -1,7 +1,7 @@
 ﻿using ConsoleTables;
-using InventoryManager.Models;
+using Assignment3.Models;
 
-namespace InventoryManager.View
+namespace Assignment3.View
 {
     /// <summary>
     /// Console operations

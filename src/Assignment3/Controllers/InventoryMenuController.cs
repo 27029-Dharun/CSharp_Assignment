@@ -1,15 +1,15 @@
-﻿using InventoryManager.Models;
-using InventoryManager.View;
+﻿using Assignment3.Models;
+using Assignment3.View;
 
-namespace InventoryManager.Controllers
+namespace Assignment3.Controllers
 {
     /// <summary>
     /// Runs the inventory
     /// </summary>
     internal class InventoryMenuController
     {
-        private InventoryController _controller;
-        private ConsoleView _view;
+        private readonly InventoryController _controller;
+        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryMenuController"/> class.

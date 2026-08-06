@@ -1,25 +1,27 @@
-﻿using InventoryManager.Models;
-using InventoryManager.Repository;
-using InventoryManager.Validation;
+﻿using Assignment3.Models;
+using Assignment3.Repository;
+using Assignment3.Validation;
 
-namespace InventoryManager.Services
+namespace Assignment3.Services
 {
     /// <summary>
     /// Inventory services
     /// </summary>
     internal class InventoryService : IService
     {
-        private InventoryRepository _inventoryRepository = new InventoryRepository();
-        private InventoryValidator _validator;
+        private readonly InventoryRepository _inventoryRepository;
+        private readonly InventoryValidator _validator;
         private int _id = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryService"/> class.
         /// </summary>
-        /// <param name="validator">Validator object</param>
-        public InventoryService(InventoryValidator validator)
+        /// <param name="validator">Validator object injected from the origin</param>
+        /// <param name="repository">repository object injected from origin</param>
+        public InventoryService(InventoryValidator validator, InventoryRepository repository)
         {
             this._validator = validator;
+            this._inventoryRepository = repository;
         }
 
         /// <summary>

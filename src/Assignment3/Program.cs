@@ -1,9 +1,10 @@
-﻿using InventoryManager.Controllers;
-using InventoryManager.Services;
-using InventoryManager.Validation;
-using InventoryManager.View;
+﻿using Assignment3.Controllers;
+using Assignment3.Repository;
+using Assignment3.Services;
+using Assignment3.Validation;
+using Assignment3.View;
 
-namespace InventoryManager
+namespace Assignment3
 {
     /// <summary>
     /// Inventory management with In-memory storage
@@ -18,8 +19,9 @@ namespace InventoryManager
             try
             {
                 InventoryValidator validator = new InventoryValidator();
+                InventoryRepository repository = new InventoryRepository();
                 ConsoleView view = new ConsoleView();
-                InventoryService inventoryService = new InventoryService(validator);
+                InventoryService inventoryService = new InventoryService(validator, repository);
                 InventoryController controller = new InventoryController(inventoryService, view);
                 InventoryMenuController inventoryManager = new InventoryMenuController(controller, view);
 

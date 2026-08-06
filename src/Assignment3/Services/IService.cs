@@ -1,6 +1,6 @@
-﻿using InventoryManager.Models;
+﻿using Assignment3.Models;
 
-namespace InventoryManager.Services
+namespace Assignment3.Services
 {
     /// <summary>
     /// Service interface

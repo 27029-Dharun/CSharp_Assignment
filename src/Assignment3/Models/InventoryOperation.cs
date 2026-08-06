@@ -1,4 +1,4 @@
-﻿namespace InventoryManager.Models
+﻿namespace Assignment3.Models
 {
     /// <summary>
     /// Inventory Operation Enums

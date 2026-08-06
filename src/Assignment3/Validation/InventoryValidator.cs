@@ -1,4 +1,4 @@
-﻿namespace InventoryManager.Validation
+﻿namespace Assignment3.Validation
 {
     /// <summary>
     /// Validator class

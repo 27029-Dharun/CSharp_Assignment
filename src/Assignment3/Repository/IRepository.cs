@@ -1,6 +1,6 @@
-﻿using InventoryManager.Models;
+﻿using Assignment3.Models;
 
-namespace InventoryManager.Repository
+namespace Assignment3.Repository
 {
     /// <summary>
     /// Interface Repository

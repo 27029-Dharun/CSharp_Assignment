@@ -1,13 +1,13 @@
-﻿using InventoryManager.Models;
+﻿using Assignment3.Models;
 
-namespace InventoryManager.Repository
+namespace Assignment3.Repository
 {
     /// <summary>
     /// Inventory Repository
     /// </summary>
     internal class InventoryRepository : IRepository
     {
-        private List<Product> _inventories = new List<Product>();
+        private readonly List<Product> _inventories = new List<Product>();
 
         /// <summary>
         /// Adds the product to the list
