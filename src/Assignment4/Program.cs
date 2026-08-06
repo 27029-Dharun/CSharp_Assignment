@@ -26,9 +26,9 @@ namespace Assignments
                 TransactionRepository repository = new TransactionRepository();
                 TransactionService service = new TransactionService(validator, idGenerator, repository);
                 TransactionController controller = new TransactionController(service, view);
-                ApplicationRunner runner = new ApplicationRunner(view, controller);
+                ExpenseTracker runner = new ExpenseTracker(view, controller);
 
-                runner.RunExpenseTracker();
+                runner.ExecuteExpenseTracker();
             }
             catch (Exception ex)
             {

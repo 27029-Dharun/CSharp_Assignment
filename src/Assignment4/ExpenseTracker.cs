@@ -7,17 +7,17 @@ namespace Assignment4
     /// <summary>
     /// The execution of the program begins here
     /// </summary>
-    internal class ApplicationRunner
+    internal class ExpenseTracker
     {
         private readonly ConsoleView _view;
         private readonly TransactionController _controller;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationRunner"/> class.
+        /// Initializes a new instance of the <see cref="ExpenseTracker"/> class.
         /// </summary>
         /// <param name="view">View object</param>
         /// <param name="controller">controller object</param>
-        public ApplicationRunner(ConsoleView view, TransactionController controller)
+        public ExpenseTracker(ConsoleView view, TransactionController controller)
         {
             this._view = view;
             this._controller = controller;
@@ -26,7 +26,7 @@ namespace Assignment4
         /// <summary>
         /// Expense Tracker application entry point
         /// </summary>
-        public void RunExpenseTracker()
+        public void ExecuteExpenseTracker()
         {
             int option = this.GetMenuOption(6);
             while (option != 6)
