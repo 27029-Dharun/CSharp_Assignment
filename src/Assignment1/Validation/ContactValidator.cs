@@ -3,12 +3,12 @@
 namespace Assignment1.Validation
 {
     /// <summary>
-    /// Contact Validation
+    /// Contains contact validation methods
     /// </summary>
     internal class ContactValidator
     {
         /// <summary>
-        /// This validates all the contact field
+        /// Validates all the contact field
         /// </summary>
         /// <param name="name">Name of the contact</param>
         /// <param name="phone">PhoneNumber number</param>
@@ -41,9 +41,9 @@ namespace Assignment1.Validation
         }
 
         /// <summary>
-        /// Validate
+        /// Validate phone number
         /// </summary>
-        /// <param name="number">PhoneNumber number</param>
+        /// <param name="number">Phone number</param>
         /// <returns>Boolean value </returns>
         public static bool IsValidNumber(string number)
         {

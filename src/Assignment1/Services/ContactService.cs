@@ -5,7 +5,7 @@ using Assignment1.Validation;
 namespace Assignment1.Services
 {
     /// <summary>
-    /// Service class is for manipulating on list.
+    /// Provides service such as add, 
     /// </summary>
     public class ContactService
     {
@@ -14,19 +14,19 @@ namespace Assignment1.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactService"/> class.
         /// </summary>
-        /// <param name="repository">Repository object</param>
+        /// <param name="repository">Instance of repository</param>
         public ContactService(ContactRepository repository)
         {
             this._repository = repository;
         }
 
         /// <summary>
-        /// Creates a new contacts object and pass it to a repository
+        /// Creates a new contacts instance and pass it to the repository.
         /// </summary>
         /// <param name="name">Name of the contacts</param>
         /// <param name="phoneNumber">PhoneNumber number of the contacts</param>
         /// <param name="email">Email of the contacts</param>
-        /// <param name="notes">Optinal Notes of the contacts</param>
+        /// <param name="notes">Optional Notes</param>
         /// <returns>string message created or not</returns>
         public string CreateContact(string name, string phoneNumber, string email, string notes)
         {
@@ -54,7 +54,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Finds the contacts that containing the name
+        /// Gets the contacts that contains the name
         /// </summary>
         /// <param name="name">Optional Name of the person to search</param>
         /// <returns>Contacts containing the name</returns>
@@ -76,7 +76,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Delete Contact by Id.
+        /// Delete contact by Id.
         /// </summary>
         /// <param name="id">Index</param>
         /// <returns>Boolean status of the operation</returns>
@@ -86,13 +86,13 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// This method updates the field and create a new contacts object with same id
+        /// Updates the contact by getting the field that is to be edited
         /// </summary>
-        /// <param name="id">Id of the contacts</param>
-        /// <param name="name">Name of the contacts</param>
-        /// <param name="phoneNumber">PhoneNumber of the contacts</param>
-        /// <param name="email">Email of the contacts</param>
-        /// <param name="notes">Notes of the contacts</param>
+        /// <param name="id">Id of the contact</param>
+        /// <param name="name">Name of the contact</param>
+        /// <param name="phoneNumber">Phone number of the contact</param>
+        /// <param name="email">Email of the contact</param>
+        /// <param name="notes">Notes of the contact</param>
         /// <returns>This return a string value</returns>
         public string EditContact(Guid id, string name, string phoneNumber, string email, string notes)
         {
@@ -145,7 +145,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Sort by Name all the contacts
+        /// Sorts all the contact by Name
         /// </summary>
         /// <returns>Sorted contacts list</returns>
         public IReadOnlyList<Contact> GetSortedByName()
@@ -154,7 +154,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Checks unique mobile number
+        /// Checks if mobile number is unique
         /// </summary>
         /// <param name="number">Number</param>
         /// <param name="exisitingPhone">Existing number only when editing</param>
@@ -174,7 +174,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Checks the name is unique
+        /// Checks if the name is unique
         /// </summary>
         /// <param name="name">Name of the contacts</param>
         /// <returns>Returns boolean</returns>
