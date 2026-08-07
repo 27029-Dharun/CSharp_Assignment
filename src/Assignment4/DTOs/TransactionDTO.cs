@@ -1,26 +1,23 @@
 ﻿using Assignment4.Models.Enums;
 
-namespace Assignment4.Models
+namespace Assignment4.DTOs
 {
     /// <summary>
-    /// Represents a transaction in the system
-    /// This is responsible for storing the transactions of the user
+    /// Represents the data required to create a new transaction.
     /// </summary>
-    internal class Transaction
+    internal class TransactionDTO
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Transaction"/> class.
+        /// Initializes a new instance of the <see cref="TransactionDTO"/> class.
         /// </summary>
-        /// <param name="id">Id of the transaction</param>
-        /// <param name="title">Description of the transaction</param>
+        /// <param name="description">Description of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount used in the transaction</param>
-        public Transaction(string id, string title, DateTime date, TransactionType type, string category, decimal amount)
+        public TransactionDTO(string description, DateTime date, TransactionType type, string category, decimal amount)
         {
-            this.Id = id;
-            this.Description = title;
+            this.Description = description;
             this.Date = date;
             this.Type = type;
             this.Category = category;
@@ -28,18 +25,10 @@ namespace Assignment4.Models
         }
 
         /// <summary>
-        /// Gets the unique ID assigned to the transaction at creation time.
+        /// Gets or sets the description of the transaction
         /// </summary>
         /// <value>
-        /// ID of the transaction
-        /// </value>
-        public string Id { get; }
-
-        /// <summary>
-        /// Gets or sets the name of the transaction
-        /// </summary>
-        /// <value>
-        /// The name of the transaction
+        /// The description of the transaction
         /// </value>
         public string Description { get; set; }
 

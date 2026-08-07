@@ -1,4 +1,5 @@
-﻿using Assignment4.Helper;
+﻿using Assignment4.DTOs;
+using Assignment4.Helper;
 using Assignment4.Models;
 using Assignment4.Models.Enums;
 using Assignment4.Repository;
@@ -31,28 +32,31 @@ namespace Assignment4.Services
         /// <summary>
         /// Creates a Transaction object and returns it.
         /// </summary>
-        /// <param name="description">Title of the transaction</param>
-        /// <param name="date">Date of the transaction</param>
-        /// <param name="type">Type of the transaction</param>
-        /// <param name="category">Category of the transaction</param>
-        /// <param name="amount">Amount of the transaction</param>
-        /// <param name="id">Optional id of the transaction</param>
-        /// <returns>returns a Transaction object</returns>
-        public Transaction CreateTransaction(string description, DateTime date, TransactionType type, string category, decimal amount, string? id = null)
+        /// <param name="transaction">An instance of transaction DTO</param>
+        /// <param name="validationOutput">A string telling representing the validation output. </param>
+        /// <returns>A string output showing the status of the operation</returns>
+        public bool CreateTransaction(TransactionDTO transaction, out string validationOutput)
         {
-            id ??= this._idGenerator.GetNextId(type);
+            validationOutput = this.ValidateTransaction(transaction);
+            if (validationOutput == string.Empty)
+            {
+                return false;
+            }
 
-            return new Transaction(id, description, date, type, category, amount);
+            string id = this._idGenerator.GetNextId(transaction.Type);
+            Transaction createdTransaction = new Transaction(id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            this._repository.Add(createdTransaction);
+            return true;
         }
 
         /// <summary>
-        /// Validates the transaction fiels
+        /// Validates the transaction fields
         /// </summary>
         /// <param name="transaction">transaction object to be</param>
-        /// <returns>returns the validation output and empty string if are fiels are valid</returns>
-        public string ValidateTransaction(Transaction transaction)
+        /// <returns>A string representing the validation output and empty string if are fields are valid</returns>
+        public string ValidateTransaction(TransactionDTO transaction)
         {
-            string nameValidator = this._validator.ValidateTitle(transaction.Title);
+            string nameValidator = this._validator.ValidateTitle(transaction.Description);
             string dateValidator = this._validator.ValidateDate(transaction.Date);
             string amountValidator = this._validator.ValidateAmount(transaction.Amount);
 
@@ -62,17 +66,6 @@ namespace Assignment4.Services
             }
 
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Add a transaction to the Transaction list
-        /// </summary>
-        /// <param name="transaction">Transaction to be added</param>
-        /// <returns>boolean value true if added</returns>
-        public bool AddTransaction(Transaction transaction)
-        {
-            this._repository.Add(transaction);
-            return true;
         }
 
         /// <summary>
@@ -118,7 +111,7 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// checks if the id is valid
+        /// Checks if the id is valid
         /// </summary>
         /// <param name="id">Id of the transaction to be validated</param>
         /// <returns>boolean true if valid</returns>
@@ -133,13 +126,19 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// get the transaction by id
+        /// Gets the transaction by id
         /// </summary>
         /// <param name="id">id of the transaction</param>
         /// <returns>Transaction with matching id</returns>
-        internal Transaction? GetTransactionById(string id)
+        internal TransactionDTO? GetTransactionById(string id)
         {
-            return this._repository.GetById(id);
+            Transaction? transaction = this._repository.GetById(id);
+            if (transaction is null)
+            {
+                return null;
+            }
+
+            return new TransactionDTO(transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
         }
 
         /// <summary>
@@ -152,20 +151,27 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Update the exisiting transaction
+        /// Update the existing transaction
         /// </summary>
-        /// <param name="editedTransaction">Transaction to be updated in the place of exisiting transaction</param>
+        /// <param name="editedTransaction">Transaction to be updated in the place of existing transaction</param>
+        /// <param name="id">Unique identifier of the transaction</param>
+        /// <param name="validationOutput">Validation output</param>
         /// <returns>Boolean value true represents the success and false represents failure</returns>
-        internal bool UpdateTransaction(Transaction editedTransaction)
+        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id, out string validationOutput)
         {
-            string id = editedTransaction.Id;
+            validationOutput = this.ValidateTransaction(editedTransaction);
+            if (!string.IsNullOrEmpty(validationOutput))
+            {
+                return false;
+            }
+
             Transaction? transaction = this._repository.GetById(id);
             if (transaction is null)
             {
                 return false;
             }
 
-            transaction.Title = editedTransaction.Title;
+            transaction.Description = editedTransaction.Description;
             transaction.Date = editedTransaction.Date;
             transaction.Amount = editedTransaction.Amount;
             transaction.Category = editedTransaction.Category;

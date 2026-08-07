@@ -38,7 +38,7 @@
         /// <summary>
         /// Validates the name of the transaction
         /// </summary>
-        /// <param name="name">Title of the transaction</param>
+        /// <param name="name">Description of the transaction</param>
         /// <returns>returns the validation output</returns>
         internal string ValidateTitle(string name)
         {

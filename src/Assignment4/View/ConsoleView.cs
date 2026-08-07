@@ -31,7 +31,6 @@ namespace Assignment4.View
             where T : struct, Enum
         {
             Console.WriteLine($"\n{message}");
-
             foreach (var value in Enum.GetValues<T>())
             {
                 Console.WriteLine($"{Convert.ToInt32(value)}. {value}");
@@ -178,7 +177,7 @@ namespace Assignment4.View
         /// </summary>
         internal void ClearConsole()
         {
-            // Erases the entire scrollback buffer history
+            // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
         }
@@ -226,7 +225,7 @@ namespace Assignment4.View
 
             foreach (Transaction transaction in transactions)
             {
-                table.AddRow(transaction.Id, transaction.Type, transaction.Title, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Category);
+                table.AddRow(transaction.Id, transaction.Type, transaction.Description, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Category);
             }
 
             table.Write();
@@ -240,7 +239,7 @@ namespace Assignment4.View
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
 
-            // Erases the entire scrollback buffer history
+            // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
         }
@@ -263,6 +262,17 @@ namespace Assignment4.View
 
             Console.WriteLine(BORDER);
             Console.WriteLine("Please enter your choice (1-6): ");
+        }
+
+        /// <summary>
+        /// Gets a string value from the user.
+        /// </summary>
+        /// <param name="message">Message to be displayed to the user</param>
+        /// <returns> A string value entered by the user. </returns>
+        internal string GetOptionalString(string message)
+        {
+            Console.Write(message);
+            return Console.ReadLine() ?? string.Empty;
         }
     }
 }
