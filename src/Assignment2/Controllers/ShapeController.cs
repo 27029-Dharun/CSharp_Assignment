@@ -49,7 +49,7 @@ internal class ShapeController
     }
 
     /// <summary>
-    /// Prompts user for data entry and displays the calculated area
+    /// Prompts user for data entry and displays the calculated area of rectangle
     /// </summary>
     private void RectangleOperation()
     {
@@ -67,7 +67,7 @@ internal class ShapeController
     }
 
     /// <summary>
-    /// This method performs all the circle operations
+    /// Prompts user for data entry and displays the calculated area of circle
     /// </summary>
     private void CircleOperation()
     {

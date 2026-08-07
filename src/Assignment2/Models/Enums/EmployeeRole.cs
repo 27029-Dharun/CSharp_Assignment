@@ -1,22 +1,22 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This is the Employee Role enum
+    /// Specifies the role of the employees
     /// </summary>
     internal enum EmployeeRole
     {
         /// <summary>
-        /// Developer
+        /// Represents an option to calculate bonus for a developer.
         /// </summary>
         Developer = 1,
 
         /// <summary>
-        /// Manager
+        /// Represents an option to calculate bonus for a manager.
         /// </summary>
         Manager = 2,
 
         /// <summary>
-        /// Exit form operation
+        /// Represents an option to get back to main menu.
         /// </summary>
         Exit = 3,
     }

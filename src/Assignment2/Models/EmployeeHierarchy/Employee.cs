@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Models.EmployeeHierarchy
 {
     /// <summary>
-    /// Serves as a base blue print for all the Employees
+    /// Serves as a base blue print for all the Employees.
     /// </summary>
     internal abstract class Employee
     {
