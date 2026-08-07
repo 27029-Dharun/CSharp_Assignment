@@ -25,7 +25,7 @@ namespace Assignment3.Controllers
         /// <summary>
         /// Displays the operation and gets input
         /// </summary>
-        public void Run()
+        public void Starter()
         {
             this._view.PrintInfo("Welcome to Inventory Management Application");
             bool option = true;

@@ -5,7 +5,7 @@ using Assignment3.View;
 namespace Assignment3.Controllers
 {
     /// <summary>
-    /// Inventory Controller
+    /// Manages the expense tracker, connects view and service
     /// </summary>
     internal class InventoryController
     {
@@ -15,8 +15,8 @@ namespace Assignment3.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryController"/> class.
         /// </summary>
-        /// <param name="inventoryService">Service object</param>
-        /// <param name="view">View object</param>
+        /// <param name="inventoryService">Instance of service handling inventory data operations and business rules.</param>
+        /// <param name="view">Instance of view used to display data and capture user input. </param>
         public InventoryController(InventoryService inventoryService, View.ConsoleView view)
         {
             this._inventoryService = inventoryService;
@@ -24,7 +24,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Add product operation
+        /// Collects product details from the user, creates a new inventory item, and displays a success confirmation.
         /// </summary>
         public void AddProduct()
         {
@@ -37,7 +37,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// View product
+        /// Displays all current inventory products in the console, or outputs a warning if the inventory is empty.
         /// </summary>
         public void ViewProduct()
         {
@@ -54,7 +54,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Deletes product from the inventory
+        /// Deletes a product from the inventory by the unique product identifier.
         /// </summary>
         public void DeleteProduct()
         {
@@ -78,7 +78,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Edit product fields
+        /// Gets the detail to edited and edit the product.
         /// </summary>
         public void EditProduct()
         {
@@ -101,7 +101,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Search the product in inventory by matching the name and product id
+        /// Search the product in inventory by matching the name and product id.
         /// </summary>
         public void SearchProduct()
         {
@@ -125,7 +125,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Sort the products in inventory
+        /// Displays product in sorted order.
         /// </summary>
         internal void SortProduct()
         {
@@ -142,7 +142,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Gets the product index by displaying
+        /// Gets the product index by displaying all the products
         /// </summary>
         /// <param name="inventories">List of inventory product</param>
         /// <returns>Index value that user entered</returns>

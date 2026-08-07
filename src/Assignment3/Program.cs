@@ -25,7 +25,7 @@ namespace Assignment3
                 InventoryController controller = new InventoryController(inventoryService, view);
                 InventoryMenuController inventoryManager = new InventoryMenuController(controller, view);
 
-                inventoryManager.Run();
+                inventoryManager.Starter();
             }
             catch (Exception ex)
             {
