@@ -60,15 +60,17 @@ namespace Assignment2.Controllers
         private void CreateNewAccount()
         {
             string name = ConsoleView.GetString("Enter your Name: ");
-            int type = ConsoleView.GetInteger("Select Your Account Type\n1. Saving Account\n2. Checking Account\n");
-            decimal initialAmount = ConsoleView.GetDecimal("Enter Initial Amount to create a account: ");
+            int type = ConsoleView.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checking Account\n");
+            decimal initialAmount = ConsoleView.GetDecimal("\nEnter Initial Amount to create a account: ");
             if (type == 1)
             {
                 ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
+                ConsoleView.DisplayNote();
             }
             else if (type == 2)
             {
                 ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
+                ConsoleView.DisplayNote();
             }
             else
             {
@@ -116,6 +118,8 @@ namespace Assignment2.Controllers
                         ConsoleView.PrintInfo("The number should be in range 1-4");
                         break;
                 }
+
+                ConsoleView.PauseAndReturn();
             }
             while (option != (int)LogInOperation.Exit);
         }

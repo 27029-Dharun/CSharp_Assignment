@@ -17,6 +17,16 @@ namespace Assignment2.Views
         }
 
         /// <summary>
+        /// Displays the notes to make a note of the account number.
+        /// </summary>
+        internal static void DisplayNote()
+        {
+            ConsoleView.PrintInfo("\n-------------------------");
+            ConsoleView.PrintInfo(" Note the account number to perform further transactions");
+            ConsoleView.PrintInfo("-------------------------\n");
+        }
+
+        /// <summary>
         /// Gets a valid decimal input from the user until the input is a valid decimal number.
         /// </summary>
         /// <param name="prompt"> Prompt to be displayed to the user. </param>
