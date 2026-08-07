@@ -13,7 +13,7 @@ namespace Assignment4.View
         private const int TRIES = 3;
 
         /// <summary>
-        /// Print the message in console
+        /// Prints the message in console
         /// </summary>
         /// <param name="message">Message to be printed</param>
         internal void PrintInfo(string message)

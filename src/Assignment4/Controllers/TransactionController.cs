@@ -99,7 +99,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            // Creates the transaction
+            // Creates the transaction DTO
             TransactionDTO transaction = new TransactionDTO(description, date, type, category, amount);
 
             if (!this._service.CreateTransaction(transaction, out string validationOutput))
