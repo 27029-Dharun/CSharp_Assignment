@@ -221,10 +221,10 @@ namespace Assignment4.Controllers
                     break;
             }
 
-            string validatedoutput = this._service.ValidateTransaction(transaction);
-            if (!string.IsNullOrEmpty(validatedoutput))
+            string validationOutput = this._service.ValidateTransaction(transaction);
+            if (!string.IsNullOrEmpty(validationOutput))
             {
-                this._view.PrintWarning(validatedoutput);
+                this._view.PrintWarning(validationOutput);
                 return;
             }
 
@@ -281,10 +281,10 @@ namespace Assignment4.Controllers
 
             // Creates the transaction
             Transaction transaction = this._service.CreateTransaction(description, date, type, category, amount);
-            string validatedoutput = this._service.ValidateTransaction(transaction);
-            if (!string.IsNullOrEmpty(validatedoutput))
+            string validationOutput = this._service.ValidateTransaction(transaction);
+            if (!string.IsNullOrEmpty(validationOutput))
             {
-                this._view.PrintWarning(validatedoutput);
+                this._view.PrintWarning(validationOutput);
                 return;
             }
 
