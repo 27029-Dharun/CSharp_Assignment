@@ -4,7 +4,7 @@ using Assignment3.View;
 namespace Assignment3.Controllers
 {
     /// <summary>
-    /// Runs the inventory
+    /// Acts as a entry point of the application.
     /// </summary>
     internal class InventoryMenuController
     {
@@ -14,8 +14,8 @@ namespace Assignment3.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryMenuController"/> class.
         /// </summary>
-        /// <param name="controller">Controller object</param>
-        /// <param name="view">View Object</param>
+        /// <param name="controller">Instance of controller</param>
+        /// <param name="view">Instance of view that performs all the console operation.</param>
         public InventoryMenuController(InventoryController controller, ConsoleView view)
         {
             this._controller = controller;
@@ -23,7 +23,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Displays the operation and gets input
+        /// Displays the menu option and gets a option as input.
         /// </summary>
         public void Starter()
         {
