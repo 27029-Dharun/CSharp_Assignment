@@ -1,27 +1,27 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This enum represents the LogIn Operations that are done after LogIn
+    /// Specifies all the LogIn operations that can be done after login
     /// </summary>
     internal enum LogInOperation
     {
         /// <summary>
-        /// This select the check Balance Operation
+        /// Represents an option to check the bank balance.
         /// </summary>
         CheckBalance = 1,
 
         /// <summary>
-        /// This select withdrawn operation from a account
+        /// Represents an option to withdraw a sum of amount from the account.
         /// </summary>
         Withdraw = 2,
 
         /// <summary>
-        /// This deposits amount into the account
+        /// Represents an option to deposit a sum of amount from the account.
         /// </summary>
         Deposit = 3,
 
         /// <summary>
-        /// Exit from the LogIn
+        /// Represents an option to return to the main menu.
         /// </summary>
         Exit = 4,
     }

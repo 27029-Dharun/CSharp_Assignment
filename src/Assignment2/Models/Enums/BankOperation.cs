@@ -1,22 +1,22 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This enum contais the Bank OPerations
+    /// Specifies all the bank operation that are available
     /// </summary>
     internal enum BankOperation
     {
         /// <summary>
-        /// This Option creates a New account
+        /// Represents a option to creates a new account
         /// </summary>
         Add = 1,
 
         /// <summary>
-        /// This Option logs into an existing account
+        /// Represents a option to login into an existing account
         /// </summary>
-        View = 2,
+        LogIn = 2,
 
         /// <summary>
-        /// Exit from the Banking Operation
+        /// Represents a option to exit from the Banking Operation
         /// </summary>
         Exit = 3,
     }

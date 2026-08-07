@@ -5,26 +5,26 @@ using Assignment2.Services;
 namespace Assignment2
 {
     /// <summary>
-    /// This class is Main Entry point of our program
+    /// Application entry point and composition root. Wires up the dependencies once.
     /// </summary>
     internal class Program
     {
         /// <summary>
-        /// This method is the main method of Assignment 2
+        /// Main entry point of the program and starts the application.
         /// </summary>
         public static void Main()
         {
             EmployeeService employeeService = new EmployeeService();
-            ShapeService shapeservice = new ShapeService();
+            ShapeService shapeService = new ShapeService();
             BankRepository repository = new BankRepository();
             BankService bankService = new BankService(repository);
-            ShapeController shapeController = new ShapeController(shapeservice);
+            ShapeController shapeController = new ShapeController(shapeService);
             BankController bankController = new BankController(bankService);
             EmployeeController employeeController = new EmployeeController(employeeService);
 
-            MainController controller = new MainController(shapeController, employeeController, bankController);
-            controller.Run();
-            Console.WriteLine("Enter a Key to Exit");
+            ApplicationController controller = new ApplicationController(shapeController, employeeController, bankController);
+            controller.StartApplication();
+            Console.WriteLine("Enter a key to exit");
             Console.ReadKey();
         }
     }

@@ -1,54 +1,32 @@
 ﻿namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
-    /// This class id derived from the BankAccount
+    /// Represents the savings account details
     /// </summary>
     internal class SavingsAccount : BankAccount
     {
         private decimal _minimumBalance = 1000m;
 
         /// <summary>
-        /// Gets minimum Balance for Savings Account
+        /// Withdraws a sum of amount from the account if the balance is greater than the minimum balance and the amount to be withdrawn.
         /// </summary>
-        /// <value>
-        /// Minimum Balance value
-        /// </value>
-        public decimal MinimumBalance
-        {
-            get
-            {
-                return this._minimumBalance;
-            }
-
-            private set
-            {
-                if (value >= 0)
-                {
-                    this._minimumBalance = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// THis methods overrides Withdraw from the BankAccount
-        /// </summary>
-        /// <param name="amount">Amount to withdraw</param>
-        /// <returns>Error Message</returns>
+        /// <param name="amount"> A sum of amount to withdrawn. </param>
+        /// <returns> A string representing the status of the withdrawal operation. </returns>
         public override string Withdraw(decimal amount)
         {
-            if (this.Balance - this.MinimumBalance >= amount)
+            if (this.Balance - this._minimumBalance >= amount)
             {
                 this.Balance -= amount;
-                return $"Rs: {amount} withdrawn Successfully";
+                return $"Rs: {amount} withdrawn successfully";
             }
 
-            return $"Insufficient Balance";
+            return $"Insufficient balance";
         }
 
         /// <summary>
-        /// This method prints the detail of the Account
+        /// Creates a detailed text containing the current balance and the account number
         /// </summary>
-        /// <returns>String containing account number And Balance</returns>
+        /// <returns>A formatted string displaying the checking account number and its current balance. </returns>
         public override string PrintDetails() => $"Your Savings Account with Account Number: {this.AccountNumber} has Balance {this.Balance}";
     }
 }

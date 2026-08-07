@@ -1,14 +1,16 @@
 ﻿namespace Assignment2.Models.EmployeeHierarchy
 {
     /// <summary>
-    /// This class is dervied from the Employee class
+    /// Represents a developer and perform bonus calculation for developer.
     /// </summary>
     internal class Developer : Employee
     {
+        private const decimal DeveloperBonusRate = 0.10M;
+
         /// <summary>
-        /// This calss Calculates the Bonus of the Method
+        /// Calculates the bonus of the developer.
         /// </summary>
-        /// <returns>Returns the bonus alue of the Developer</returns>
+        /// <returns> Bonus for the Employee. </returns>
         public override decimal CalculateBonus()
         {
             if (this.Salary is null)
@@ -16,13 +18,13 @@
                 return 0;
             }
 
-            return decimal.Multiply((decimal)this.Salary, 0.10M);
+            return decimal.Multiply((decimal)this.Salary, DeveloperBonusRate);
         }
 
         /// <summary>
-        /// This class displays the Details of the Employee
+        /// Creates a string with the details of employee.
         /// </summary>
-        /// <returns>the name and salary of Empluyee</returns>
+        /// <returns>a string containing the name and salary of the developer</returns>
         public override string PrintDetails() => $"Developer Name: {this.Name}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
     }
 }

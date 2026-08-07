@@ -1,56 +1,57 @@
 ﻿namespace Assignment2.Models.BankingSystem
 {
     /// <summary>
-    /// This class contains Bank Account details and basic operations
+    /// Serves as a base blueprint for all bank account types.
     /// </summary>
     internal abstract class BankAccount
     {
         /// <summary>
-        /// gets or sets Name of the Account Holder
+        /// Gets or sets name of the account holder.
         /// </summary>
         /// <value>
-        /// Name of the customer
+        /// A string containing customers full name.
         /// </value>
         public string? Name { get; set; }
 
         /// <summary>
-        /// gets or sets Account Number
+        /// Gets or sets Account Number.
         /// </summary>
         /// <value>
-        /// Account Number of the customer
+        /// A string containing account number that acts as a unique identifier.
         /// </value>
         public string? AccountNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets ts Balance
+        /// Gets or sets the balance.
         /// </summary>
         /// <value>
-        /// Balance of the Account
+        /// Decimal value tracking the current balance of the account.
         /// </value>
         public decimal Balance { get; set; }
 
         /// <summary>
-        /// Deposits amount to the Account
+        /// Adds a specific sum of amount to the current balance.
         /// </summary>
-        /// <param name="amount">Amount to be Deposited</param>
-        /// <returns>Result of Operation</returns>
+        /// <param name="amount"> A sum of amount to be deposited. </param>
+        /// <returns> A message confirming the amount deposited to the account. </returns>
         public string Deposit(decimal amount)
         {
             this.Balance = this.Balance + amount;
-            return $"Rs: {amount} Deposited Successfully";
+            return $"Rs. {amount} deposited successfully";
         }
 
         /// <summary>
-        /// Withdraws amount from the account
+        /// Deducts a specified sum of money from the account balance.
+        /// Must be customized by specific account types to handle unique withdrawal rules.
         /// </summary>
-        /// <param name="amount">Amount to be Withdrawn</param>
-        /// <returns>Result of the Operation</returns>
+        /// <param name="amount"> A amount to deduct from the account. </param>
+        /// <returns> A status message explaining if the withdrawal succeeded or failed. </returns>
         public abstract string Withdraw(decimal amount);
 
         /// <summary>
-        /// This method prints the detail of the Account
+        /// This method prints the detail of the Account.
         /// </summary>
-        /// <returns>String containing account number And Balance</returns>
+        /// <returns> String containing account number And Balance. </returns>
         public virtual string PrintDetails() => $"Account Number {this.AccountNumber} Balance {this.Balance}";
     }
 }

@@ -1,123 +1,64 @@
 ﻿using Assignment2.Models.BankingSystem;
 
-namespace Assignment2.Repository
+namespace Assignment2.Repository;
+
+/// <summary>
+/// Provides a centralized data repository for storing, retrieving active bank account entities.
+/// </summary>
+internal class BankRepository
 {
+    private readonly List<BankAccount> _accounts = new List<BankAccount>();
+
     /// <summary>
-    /// This class contains the Bank Repository
+    /// Adds a bank account of a new customer into the repository.
     /// </summary>
-    internal class BankRepository
+    /// <param name="bankAccount"> A bank account instance that is need to be added. </param>
+    internal void Add(BankAccount bankAccount)
     {
-        private List<BankAccount> _accounts = new();
+        this._accounts.Add(bankAccount);
+    }
 
-        /// <summary>
-        /// This creates the Account for a new customer
-        /// </summary>
-        /// <param name="bankAccount">Account object</param>
-        /// <returns>Returns the string output</returns>
-        internal string CreateAccount(BankAccount bankAccount)
+    /// <summary>
+    /// Finds the account with matching account number.
+    /// </summary>
+    /// <param name="accountNumber">Account number.</param>
+    /// <returns>The bank account instance</returns>
+    internal BankAccount? GetByAccountNumber(string accountNumber)
+    {
+        return this._accounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
+    }
+
+    /// <summary>
+    /// Deducts a sum of amount from an account.
+    /// </summary>
+    /// <param name="accountNumber"> Account number of the account where amount is to be withdrawn. </param>
+    /// <param name="amount"> A sum of amount that is to be withdrawn. </param>
+    /// <returns> A string containing the status of the withdrawal operation. </returns>
+    internal string WithdrawAmount(string accountNumber, decimal amount)
+    {
+        BankAccount? account = this.GetByAccountNumber(accountNumber);
+        if (account is null)
         {
-            if (bankAccount == null)
-            {
-                return "Bank Account object can't be Null";
-            }
-
-            this._accounts.Add(bankAccount);
-            return "Account created Successfully";
+            return "Account not found";
         }
 
-        /// <summary>
-        /// This method creates the copy of all the accounts and returns it
-        /// </summary>
-        /// <returns>This returns the copy of contact list</returns>
-        internal List<BankAccount> GetAllAccounts()
-        {
-            List<BankAccount> copy = new List<BankAccount>();
-            foreach (BankAccount a in this._accounts)
-            {
-                copy.Add(new SavingsAccount { AccountNumber = a.AccountNumber, Balance = a.Balance });
-            }
+        return account.Withdraw(amount);
+    }
 
-            return copy;
+    /// <summary>
+    /// Deposits a sum of amount into an account.
+    /// </summary>
+    /// <param name="accountNumber"> Account number where amount is to be deposited. </param>
+    /// <param name="amount"> A sum of amount to be deposited. </param>
+    /// <returns>A string containing the status of the deposit operation</returns>
+    internal string DepositAmount(string accountNumber, decimal amount)
+    {
+        BankAccount? account = this.GetByAccountNumber(accountNumber);
+        if (account == null)
+        {
+            return "Account not Found";
         }
 
-        /// <summary>
-        /// This Method gets the Account number and return the object
-        /// </summary>
-        /// <param name="accountNumber">This contains the account number that is to be returned</param>
-        /// <returns>the bank account object with the account number</returns>
-        internal BankAccount? GetAccountByAccountNumber(string accountNumber)
-        {
-            foreach (BankAccount bankAccount in this._accounts)
-            {
-                if (bankAccount.AccountNumber == accountNumber)
-                {
-                    return bankAccount;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// This method withdraw amount into a Account with account number
-        /// </summary>
-        /// <param name="accountNumber">This contains the account number where amount is to be withdrawn</param>
-        /// <param name="amount">This contains the amount to be withdrawed</param>
-        /// <returns>this contains the string info of the operation</returns>
-        internal string WithdrawAmount(string accountNumber, decimal amount)
-        {
-            if (!string.IsNullOrEmpty(accountNumber))
-            {
-                BankAccount? account = this.GetAccountByAccountNumber(accountNumber);
-                if (account is null)
-                {
-                    return "Account not Found";
-                }
-
-                return account.Withdraw(amount);
-            }
-
-            return "Account number can't be Empty";
-        }
-
-        /// <summary>
-        /// This method deposits amount into a Account with account number
-        /// </summary>
-        /// <param name="accountNumber">This contains the account number where amount is to be deposited</param>
-        /// <param name="amount">This contains the amount to be deposited</param>
-        /// <returns>this contains the string info of the operation</returns>
-        internal string DepositAmount(string accountNumber, decimal amount)
-        {
-            if (!string.IsNullOrEmpty(accountNumber))
-            {
-                BankAccount? account = this.GetAccountByAccountNumber(accountNumber);
-                if (account == null)
-                {
-                    return "Account not Found";
-                }
-
-                return account.Deposit(amount);
-            }
-
-            return "Account number can't be Empty";
-        }
-
-        /// <summary>
-        /// This checks if the account exists
-        /// </summary>
-        /// <param name="accountNumber">The account number entered by the user</param>
-        /// <returns>Boolean true tell the account ispresent and false tells that the account to not present</returns>
-        internal bool CheckAccount(string accountNumber)
-        {
-            foreach (BankAccount bankAccount in this._accounts)
-            {
-                if (bankAccount.AccountNumber == accountNumber)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        return account.Deposit(amount);
     }
 }

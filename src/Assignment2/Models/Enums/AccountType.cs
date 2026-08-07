@@ -1,17 +1,17 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This enum represents the Account type
+    /// Represents the Type of the account that are available
     /// </summary>
     internal enum AccountType
     {
         /// <summary>
-        /// Savings account with minimum balance
+        /// Represents a savings account which has constraints in amount withdrawal.
         /// </summary>
-        SavingAccount = 1,
+        SavingsAccount = 1,
 
         /// <summary>
-        /// Checking account with minimum balance
+        /// Represents a checking account which has no withdrawal beyond a limit.
         /// </summary>
         CheckingAccount = 2,
     }

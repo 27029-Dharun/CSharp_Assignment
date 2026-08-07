@@ -1,22 +1,22 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This enum represents all the Task as enum
+    /// Specifies all the task that can be done in shape hierarchy.
     /// </summary>
     internal enum ShapeOption
     {
         /// <summary>
-        /// Shape
+        /// Represents an option to calculate area of a circle.
         /// </summary>
         Circle = 1,
 
         /// <summary>
-        /// Employee
+        /// Represents an option to calculate area of a rectangle.
         /// </summary>
         Rectangle = 2,
 
         /// <summary>
-        /// Exit from operation
+        /// Represents an option to get back to the main menu.
         /// </summary>
         Exit = 3,
     }

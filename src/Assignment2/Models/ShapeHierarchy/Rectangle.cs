@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Models.ShapeHierarchy
 {
     /// <summary>
-    /// This class derives from the Shape class and property for storing the dimensions
+    /// Represents a rectangle
     /// </summary>
     internal class Rectangle : Shape
     {
@@ -9,9 +9,9 @@
         /// Initializes a new instance of the <see cref="Rectangle"/> class.
         /// The Rectangle class
         /// </summary>
-        /// <param name="length">Length</param>
-        /// <param name="width">Width</param>
-        /// <param name="color">Color</param>
+        /// <param name="length"> Length of the rectangle. </param>
+        /// <param name="width"> Width of the rectangle. </param>
+        /// <param name="color"> Color of the rectangle. </param>
         public Rectangle(double length, double width, string color)
             : base(color)
         {
@@ -20,26 +20,25 @@
         }
 
         /// <summary>
-        /// Gets the the width of the rectangle
+        /// Gets the width of the rectangle.
         /// </summary>
         /// <value>
-        /// The width of the rectangle is stored here
+        /// A double containing width of the rectangle.
         /// </value>
-        ///
         public double? Width { get; }
 
         /// <summary>
-        /// Gets the height of the Rectangle object
+        /// Gets the height of the rectangle.
         /// </summary>
         /// <value>
-        /// The height of the Rectangle object
+        /// A double with height of the rectangle.
         /// </value>
         public double? Length { get; }
 
         /// <summary>
-        /// Calucates Area with Width and Height
+        /// Calculates the area of the rectangle.
         /// </summary>
-        /// <returns>Area of type Double </returns>
+        /// <returns> A double containing the area of the rectangle. </returns>
         public override double CalculateArea()
         {
             if (this.Length == 0 || this.Length == null || this.Width == null)
@@ -52,9 +51,9 @@
         }
 
         /// <summary>
-        /// Returns the detail of the Rectangle object
+        /// Formats and returns the detail of the rectangle
         /// </summary>
-        /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"Rectangle with Color: {this.Color}\n, Area: {this.CalculateArea()}\n";
+        /// <returns>A string containing color, shape type, and area.</returns>
+        public override string PrintDetails() => $"\nRectangle with Color: {this.Color}\nArea: {this.CalculateArea()}\n";
     }
 }

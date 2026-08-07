@@ -6,25 +6,25 @@ using Assignment2.Views;
 namespace Assignment2.Controllers
 {
     /// <summary>
-    /// This is the Employee Controller.
+    /// Manages employee hierarchy, connect view and shape service.
     /// </summary>
     internal class EmployeeController
     {
-        private EmployeeService _employeeService;
+        private readonly EmployeeService _employeeService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmployeeController"/> class.
         /// </summary>
-        /// <param name="employeeService">Employee service object</param>
+        /// <param name="employeeService"> Employee service object. </param>
         public EmployeeController(EmployeeService employeeService)
         {
             this._employeeService = employeeService;
         }
 
         /// <summary>
-        /// This is the Entry point of the Employee Task.
+        /// Serves as the primary entry point to root employee hierarchy operations.
         /// </summary>
-        public void RunEmployeeOperations()
+        public void EmployeeOperations()
         {
             EmployeeRole option = (EmployeeRole)ConsoleView.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\nEnter the option: ");
             switch (option)
@@ -49,7 +49,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// This class contains Manager operations.
+        /// Prompts the user to enter the manager profile and displays the calculated bonus.
         /// </summary>
         private void Manager()
         {
@@ -63,11 +63,11 @@ namespace Assignment2.Controllers
                 return;
             }
 
-            ConsoleView.PrintEmployee(manager);
+            ConsoleView.PrintInfo(this._employeeService.GetDetails(manager));
         }
 
         /// <summary>
-        /// This methods contains Developer operations.
+        /// Prompts the user to enter the developer profile and displays the calculated bonus.
         /// </summary>
         private void Developer()
         {
@@ -81,7 +81,7 @@ namespace Assignment2.Controllers
                 return;
             }
 
-            ConsoleView.PrintEmployee(developer);
+            ConsoleView.PrintInfo(this._employeeService.GetDetails(developer));
         }
     }
 }

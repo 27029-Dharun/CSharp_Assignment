@@ -6,7 +6,7 @@ using Assignment2.Views;
 namespace Assignment2.Controllers
 {
     /// <summary>
-    /// Controller coordinating between view and service layer.
+    /// Manages banking system, connect view and shape service.
     /// </summary>
     internal class BankController
     {
@@ -22,9 +22,10 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// Starting point of the bank system.
+        /// Serves as entry point of the banking system.
+        /// Starts the execution flow for the banking system.
         /// </summary>
-        public void RunBankOperations()
+        public void BankOperations()
         {
             int option;
             do
@@ -36,7 +37,7 @@ namespace Assignment2.Controllers
                         this.CreateNewAccount();
                         break;
 
-                    case (int)BankOperation.View:
+                    case (int)BankOperation.LogIn:
                         this.LogIn();
                         break;
 
@@ -54,7 +55,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// Gets input from user and creates bank account.
+        /// Prompts user for data and creates a bank account.
         /// </summary>
         private void CreateNewAccount()
         {
@@ -76,7 +77,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// Login into user account.
+        /// Login into user account using account number.
         /// </summary>
         private void LogIn()
         {
@@ -130,7 +131,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// Perform withdraw operation.
+        /// Performs withdraw operation.
         /// </summary>
         /// <param name="accountNumber"> Account number of the account. </param>
         private void WithdrawAmount(string accountNumber)
@@ -145,7 +146,7 @@ namespace Assignment2.Controllers
         /// <param name="accountNumber"> Account number. </param>
         private void DisplayBalance(string accountNumber)
         {
-            BankAccount? account = this._bankService.GetBalance(accountNumber);
+            BankAccount? account = this._bankService.GetAccountByAccountNumber(accountNumber);
             if (account is null)
             {
                 ConsoleView.PrintInfo("Account not Found");

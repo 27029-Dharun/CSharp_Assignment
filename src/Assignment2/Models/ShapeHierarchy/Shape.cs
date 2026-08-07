@@ -1,13 +1,12 @@
 ﻿namespace Assignment2.Models.ShapeHierarchy
 {
     /// <summary>
-    /// This abstract class contains the Shape and calculate Area method
+    /// Serves as a base blue print for all the shapes.
     /// </summary>
     internal abstract class Shape
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape"/> class.
-        /// This class assigns color
         /// </summary>
         /// <param name="color">Color of the shape</param>
         public Shape(string color)
@@ -16,23 +15,24 @@
         }
 
         /// <summary>
-        /// Gets this property stores the color of each shapes
+        /// Gets this property stores the color of each shapes.
         /// </summary>
         /// <value>
-        /// This contains the Color of each shape
+        /// A string contains the color of the shape.
         /// </value>
         public string? Color { get; }
 
         /// <summary>
-        /// This abstract class is used to calculate area of different shapes
+        /// Calculates the area of the shape.
+        /// Must be customized by specifying the shape.
         /// </summary>
-        /// <returns>Returns the area of the Shape</returns>
+        /// <returns>A double value containing area of the Shape.</returns>
         public abstract double CalculateArea();
 
         /// <summary>
-        /// This class prints the details of shape
+        /// Creates a string with details of the shape.
         /// </summary>
-        /// <returns>String output showing the Color and Area of the Shape </returns>
+        /// <returns> A string value with color and area of the shape. </returns>
         public virtual string PrintDetails() => $"{this.Color}, {this.CalculateArea()}";
     }
 }

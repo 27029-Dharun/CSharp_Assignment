@@ -1,15 +1,15 @@
 ﻿namespace Assignment2.Models.ShapeHierarchy
 {
     /// <summary>
-    /// THis class derives from the Circle class
+    /// Represents a geometric circle shape
     /// </summary>
     internal class Circle : Shape
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Circle"/> class.
         /// </summary>
-        /// <param name="radius">radius</param>
-        /// <param name="color">Color</param>
+        /// <param name="radius"> Radius of the circle. </param>
+        /// <param name="color"> Color of the circle. </param>
         public Circle(double radius, string color)
             : base(color)
         {
@@ -17,17 +17,17 @@
         }
 
         /// <summary>
-        /// Gets this property stores the Radius of the circle objects
+        /// Gets this the radius of the circle.
         /// </summary>
         /// <value>
-        /// Value of radius
+        /// A double containing the radius of the circle.
         /// </value>
         public double Radius { get; }
 
         /// <summary>
-        /// Calculates the Area of the Circle
+        /// Calculates the area of the circle.
         /// </summary>
-        /// <returns>Double value of Area of circle</returns>
+        /// <returns> A double value with area of circle. </returns>
         public override double CalculateArea()
         {
             double area = Math.PI * this.Radius * this.Radius;
@@ -35,9 +35,9 @@
         }
 
         /// <summary>
-        /// Returns the detail of the Rectangle object
+        /// Format and return a string with details of the circle.
         /// </summary>
-        /// <returns>string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"Circle Color: {this.Color} ,Area: {this.CalculateArea()}";
+        /// <returns>A string containing color, shape type, and area of the circle.</returns>
+        public override string PrintDetails() => $"\nCircle Color: {this.Color}\nArea: {this.CalculateArea()}\n";
     }
 }

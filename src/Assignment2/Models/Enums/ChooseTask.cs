@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Models.Enums
+﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// This enum represents all the Task as enum
+    /// Specifies all the task that are available in the application
     /// </summary>
     internal enum ChooseTask
     {
         /// <summary>
-        /// Shape
+        /// Represents an option to get into shape hierarchy.
         /// </summary>
         Shape = 1,
 
         /// <summary>
-        /// Employee
+        /// Represents an option to get into employee hierarchy.
         /// </summary>
         Employee = 2,
 
         /// <summary>
-        /// Bank
+        /// Represents an option to get into banking system.
         /// </summary>
         Bank = 3,
 
         /// <summary>
-        /// Exit
+        /// Represents an option to exit from the application.
         /// </summary>
         Exit = 4,
     }

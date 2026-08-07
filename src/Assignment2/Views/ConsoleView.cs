@@ -1,16 +1,14 @@
 ﻿using Assignment2.Models.BankingSystem;
-using Assignment2.Models.EmployeeHierarchy;
-using Assignment2.Models.ShapeHierarchy;
 
 namespace Assignment2.Views
 {
     /// <summary>
-    /// THis class contains all the console operations
+    /// Contains all the console operations
     /// </summary>
     internal class ConsoleView
     {
         /// <summary>
-        /// This method prints info
+        /// Prints the info on the console.
         /// </summary>
         /// <param name="message">String to be printed</param>
         internal static void PrintInfo(string message)
@@ -19,54 +17,54 @@ namespace Assignment2.Views
         }
 
         /// <summary>
-        /// This Method gets the decimal
+        /// Gets a valid decimal input from the user until the input is a valid decimal number.
         /// </summary>
-        /// <param name="operation">Message displayed to user</param>
-        /// <returns>decimal value entered by the user</returns>
-        internal static decimal GetDecimal(string operation)
+        /// <param name="prompt"> Prompt to be displayed to the user. </param>
+        /// <returns> The decimal value entered by user. </returns>
+        internal static decimal GetDecimal(string prompt)
         {
             decimal amount;
-            Console.Write(operation);
+            Console.Write(prompt);
             while (!decimal.TryParse(Console.ReadLine(), out amount))
             {
                 Console.WriteLine("Please enter a positive decimal value");
-                Console.Write(operation);
+                Console.Write(prompt);
             }
 
             return amount;
         }
 
         /// <summary>
-        /// This Method gets the double
+        /// Gets a valid double input from the user until the input is a valid double number.
         /// </summary>
-        /// <param name="operation">Message displayed to user</param>
-        /// <returns>double value entered by the user</returns>
-        internal static double GetDouble(string operation)
+        /// <param name="prompt"> Prompt to be displayed to the user. </param>
+        /// <returns> The double value entered by user. </returns>
+        internal static double GetDouble(string prompt)
         {
             double amount;
-            Console.Write(operation);
+            Console.Write(prompt);
             while (!double.TryParse(Console.ReadLine(), out amount))
             {
                 Console.WriteLine("Please enter a positive Double value");
-                Console.Write(operation);
+                Console.Write(prompt);
             }
 
             return amount;
         }
 
         /// <summary>
-        /// This Method gets the string input
+        /// Gets a string input from the user until the input is a valid string.
         /// </summary>
-        /// <param name="operation">Message displayed to user</param>
-        /// <returns>string value entered by the user</returns>
-        internal static string GetString(string operation)
+        /// <param name="prompt"> Prompt to be displayed to the user. </param>
+        /// <returns> The string entered by user. </returns>
+        internal static string GetString(string prompt)
         {
-            Console.Write(operation);
+            Console.Write(prompt);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
             while (input == string.Empty)
             {
                 Console.WriteLine("String can't be Empty");
-                Console.Write(operation);
+                Console.Write(prompt);
                 input = (Console.ReadLine() ?? string.Empty).Trim();
             }
 
@@ -74,22 +72,13 @@ namespace Assignment2.Views
         }
 
         /// <summary>
-        /// This prints the Details of the Employee
+        /// Gets a integer input from the user until the input is a valid integer number.
         /// </summary>
-        /// <param name="employee">The employee object</param>
-        internal static void PrintEmployee(Employee employee)
+        /// <param name="prompt"> Prompt to be displayed to the user. </param>
+        /// <returns> The integer value entered by user. </returns>
+        internal static int GetInteger(string prompt)
         {
-            Console.WriteLine(Environment.NewLine + employee.PrintDetails());
-        }
-
-        /// <summary>
-        /// This methods get the integer input
-        /// </summary>
-        /// <param name="operation">The string to be printed</param>
-        /// <returns>Returns the integer that we got as a input</returns>
-        internal static int GetInteger(string operation)
-        {
-            Console.Write(operation);
+            Console.Write(prompt);
             int input;
             while (!int.TryParse(Console.ReadLine(), out input))
             {
@@ -100,18 +89,9 @@ namespace Assignment2.Views
         }
 
         /// <summary>
-        /// This class prints the shape
+        /// This prints the balance and account of the Account.
         /// </summary>
-        /// <param name="shape">Shape object</param>
-        internal static void PrintShape(Shape shape)
-        {
-            Console.WriteLine(shape.PrintDetails());
-        }
-
-        /// <summary>
-        /// This prints the balance and other info of the Account
-        /// </summary>
-        /// <param name="account">The account object that is to be Printed</param>
+        /// <param name="account"> Instance of the account. </param>
         internal static void PrintBalance(BankAccount account)
         {
             Console.WriteLine($"Account Number: {account.AccountNumber}");
@@ -119,14 +99,14 @@ namespace Assignment2.Views
         }
 
         /// <summary>
-        /// Pause the flow until a key is entered
+        /// Pause the flow until a key is entered.
         /// </summary>
         internal static void PauseAndReturn()
         {
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
 
-            // Erases the entire scrollback buffer history
+            // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
         }

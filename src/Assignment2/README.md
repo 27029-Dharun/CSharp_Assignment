@@ -1,5 +1,7 @@
 # Object-Oriented Programming Application
 
+This application contains three main module:
+
 1. Shape Hierarchy
 2. Employee Management
 3. Banking System
@@ -21,10 +23,10 @@
 ### Main Menu
  
 When the application starts, you will see a menu similar to the following:
- 
-1. Shape Hierarchy
-2. Employee Hierarchy
-3. Banking System
+
+1. Shape hierarchy
+2. Employee hierarchy
+3. Banking system
 4. Exit
 
 Enter your choice:
@@ -213,7 +215,7 @@ Balance        : 15000
 ### Deposit Money
  
 Select Deposit.
- 
+
 Enter the amount.
  
 Example
