@@ -3,33 +3,33 @@
 namespace Assignment3.Repository
 {
     /// <summary>
-    /// Interface Repository
+    /// Contract for the repository.
     /// </summary>
     internal interface IRepository
     {
         /// <summary>
-        /// returns the inventory list
+        /// Gets the inventory objects and returns it.
         /// </summary>
-        /// <returns>List of all product in inventory</returns>
+        /// <returns> List of inventory objects. </returns>
         public IReadOnlyList<Product> GetInventory();
 
         /// <summary>
-        /// Remove product from inventory
+        /// Remove a product from the inventory.
         /// </summary>
-        /// <param name="product">Product to be removed</param>
+        /// <param name="product">Product object to be deleted</param>
         public void RemoveProduct(Product product);
 
         /// <summary>
-        /// gets the product by id
+        /// Gets the product by id from the repository.
         /// </summary>
-        /// <param name="id">Id of the Product</param>
-        /// <returns>Inventory object</returns>
+        /// <param name="id"> Unique identifier of the Product. </param>
+        /// <returns>Instance of the product.</returns>
         public Product GetProductById(int id);
 
         /// <summary>
-        /// adds a product to inventory
+        /// Adds a product to the repository.
         /// </summary>
-        /// <param name="product">Product to be added</param>
+        /// <param name="product"> Instance of a product to be added. </param>
         public void AddProduct(Product product);
     }
 }

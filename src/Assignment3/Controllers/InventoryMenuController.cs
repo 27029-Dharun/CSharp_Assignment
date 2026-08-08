@@ -23,7 +23,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Displays the menu option and gets a option as input.
+        /// Displays the menu option and gets a option as input continuously until the user exits.
         /// </summary>
         public void Starter()
         {
@@ -65,7 +65,7 @@ namespace Assignment3.Controllers
         private bool InventoryOptions()
         {
             this._view.PrintEmptyLine();
-            int option = this._view.GetInteger("1. Add a Product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
+            int option = this._view.GetInteger("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
             Console.Clear();
             switch (option)
             {
