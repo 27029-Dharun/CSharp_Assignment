@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Assignment4.Constants;
 using Assignment4.Models;
 using ConsoleTables;
 
@@ -9,9 +10,6 @@ namespace Assignment4.View
     /// </summary>
     public class ConsoleView
     {
-        private const string BORDER = "=========================================";
-        private const int TRIES = 3;
-
         /// <summary>
         /// Prints the message in console
         /// </summary>
@@ -49,37 +47,12 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Get the integer
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <param name="input">Input entered by the user</param>
-        /// <param name="tries">Tries left to enter a valid Integer</param>
-        /// <returns>status of the operation</returns>
-        internal bool GetInteger(string message, out int input, int tries = TRIES)
-        {
-            Console.Write(message);
-            while (!int.TryParse(Console.ReadLine(), out input))
-            {
-                if (tries <= 0)
-                {
-                    return true;
-                }
-
-                Console.WriteLine($"Tries left: {tries--}");
-                Console.WriteLine($"Enter a valid integer\n");
-                Console.Write(message);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Get the integer
+        /// Gets an optional integer from the user
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries left to enter a valid Integer</param>
-        /// <returns>status of the operation</returns>
-        internal int GetOptionalInteger(string message, int tries = TRIES)
+        /// <returns>Integer value that is entered by the user</returns>
+        internal int GetOptionalInteger(string message, int tries = Configurable.Tries)
         {
             int input;
             Console.Write(message);
@@ -98,12 +71,12 @@ namespace Assignment4.View
         /// <param name="input">out param that returns the string input</param>
         /// <param name="tries">Tries left to enter a valid string</param>
         /// <returns>Returns false if the user enters repeated invalid input</returns>
-        internal bool GetString(string message, out string input, int tries = TRIES)
+        internal bool GetString(string message, out string input, int tries = Configurable.Tries)
         {
             Console.Write(message);
             input = Console.ReadLine() ?? string.Empty;
 
-            while (input == string.Empty)
+            while (input.Equals(string.Empty))
             {
                 if (tries <= 0)
                 {
@@ -126,7 +99,7 @@ namespace Assignment4.View
         /// <param name="input">out param that returns the decimal input</param>
         /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>decimal input</returns>
-        internal bool GetDecimal(string message, out decimal input, int tries = TRIES)
+        internal bool GetDecimal(string message, out decimal input, int tries = Configurable.Tries)
         {
             Console.Write(message);
             while (!decimal.TryParse(Console.ReadLine(), out input))
@@ -150,14 +123,13 @@ namespace Assignment4.View
         /// <param name="validDate">Out param that returns the valid date</param>
         /// <param name="tries">Tries for user to retry</param>
         /// <returns>DateTime value entered by user</returns>
-        internal bool GetDate(out DateTime validDate, int tries = TRIES)
+        internal bool GetDate(out DateTime validDate, int tries = Configurable.Tries)
         {
             string input;
-            string format = "dd/MM/yyyy";
-            Console.Write($"Enter a date in format ({format}): ");
+            Console.Write($"Enter a date in format ({Configurable.DateFormat}): ");
 
             input = Console.ReadLine() ?? string.Empty;
-            while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
+            while (!DateTime.TryParseExact(input, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
             {
                 if (tries <= 0)
                 {
@@ -165,7 +137,7 @@ namespace Assignment4.View
                 }
 
                 Console.WriteLine($"Tries Left: {tries--}");
-                Console.Write($"Invalid date. Please enter in format {format}: ");
+                Console.Write($"Invalid date. Please enter in format {Configurable.DateFormat}: ");
                 input = Console.ReadLine() ?? string.Empty;
             }
 
@@ -183,7 +155,7 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// prints the error message in red color
+        /// Displays the error message in red color
         /// </summary>
         /// <param name="message">message to be printed</param>
         internal void PrintError(string message)
@@ -194,7 +166,7 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// prints the success message in green color
+        /// Displays the success message in green color
         /// </summary>
         /// <param name="message">message to be printed</param>
         internal void PrintSuccess(string message)
@@ -205,7 +177,7 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// prints the error message in red color
+        /// Displays the error message in red color
         /// </summary>
         /// <param name="message">message to be printed</param>
         internal void PrintWarning(string message)
@@ -216,9 +188,9 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Prints the Transactions
+        /// Displays the transactions
         /// </summary>
-        /// <param name="transactions">Transactions to be printed</param>
+        /// <param name="transactions">List of transactions</param>
         internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
             var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Date", "Transaction Amount", "Transaction Category");
@@ -232,11 +204,11 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Pause the flow until a key is entered
+        /// Waits for user to press a key and clears the console.
         /// </summary>
         internal void PauseAndReturn()
         {
-            Console.WriteLine("Press any key to return to main menu");
+            Console.WriteLine("Press any key to continue");
             Console.ReadKey();
 
             // Erases the entire scroll back buffer history
@@ -249,26 +221,23 @@ namespace Assignment4.View
         /// </summary>
         internal void DisplayMainMenu()
         {
-            Console.WriteLine(BORDER);
-            Console.WriteLine("       FINANCE TRACKER - MAIN MENU       ");
-            Console.WriteLine(BORDER);
+            Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
 
             Console.WriteLine("[1] Add Transaction (Income/Expense)");
             Console.WriteLine("[2] Edit Transaction");
             Console.WriteLine("[3] Delete Transaction");
             Console.WriteLine("[4] View Financial Summary");
             Console.WriteLine("[5] View History / Transactions");
-            Console.WriteLine("[6] Exit Application");
+            Console.WriteLine("[6] Exit Application\n");
 
-            Console.WriteLine(BORDER);
             Console.WriteLine("Please enter your choice (1-6): ");
         }
 
         /// <summary>
-        /// Gets a string value from the user.
+        /// Gets a optional string value from the user.
         /// </summary>
         /// <param name="message">Message to be displayed to the user</param>
-        /// <returns> A string value entered by the user. </returns>
+        /// <returns> A string value entered by the user; otherwise empty string </returns>
         internal string GetOptionalString(string message)
         {
             Console.Write(message);

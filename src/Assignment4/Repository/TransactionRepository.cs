@@ -44,7 +44,7 @@ namespace Assignment4.Repository
         public void DeleteTransactionById(string id)
         {
             Transaction? transaction = this.GetById(id);
-            if (transaction == null)
+            if (transaction is null)
             {
                 return;
             }

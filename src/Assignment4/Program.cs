@@ -1,12 +1,10 @@
-﻿using Assignment4;
-using Assignment4.Controllers;
+﻿using Assignment4.Controllers;
 using Assignment4.Helper;
 using Assignment4.Repository;
 using Assignment4.Services;
-using Assignment4.Validation;
 using Assignment4.View;
 
-namespace Assignments
+namespace Assignment4
 {
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.
@@ -20,9 +18,6 @@ namespace Assignments
         {
             try
             {
-                // Validator instance for performing the validation operation.
-                TransactionValidator validator = new TransactionValidator();
-
                 // View instance for performing the console operations.
                 ConsoleView view = new ConsoleView();
 
@@ -33,7 +28,7 @@ namespace Assignments
                 TransactionRepository repository = new TransactionRepository();
 
                 // Service instance that contains business logic, performs validation, and create product instance.
-                TransactionService service = new TransactionService(validator, idGenerator, repository);
+                TransactionService service = new TransactionService(idGenerator, repository);
 
                 // Controller instance that coordinates the view and service.
                 TransactionController controller = new TransactionController(service, view);

@@ -22,10 +22,10 @@ namespace Assignment4.Helper
         }
 
         /// <summary>
-        /// returns the next id to be used as a identifier
+        /// Gets the next id to be used as a identifier.
         /// </summary>
         /// <param name="type">Type of the transaction</param>
-        /// <returns>unique identifier based on the type of expense</returns>
+        /// <returns> A unique identifier based on the type of expense. </returns>
         public string GetNextId(TransactionType type)
         {
             string prefix = type == TransactionType.Expense ? "E" : "I";

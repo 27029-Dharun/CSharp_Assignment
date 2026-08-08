@@ -16,8 +16,8 @@ namespace Assignment4
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTracker"/> class.
         /// </summary>
-        /// <param name="view">View object</param>
-        /// <param name="controller">controller object</param>
+        /// <param name="view">An instance of view</param>
+        /// <param name="controller">An instance of controller</param>
         public ExpenseTracker(ConsoleView view, TransactionController controller)
         {
             this._view = view;

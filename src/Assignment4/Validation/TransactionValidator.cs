@@ -1,18 +1,20 @@
-﻿namespace Assignment4.Validation
+﻿using Assignment4.Constants;
+
+namespace Assignment4.Validation
 {
     /// <summary>
     /// Contains all the validator methods to validate the transaction data.
     /// </summary>
-    internal class TransactionValidator
+    public static class TransactionValidator
     {
         /// <summary>
         /// Validates the amount used in the transaction
         /// </summary>
         /// <param name="amount">Amount to validate</param>
-        /// <returns>returns the validation output</returns>
-        internal string ValidateAmount(decimal amount)
+        /// <returns>A string containing the validation output; empty string if it is valid</returns>
+        public static string ValidateAmount(decimal amount)
         {
-            if (amount < 0)
+            if (amount < Configurable.MinimumAmount)
             {
                 return "Amount should be positive\n";
             }
@@ -24,8 +26,8 @@
         /// Validates the date used in the transaction
         /// </summary>
         /// <param name="date">Date of the transaction</param>
-        /// <returns>returns the validation output</returns>
-        internal string ValidateDate(DateTime date)
+        /// <returns>A string containing the validation output; empty string if it is valid. </returns>
+        public static string ValidateDate(DateTime date)
         {
             if (date > DateTime.Now)
             {
@@ -39,12 +41,12 @@
         /// Validates the name of the transaction
         /// </summary>
         /// <param name="name">Description of the transaction</param>
-        /// <returns>returns the validation output</returns>
-        internal string ValidateTitle(string name)
+        /// <returns>A string containing the validation output; empty string if it is valid</returns>
+        public static string ValidateTitle(string name)
         {
-            if (name == null || name.Length < 3)
+            if (name is null || name.Length < Configurable.MinimumAmount)
             {
-                return "Title should have at least 3 Characters\n";
+                return $"Title should have at least {Configurable.MinimumAmount} characters\n";
             }
 
             foreach (char c in name)

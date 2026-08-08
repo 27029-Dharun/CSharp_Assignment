@@ -26,7 +26,7 @@ namespace Assignment4.Controllers
         }
 
         /// <summary>
-        /// Handles the menu returns from the application runner
+        /// Handles the menu returns from the application runner.
         /// </summary>
         /// <param name="menu">Menu option selected from the user</param>
         public void HandleMenu(TransactionMenu menu)
@@ -60,17 +60,12 @@ namespace Assignment4.Controllers
 
         private void CreateTransaction()
         {
-            // gets the type of transaction income/expense
+            // Gets the type of transaction income/expense
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
 
-            // gets the category of the transaction
+            // Gets the category of the transaction
             this._view.ClearConsole();
-            string? category = this.GetCategory(type);
-            if (category is null)
-            {
-                this._view.PrintError("Transaction failed, Please try again");
-                return;
-            }
+            string category = this.GetCategory(type);
 
             // Gets the amount involved in the transaction
             this._view.ClearConsole();
@@ -86,7 +81,7 @@ namespace Assignment4.Controllers
             valid = this._view.GetDate(out DateTime date);
             if (!valid)
             {
-                this._view.PrintError("Transaction failed, Please try again\n");
+                this._view.PrintError("Transaction failed, Please try again");
                 return;
             }
 
@@ -207,12 +202,7 @@ namespace Assignment4.Controllers
             {
                 case 1:
 
-                    string? category = this.GetCategory(type);
-                    if (category is null)
-                    {
-                        this._view.PrintError("Failed to edit, please try again");
-                        return;
-                    }
+                    string category = this.GetCategory(type);
 
                     transaction.Category = category;
                     break;
@@ -281,9 +271,9 @@ namespace Assignment4.Controllers
             this.ViewAllTransaction();
         }
 
-        private string? GetCategory(TransactionType? type)
+        private string GetCategory(TransactionType? type)
         {
-            if (type == TransactionType.Expense)
+            if (type is TransactionType.Expense)
             {
                 return this._view.GetEnumValue<ExpenseCategory>($"Select the category of the {type}: ").ToString();
             }

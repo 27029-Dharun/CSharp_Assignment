@@ -12,25 +12,23 @@ namespace Assignment4.Services
     /// </summary>
     internal class TransactionService
     {
-        private readonly TransactionValidator _validator;
         private readonly TransactionRepository _repository;
         private readonly TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
-        /// <param name="validator">Validator object</param>
-        /// <param name="idGenerator">IdGenerator object</param>
-        /// <param name="repository">repository object</param>
-        public TransactionService(TransactionValidator validator, TransactionIdGenerator idGenerator, TransactionRepository repository)
+        /// <param name="validator">Validator instance</param>
+        /// <param name="idGenerator">IdGenerator instance</param>
+        /// <param name="repository">repository instance</param>
+        public TransactionService(TransactionIdGenerator idGenerator, TransactionRepository repository)
         {
-            this._validator = validator;
             this._idGenerator = idGenerator;
             this._repository = repository;
         }
 
         /// <summary>
-        /// Creates a Transaction object and returns it.
+        /// Creates a Transaction instance and returns it.
         /// </summary>
         /// <param name="transaction">An instance of transaction DTO</param>
         /// <param name="validationOutput">A string telling representing the validation output. </param>
@@ -64,7 +62,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Get the income from the repository
         /// </summary>
-        /// <returns>returns a list of incomes</returns>
+        /// <returns>  list of incomes</returns>
         internal IReadOnlyList<Transaction> GetIncome()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
@@ -85,7 +83,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Gets all the transactions from the repository
         /// </summary>
-        /// <returns>list of transaction</returns>
+        /// <returns>List of transaction</returns>
         internal IReadOnlyList<Transaction> GetAllTransaction()
         {
             return this._repository.GetAll();
@@ -162,7 +160,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Generates the summary of the transaction
         /// </summary>
-        /// <returns>Transaction summary object that contains the summary data</returns>
+        /// <returns>Transaction summary instance that contains the summary data</returns>
         internal TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
@@ -186,11 +184,11 @@ namespace Assignment4.Services
 
         private string ValidateTransaction(TransactionDTO transaction)
         {
-            string nameValidator = this._validator.ValidateTitle(transaction.Description);
-            string dateValidator = this._validator.ValidateDate(transaction.Date);
-            string amountValidator = this._validator.ValidateAmount(transaction.Amount);
+            string nameValidator = TransactionValidator.ValidateTitle(transaction.Description);
+            string dateValidator = TransactionValidator.ValidateDate(transaction.Date);
+            string amountValidator = TransactionValidator.ValidateAmount(transaction.Amount);
 
-            if (nameValidator != string.Empty || dateValidator != string.Empty || amountValidator != string.Empty)
+            if ((!nameValidator.Equals(string.Empty)) || (!dateValidator.Equals(string.Empty)) || (!amountValidator.Equals(string.Empty)))
             {
                 return nameValidator + dateValidator + amountValidator;
             }
