@@ -27,7 +27,7 @@ namespace Assignment4
                 // Repository instance for add the transactions in the list.
                 TransactionRepository repository = new TransactionRepository();
 
-                TransactionInputHandler inputHandler = new TransactionInputHandler();
+                TransactionInputHandler inputHandler = new TransactionInputHandler(view);
 
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(idGenerator, repository);

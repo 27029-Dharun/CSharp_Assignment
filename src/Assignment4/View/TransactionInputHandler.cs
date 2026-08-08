@@ -8,7 +8,16 @@ namespace Assignment4.View
     /// </summary>
     internal class TransactionInputHandler
     {
-        private ConsoleView _view = new ConsoleView();
+        private readonly ConsoleView _view;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionInputHandler"/> class.
+        /// </summary>
+        /// <param name="view">An instance of view</param>
+        public TransactionInputHandler(ConsoleView view)
+        {
+            this._view = view;
+        }
 
         /// <summary>
         /// Gets the data for editing a transaction

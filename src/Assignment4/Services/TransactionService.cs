@@ -62,7 +62,7 @@ namespace Assignment4.Services
         /// <returns>  list of incomes</returns>
         internal IReadOnlyList<Transaction> GetIncome()
         {
-            return this._repository.GetExpense();
+            return this._repository.GetIncome();
         }
 
         /// <summary>
