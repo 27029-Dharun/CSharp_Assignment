@@ -24,13 +24,7 @@ namespace Assignment3.Services
             this._inventoryRepository = repository;
         }
 
-        /// <summary>
-        /// Creates a product object to inventory
-        /// </summary>
-        /// <param name="name">Name of the product</param>
-        /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Product object created is returned</returns>
+        /// <inheritdoc />
         public Product CreateInventoryProduct(string name, decimal price, int quantity)
         {
             if (!this._validator.IsValidateName(name))
@@ -58,20 +52,13 @@ namespace Assignment3.Services
             return product;
         }
 
-        /// <summary>
-        /// Returns inventory products
-        /// </summary>
-        /// <returns>Lists of all the inventory Objects</returns>
+        /// <inheritdoc />
         public List<Product> GetInventoryProducts()
         {
             return this._inventoryRepository.GetInventory().ToList();
         }
 
-        /// <summary>
-        /// Delete the product
-        /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <returns>Product object</returns>
+        /// <inheritdoc />
         public Product DeleteProductById(int id)
         {
             Product product = this._inventoryRepository.GetProductById(id);
@@ -79,14 +66,7 @@ namespace Assignment3.Services
             return product;
         }
 
-        /// <summary>
-        /// Edit product by id
-        /// </summary>
-        /// <param name="id">Product Id to be edited</param>
-        /// <param name="name">Name of the product to update</param>
-        /// <param name="price">Price of the product to update</param>
-        /// <param name="quantity">Quantity of the Product to update</param>
-        /// <returns>Updated Product object</returns>
+        /// <inheritdoc />
         public Product EditProductById(int id, string name, decimal price, int quantity)
         {
             Product product = this._inventoryRepository.GetProductById(id);
@@ -129,11 +109,7 @@ namespace Assignment3.Services
             return product;
         }
 
-        /// <summary>
-        /// Sort the products in the inventory
-        /// </summary>
-        /// <param name="option">Option to search</param>
-        /// <returns>Sorted list of products in inventory</returns>
+        /// <inheritdoc />
         public List<Product> SortProducts(int option)
         {
             switch (option)
@@ -152,11 +128,7 @@ namespace Assignment3.Services
             }
         }
 
-        /// <summary>
-        /// Search product by name
-        /// </summary>
-        /// <param name="search_query">Name or id to search product</param>
-        /// <returns>List of product matched with the string</returns>
+        /// <inheritdoc />
         public List<Product> SearchProductByNameOrId(string search_query)
         {
             List<Product> products = this._inventoryRepository.GetInventory().ToList();
@@ -176,10 +148,7 @@ namespace Assignment3.Services
             return filtered;
         }
 
-        /// <summary>
-        /// Checks the id is valid
-        /// </summary>
-        /// <param name="id">Product id entered by user</param>
+        /// <inheritdoc />
         public void ValidateProductId(int id)
         {
             // Throws exception if the id is not present
