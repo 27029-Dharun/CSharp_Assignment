@@ -1,4 +1,6 @@
-﻿using Assignment4.Models;
+﻿using Assignment4.DTOs;
+using Assignment4.Models;
+using Assignment4.Models.Enums;
 
 namespace Assignment4.Repository
 {
@@ -32,9 +34,14 @@ namespace Assignment4.Repository
         /// </summary>
         /// <param name="id">Id to find the transaction</param>
         /// <returns>Transaction object</returns>
-        public Transaction? GetById(string id)
+        public bool IsValidId(string id)
         {
-            return this._transactions.FirstOrDefault(x => id == x.Id);
+            if (this._transactions.FirstOrDefault(x => id == x.Id) is not null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -59,6 +66,71 @@ namespace Assignment4.Repository
         public bool IsAny()
         {
             return this._transactions.Any();
+        }
+
+        /// <summary>
+        /// Get the expense from the repository
+        /// </summary>
+        /// <returns>returns a list of expenses</returns>
+        public IReadOnlyList<Transaction> GetExpense()
+        {
+            return this._transactions.Where(x => x.Type == TransactionType.Expense).ToList();
+        }
+
+        /// <summary>
+        /// Get the expense from the repository
+        /// </summary>
+        /// <returns>returns a list of expenses</returns>
+        public IReadOnlyList<Transaction> GetIncome()
+        {
+            return this._transactions.Where(x => x.Type == TransactionType.Income).ToList();
+        }
+
+        /// <summary>
+        /// Edit the transactions in the repository
+        /// </summary>
+        /// <param name="editedTransaction">Edit the transaction</param>
+        /// <param name="id">Unique transaction identifier</param>
+        /// <returns>True if edited; otherwise false</returns>
+        public bool Edit(TransactionDTO editedTransaction, string id)
+        {
+            Transaction? transaction = this.GetById(id);
+            if (transaction is null)
+            {
+                return false;
+            }
+
+            transaction.Description = editedTransaction.Description;
+            transaction.Date = editedTransaction.Date;
+            transaction.Amount = editedTransaction.Amount;
+            transaction.Category = editedTransaction.Category;
+            return true;
+        }
+
+        /// <summary>
+        /// Get the transaction copy
+        /// </summary>
+        /// <param name="id">Unique identifier of the transaction</param>
+        /// <returns>A transaction instance</returns>
+        internal Transaction? GetTransactionCopy(string id)
+        {
+            Transaction? transaction = this.GetById(id);
+            if (transaction is null)
+            {
+                return null;
+            }
+
+            return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+        }
+
+        /// <summary>
+        /// Get the transaction with a Id
+        /// </summary>
+        /// <param name="id">Id to find the transaction</param>
+        /// <returns>Transaction object</returns>
+        private Transaction? GetById(string id)
+        {
+            return this._transactions.FirstOrDefault(x => id == x.Id);
         }
     }
 }

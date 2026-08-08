@@ -36,7 +36,7 @@ namespace Assignment4.Services
         public bool CreateTransaction(TransactionDTO transaction, out string validationOutput)
         {
             validationOutput = this.ValidateTransaction(transaction);
-            if (validationOutput == string.Empty)
+            if (validationOutput != string.Empty)
             {
                 return false;
             }
@@ -53,10 +53,7 @@ namespace Assignment4.Services
         /// <returns>returns a list of expenses</returns>
         internal IReadOnlyList<Transaction> GetExpense()
         {
-            IReadOnlyList<Transaction> transactions = this._repository.GetAll();
-
-            var filtered = transactions.Where(x => x.Type == TransactionType.Expense);
-            return filtered.ToList();
+            return this._repository.GetExpense();
         }
 
         /// <summary>
@@ -65,10 +62,7 @@ namespace Assignment4.Services
         /// <returns>  list of incomes</returns>
         internal IReadOnlyList<Transaction> GetIncome()
         {
-            IReadOnlyList<Transaction> transactions = this._repository.GetAll();
-
-            var filtered = transactions.Where(x => x.Type == TransactionType.Income);
-            return filtered.ToList();
+            return this._repository.GetExpense();
         }
 
         /// <summary>
@@ -96,12 +90,7 @@ namespace Assignment4.Services
         /// <returns>boolean true if valid</returns>
         internal bool IsValidTransactionId(string id)
         {
-            if (this._repository.GetById(id) == null)
-            {
-                return false;
-            }
-
-            return true;
+            return this._repository.IsValidId(id);
         }
 
         /// <summary>
@@ -111,7 +100,7 @@ namespace Assignment4.Services
         /// <returns> Transaction Instance if it is present; otherwise null. </returns>
         internal TransactionDTO? GetTransactionById(string id)
         {
-            Transaction? transaction = this._repository.GetById(id);
+            Transaction? transaction = this._repository.GetTransactionCopy(id);
             if (transaction is null)
             {
                 return null;
@@ -144,17 +133,7 @@ namespace Assignment4.Services
                 return false;
             }
 
-            Transaction? transaction = this._repository.GetById(id);
-            if (transaction is null)
-            {
-                return false;
-            }
-
-            transaction.Description = editedTransaction.Description;
-            transaction.Date = editedTransaction.Date;
-            transaction.Amount = editedTransaction.Amount;
-            transaction.Category = editedTransaction.Category;
-            return true;
+            return this._repository.Edit(editedTransaction, id);
         }
 
         /// <summary>

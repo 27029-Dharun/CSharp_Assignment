@@ -13,16 +13,19 @@ namespace Assignment4.Controllers
     {
         private readonly TransactionService _service;
         private readonly ConsoleView _view;
+        private readonly TransactionInputHandler _inputHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
         /// </summary>
         /// <param name="service">Instance of service</param>
         /// <param name="view">Instance of view</param>
-        public TransactionController(TransactionService service, ConsoleView view)
+        /// <param name="inputHandler">Instance of input handler</param>
+        public TransactionController(TransactionService service, ConsoleView view, TransactionInputHandler inputHandler)
         {
             this._service = service;
             this._view = view;
+            this._inputHandler = inputHandler;
         }
 
         /// <summary>
@@ -60,46 +63,18 @@ namespace Assignment4.Controllers
 
         private void CreateTransaction()
         {
-            // Gets the type of transaction income/expense
-            TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
-
-            // Gets the category of the transaction
-            this._view.ClearConsole();
-            string category = this.GetCategory(type);
-
-            // Gets the amount involved in the transaction
-            this._view.ClearConsole();
-            bool valid = this._view.GetDecimal($"Enter the {type} amount: ", out decimal amount);
-            if (!valid)
-            {
-                this._view.PrintError("Transaction failed, Please try again");
-                return;
-            }
-
-            // Gets the date of the transaction
-            this._view.ClearConsole();
-            valid = this._view.GetDate(out DateTime date);
-            if (!valid)
-            {
-                this._view.PrintError("Transaction failed, Please try again");
-                return;
-            }
-
-            // Gets the description
-            this._view.ClearConsole();
-            valid = this._view.GetString($"Enter the {type} description: ", out string description);
-            if (!valid)
-            {
-                this._view.PrintError("Transaction failed, Please try again");
-                return;
-            }
-
             // Creates the transaction DTO
-            TransactionDTO transaction = new TransactionDTO(description, date, type, category, amount);
+            TransactionDTO? transaction = this._inputHandler.CreateTransactionInputHandler();
+            if (transaction is null)
+            {
+                this._view.PrintError("Transaction failed, Please try again");
+                return;
+            }
 
             if (!this._service.CreateTransaction(transaction, out string validationOutput))
             {
                 this._view.PrintWarning(validationOutput);
+                return;
             }
 
             this._view.PrintSuccess("Transaction created successfully !!");
@@ -117,12 +92,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            ViewTransactionOption? option = this._view.GetEnumValue<ViewTransactionOption>("\nEnter the option to view: ");
-            if (option is null)
-            {
-                this._view.PrintInfo("Invalid option, Please try again");
-                return;
-            }
+            ViewTransactionOption option = this._view.GetEnumValue<ViewTransactionOption>("\nEnter the option to view: ");
 
             switch (option)
             {
@@ -195,55 +165,16 @@ namespace Assignment4.Controllers
             }
 
             TransactionType type = transaction.Type;
-
-            int option = this._view.GetOptionalInteger("Enter the field to edit.\n1. Category\n2. Amount\n3. Date\n4. Description\n");
-
-            switch (option)
+            if (!this._inputHandler.EditTransactionInputHandler(transaction))
             {
-                case 1:
-
-                    string category = this.GetCategory(type);
-
-                    transaction.Category = category;
-                    break;
-
-                case 2:
-
-                    bool valid = this._view.GetDecimal($"Enter the {type} amount: ", out decimal amount);
-                    if (!valid)
-                    {
-                        this._view.PrintError("Failed to edit, please try again");
-                        return;
-                    }
-
-                    transaction.Amount = amount;
-                    break;
-
-                case 3:
-
-                    if (!this._view.GetDate(out DateTime date))
-                    {
-                        this._view.PrintError("Failed to edit, please try again");
-                        return;
-                    }
-
-                    transaction.Date = date;
-                    break;
-
-                case 4:
-                    if (!this._view.GetString($"Enter the {type} title: ", out string description))
-                    {
-                        this._view.PrintError("Failed to edit, please try again");
-                        return;
-                    }
-
-                    transaction.Description = description;
-                    break;
+                this._view.PrintError("Failed to update, please try again");
+                return;
             }
 
             if (!this._service.UpdateTransaction(transaction, id, out string outputValidation))
             {
                 this._view.PrintError(outputValidation);
+                return;
             }
 
             this._view.ClearConsole();
@@ -269,18 +200,6 @@ namespace Assignment4.Controllers
             this._service.DeleteTransaction(id);
             this._view.PrintSuccess("Transaction deleted successfully !!");
             this.ViewAllTransaction();
-        }
-
-        private string GetCategory(TransactionType? type)
-        {
-            if (type is TransactionType.Expense)
-            {
-                return this._view.GetEnumValue<ExpenseCategory>($"Select the category of the {type}: ").ToString();
-            }
-            else
-            {
-                return this._view.GetEnumValue<IncomeCategory>($"Select the category of the {type}: ").ToString();
-            }
         }
 
         private string GetTransactionId()

@@ -1,4 +1,5 @@
-﻿using Assignment4.Models;
+﻿using Assignment4.DTOs;
+using Assignment4.Models;
 
 namespace Assignment4.Repository
 {
@@ -20,13 +21,6 @@ namespace Assignment4.Repository
         IReadOnlyList<Transaction> GetAll();
 
         /// <summary>
-        /// Get the transaction with a unique identifier.
-        /// </summary>
-        /// <param name="id"> Unique identifier of the transaction. </param>
-        /// <returns> Transaction instance if present; otherwise null. </returns>
-        Transaction? GetById(string id);
-
-        /// <summary>
         /// Deletes a transaction from the list
         /// </summary>
         /// <param name="id"> Id of the transaction to be deleted. </param>
@@ -37,5 +31,25 @@ namespace Assignment4.Repository
         /// </summary>
         /// <returns> True if any transaction exists; otherwise false. </returns>
         bool IsAny();
+
+        /// <summary>
+        /// Edit the transaction from the repository
+        /// </summary>
+        /// <param name="editedTransaction">The edited transaction</param>
+        /// <param name="id">Identifier to edit the transaction</param>
+        /// <returns>True if edited; otherwise false</returns>
+        public bool Edit(TransactionDTO editedTransaction, string id);
+
+        /// <summary>
+        /// Fetches all the expense from the repository
+        /// </summary>
+        /// <returns>Returns the expenses. </returns>
+        public IReadOnlyList<Transaction> GetExpense();
+
+        /// <summary>
+        /// Fetches all the income from the repository
+        /// </summary>
+        /// <returns> Returns the income. </returns>
+        public IReadOnlyList<Transaction> GetIncome();
     }
 }
