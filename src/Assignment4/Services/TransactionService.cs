@@ -8,7 +8,7 @@ using Assignment4.Validation;
 namespace Assignment4.Services
 {
     /// <summary>
-    /// Transaction Services
+    /// Contains the business logic for transactions, perform validation and create transaction instances
     /// </summary>
     internal class TransactionService
     {
@@ -47,25 +47,6 @@ namespace Assignment4.Services
             Transaction createdTransaction = new Transaction(id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
             this._repository.Add(createdTransaction);
             return true;
-        }
-
-        /// <summary>
-        /// Validates the transaction fields
-        /// </summary>
-        /// <param name="transaction">transaction object to be</param>
-        /// <returns>A string representing the validation output and empty string if are fields are valid</returns>
-        public string ValidateTransaction(TransactionDTO transaction)
-        {
-            string nameValidator = this._validator.ValidateTitle(transaction.Description);
-            string dateValidator = this._validator.ValidateDate(transaction.Date);
-            string amountValidator = this._validator.ValidateAmount(transaction.Amount);
-
-            if (nameValidator != string.Empty || dateValidator != string.Empty || amountValidator != string.Empty)
-            {
-                return nameValidator + dateValidator + amountValidator;
-            }
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -111,7 +92,7 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Checks if the id is valid
+        /// Checks if the id is valid.
         /// </summary>
         /// <param name="id">Id of the transaction to be validated</param>
         /// <returns>boolean true if valid</returns>
@@ -126,10 +107,10 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Gets the transaction by id
+        /// Gets the transaction by id.
         /// </summary>
-        /// <param name="id">id of the transaction</param>
-        /// <returns>Transaction with matching id</returns>
+        /// <param name="id">Id of the transaction. </param>
+        /// <returns> Transaction Instance if it is present; otherwise null. </returns>
         internal TransactionDTO? GetTransactionById(string id)
         {
             Transaction? transaction = this._repository.GetById(id);
@@ -144,19 +125,19 @@ namespace Assignment4.Services
         /// <summary>
         /// Check if any transactions exists
         /// </summary>
-        /// <returns>true if any transaction exists, false if it is empty</returns>
+        /// <returns>true if any transaction exists; otherwise false. </returns>
         internal bool CheckTransactionsExist()
         {
             return this._repository.IsAny();
         }
 
         /// <summary>
-        /// Update the existing transaction
+        /// Update the existing transaction.
         /// </summary>
-        /// <param name="editedTransaction">Transaction to be updated in the place of existing transaction</param>
-        /// <param name="id">Unique identifier of the transaction</param>
-        /// <param name="validationOutput">Validation output</param>
-        /// <returns>Boolean value true represents the success and false represents failure</returns>
+        /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
+        /// <param name="id"> Unique identifier of the transaction. </param>
+        /// <param name="validationOutput"> Validation output. </param>
+        /// <returns> True if the update process is done; otherwise false. </returns>
         internal bool UpdateTransaction(TransactionDTO editedTransaction, string id, out string validationOutput)
         {
             validationOutput = this.ValidateTransaction(editedTransaction);
@@ -181,7 +162,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Generates the summary of the transaction
         /// </summary>
-        /// <returns>TransactionsSummary object that contains the summary data</returns>
+        /// <returns>Transaction summary object that contains the summary data</returns>
         internal TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
@@ -201,6 +182,20 @@ namespace Assignment4.Services
             }
 
             return new TransactionSummary(income, expense);
+        }
+
+        private string ValidateTransaction(TransactionDTO transaction)
+        {
+            string nameValidator = this._validator.ValidateTitle(transaction.Description);
+            string dateValidator = this._validator.ValidateDate(transaction.Date);
+            string amountValidator = this._validator.ValidateAmount(transaction.Amount);
+
+            if (nameValidator != string.Empty || dateValidator != string.Empty || amountValidator != string.Empty)
+            {
+                return nameValidator + dateValidator + amountValidator;
+            }
+
+            return string.Empty;
         }
     }
 }

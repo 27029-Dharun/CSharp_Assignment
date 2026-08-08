@@ -1,32 +1,32 @@
 ﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
-    /// Category of the expenses
+    /// Specifies the category of the expenses.
     /// </summary>
     internal enum ExpenseCategory
     {
         /// <summary>
-        /// Rent category
+        /// Represent rent
         /// </summary>
         Rent = 1,
 
         /// <summary>
-        /// Food category
+        /// Represent expense by food
         /// </summary>
         Food = 2,
 
         /// <summary>
-        /// Transport category
+        /// Represent expense by transport
         /// </summary>
         Transport = 3,
 
         /// <summary>
-        /// Entertainment category
+        /// Represent expense by entertainment
         /// </summary>
         Entertainment = 4,
 
         /// <summary>
-        /// Other categories of expense
+        /// Represent all other expenses
         /// </summary>
         Others = 5,
     }

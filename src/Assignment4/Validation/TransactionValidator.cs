@@ -1,7 +1,7 @@
 ﻿namespace Assignment4.Validation
 {
     /// <summary>
-    /// contains all the validator methods to validate the object
+    /// Contains all the validator methods to validate the transaction data.
     /// </summary>
     internal class TransactionValidator
     {

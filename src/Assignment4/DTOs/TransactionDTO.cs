@@ -3,7 +3,7 @@
 namespace Assignment4.DTOs
 {
     /// <summary>
-    /// Represents the data required to create a new transaction.
+    /// Represents the data required to create/edit a transaction.
     /// </summary>
     internal class TransactionDTO
     {

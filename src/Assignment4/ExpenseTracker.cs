@@ -5,10 +5,11 @@ using Assignment4.View;
 namespace Assignment4
 {
     /// <summary>
-    /// The execution of the program begins here
+    /// Entry point of the expense tracker.
     /// </summary>
     internal class ExpenseTracker
     {
+        private const int Max = 6;
         private readonly ConsoleView _view;
         private readonly TransactionController _controller;
 
@@ -24,28 +25,28 @@ namespace Assignment4
         }
 
         /// <summary>
-        /// Expense Tracker application entry point
+        /// Loops and get menu option until the user exits
         /// </summary>
         public void ExecuteExpenseTracker()
         {
-            int option = this.GetMenuOption(6);
-            while (option != 6)
+            TransactionMenu option = this.GetMenuOption(Max);
+            while (option != TransactionMenu.Exit)
             {
-                TransactionMenu menu = (TransactionMenu)option;
+                TransactionMenu menu = option;
                 this._controller.HandleMenu(menu);
 
                 this._view.PauseAndReturn();
-                option = this.GetMenuOption(6);
+                option = this.GetMenuOption(Max);
                 this._view.ClearConsole();
             }
         }
 
         /// <summary>
-        /// Get the menu option from the user
+        /// Get the menu option from the user.
         /// </summary>
-        /// <param name="max">max value range</param>
-        /// <returns>integer value representing the task</returns>
-        private int GetMenuOption(int max)
+        /// <param name="max"> Max value range. </param>
+        /// <returns> Transaction menu option. </returns>
+        private TransactionMenu GetMenuOption(int max)
         {
             this._view.DisplayMainMenu();
             int option = this._view.GetOptionalInteger("Select an option to proceed: ");
@@ -58,7 +59,7 @@ namespace Assignment4
                 option = this._view.GetOptionalInteger("Select an option to proceed: ");
             }
 
-            return option;
+            return (TransactionMenu)option;
         }
     }
 }

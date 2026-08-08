@@ -4,7 +4,6 @@ namespace Assignment4.Models
 {
     /// <summary>
     /// Represents a transaction in the system
-    /// This is responsible for storing the transactions of the user
     /// </summary>
     internal class Transaction
     {
@@ -28,10 +27,10 @@ namespace Assignment4.Models
         }
 
         /// <summary>
-        /// Gets the unique ID assigned to the transaction at creation time.
+        /// Gets the unique Id assigned to the transaction at creation time.
         /// </summary>
         /// <value>
-        /// ID of the transaction
+        /// Unique identifier of the transaction
         /// </value>
         public string Id { get; }
 

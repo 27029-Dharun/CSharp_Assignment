@@ -20,15 +20,28 @@ namespace Assignments
         {
             try
             {
+                // Validator instance for performing the validation operation.
                 TransactionValidator validator = new TransactionValidator();
-                ConsoleView view = new ConsoleView();
-                TransactionIdGenerator idGenerator = new TransactionIdGenerator();
-                TransactionRepository repository = new TransactionRepository();
-                TransactionService service = new TransactionService(validator, idGenerator, repository);
-                TransactionController controller = new TransactionController(service, view);
-                ExpenseTracker runner = new ExpenseTracker(view, controller);
 
-                runner.ExecuteExpenseTracker();
+                // View instance for performing the console operations.
+                ConsoleView view = new ConsoleView();
+
+                // Transaction id generator instance
+                TransactionIdGenerator idGenerator = new TransactionIdGenerator();
+
+                // Repository instance for add the transactions in the list.
+                TransactionRepository repository = new TransactionRepository();
+
+                // Service instance that contains business logic, performs validation, and create product instance.
+                TransactionService service = new TransactionService(validator, idGenerator, repository);
+
+                // Controller instance that coordinates the view and service.
+                TransactionController controller = new TransactionController(service, view);
+
+                // Expense tracker instance that contains the entry point for the application.
+                ExpenseTracker expenseTracker = new ExpenseTracker(view, controller);
+
+                expenseTracker.ExecuteExpenseTracker();
             }
             catch (Exception ex)
             {

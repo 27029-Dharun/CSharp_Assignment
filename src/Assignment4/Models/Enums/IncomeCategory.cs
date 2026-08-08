@@ -1,27 +1,27 @@
 ﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
-    /// All income categories that are availabe
+    /// Specifies all income categories that are available
     /// </summary>
     internal enum IncomeCategory
     {
         /// <summary>
-        /// Income from Salary
+        /// Represents income from salary
         /// </summary>
         Salary = 1,
 
         /// <summary>
-        /// Income from freelanching work
+        /// Represents income from freelancing work
         /// </summary>
         Freelancing = 2,
 
         /// <summary>
-        /// Income from investment
+        /// Represents income from investment
         /// </summary>
         Investment = 3,
 
         /// <summary>
-        /// All other ways of income
+        /// Represents all other ways of income
         /// </summary>
         Others = 4,
     }

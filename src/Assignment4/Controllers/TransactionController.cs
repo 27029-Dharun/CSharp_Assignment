@@ -7,7 +7,7 @@ using Assignment4.View;
 namespace Assignment4.Controllers
 {
     /// <summary>
-    /// Transaction controller class
+    /// Coordinates operations between the view and services.
     /// </summary>
     internal class TransactionController
     {
@@ -17,8 +17,8 @@ namespace Assignment4.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
         /// </summary>
-        /// <param name="service">Service object</param>
-        /// <param name="view">View Object</param>
+        /// <param name="service">Instance of service</param>
+        /// <param name="view">Instance of view</param>
         public TransactionController(TransactionService service, ConsoleView view)
         {
             this._service = service;

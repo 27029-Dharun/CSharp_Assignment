@@ -3,7 +3,7 @@
 namespace Assignment4.Helper
 {
     /// <summary>
-    /// generates the id for transactions
+    /// Generates the id for each transactions.
     /// </summary>
     public class TransactionIdGenerator
     {
@@ -25,7 +25,7 @@ namespace Assignment4.Helper
         /// returns the next id to be used as a identifier
         /// </summary>
         /// <param name="type">Type of the transaction</param>
-        /// <returns>unique indentifier based on the type of expense</returns>
+        /// <returns>unique identifier based on the type of expense</returns>
         public string GetNextId(TransactionType type)
         {
             string prefix = type == TransactionType.Expense ? "E" : "I";

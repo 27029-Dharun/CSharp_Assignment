@@ -1,22 +1,22 @@
 ﻿namespace Assignment4.Models.Enums
 {
     /// <summary>
-    /// Contains all the view options available
+    /// Specifies all the view options available.
     /// </summary>
     internal enum ViewTransactionOption
     {
         /// <summary>
-        /// Prints only the expenses
+        /// Represents option to display only the expenses.
         /// </summary>
         Expense = 1,
 
         /// <summary>
-        /// Prints only the incomes
+        /// Represents option to display only the incomes.
         /// </summary>
         Income = 2,
 
         /// <summary>
-        /// Prints all the transactions stored
+        /// Represents option to display all the transactions.
         /// </summary>
         All = 3,
     }
