@@ -4,12 +4,14 @@ using ConsoleTables;
 namespace Assignment3.View
 {
     /// <summary>
-    /// Console operations
+    /// Handles console operation like display, get user inputs.
     /// </summary>
     internal class ConsoleView
     {
+        private const int Tries = 3;
+
         /// <summary>
-        /// Prints the list of the inventory object
+        /// Displays the list of the inventory object
         /// </summary>
         /// <param name="inventories">List of inventory objects</param>
         internal void PrintInventory(List<Product> inventories)
@@ -34,12 +36,12 @@ namespace Assignment3.View
         }
 
         /// <summary>
-        /// Get the integer
+        /// Gets an integer input.
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries left to enter a valid Integer</param>
         /// <returns>Integer input</returns>
-        internal int GetInteger(string message, int tries = 3)
+        internal int GetInteger(string message, int tries = Tries)
         {
             Console.Write(message);
             int input;
@@ -47,7 +49,7 @@ namespace Assignment3.View
             {
                 if (tries <= 0)
                 {
-                    throw new InvalidCastException("Enter a valid interger");
+                    throw new InvalidCastException("Enter a valid integer");
                 }
 
                 Console.WriteLine($"Tries left: {tries--}");
@@ -64,7 +66,7 @@ namespace Assignment3.View
         /// <param name="message">Message to be displayed</param>
         /// <param name="tries">Tries left to enter a valid string</param>
         /// <returns>String given as input</returns>
-        internal string GetString(string message, int tries = 3)
+        internal string GetString(string message, int tries = Tries)
         {
             Console.Write(message);
             string input = Console.ReadLine() ?? string.Empty;
@@ -91,7 +93,7 @@ namespace Assignment3.View
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>decimal input</returns>
-        internal decimal GetDecimal(string message, int tries = 3)
+        internal decimal GetDecimal(string message, int tries = Tries)
         {
             Console.Write(message);
             decimal input;
@@ -127,7 +129,7 @@ namespace Assignment3.View
         /// </summary>
         /// <param name="message">Message to print</param>
         /// <returns>Returns the decimal input</returns>
-        internal decimal GetOptinalDecimal(string message)
+        internal decimal GetOptionalDecimal(string message)
         {
             Console.Write(message);
             string input = Console.ReadLine() ?? string.Empty;
@@ -150,7 +152,7 @@ namespace Assignment3.View
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>Returns the integer value</returns>
-        internal int GetOptinalInteger(string message)
+        internal int GetOptionalInteger(string message)
         {
             Console.Write(message);
             string input = Console.ReadLine() ?? string.Empty;

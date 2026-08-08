@@ -5,7 +5,7 @@ using Assignment3.Validation;
 namespace Assignment3.Services
 {
     /// <summary>
-    /// Inventory services
+    /// Contains business logics for adding product, viewing, updating, deleting product from the inventory.
     /// </summary>
     internal class InventoryService : IService
     {
@@ -16,8 +16,8 @@ namespace Assignment3.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryService"/> class.
         /// </summary>
-        /// <param name="validator">Validator object injected from the origin</param>
-        /// <param name="repository">repository object injected from origin</param>
+        /// <param name="validator">Instance of validator injected from the origin</param>
+        /// <param name="repository">Instance of repository injected from origin</param>
         public InventoryService(InventoryValidator validator, InventoryRepository repository)
         {
             this._validator = validator;

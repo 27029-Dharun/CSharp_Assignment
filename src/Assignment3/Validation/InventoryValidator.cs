@@ -1,35 +1,35 @@
 ﻿namespace Assignment3.Validation
 {
     /// <summary>
-    /// Validator class
+    /// Contains validation logic for product attributes.
     /// </summary>
     internal class InventoryValidator
     {
         /// <summary>
-        /// Validates price
+        /// Validates price of the product
         /// </summary>
         /// <param name="price">Price of the product</param>
-        /// <returns>True if the price is positive</returns>
+        /// <returns>True if the price is positive; otherwise false</returns>
         public bool IsValidatePrice(decimal price)
         {
             return price > 0;
         }
 
         /// <summary>
-        /// Validates the quantity
+        /// Validates the quantity of the product.
         /// </summary>
         /// <param name="quantity">Quantity of the product</param>
-        /// <returns>True if quantity is positive</returns>
+        /// <returns>True if quantity is not negative; otherwise false. </returns>
         public bool IsValidateQuantity(decimal quantity)
         {
             return quantity >= 0;
         }
 
         /// <summary>
-        /// validates name to contain only alphabets
+        /// Validates name to contain only alphabets.
         /// </summary>
-        /// <param name="name">Name of the product</param>
-        /// <returns>True if name is valid</returns>
+        /// <param name="name">Name of the product. </param>
+        /// <returns>True if name is valid; otherwise false. </returns>
         public bool IsValidateName(string name)
         {
             if (name == null || name.Length < 3)

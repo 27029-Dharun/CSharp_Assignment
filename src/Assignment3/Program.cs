@@ -7,14 +7,11 @@ using Assignment3.View;
 namespace Assignment3
 {
     /// <summary>
-    /// Inventory management with In-memory storage
+    /// Application entry point and composition root. Wires up the dependencies once.
     /// </summary>
     internal class Program
     {
-        /// <summary>
-        /// Main method
-        /// </summary>
-        internal static void Main()
+        private static void Main()
         {
             try
             {

@@ -93,8 +93,8 @@ namespace Assignment3.Controllers
             this._inventoryService.ValidateProductId(id);
             this._consoleView.PrintInfo("Enter value for field that you only want to Edit");
             string name = this._consoleView.GetOptionalString("Enter the product name: ");
-            decimal price = this._consoleView.GetOptinalDecimal("Enter the price of the product: ");
-            int quantity = this._consoleView.GetOptinalInteger("Enter the quanity of the product: ");
+            decimal price = this._consoleView.GetOptionalDecimal("Enter the price of the product: ");
+            int quantity = this._consoleView.GetOptionalInteger("Enter the quanity of the product: ");
             Product product = this._inventoryService.EditProductById(id, name, price, quantity);
             this._consoleView.PrintProduct(product);
             this._consoleView.PrintInfo("PRODUCT EDITED SUCCESSFULLY !!");
@@ -142,7 +142,7 @@ namespace Assignment3.Controllers
         }
 
         /// <summary>
-        /// Gets the product index by displaying all the products
+        /// Gets the product id by displaying all the products
         /// </summary>
         /// <param name="inventories">List of inventory product</param>
         /// <returns>Index value that user entered</returns>

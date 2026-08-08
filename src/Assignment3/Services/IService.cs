@@ -3,12 +3,12 @@
 namespace Assignment3.Services
 {
     /// <summary>
-    /// Service interface
+    /// Defines business logic operations for managing product in inventory.
     /// </summary>
     internal interface IService
     {
         /// <summary>
-        /// Creates a product
+        /// Validates a product and create a product instance
         /// </summary>
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
@@ -17,16 +17,16 @@ namespace Assignment3.Services
         Product CreateInventoryProduct(string name, decimal price, int quantity);
 
         /// <summary>
-        /// Gets the inventory product
+        /// Gets the all the product inventory.
         /// </summary>
         /// <returns>Returns the product</returns>
         List<Product> GetInventoryProducts();
 
         /// <summary>
-        /// Deletes the product by id
+        /// Deletes the product in inventory by using a unique identifier.
         /// </summary>
-        /// <param name="id">Id of the product to be deleted</param>
-        /// <returns>product deleted</returns>
+        /// <param name="id"> Id of the product to be deleted. </param>
+        /// <returns>product product instance</returns>
         Product DeleteProductById(int id);
 
         /// <summary>
@@ -36,27 +36,27 @@ namespace Assignment3.Services
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Product edited</returns>
+        /// <returns>Product edited instance</returns>
         Product EditProductById(int id, string name, decimal price, int quantity);
 
         /// <summary>
         /// Sort the product by name, price, quantity
         /// </summary>
         /// <param name="option">option to sort by</param>
-        /// <returns>sorted product</returns>
+        /// <returns>sorted product list</returns>
         List<Product>? SortProducts(int option);
 
         /// <summary>
-        /// Checks the product existence in the product
+        /// Checks the product existence in the inventory
         /// </summary>
         /// <param name="id">Id of product to check</param>
         void ValidateProductId(int id);
 
         /// <summary>
-        /// Search Product by id or name entered by the user
+        /// Search product by id or name entered by the user
         /// </summary>
         /// <param name="search_query">Name or id entered by user</param>
-        /// <returns>list of filtered products</returns>
+        /// <returns>List of filtered products</returns>
         List<Product> SearchProductByNameOrId(string search_query);
     }
 }

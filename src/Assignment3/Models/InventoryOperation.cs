@@ -1,42 +1,42 @@
 ﻿namespace Assignment3.Models
 {
     /// <summary>
-    /// Inventory Operation Enums
+    /// Specifies the inventory operation available
     /// </summary>
     public enum InventoryOperation
     {
         /// <summary>
-        /// Add new product
+        /// Represents an option to add a new product
         /// </summary>
         Add = 1,
 
         /// <summary>
-        /// View all available product
+        /// Represents an option to view all available product
         /// </summary>
         View = 2,
 
         /// <summary>
-        /// Update a product
+        /// Represents an option to update an existing product
         /// </summary>
         Update = 3,
 
         /// <summary>
-        /// Delete a product
+        /// Represents an option to delete an existing product
         /// </summary>
         Delete = 4,
 
         /// <summary>
-        /// Search the products in inventory by name or id
+        /// Represents an option to search the products in inventory by name or id
         /// </summary>
         Search = 5,
 
         /// <summary>
-        /// Sort the products in inventory
+        /// Represents an option to sort the products in inventory
         /// </summary>
         Sort = 6,
 
         /// <summary>
-        /// Exit from the application
+        /// Represents an option to exit from the application
         /// </summary>
         Exit = 7,
     }
