@@ -1,11 +1,11 @@
 ﻿using Assignment1.Model;
-using Assignment1.Persistance;
+using Assignment1.Repository;
 using Assignment1.Validation;
 
 namespace Assignment1.Services
 {
     /// <summary>
-    /// Provides service such as add, 
+    /// Provides service such as add, view, edit and delete contact
     /// </summary>
     public class ContactService
     {
@@ -30,19 +30,10 @@ namespace Assignment1.Services
         /// <returns>string message created or not</returns>
         public string CreateContact(string name, string phoneNumber, string email, string notes)
         {
-            string validatorOutput = ContactValidator.IsValidContactFields(name, phoneNumber, email, notes);
-            if (validatorOutput != string.Empty)
-            {
-                return validatorOutput;
-            }
+            IReadOnlyList<string> contactNames = this.GetAllName();
+            IReadOnlyList<string> contactNumbers = this.GetAllNumber();
 
-            // Default value of the Notes if not entered
-            if (notes == string.Empty)
-            {
-                notes = "Not specified";
-            }
-
-            if (this.IsUniqueContactNumber(phoneNumber) && this.IsUniqueContactName(name))
+            if (ContactServiceValidator.IsUniqueContactNumber(phoneNumber, contactNumbers) && ContactServiceValidator.IsUniqueContactName(name, contactNames))
             {
                 Guid id = Guid.NewGuid();
                 Contact contact = new Contact(id, name, phoneNumber, email, notes);
@@ -50,7 +41,7 @@ namespace Assignment1.Services
                 return "Contact Added Successfully";
             }
 
-            return "Name and Phone Number should be Unique";
+            return "Name and phone number should be unique";
         }
 
         /// <summary>
@@ -105,8 +96,11 @@ namespace Assignment1.Services
             string? existingPhone = contact.PhoneNumber;
             string? existingName = contact.Name;
 
+            IReadOnlyList<string> contactNames = this.GetAllName();
+            IReadOnlyList<string> contactNumbers = this.GetAllNumber();
+
             // Ignores existing name and phone number while checking unique name and number
-            if (this.IsUniqueContactNumber(phoneNumber, existingPhone) && this.IsUniqueContactName(name, existingName))
+            if (ContactServiceValidator.IsUniqueContactNumber(phoneNumber, contactNumbers, existingPhone) && ContactServiceValidator.IsUniqueContactName(name, contactNames, existingName))
             {
                 if (name != string.Empty)
                 {
@@ -115,7 +109,7 @@ namespace Assignment1.Services
 
                 if (phoneNumber != string.Empty)
                 {
-                    if (!ContactValidator.IsValidNumber(phoneNumber))
+                    if (!ContactInputValidator.IsValidPhoneNumber(phoneNumber))
                     {
                         return "Phone Number Invalid";
                     }
@@ -125,7 +119,7 @@ namespace Assignment1.Services
 
                 if (email != string.Empty)
                 {
-                    if (!ContactValidator.IsValidEmail(email))
+                    if (!ContactInputValidator.IsValidEmail(email))
                     {
                         return "Invalid Email";
                     }
@@ -154,42 +148,41 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Checks if mobile number is unique
+        /// Gets all the numbers that are existing
         /// </summary>
-        /// <param name="number">Number</param>
-        /// <param name="exisitingPhone">Existing number only when editing</param>
-        /// <returns>boolean value</returns>
-        private bool IsUniqueContactNumber(string number, string? exisitingPhone = null)
+        /// <returns>List of strings </returns>
+        internal IReadOnlyList<string> GetAllNumber()
         {
             IReadOnlyList<Contact> contacts = this._repository.GetAll();
+            List<string> phoneNumbers = new List<string>();
             foreach (Contact contact in contacts)
             {
-                if (contact.PhoneNumber == number && exisitingPhone != number)
+                if (contact.PhoneNumber is not null)
                 {
-                    return false;
+                    phoneNumbers.Add(contact.PhoneNumber);
                 }
             }
 
-            return true;
+            return phoneNumbers;
         }
 
         /// <summary>
-        /// Checks if the name is unique
+        /// Gets all the names saved and returns the list of names
         /// </summary>
-        /// <param name="name">Name of the contacts</param>
-        /// <returns>Returns boolean</returns>
-        private bool IsUniqueContactName(string name, string? existingName = null)
+        /// <returns>List of strings contains all the names saved</returns>
+        internal IReadOnlyList<string> GetAllName()
         {
             IReadOnlyList<Contact> contacts = this._repository.GetAll();
+            List<string> names = new List<string>();
             foreach (Contact contact in contacts)
             {
-                if (contact.Name == name && existingName != name)
+                if (contact.Name is not null)
                 {
-                    return false;
+                    names.Add(contact.Name);
                 }
             }
 
-            return true;
+            return names;
         }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using Assignment1.Model;
 
-namespace Assignment1.Persistance
+namespace Assignment1.Repository
 {
     /// <summary>
-    /// Contacts stored as list
+    /// Provides a centralized data repository for storing, retrieving contact info entities
     /// </summary>
     public class ContactRepository
     {
         private readonly List<Contact> _contacts = new List<Contact>();
 
         /// <summary>
-        /// Creates contact in the _contacts list.
+        /// Adds a contact in the _contacts list.
         /// </summary>
-        /// <param name="contact">The contact to add.</param>
+        /// <param name="contact">A contact instance to add.</param>
         public void AddContact(Contact contact)
         {
             this._contacts.Add(contact);

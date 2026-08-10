@@ -1,53 +1,33 @@
 ﻿using Assignment1.Model;
+using Assignment1.Validation;
 
 namespace Assignment1.View
 {
     /// <summary>
     /// Ui methods are listed in UI class
     /// </summary>
-    internal class ConsoleView
+    public class ConsoleView
     {
-        /// <summary>
-        /// Gets the Integer input.
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <returns>int value that we got as input</returns>
-        public static string GetString(string message)
-        {
-            Console.Write(message);
-            string input = (Console.ReadLine() ?? string.Empty).Trim();
-            while (input == string.Empty)
-            {
-                Console.WriteLine("Field can't be empty");
-                input = (Console.ReadLine() ?? string.Empty).Trim();
-            }
-
-            return input;
-        }
-
         /// <summary>
         /// Prints the empty line
         /// </summary>
         public static void PrintEmptyLine() => Console.WriteLine();
 
         /// <summary>
-        /// Displays the Edited Contact.
+        /// Prints the input string
         /// </summary>
-        /// <param name="contact">Contact object to Print</param>
-        public static void DisplayContact(Contact contact)
+        /// <param name="message">The string to be printed</param>
+        public static void PrintInfo(string message)
         {
-            Console.WriteLine($"Name: {contact.Name}");
-            Console.WriteLine($"Email: {contact.Email}");
-            Console.WriteLine($"Phone Number: {contact.PhoneNumber}");
-            Console.WriteLine($"Notes: {contact.Notes}");
+            Console.WriteLine(message);
         }
 
         /// <summary>
-        /// Gets the string input.
+        /// Gets the string input from the user.
         /// </summary>
         /// <param name="message">Message to be printed</param>
-        /// <returns>string value that we got as input</returns>
-        public static string GetOptionalString(string message)
+        /// <returns>int value that we got as input</returns>
+        public static string GetString(string message)
         {
             Console.Write(message);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
@@ -66,7 +46,149 @@ namespace Assignment1.View
             Console.Write(message);
             while (!int.TryParse(Console.ReadLine(), out input))
             {
-                Console.WriteLine("Please enter a Integer");
+                Console.WriteLine("Please enter a integer");
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the name of the contact.
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing the name</returns>
+        public static string GetContactName(string prompt)
+        {
+            string input = GetString(prompt);
+            while (!ContactInputValidator.IsValidName(input))
+            {
+                Console.WriteLine("Name can't be empty and should contain at least 5 characters");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the name of the contact.
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing the name</returns>
+        public static string GetPhoneNumber(string prompt)
+        {
+            string input = GetString(prompt);
+            while (!ContactInputValidator.IsValidPhoneNumber(input))
+            {
+                Console.WriteLine("Phone number can't be empty and should contain 10 digits");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the notes for the contacts
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing notes.</returns>
+        public static string GetEmail(string prompt)
+        {
+            string input = GetString(prompt);
+
+            while (!ContactInputValidator.IsValidEmail(input))
+            {
+                Console.WriteLine("Email is required and should be in correct format.");
+                Console.WriteLine("Follow the format name@example.com");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the notes for the contacts
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing notes.</returns>
+        public static string GetNotes(string prompt)
+        {
+            string input = GetString(prompt);
+            if (input.Equals(string.Empty))
+            {
+                input = "Not specified";
+                return input;
+            }
+
+            while (!ContactInputValidator.IsValidNotes(input))
+            {
+                Console.WriteLine($"Notes should not have more than {ContactInputValidator.MaximumNotesLength} characters.");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the name of the contact.
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing the name</returns>
+        public static string GetOptionalContactName(string prompt)
+        {
+            string input = GetString(prompt);
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
+            while (!ContactInputValidator.IsValidName(input))
+            {
+                Console.WriteLine($"Name can't be empty and should contain at least {ContactInputValidator.MinimumNameLength} characters");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the name of the contact.
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing the name</returns>
+        public static string GetOptionalPhoneNumber(string prompt)
+        {
+            string input = GetString(prompt);
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
+            while (!ContactInputValidator.IsValidPhoneNumber(input))
+            {
+                Console.WriteLine($"Phone number can't be empty and should contain {ContactInputValidator.PhoneNumberLength} digits");
+                input = GetString(prompt);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the notes for the contacts
+        /// </summary>
+        /// <param name="prompt">Prompt to be displayed</param>
+        /// <returns>A string value containing notes.</returns>
+        public static string GetOptionalEmail(string prompt)
+        {
+            string input = GetString(prompt);
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
+            while (!ContactInputValidator.IsValidEmail(input))
+            {
+                Console.WriteLine("Email is required and should be in correct format.");
+                input = GetString(prompt);
             }
 
             return input;
@@ -91,25 +213,16 @@ namespace Assignment1.View
             }
             else
             {
-                Console.WriteLine("The Contacts are empty\n");
+                Console.WriteLine("The contacts list is empty\n");
             }
         }
 
         /// <summary>
-        /// Prints the input string
-        /// </summary>
-        /// <param name="message">The string to be printed</param>
-        internal static void PrintInfo(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Gets valid Contact Index
+        /// Gets valid contact index
         /// </summary>
         /// <param name="count">Count of the contacts available</param>
         /// <returns>Integer value</returns>
-        internal int GetValidContactIndex(int count)
+        public int GetValidContactIndex(int count)
         {
             while (true)
             {
@@ -121,24 +234,6 @@ namespace Assignment1.View
                 }
 
                 Console.WriteLine("Enter a valid index. Maximum Value: " + (count - 1));
-            }
-        }
-
-        /// <summary>
-        /// Gets the valid field to edit
-        /// </summary>
-        /// <returns>Integer field to edit</returns>
-        internal int GetValidFieldOption()
-        {
-            while (true)
-            {
-                int option = ConsoleView.GetInteger("1. Edit Name\n2. Edit PhoneNumber\n3. Edit Email\n4. Edit Notes\nChoose field to edit: ");
-                if (option >= 1 && option <= 4)
-                {
-                    return option;
-                }
-
-                Console.WriteLine("Enter a valid input in range 1 to 4.");
             }
         }
     }
