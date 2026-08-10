@@ -88,7 +88,7 @@ internal class ContactService
     internal string EditContact(Guid id, string name, string phoneNumber, string email, string notes)
     {
         Contact? contact = this._repository.GetContactById(id);
-        if (contact == null)
+        if (contact is null)
         {
             return "Contact Id Not found\n";
         }
@@ -113,22 +113,22 @@ internal class ContactService
         if (ContactServiceValidator.IsUniqueContactNumber(phoneNumber, contactNumbers, existingPhone) && ContactServiceValidator.IsUniqueContactName(name, contactNames, existingName))
         {
             // Assigns the existing value if the user input is empty
-            if (name.Equals(string.Empty))
+            if (!name.Equals(string.Empty))
             {
                 contact.Name = name;
             }
 
-            if (phoneNumber.Equals(string.Empty))
+            if (!phoneNumber.Equals(string.Empty))
             {
                 contact.PhoneNumber = phoneNumber;
             }
 
-            if (email.Equals(string.Empty))
+            if (!email.Equals(string.Empty))
             {
                 contact.Email = email;
             }
 
-            if (notes.Equals(string.Empty))
+            if (!notes.Equals(string.Empty))
             {
                 contact.Notes = notes;
             }

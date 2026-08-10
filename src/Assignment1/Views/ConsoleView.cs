@@ -242,6 +242,6 @@ internal static class ConsoleView
     /// </summary>
     internal static void Clear()
     {
-        ConsoleView.Clear();
+        Console.Clear();
     }
 }

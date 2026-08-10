@@ -39,7 +39,7 @@ internal class ContactController
                 "5. Search contact by name\n" +
                 "6. Sort contact by name\n" +
                 "7. Exit\n" +
-                " Choose an option: ");
+                "Choose an option: ");
 
             ConsoleView.Clear();
 

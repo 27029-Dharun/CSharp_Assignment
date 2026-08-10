@@ -16,7 +16,7 @@ internal static class ContactServiceValidator
     {
         foreach (string phoneNumber in phoneNumbers)
         {
-            if (phoneNumber == number && existingPhone != number)
+            if (phoneNumber == number && existingPhone != phoneNumber)
             {
                 return false;
             }
