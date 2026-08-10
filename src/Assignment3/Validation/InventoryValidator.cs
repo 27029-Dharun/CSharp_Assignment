@@ -3,16 +3,21 @@
     /// <summary>
     /// Contains validation logic for product attributes.
     /// </summary>
-    internal class InventoryValidator
+    internal static class InventoryValidator
     {
+        private const int MinimumPrice = 1;
+
+        private const decimal MinimumQuantity = 0;
+        private const int MinimumNameLength = 3;
+
         /// <summary>
         /// Validates price of the product
         /// </summary>
         /// <param name="price">Price of the product</param>
         /// <returns>True if the price is positive; otherwise false</returns>
-        public bool IsValidatePrice(decimal price)
+        public static bool IsValidatePrice(decimal price)
         {
-            return price > 0;
+            return price >= MinimumPrice;
         }
 
         /// <summary>
@@ -20,9 +25,9 @@
         /// </summary>
         /// <param name="quantity">Quantity of the product</param>
         /// <returns>True if quantity is not negative; otherwise false. </returns>
-        public bool IsValidateQuantity(decimal quantity)
+        public static bool IsValidateQuantity(decimal quantity)
         {
-            return quantity >= 0;
+            return quantity >= MinimumQuantity;
         }
 
         /// <summary>
@@ -30,18 +35,18 @@
         /// </summary>
         /// <param name="name">Name of the product. </param>
         /// <returns>True if name is valid; otherwise false. </returns>
-        public bool IsValidateName(string name)
+        public static bool IsValidateName(string name)
         {
-            if (name == null || name.Length < 3)
+            if (name is null || name.Length < MinimumNameLength)
             {
-                throw new ArgumentException("Name should have at least 3 Characters");
+                return false;
             }
 
             foreach (char c in name)
             {
                 if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
                 {
-                    throw new ArgumentException("Name should only contain Alphabets");
+                    return false;
                 }
             }
 

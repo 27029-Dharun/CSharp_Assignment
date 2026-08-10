@@ -9,42 +9,26 @@ namespace Assignment3.Services
     /// </summary>
     internal class InventoryService : IService
     {
+        private const int AssignExistingValue = -1;
         private readonly InventoryRepository _inventoryRepository;
-        private readonly InventoryValidator _validator;
         private int _id = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryService"/> class.
         /// </summary>
-        /// <param name="validator">Instance of validator injected from the origin</param>
         /// <param name="repository">Instance of repository injected from origin</param>
-        public InventoryService(InventoryValidator validator, InventoryRepository repository)
+        public InventoryService(InventoryRepository repository)
         {
-            this._validator = validator;
             this._inventoryRepository = repository;
         }
 
         /// <inheritdoc />
         public Product CreateInventoryProduct(string name, decimal price, int quantity)
         {
-            if (!this._validator.IsValidateName(name))
-            {
-                throw new ArgumentException("Invalid Name: Name should contain more than 3 character");
-            }
-
-            if (!this.IsUniqueName(name))
+            List<string> productNames = this._inventoryRepository.GetProductName();
+            if (!InventoryServiceValidator.IsUniqueProductName(name, productNames))
             {
                 throw new ArgumentException("Invalid Name: Name should be unique");
-            }
-
-            if (!this._validator.IsValidatePrice(price))
-            {
-                throw new ArgumentException("Invalid Price: Price should be positive");
-            }
-
-            if (!this._validator.IsValidateQuantity(quantity))
-            {
-                throw new ArgumentException("Invalid Quantity: Quantity can't be Negative");
             }
 
             Product product = new Product(this._id++, name, price, quantity);
@@ -72,37 +56,32 @@ namespace Assignment3.Services
             Product product = this._inventoryRepository.GetProductById(id);
 
             // If all the fields are Empty throws an Exception
-            if (name == string.Empty && price == -1 && quantity == -1)
+            if (name == AssignExistingValue.ToString() && price == AssignExistingValue && quantity == AssignExistingValue)
             {
                 throw new Exception("Nothing to Edit");
             }
 
-            // If name is not empty the name is updated
-            if (name != string.Empty)
+            // If name is not -1 the name is updated
+            if (name != AssignExistingValue.ToString())
             {
-                this._validator.IsValidateName(name);
+                List<string> productNames = this._inventoryRepository.GetProductName();
+                if (!InventoryServiceValidator.IsUniqueProductName(name, productNames, product.Name))
+                {
+                    throw new Exception(" The name of the product should be unique. ");
+                }
+
                 product.Name = name;
             }
 
             // If the price is not -1 the price is edited
-            if (price != -1)
+            if (price is not AssignExistingValue)
             {
-                if (!this._validator.IsValidatePrice(price))
-                {
-                    throw new ArgumentException("Invalid Price: Price can't be Negative");
-                }
-
                 product.Price = price;
             }
 
             // If the quantity is not -1 the quantity is edited
-            if (quantity != -1)
+            if (quantity is not AssignExistingValue)
             {
-                if (!this._validator.IsValidateQuantity(quantity))
-                {
-                    throw new ArgumentException("Invalid Quantity: Quanity can't be Negative");
-                }
-
                 product.Quantity = quantity;
             }
 
@@ -162,20 +141,6 @@ namespace Assignment3.Services
         internal bool IsInventoryEmpty()
         {
             return !this._inventoryRepository.GetInventory().Any();
-        }
-
-        private bool IsUniqueName(string name, string? exisitingName = null)
-        {
-            List<Product> products = this._inventoryRepository.GetInventory().ToList();
-            foreach (Product product in products)
-            {
-                if (product.Name == name && exisitingName != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }
