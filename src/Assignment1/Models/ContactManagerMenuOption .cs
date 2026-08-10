@@ -1,4 +1,4 @@
-﻿namespace Assignment1.Model;
+﻿namespace Assignment1.Models;
 
 /// <summary>
 ///  Specifies all the contact manager options.

@@ -1,4 +1,4 @@
-﻿using Assignment1.Model;
+﻿using Assignment1.Models;
 using Assignment1.Validation;
 
 namespace Assignment1.Views;
@@ -235,5 +235,13 @@ internal static class ConsoleView
 
             Console.WriteLine("Enter a valid index. Maximum Value: " + (count - 1));
         }
+    }
+
+    /// <summary>
+    /// Clears the console
+    /// </summary>
+    internal static void Clear()
+    {
+        ConsoleView.Clear();
     }
 }

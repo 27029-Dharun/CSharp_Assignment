@@ -1,4 +1,4 @@
-﻿using Assignment1.Model;
+﻿using Assignment1.Models;
 
 namespace Assignment1.Repository;
 

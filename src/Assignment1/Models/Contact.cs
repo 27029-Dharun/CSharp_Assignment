@@ -1,7 +1,7 @@
-﻿namespace Assignment1.Model;
+﻿namespace Assignment1.Models;
 
 /// <summary>
-/// Model class
+/// Represents a contact saved in the repository.
 /// </summary>
 internal class Contact
 {

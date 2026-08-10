@@ -1,4 +1,4 @@
-﻿using Assignment1.Model;
+﻿using Assignment1.Models;
 using Assignment1.Repository;
 using Assignment1.Validation;
 
@@ -156,7 +156,6 @@ internal class ContactService
     {
         IReadOnlyList<Contact> contacts = this._repository.GetAll();
         return contacts
-        .Where(c => !string.IsNullOrWhiteSpace(c.PhoneNumber))
         .Select(c => c.PhoneNumber ?? string.Empty)
         .ToList();
     }
@@ -169,7 +168,6 @@ internal class ContactService
     {
         IReadOnlyList<Contact> contacts = this._repository.GetAll();
         return contacts
-        .Where(c => !string.IsNullOrWhiteSpace(c.Name))
         .Select(c => c.Name ?? string.Empty)
         .ToList();
     }

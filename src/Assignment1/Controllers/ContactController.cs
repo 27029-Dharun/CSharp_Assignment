@@ -1,4 +1,4 @@
-﻿using Assignment1.Model;
+﻿using Assignment1.Models;
 using Assignment1.Services;
 using Assignment1.Views;
 
@@ -41,7 +41,7 @@ internal class ContactController
                 "7. Exit\n" +
                 " Choose an option: ");
 
-            Console.Clear();
+            ConsoleView.Clear();
 
             switch (option)
             {
@@ -115,7 +115,7 @@ internal class ContactController
             return;
         }
 
-        ConsoleView.PrintInfo("Select the contact to edit (enter index): ");
+        ConsoleView.PrintInfo("Select the contact to edit: ");
         ConsoleView.PrintContact(contacts);
         int index = ConsoleView.GetValidContactIndex(contacts.Count);
         Guid id = contacts[index].Id;

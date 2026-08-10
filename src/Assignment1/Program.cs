@@ -9,7 +9,10 @@ namespace Assignment1;
 /// </summary>
 internal class Program
 {
-    private static void Main()
+    /// <summary>
+    /// Entry point of the contact manager application.
+    /// </summary>
+    internal static void Main()
     {
         ContactRepository repository = new ContactRepository();
         ContactService service = new ContactService(repository);
