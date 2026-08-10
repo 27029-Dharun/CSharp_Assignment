@@ -14,7 +14,21 @@
         /// <returns> True if the name is unique; otherwise false. </returns>
         public static bool IsUniqueProductName(string name, List<string> productNames, string? existingName = null)
         {
-            return !productNames.Any(productName => productName == name && existingName != null);
+            // Returns true if the name is equals to the name that is already existing.
+            if (existingName != null && existingName == name)
+            {
+                return true;
+            }
+
+            foreach (var productName in productNames)
+            {
+                if (productName == name)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
