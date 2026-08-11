@@ -33,7 +33,7 @@ internal class ContactService
         IReadOnlyList<string> contactNames = this.GetAllName();
         IReadOnlyList<string> contactNumbers = this.GetAllNumber();
 
-        if (notes.Equals(string.Empty))
+        if (string.IsNullOrEmpty(notes))
         {
             notes = "Not specified";
         }
@@ -107,22 +107,22 @@ internal class ContactService
         if (ContactServiceValidator.IsUniqueField(phoneNumber, contactNumbers, existingPhoneNumber) && ContactServiceValidator.IsUniqueField(name, contactNames, existingName))
         {
             // Assigns the new value if the user input is not empty
-            if (!name.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(name))
             {
                 contact.Name = name;
             }
 
-            if (!phoneNumber.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(phoneNumber))
             {
                 contact.PhoneNumber = phoneNumber;
             }
 
-            if (!email.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(email))
             {
                 contact.Email = email;
             }
 
-            if (!notes.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(notes))
             {
                 contact.Notes = notes;
             }
