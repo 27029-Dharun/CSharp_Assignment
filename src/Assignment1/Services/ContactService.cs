@@ -21,7 +21,7 @@ internal class ContactService
     }
 
     /// <summary>
-    /// Creates a new contacts instance and pass it to the repository.
+    /// Creates a new contacts instance and add the contact.
     /// </summary>
     /// <param name="name">Name of the contacts</param>
     /// <param name="phoneNumber">PhoneNumber number of the contacts</param>
