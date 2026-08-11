@@ -10,7 +10,7 @@ internal static class ContactInputValidator
     /// <summary>
     /// Minimum length of the name.
     /// </summary>
-    internal const int MinimumNameLength = 5;
+    internal const int MinimumNameLength = 3;
 
     /// <summary>
     /// Length of the phone number.
@@ -29,8 +29,7 @@ internal static class ContactInputValidator
     /// <returns>True if phone number is  valid; otherwise false </returns>
     internal static bool IsValidPhoneNumber(string number)
     {
-        number = number.Trim();
-        if (string.IsNullOrEmpty(number))
+        if (string.IsNullOrWhiteSpace(number))
         {
             return false;
         }
@@ -45,8 +44,7 @@ internal static class ContactInputValidator
     /// <returns>True if email is valid; otherwise false </returns>
     internal static bool IsValidEmail(string email)
     {
-        email = email.Trim();
-        if (string.IsNullOrEmpty(email))
+        if (string.IsNullOrWhiteSpace(email))
         {
             return false;
         }
@@ -61,8 +59,7 @@ internal static class ContactInputValidator
     /// <returns>True if the notes is valid; otherwise false</returns>
     internal static bool IsValidNotes(string notes)
     {
-        notes = notes.Trim();
-        if (notes.Length > MaximumNotesLength)
+        if (string.IsNullOrWhiteSpace(notes) && notes.Length > MaximumNotesLength)
         {
             return false;
         }
@@ -77,8 +74,7 @@ internal static class ContactInputValidator
     /// <returns>True if valid name; otherwise false</returns>
     internal static bool IsValidName(string name)
     {
-        name = name.Trim();
-        if (string.IsNullOrEmpty(name))
+        if (string.IsNullOrWhiteSpace(name))
         {
             return false;
         }
@@ -88,7 +84,7 @@ internal static class ContactInputValidator
             return false;
         }
 
-        if (name.Any(char.IsDigit))
+        if (!name.All(char.IsLetter))
         {
             return false;
         }

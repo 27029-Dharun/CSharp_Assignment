@@ -33,12 +33,16 @@ internal class ContactService
         IReadOnlyList<string> contactNames = this.GetAllName();
         IReadOnlyList<string> contactNumbers = this.GetAllNumber();
 
-        if (ContactServiceValidator.IsUniqueContactNumber(phoneNumber, contactNumbers) && ContactServiceValidator.IsUniqueContactName(name, contactNames))
+        if (notes.Equals(string.Empty))
         {
-            Guid id = Guid.NewGuid();
-            Contact contact = new Contact(id, name, phoneNumber, email, notes);
+            notes = "Not specified";
+        }
+
+        if (ContactServiceValidator.IsUniqueField(phoneNumber, contactNumbers) && ContactServiceValidator.IsUniqueField(name, contactNames))
+        {
+            Contact contact = new Contact(name, phoneNumber, email, notes);
             this._repository.AddContact(contact);
-            return "Contact Added Successfully";
+            return "Contact added successfully";
         }
 
         return "Name and phone number should be unique";
@@ -90,29 +94,19 @@ internal class ContactService
         Contact? contact = this._repository.GetContactById(id);
         if (contact is null)
         {
-            return "Contact Id Not found\n";
+            return "Contact Id not found\n";
         }
 
-        if (contact.PhoneNumber is null)
-        {
-            return "Contact number is not found";
-        }
-
-        if (contact.Name is null)
-        {
-            return "Contact name is not found";
-        }
-
-        string existingPhone = contact.PhoneNumber;
+        string existingPhoneNumber = contact.PhoneNumber;
         string existingName = contact.Name;
 
         IReadOnlyList<string> contactNames = this.GetAllName();
         IReadOnlyList<string> contactNumbers = this.GetAllNumber();
 
         // Ignores existing name and phone number while checking unique name and number
-        if (ContactServiceValidator.IsUniqueContactNumber(phoneNumber, contactNumbers, existingPhone) && ContactServiceValidator.IsUniqueContactName(name, contactNames, existingName))
+        if (ContactServiceValidator.IsUniqueField(phoneNumber, contactNumbers, existingPhoneNumber) && ContactServiceValidator.IsUniqueField(name, contactNames, existingName))
         {
-            // Assigns the existing value if the user input is empty
+            // Assigns the new value if the user input is not empty
             if (!name.Equals(string.Empty))
             {
                 contact.Name = name;
@@ -156,7 +150,7 @@ internal class ContactService
     {
         IReadOnlyList<Contact> contacts = this._repository.GetAll();
         return contacts
-        .Select(c => c.PhoneNumber ?? string.Empty)
+        .Select(c => c.PhoneNumber)
         .ToList();
     }
 
@@ -168,7 +162,7 @@ internal class ContactService
     {
         IReadOnlyList<Contact> contacts = this._repository.GetAll();
         return contacts
-        .Select(c => c.Name ?? string.Empty)
+        .Select(c => c.Name)
         .ToList();
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace Assignment1.Models;
 
 /// <summary>
-///  Specifies all the contact manager options.
+/// Specifies all contact manager menu option.
 /// </summary>
 internal enum ContactManagerMenuOption
 {
     /// <summary>
-    /// Represents the option to add new contact.
+    /// Represents the option to add a new contact.
     /// </summary>
     Create = 1,
 
@@ -31,12 +31,12 @@ internal enum ContactManagerMenuOption
     Search = 5,
 
     /// <summary>
-    /// Represents the option to order the contact by name.
+    /// Represents the option to sort contacts by name.
     /// </summary>
     Sort = 6,
 
     /// <summary>
-    /// Represents the option to exit from the application.
+    /// Represents the option to exit the application.
     /// </summary>
     Exit = 7,
 }

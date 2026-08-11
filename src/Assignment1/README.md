@@ -27,7 +27,7 @@ Enter the number to continue with an operation
 4. Delete the contact
 5. Search contact By Name
 6. Sort contact
-Type [exit] To Exit
+7. Exit the application
 
 You can navigate the app by typing the number of the action you want and pressing enter.
 
@@ -50,24 +50,24 @@ The app will display all saved contacts in a list.
 
 ### 3. Edit Contact
 
-Will display all the Contacts
+The app will display all the contacts
 Choose the contact to edit.
 
-You’ll see the current details and a menu
+You’ll see the current be displayed
 
-1. Edit Name
-2. Edit Email
-3. Edit Phone
-4. Edit Notes
-Choose the field you want to change and enter the new value.
+1. Enter name
+2. Enter email
+3. Enter phone
+4. Enter notes
+
+Enter the value of the field that you want to edit and leave the field unchanged if you no need to edit a field
 The app will confirm:
 
 Contact updated successfully.
 
-
 ### 4. Search a Contact
 
-Enter the Name to Search
+Enter the name to search
 The application will print all the matched contacts with the name.
 
 ### 5. Delete a Contact
@@ -81,7 +81,3 @@ Contact deleted successfully.
 ### 6. Sort a Contact
 
 All the contacts will be sorted and displayed.
-
-### 7. Exit the Application
-
-Type "exit" to exit the application.
