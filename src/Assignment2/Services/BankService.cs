@@ -1,6 +1,5 @@
 ﻿using Assignment2.Models.BankingSystem;
 using Assignment2.Repository;
-using Assignment2.Validators;
 
 namespace Assignment2.Services
 {
@@ -9,8 +8,8 @@ namespace Assignment2.Services
     /// </summary>
     internal class BankService
     {
-        private static long accountNum = 100000000000;
         private readonly BankRepository _repository;
+        private long _accountNum = 100000000000;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankService"/> class.
@@ -29,22 +28,11 @@ namespace Assignment2.Services
         /// <returns>A string value with account number that is created</returns>
         internal string CreateCheckingAccount(string name, decimal initialAmount)
         {
-            string nameValidator = Validator.IsAllAlphabet(name);
-            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
-            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
-            {
-                return nameValidator + initialAmountValidator;
-            }
-
-            CheckingAccount checkingAccount = new CheckingAccount()
-            {
-                Name = name,
-                AccountNumber = (string)(accountNum++).ToString(),
-                Balance = initialAmount,
-            };
+            string accountNumber = (this._accountNum++).ToString();
+            CheckingAccount checkingAccount = new CheckingAccount(name, accountNumber, initialAmount);
 
             this._repository.Add(checkingAccount);
-            return (accountNum - 1).ToString();
+            return accountNumber;
         }
 
         /// <summary>
@@ -55,22 +43,11 @@ namespace Assignment2.Services
         /// <returns> A string value with account number that is created. </returns>
         internal string CreateSavingsAccount(string name, decimal initialAmount)
         {
-            string nameValidator = Validator.IsAllAlphabet(name);
-            string initialAmountValidator = Validator.IsValidAmount(initialAmount);
-            if (nameValidator != string.Empty || initialAmountValidator != string.Empty)
-            {
-                return nameValidator + initialAmountValidator;
-            }
-
-            SavingsAccount savings = new SavingsAccount()
-            {
-                Name = name,
-                AccountNumber = (accountNum++).ToString(),
-                Balance = initialAmount,
-            };
+            string accountNumber = (this._accountNum++).ToString();
+            SavingsAccount savings = new SavingsAccount(name, accountNumber, initialAmount);
 
             this._repository.Add(savings);
-            return (accountNum - 1).ToString();
+            return accountNumber;
         }
 
         /// <summary>
@@ -81,12 +58,12 @@ namespace Assignment2.Services
         /// <returns>string that tell the status of the operation</returns>
         internal string DepositAmount(string accountNumber, decimal depositAmount)
         {
-            if (Validator.IsValidAmount(depositAmount) != string.Empty)
+            if (this._repository.DepositAmount(accountNumber, depositAmount))
             {
-                return Validator.IsValidAmount(depositAmount);
+                return $"Rs.{depositAmount} deposited successfully";
             }
 
-            return this._repository.DepositAmount(accountNumber, depositAmount);
+            return "Amount not found, please try again";
         }
 
         /// <summary>
@@ -132,12 +109,6 @@ namespace Assignment2.Services
         /// <returns>String output</returns>
         internal string LogInAccount(string accountNumber)
         {
-            string validateAccountNumber = Validator.IsValidAccountNumber(accountNumber);
-            if (validateAccountNumber != string.Empty)
-            {
-                return validateAccountNumber;
-            }
-
             // check if account exists
             if (!this.IsAccountExist(accountNumber))
             {
@@ -155,12 +126,12 @@ namespace Assignment2.Services
         /// <returns> A string representing the status of the operations. </returns>
         internal string WithdrawAmount(string accountNumber, decimal amount)
         {
-            if (Validator.IsValidAmount(amount) != string.Empty)
+            if (this._repository.WithdrawAmount(accountNumber, amount))
             {
-                return Validator.IsValidAmount(amount);
+                return $"Rs.{amount} withdrawn successfully";
             }
 
-            return this._repository.WithdrawAmount(accountNumber, amount);
+            return "Account not found, please try again.";
         }
     }
 }

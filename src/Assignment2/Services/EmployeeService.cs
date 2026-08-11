@@ -15,16 +15,12 @@ namespace Assignment2.Services
         /// <returns> A instance of the developer created. </returns>
         public Developer? CreateDeveloper(string name, decimal salary)
         {
-            if (name == string.Empty || salary <= 0)
+            if (string.IsNullOrEmpty(name) || salary <= 0)
             {
                 return null;
             }
 
-            return new Developer()
-            {
-                Name = name,
-                Salary = salary,
-            };
+            return new Developer(name, salary);
         }
 
         /// <summary>
@@ -35,16 +31,12 @@ namespace Assignment2.Services
         /// <returns> A instance of the manager created. </returns>
         public Manager? CreateManager(string name, decimal salary)
         {
-            if (name == string.Empty || salary <= 0)
+            if (string.IsNullOrEmpty(name) || salary <= 0)
             {
                 return null;
             }
 
-            return new Manager()
-            {
-                Name = name,
-                Salary = salary,
-            };
+            return new Manager(name, salary);
         }
 
         /// <summary>
@@ -59,7 +51,7 @@ namespace Assignment2.Services
                 return manager.PrintDetails();
             }
 
-            // Every employees other than manager is a circle
+            // Every employees other than manager is a developer
             Developer developer = (Developer)employee;
             return developer.PrintDetails();
         }

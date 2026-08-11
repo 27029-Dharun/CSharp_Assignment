@@ -6,12 +6,25 @@
     internal abstract class BankAccount
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="BankAccount"/> class.
+        /// </summary>
+        /// <param name="name"> Name of the account holder. </param>
+        /// <param name="accountNumber"> Account number of the user. </param>
+        /// <param name="initialAmount"> Initial amount deposited. </param>
+        protected BankAccount(string name, string accountNumber, decimal initialAmount)
+        {
+            this.Name = name;
+            this.AccountNumber = accountNumber;
+            this.Balance = initialAmount;
+        }
+
+        /// <summary>
         /// Gets or sets name of the account holder.
         /// </summary>
         /// <value>
         /// A string containing customers full name.
         /// </value>
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets Account Number.
@@ -19,7 +32,7 @@
         /// <value>
         /// A string containing account number that acts as a unique identifier.
         /// </value>
-        public string? AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the balance.
@@ -34,10 +47,10 @@
         /// </summary>
         /// <param name="amount"> A sum of amount to be deposited. </param>
         /// <returns> A message confirming the amount deposited to the account. </returns>
-        public string Deposit(decimal amount)
+        public bool Deposit(decimal amount)
         {
             this.Balance = this.Balance + amount;
-            return $"Rs. {amount} deposited successfully";
+            return true;
         }
 
         /// <summary>
@@ -46,12 +59,12 @@
         /// </summary>
         /// <param name="amount"> A amount to deduct from the account. </param>
         /// <returns> A status message explaining if the withdrawal succeeded or failed. </returns>
-        public abstract string Withdraw(decimal amount);
+        public abstract bool Withdraw(decimal amount);
 
         /// <summary>
         /// This method prints the detail of the Account.
         /// </summary>
         /// <returns> String containing account number And Balance. </returns>
-        public virtual string PrintDetails() => $"Account Number {this.AccountNumber} Balance {this.Balance}";
+        public virtual string PrintDetails() => $"Account number: {this.AccountNumber}, has balance {this.Balance}";
     }
 }

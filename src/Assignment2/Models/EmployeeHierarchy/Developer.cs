@@ -8,16 +8,21 @@
         private const decimal DeveloperBonusRate = 0.10M;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Developer"/> class.
+        /// </summary>
+        /// <param name="name"> Name of the developer. </param>
+        /// <param name="salary"> Salary received by the developer. </param>
+        public Developer(string name, decimal salary)
+            : base(name, salary)
+        {
+        }
+
+        /// <summary>
         /// Calculates the bonus of the developer.
         /// </summary>
         /// <returns> Bonus for the Employee. </returns>
         public override decimal CalculateBonus()
         {
-            if (this.Salary is null)
-            {
-                return 0;
-            }
-
             return decimal.Multiply((decimal)this.Salary, DeveloperBonusRate);
         }
 

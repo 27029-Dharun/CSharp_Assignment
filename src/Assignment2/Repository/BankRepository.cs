@@ -34,15 +34,15 @@ internal class BankRepository
     /// <param name="accountNumber"> Account number of the account where amount is to be withdrawn. </param>
     /// <param name="amount"> A sum of amount that is to be withdrawn. </param>
     /// <returns> A string containing the status of the withdrawal operation. </returns>
-    internal string WithdrawAmount(string accountNumber, decimal amount)
+    internal bool WithdrawAmount(string accountNumber, decimal amount)
     {
         BankAccount? account = this.GetByAccountNumber(accountNumber);
         if (account is null)
         {
-            return "Account not found";
+            return false;
         }
 
-        return account.Withdraw(amount);
+        return true;
     }
 
     /// <summary>
@@ -51,14 +51,14 @@ internal class BankRepository
     /// <param name="accountNumber"> Account number where amount is to be deposited. </param>
     /// <param name="amount"> A sum of amount to be deposited. </param>
     /// <returns>A string containing the status of the deposit operation</returns>
-    internal string DepositAmount(string accountNumber, decimal amount)
+    internal bool DepositAmount(string accountNumber, decimal amount)
     {
         BankAccount? account = this.GetByAccountNumber(accountNumber);
-        if (account == null)
+        if (account is null)
         {
-            return "Account not Found";
+            return false;
         }
 
-        return account.Deposit(amount);
+        return true;
     }
 }

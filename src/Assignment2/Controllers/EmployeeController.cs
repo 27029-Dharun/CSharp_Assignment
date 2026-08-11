@@ -11,13 +11,16 @@ namespace Assignment2.Controllers
     internal class EmployeeController
     {
         private readonly EmployeeService _employeeService;
+        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmployeeController"/> class.
         /// </summary>
-        /// <param name="employeeService"> Employee service object. </param>
-        public EmployeeController(EmployeeService employeeService)
+        /// <param name="view">Instance of the view</param>
+        /// <param name="employeeService"> Instance of employee service. </param>
+        public EmployeeController(ConsoleView view, EmployeeService employeeService)
         {
+            this._view = view;
             this._employeeService = employeeService;
         }
 
@@ -26,7 +29,7 @@ namespace Assignment2.Controllers
         /// </summary>
         public void EmployeeOperations()
         {
-            EmployeeRole option = (EmployeeRole)ConsoleView.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\nEnter the option: ");
+            EmployeeRole option = (EmployeeRole)this._view.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\nEnter the option: ");
             switch (option)
             {
                 case EmployeeRole.Developer:
@@ -41,11 +44,11 @@ namespace Assignment2.Controllers
                     return;
 
                 default:
-                    ConsoleView.PrintInfo("Enter a valid Integer in range 1-3");
+                    this._view.PrintInfo("Enter a valid Integer in range 1-3");
                     break;
             }
 
-            ConsoleView.PauseAndReturn();
+            this._view.PauseAndReturn();
         }
 
         /// <summary>
@@ -53,17 +56,17 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Manager()
         {
-            string name = ConsoleView.GetString("Enter the name of the Developer: ");
-            decimal salary = ConsoleView.GetDecimal("Enter the Salary of the Developer: ");
+            string name = this._view.GetString("Enter the name of the Developer: ");
+            decimal salary = this._view.GetAmount("Enter the Salary of the Developer: ");
 
             Manager? manager = this._employeeService.CreateManager(name, salary);
             if (manager == null)
             {
-                ConsoleView.PrintInfo("Salary can't be Negative");
+                this._view.PrintInfo("Salary can't be Negative");
                 return;
             }
 
-            ConsoleView.PrintInfo(this._employeeService.GetDetails(manager));
+            this._view.PrintInfo(this._employeeService.GetDetails(manager));
         }
 
         /// <summary>
@@ -71,17 +74,17 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Developer()
         {
-            string name = ConsoleView.GetString("Enter the name of the Developer: ");
-            decimal salary = ConsoleView.GetDecimal("Enter the Salary of the Developer: ");
+            string name = this._view.GetString("Enter the name of the Developer: ");
+            decimal salary = this._view.GetAmount("Enter the Salary of the Developer: ");
 
             Developer? developer = this._employeeService.CreateDeveloper(name, salary);
             if (developer is null)
             {
-                ConsoleView.PrintInfo("Salary can't be Negative");
+                this._view.PrintInfo("Salary can't be Negative");
                 return;
             }
 
-            ConsoleView.PrintInfo(this._employeeService.GetDetails(developer));
+            this._view.PrintInfo(this._employeeService.GetDetails(developer));
         }
     }
 }

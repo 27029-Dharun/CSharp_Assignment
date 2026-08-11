@@ -1,4 +1,5 @@
 ﻿using Assignment2.Models.BankingSystem;
+using Assignment2.Validators;
 
 namespace Assignment2.Views
 {
@@ -11,7 +12,7 @@ namespace Assignment2.Views
         /// Prints the info on the console.
         /// </summary>
         /// <param name="message">String to be printed</param>
-        internal static void PrintInfo(string message)
+        internal void PrintInfo(string message)
         {
             Console.WriteLine(message);
         }
@@ -19,47 +20,12 @@ namespace Assignment2.Views
         /// <summary>
         /// Displays the notes to make a note of the account number.
         /// </summary>
-        internal static void DisplayNote()
+        internal void DisplayNote()
         {
-            ConsoleView.PrintInfo("\n-------------------------");
-            ConsoleView.PrintInfo(" Note the account number to perform further transactions");
-            ConsoleView.PrintInfo("-------------------------\n");
-        }
-
-        /// <summary>
-        /// Gets a valid decimal input from the user until the input is a valid decimal number.
-        /// </summary>
-        /// <param name="prompt"> Prompt to be displayed to the user. </param>
-        /// <returns> The decimal value entered by user. </returns>
-        internal static decimal GetDecimal(string prompt)
-        {
-            decimal amount;
-            Console.Write(prompt);
-            while (!decimal.TryParse(Console.ReadLine(), out amount))
-            {
-                Console.WriteLine("Please enter a positive decimal value");
-                Console.Write(prompt);
-            }
-
-            return amount;
-        }
-
-        /// <summary>
-        /// Gets a valid double input from the user until the input is a valid double number.
-        /// </summary>
-        /// <param name="prompt"> Prompt to be displayed to the user. </param>
-        /// <returns> The double value entered by user. </returns>
-        internal static double GetDouble(string prompt)
-        {
-            double amount;
-            Console.Write(prompt);
-            while (!double.TryParse(Console.ReadLine(), out amount))
-            {
-                Console.WriteLine("Please enter a positive Double value");
-                Console.Write(prompt);
-            }
-
-            return amount;
+            Console.WriteLine(
+                "-------------------------\n" +
+                "Note the account number to perform further transactions\n" +
+                "-------------------------\n");
         }
 
         /// <summary>
@@ -67,17 +33,10 @@ namespace Assignment2.Views
         /// </summary>
         /// <param name="prompt"> Prompt to be displayed to the user. </param>
         /// <returns> The string entered by user. </returns>
-        internal static string GetString(string prompt)
+        internal string GetString(string prompt)
         {
             Console.Write(prompt);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
-            while (input == string.Empty)
-            {
-                Console.WriteLine("String can't be Empty");
-                Console.Write(prompt);
-                input = (Console.ReadLine() ?? string.Empty).Trim();
-            }
-
             return input;
         }
 
@@ -86,7 +45,7 @@ namespace Assignment2.Views
         /// </summary>
         /// <param name="prompt"> Prompt to be displayed to the user. </param>
         /// <returns> The integer value entered by user. </returns>
-        internal static int GetInteger(string prompt)
+        internal int GetInteger(string prompt)
         {
             Console.Write(prompt);
             int input;
@@ -102,7 +61,7 @@ namespace Assignment2.Views
         /// This prints the balance and account of the Account.
         /// </summary>
         /// <param name="account"> Instance of the account. </param>
-        internal static void PrintBalance(BankAccount account)
+        internal void PrintBalance(BankAccount account)
         {
             Console.WriteLine($"Account Number: {account.AccountNumber}");
             Console.WriteLine($"Balance: {account.Balance}");
@@ -111,7 +70,7 @@ namespace Assignment2.Views
         /// <summary>
         /// Pause the flow until a key is entered.
         /// </summary>
-        internal static void PauseAndReturn()
+        internal void PauseAndReturn()
         {
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
@@ -119,6 +78,57 @@ namespace Assignment2.Views
             // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
+        }
+
+        /// <summary>
+        /// Gets the name
+        /// </summary>
+        /// <param name="message">Message to be displayed to get the name</param>
+        /// <returns>Name entered by the user.</returns>
+        internal string GetName(string message)
+        {
+            string input = this.GetString(message);
+            while (!Validator.IsAllAlphabet(input))
+            {
+                Console.WriteLine("Name should only have alphabets");
+                input = this.GetString(message);
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the valid dimension
+        /// </summary>
+        /// <param name="message">Prompt to be displayed</param>
+        /// <returns>A double input entered by the user</returns>
+        internal double GetDimension(string message)
+        {
+            double dimension;
+
+            while ((!double.TryParse(Console.ReadLine(), out dimension)) && (!Validator.IsValidDimension(dimension)))
+            {
+                Console.WriteLine("Dimension should be greater than zero");
+            }
+
+            return dimension;
+        }
+
+        /// <summary>
+        /// Gets the valid amount from the user.
+        /// </summary>
+        /// <param name="message">Prompt to be displayed</param>
+        /// <returns>A decimal input entered by the user</returns>
+        internal decimal GetAmount(string message)
+        {
+            decimal amount;
+
+            while ((!decimal.TryParse(Console.ReadLine(), out amount)) && (!Validator.IsValidAmount(amount)))
+            {
+                Console.WriteLine("Dimension should be greater than zero");
+            }
+
+            return amount;
         }
     }
 }

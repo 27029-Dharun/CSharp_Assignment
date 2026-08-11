@@ -11,14 +11,17 @@ namespace Assignment2.Controllers;
 internal class ShapeController
 {
     private readonly ShapeService _shapeService;
+    private readonly ConsoleView _view;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ShapeController"/> class.
     /// </summary>
+    /// <param name="view">Instance of the view</param>
     /// <param name="shapeService">Shape service object</param>
-    public ShapeController(ShapeService shapeService)
+    public ShapeController(ConsoleView view, ShapeService shapeService)
     {
         this._shapeService = shapeService;
+        this._view = view;
     }
 
     /// <summary>
@@ -26,7 +29,7 @@ internal class ShapeController
     /// </summary>
     public void ShapeOperations()
     {
-        ShapeOption input = (ShapeOption)ConsoleView.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\nEnter the option: ");
+        ShapeOption input = (ShapeOption)this._view.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\nEnter the option: ");
         switch (input)
         {
             case ShapeOption.Circle:
@@ -41,11 +44,11 @@ internal class ShapeController
                 return;
 
             default:
-                ConsoleView.PrintInfo("Enter number in range 1 - 3");
+                this._view.PrintInfo("Enter number in range 1 - 3");
                 break;
         }
 
-        ConsoleView.PauseAndReturn();
+        this._view.PauseAndReturn();
     }
 
     /// <summary>
@@ -53,17 +56,17 @@ internal class ShapeController
     /// </summary>
     private void RectangleOperation()
     {
-        double length = ConsoleView.GetDouble("Enter the length of the rectangle: ");
-        double width = ConsoleView.GetDouble("Enter the width of the rectangle: ");
-        string color = ConsoleView.GetString("Enter the color of the rectangle: ");
+        double length = this._view.GetDimension("Enter the length of the rectangle: ");
+        double width = this._view.GetDimension("Enter the width of the rectangle: ");
+        string color = this._view.GetString("Enter the color of the rectangle: ");
         Rectangle? rectangle = this._shapeService.CreateRectangle(length, width, color);
         if (rectangle == null)
         {
-            ConsoleView.PrintInfo("Dimension should be positive and color should only have alphabets");
+            this._view.PrintInfo("Dimension should be positive and color should only have alphabets");
             return;
         }
 
-        ConsoleView.PrintInfo(this._shapeService.GetDetails(rectangle));
+        this._view.PrintInfo(this._shapeService.GetDetails(rectangle));
     }
 
     /// <summary>
@@ -71,15 +74,15 @@ internal class ShapeController
     /// </summary>
     private void CircleOperation()
     {
-        double radius = ConsoleView.GetDouble("Enter the radius of the circle: ");
-        string color = ConsoleView.GetString("Enter the color of the circle: ");
+        double radius = this._view.GetDimension("Enter the radius of the circle: ");
+        string color = this._view.GetString("Enter the color of the circle: ");
         Circle? circle = this._shapeService.CreateCircle(radius, color);
         if (circle == null)
         {
-            ConsoleView.PrintInfo("Dimension should be positive and color should only have alphabets");
+            this._view.PrintInfo("Dimension should be positive and color should only have alphabets");
             return;
         }
 
-        ConsoleView.PrintInfo(this._shapeService.GetDetails(circle));
+        this._view.PrintInfo(this._shapeService.GetDetails(circle));
     }
 }

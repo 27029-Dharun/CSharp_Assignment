@@ -9,60 +9,60 @@ internal class Validator
     /// Validates the string and check if all the character is alphabets.
     /// </summary>
     /// <param name="input"> A string to be validated. </param>
-    /// <returns>A string output stating why the string is not valid. </returns>
-    public static string IsAllAlphabet(string input)
+    /// <returns> True if all the letter or alphabets; otherwise false </returns>
+    public static bool IsAllAlphabet(string input)
     {
-        if (string.IsNullOrEmpty(input))
-        {
-            return "String can't be empty";
-        }
-
         foreach (char c in input)
         {
             if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
             {
-                return "Name can't have symbols other than alphabets";
+                return false;
             }
         }
 
-        return string.Empty;
+        return true;
     }
 
     /// <summary>
     /// Validates the account number
     /// </summary>
     /// <param name="number">The account number to be validated</param>
-    /// <returns> A string output stating why the account number is not valid. </returns>
-    public static string IsValidAccountNumber(string number)
+    /// <returns> True if the account number is valid; otherwise false </returns>
+    public static bool IsValidAccountNumber(string number)
     {
         if (number.Length != 12)
         {
-            return "Account number must contain twelve digits";
+            return false;
         }
 
         foreach (char c in number)
         {
             if (!char.IsDigit(c))
             {
-                return "Account number can't have characters";
+                return false;
             }
         }
 
-        return string.Empty;
+        return true;
     }
 
     /// <summary>
     /// This validates the amount to be added
     /// </summary>
     /// <param name="amount">Amount to be validated</param>
-    /// <returns>A string output stating why the amount is not valid. </returns>
-    public static string IsValidAmount(decimal amount)
+    /// <returns> True if the amount is greater than zero; otherwise false. </returns>
+    public static bool IsValidAmount(decimal amount)
     {
-        if (amount > 0)
-        {
-            return string.Empty;
-        }
+        return amount > 0;
+    }
 
-        return "Amount should be Positive";
+    /// <summary>
+    /// Validates the dimension of the shape
+    /// </summary>
+    /// <param name="dimension">Dimension of the shape</param>
+    /// <returns> True if the dimension greater than zero; otherwise false. </returns>
+    internal static bool IsValidDimension(double dimension)
+    {
+        return dimension > 0;
     }
 }

@@ -20,7 +20,7 @@
         /// <value>
         /// A string contains the color of the shape.
         /// </value>
-        public string? Color { get; }
+        public string Color { get; }
 
         /// <summary>
         /// Calculates the area of the shape.

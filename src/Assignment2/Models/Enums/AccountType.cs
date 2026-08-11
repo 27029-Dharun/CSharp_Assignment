@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Models.Enums
 {
     /// <summary>
-    /// Represents the Type of the account that are available
+    /// Specifies the type of the account that are available
     /// </summary>
     internal enum AccountType
     {
@@ -11,7 +11,7 @@
         SavingsAccount = 1,
 
         /// <summary>
-        /// Represents a checking account which has no withdrawal beyond a limit.
+        /// Represents a checking account which has no withdrawal limit.
         /// </summary>
         CheckingAccount = 2,
     }

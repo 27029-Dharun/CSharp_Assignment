@@ -11,15 +11,18 @@ namespace Assignment2.Controllers
         private readonly ShapeController _shapeController;
         private readonly EmployeeController _employeeController;
         private readonly BankController _bankController;
+        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationController"/> class.
         /// </summary>
+        /// <param name="view">Instance of the view</param>
         /// <param name="shapeController">Instance of shape controller</param>
         /// <param name="employeeController">Instance of employee controller object</param>
         /// <param name="bankController">Instance of bank controller</param>
-        public ApplicationController(ShapeController shapeController, EmployeeController employeeController, BankController bankController)
+        public ApplicationController(ConsoleView view, ShapeController shapeController, EmployeeController employeeController, BankController bankController)
         {
+            this._view = view;
             this._shapeController = shapeController;
             this._employeeController = employeeController;
             this._bankController = bankController;
@@ -32,9 +35,9 @@ namespace Assignment2.Controllers
         public void StartApplication()
         {
             ChooseTask input;
-            do
+            while (true)
             {
-                input = (ChooseTask)ConsoleView.GetInteger("Application main menu\n1. Shape\n2. Employee\n3. Banking system\n4. Exit\nEnter an operation to continue: ");
+                input = (ChooseTask)this._view.GetInteger("Application main menu\n1. Shape\n2. Employee\n3. Banking system\n4. Exit\nEnter an operation to continue: ");
                 switch (input)
                 {
                     case ChooseTask.Shape:
@@ -53,11 +56,10 @@ namespace Assignment2.Controllers
                         return;
 
                     default:
-                        ConsoleView.PrintInfo("Enter a number in range 1-4");
+                        this._view.PrintInfo("Enter a number in range 1-4");
                         break;
                 }
             }
-            while (input != ChooseTask.Exit);
         }
     }
 }

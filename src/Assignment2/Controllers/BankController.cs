@@ -11,13 +11,16 @@ namespace Assignment2.Controllers
     internal class BankController
     {
         private readonly BankService _bankService;
+        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankController"/> class.
         /// </summary>
+        /// <param name="view">Instance of the view</param>
         /// <param name="bankService"> Instance of bank service. </param>
-        public BankController(BankService bankService)
+        public BankController(ConsoleView view, BankService bankService)
         {
+            this._view = view;
             this._bankService = bankService;
         }
 
@@ -28,9 +31,9 @@ namespace Assignment2.Controllers
         public void BankOperations()
         {
             int option;
-            do
+            while (true)
             {
-                option = ConsoleView.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Exit\n");
+                option = this._view.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Exit\n");
                 switch (option)
                 {
                     case (int)BankOperation.Add:
@@ -45,13 +48,12 @@ namespace Assignment2.Controllers
                         return;
 
                     default:
-                        ConsoleView.PrintInfo("Enter a valid input in range 1-3");
+                        this._view.PrintInfo("Enter a valid input in range 1-3");
                         break;
                 }
 
-                ConsoleView.PauseAndReturn();
+                this._view.PauseAndReturn();
             }
-            while (option != (int)BankOperation.Exit);
         }
 
         /// <summary>
@@ -59,22 +61,22 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CreateNewAccount()
         {
-            string name = ConsoleView.GetString("Enter your Name: ");
-            int type = ConsoleView.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checking Account\n");
-            decimal initialAmount = ConsoleView.GetDecimal("\nEnter Initial Amount to create a account: ");
+            string name = this._view.GetName("Enter your Name: ");
+            int type = this._view.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checking Account\n");
+            decimal initialAmount = this._view.GetAmount("\nEnter Initial Amount to create a account: ");
             if (type == 1)
             {
-                ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
-                ConsoleView.DisplayNote();
+                this._view.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
+                this._view.DisplayNote();
             }
             else if (type == 2)
             {
-                ConsoleView.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
-                ConsoleView.DisplayNote();
+                this._view.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
+                this._view.DisplayNote();
             }
             else
             {
-                ConsoleView.PrintInfo("Invalid Type of Account");
+                this._view.PrintInfo("Invalid Type of Account");
             }
         }
 
@@ -83,20 +85,20 @@ namespace Assignment2.Controllers
         /// </summary>
         private void LogIn()
         {
-            string accountNumber = ConsoleView.GetString("Enter the account number to LogIn: ");
+            string accountNumber = this._view.GetString("Enter the account number to LogIn: ");
             string validateLogIn = this._bankService.LogInAccount(accountNumber);
 
             if (validateLogIn != string.Empty)
             {
-                ConsoleView.PrintInfo(validateLogIn);
+                this._view.PrintInfo(validateLogIn);
                 return;
             }
 
-            ConsoleView.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
+            this._view.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
             int option;
-            do
+            while (true)
             {
-                option = ConsoleView.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Exit\n");
+                option = this._view.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Exit\n");
                 switch (option)
                 {
                     case (int)LogInOperation.CheckBalance:
@@ -115,13 +117,12 @@ namespace Assignment2.Controllers
                         return;
 
                     default:
-                        ConsoleView.PrintInfo("The number should be in range 1-4");
+                        this._view.PrintInfo("The number should be in range 1-4");
                         break;
                 }
 
-                ConsoleView.PauseAndReturn();
+                this._view.PauseAndReturn();
             }
-            while (option != (int)LogInOperation.Exit);
         }
 
         /// <summary>
@@ -130,8 +131,8 @@ namespace Assignment2.Controllers
         /// <param name="accountNumber"> Account number of the account. </param>
         private void DepositAmount(string accountNumber)
         {
-            decimal depositAmount = ConsoleView.GetDecimal("Enter amount to deposit: ");
-            ConsoleView.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
+            decimal depositAmount = this._view.GetAmount("Enter amount to deposit: ");
+            this._view.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
         }
 
         /// <summary>
@@ -140,8 +141,8 @@ namespace Assignment2.Controllers
         /// <param name="accountNumber"> Account number of the account. </param>
         private void WithdrawAmount(string accountNumber)
         {
-            decimal withdrawAmount = ConsoleView.GetDecimal("Enter amount to withdraw: ");
-            ConsoleView.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
+            decimal withdrawAmount = this._view.GetAmount("Enter amount to withdraw: ");
+            this._view.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
         }
 
         /// <summary>
@@ -153,11 +154,11 @@ namespace Assignment2.Controllers
             BankAccount? account = this._bankService.GetAccountByAccountNumber(accountNumber);
             if (account is null)
             {
-                ConsoleView.PrintInfo("Account not Found");
+                this._view.PrintInfo("Account not Found");
                 return;
             }
 
-            ConsoleView.PrintBalance(account);
+            this._view.PrintBalance(account);
         }
     }
 }
