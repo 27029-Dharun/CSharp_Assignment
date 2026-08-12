@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains validation logic for product attributes.
     /// </summary>
-    internal static class InventoryValidator
+    internal static class InventoryViewValidator
     {
         private const int MinimumPrice = 1;
 

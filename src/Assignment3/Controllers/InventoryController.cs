@@ -61,13 +61,13 @@ internal class InventoryController
         List<Product> inventories = this._inventoryService.GetInventoryProducts();
         if (inventories.Count == 0)
         {
-            this._consoleView.PrintInfo("No contact available to delete");
+            this._consoleView.PrintInfo("No product available to delete");
             return;
         }
 
         int id = this.GetProductID(inventories, "delete");
         Product? product = this._inventoryService.DeleteProductById(id);
-        if (product == null)
+        if (product is null)
         {
             this._consoleView.PrintInfo("Product id is not valid");
             return;
@@ -85,13 +85,13 @@ internal class InventoryController
         List<Product> inventories = this._inventoryService.GetInventoryProducts();
         if (inventories.Count == 0)
         {
-            this._consoleView.PrintInfo("Nothing to delete.");
+            this._consoleView.PrintInfo("No product available to edit.");
             return;
         }
 
         int id = this.GetProductID(inventories, "edit");
         this._inventoryService.ValidateProductId(id);
-        this._consoleView.PrintInfo("Enter value for field that you only want to Edit");
+        this._consoleView.PrintInfo("Enter value for field that you only want to edit");
         string name = this._consoleView.GetProductName("Enter the product name: ", true);
         decimal price = this._consoleView.GetProductPrice("Enter the price of the product: ", true);
         int quantity = this._consoleView.GetProductQuantity("Enter the quantity of the product: ", true);

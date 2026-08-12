@@ -28,12 +28,12 @@ namespace Assignment3.Controllers
         public void Starter()
         {
             this._view.PrintInfo("Welcome to Inventory Management Application");
-            bool option = true;
-            do
+            bool isRunning = true;
+            while (isRunning)
             {
                 try
                 {
-                    option = this.InventoryOptions();
+                    isRunning = this.InventoryOptions();
                 }
                 catch (KeyNotFoundException ex)
                 {
@@ -56,17 +56,12 @@ namespace Assignment3.Controllers
                     this._view.PrintInfo(ex.Message);
                 }
             }
-            while (option != false);
-
-            this._view.PrintInfo("Enter a Key to Exit...");
-            this._view.ReadKey();
         }
 
         private bool InventoryOptions()
         {
             this._view.PrintEmptyLine();
-            int option = this._view.GetInteger("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
-            Console.Clear();
+            int option = this._view.GetMenuOption("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
             switch (option)
             {
                 case (int)InventoryOperation.Add:
@@ -101,6 +96,7 @@ namespace Assignment3.Controllers
                     break;
             }
 
+            this._view.PauseAndContinue();
             return true;
         }
     }

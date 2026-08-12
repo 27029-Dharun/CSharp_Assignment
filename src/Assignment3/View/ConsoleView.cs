@@ -74,14 +74,14 @@ namespace Assignment3.View
             // Can be used for edit if it is empty the already existing value can be assigned
             if (optional)
             {
-                if (input.Equals(string.Empty))
+                if (string.IsNullOrWhiteSpace(input))
                 {
                     return AssignExistingValue;
                 }
             }
 
             int quantity;
-            while ((!int.TryParse(input, out quantity)) || !InventoryValidator.IsValidateQuantity(quantity))
+            while ((!int.TryParse(input, out quantity)) || !InventoryViewValidator.IsValidateQuantity(quantity))
             {
                 if (tries <= 0)
                 {
@@ -109,13 +109,13 @@ namespace Assignment3.View
 
             if (optional)
             {
-                if (productName.Equals(string.Empty))
+                if (string.IsNullOrWhiteSpace(productName))
                 {
                     return AssignExistingValue.ToString();
                 }
             }
 
-            while (productName == string.Empty || !InventoryValidator.IsValidateName(productName))
+            while (string.IsNullOrWhiteSpace(productName) || !InventoryViewValidator.IsValidateName(productName))
             {
                 if (tries <= 0)
                 {
@@ -144,14 +144,14 @@ namespace Assignment3.View
             // Can be used for edit if it is empty the already existing value can be assigned
             if (optional)
             {
-                if (input.Equals(string.Empty))
+                if (string.IsNullOrWhiteSpace(input))
                 {
                     return AssignExistingValue;
                 }
             }
 
             decimal price;
-            while ((!decimal.TryParse(input, out price)) || !InventoryValidator.IsValidatePrice(price))
+            while ((!decimal.TryParse(input, out price)) || !InventoryViewValidator.IsValidatePrice(price))
             {
                 if (tries <= 0)
                 {
@@ -209,6 +209,35 @@ namespace Assignment3.View
             }
 
             table.Write();
+        }
+
+        /// <summary>
+        /// Pauses and waits for the user to enter a value.
+        /// </summary>
+        internal void PauseAndContinue()
+        {
+            Console.WriteLine("Enter a key to continue");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        /// <summary>
+        /// Gets menu option
+        /// </summary>
+        /// <param name="message">Menu options</param>
+        /// <returns>Menu option entered by the user</returns>
+        internal int GetMenuOption(string message)
+        {
+            Console.Write(message);
+            int input;
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter a valid integer\n");
+                Console.Write(message);
+            }
+
+            return input;
         }
     }
 }
