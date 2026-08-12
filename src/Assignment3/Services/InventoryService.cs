@@ -7,7 +7,7 @@ namespace Assignment3.Services
     /// <summary>
     /// Contains business logics for adding product, viewing, updating, deleting product from the inventory.
     /// </summary>
-    internal class InventoryService : IService
+    public class InventoryService : IService
     {
         private const int AssignExistingValue = -1;
         private readonly InventoryRepository _inventoryRepository;
@@ -138,7 +138,7 @@ namespace Assignment3.Services
         /// Checks if inventory is empty
         /// </summary>
         /// <returns>True if empty</returns>
-        internal bool IsInventoryEmpty()
+        public bool IsInventoryEmpty()
         {
             return !this._inventoryRepository.GetInventory().Any();
         }

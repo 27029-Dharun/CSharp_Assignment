@@ -8,9 +8,12 @@ namespace Assignment3
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once.
     /// </summary>
-    internal class Program
+    public class Program
     {
-        private static void Main()
+        /// <summary>
+        /// Application entry point for the inventory management.
+        /// </summary>
+        public static void Main()
         {
             try
             {

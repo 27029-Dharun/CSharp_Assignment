@@ -7,7 +7,7 @@ namespace Assignment3.Controllers;
 /// <summary>
 /// Manages the expense tracker, connects view and service
 /// </summary>
-internal class InventoryController
+public class InventoryController
 {
     private readonly InventoryService _inventoryService;
     private readonly ConsoleView _consoleView;
@@ -127,7 +127,7 @@ internal class InventoryController
     /// <summary>
     /// Displays product in sorted order.
     /// </summary>
-    internal void SortProduct()
+    public void SortProduct()
     {
         if (this._inventoryService.IsInventoryEmpty())
         {

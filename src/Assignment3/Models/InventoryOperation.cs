@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the inventory operation available
     /// </summary>
-    public enum InventoryOperation
+    internal enum InventoryOperation
     {
         /// <summary>
         /// Represents an option to add a new product

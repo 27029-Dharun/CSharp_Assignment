@@ -7,7 +7,7 @@ namespace Assignment3.View
     /// <summary>
     /// Handles console operation like display, get user inputs.
     /// </summary>
-    internal class ConsoleView
+    public class ConsoleView
     {
         /// <summary>
         /// A value the represents an option to assign existing value to the inventory product.
@@ -17,19 +17,11 @@ namespace Assignment3.View
         private const int Tries = 3;
 
         /// <summary>
-        /// Reads a key
-        /// </summary>
-        internal void ReadKey()
-        {
-            Console.ReadKey();
-        }
-
-        /// <summary>
         /// Gets the string from the user.
         /// </summary>
         /// <param name="message">Message to be displayed</param>
         /// <returns>String given as input</returns>
-        internal string GetString(string message)
+        public string GetString(string message)
         {
             Console.Write(message);
             return Console.ReadLine() ?? string.Empty;
@@ -41,7 +33,7 @@ namespace Assignment3.View
         /// <param name="message">Message to be printed</param>
         /// <param name="tries">Tries left to enter a valid Integer</param>
         /// <returns>Integer input</returns>
-        internal int GetInteger(string message, int tries = Tries)
+        public int GetInteger(string message, int tries = Tries)
         {
             Console.Write(message);
             int input;
@@ -67,7 +59,7 @@ namespace Assignment3.View
         /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
         /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>An integer value that is enter by user</returns>
-        internal int GetProductQuantity(string message, bool optional = false, int tries = Tries)
+        public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
         {
             string input = this.GetString(message);
 
@@ -103,10 +95,11 @@ namespace Assignment3.View
         /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
         /// <param name="tries">Tries left to enter a valid decimal</param>
         /// <returns>A string containing product name</returns>
-        internal string GetProductName(string message, bool optional = false, int tries = Tries)
+        public string GetProductName(string message, bool optional = false, int tries = Tries)
         {
             string productName = this.GetString(message);
 
+            // Can be used for edit if it is empty the already existing value can be assigned
             if (optional)
             {
                 if (string.IsNullOrWhiteSpace(productName))
@@ -137,7 +130,7 @@ namespace Assignment3.View
         /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
         /// <param name="tries"> Tries left to enter a valid decimal. </param>
         /// <returns> A decimal value containing the price of the product. </returns>
-        internal decimal GetProductPrice(string message, bool optional = false, int tries = Tries)
+        public decimal GetProductPrice(string message, bool optional = false, int tries = Tries)
         {
             string input = this.GetString(message);
 
@@ -170,7 +163,7 @@ namespace Assignment3.View
         /// Print the message in console
         /// </summary>
         /// <param name="message">Message to be printed</param>
-        internal void PrintInfo(string message)
+        public void PrintInfo(string message)
         {
             Console.WriteLine(message);
         }
@@ -178,7 +171,7 @@ namespace Assignment3.View
         /// <summary>
         /// Prints empty line
         /// </summary>
-        internal void PrintEmptyLine()
+        public void PrintEmptyLine()
         {
             Console.WriteLine();
         }
@@ -187,7 +180,7 @@ namespace Assignment3.View
         /// Prints the product object in console
         /// </summary>
         /// <param name="product">Product object to be printed</param>
-        internal void PrintProduct(Product product)
+        public void PrintProduct(Product product)
         {
             Console.WriteLine("\nProduct Id: " + product.Id);
             Console.WriteLine("Product name: " + product.Name);
@@ -199,7 +192,7 @@ namespace Assignment3.View
         /// Displays the list of the inventory object
         /// </summary>
         /// <param name="inventories">List of inventory objects</param>
-        internal void PrintInventory(List<Product> inventories)
+        public void PrintInventory(List<Product> inventories)
         {
             var table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Quantity");
 
@@ -214,7 +207,7 @@ namespace Assignment3.View
         /// <summary>
         /// Pauses and waits for the user to enter a value.
         /// </summary>
-        internal void PauseAndContinue()
+        public void PauseAndContinue()
         {
             Console.WriteLine("Enter a key to continue");
             Console.ReadKey();
@@ -226,7 +219,7 @@ namespace Assignment3.View
         /// </summary>
         /// <param name="message">Menu options</param>
         /// <returns>Menu option entered by the user</returns>
-        internal int GetMenuOption(string message)
+        public int GetMenuOption(string message)
         {
             Console.Write(message);
             int input;

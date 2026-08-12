@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains validation for service like unique product name
     /// </summary>
-    internal static class InventoryServiceValidator
+    public static class InventoryServiceValidator
     {
         /// <summary>
         /// Checks if the product name is unique

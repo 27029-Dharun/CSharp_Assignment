@@ -6,7 +6,7 @@ namespace Assignment3.Controllers
     /// <summary>
     /// Acts as a entry point of the application.
     /// </summary>
-    internal class InventoryMenuController
+    public class InventoryMenuController
     {
         private readonly InventoryController _controller;
         private readonly ConsoleView _view;
