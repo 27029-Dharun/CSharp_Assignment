@@ -46,7 +46,7 @@ namespace Assignment2.Services
         {
             if (initialAmount < this._minimumBalance)
             {
-                return "Initial amount should be greater than minimum balance.";
+                return "Initial amount should be greater than minimum balance 1000.";
             }
 
             string accountNumber = (this._accountNum++).ToString();
