@@ -13,13 +13,8 @@ namespace Assignment2.Services
         /// <param name="name"> Name of the developer. </param>
         /// <param name="salary"> Salary of the developer. </param>
         /// <returns> A instance of the developer created. </returns>
-        public Developer? CreateDeveloper(string name, decimal salary)
+        public Developer CreateDeveloper(string name, decimal salary)
         {
-            if (string.IsNullOrEmpty(name) || salary <= 0)
-            {
-                return null;
-            }
-
             return new Developer(name, salary);
         }
 
@@ -29,13 +24,8 @@ namespace Assignment2.Services
         /// <param name="name"> Name of the manager. </param>
         /// <param name="salary"> Salary of the manager. </param>
         /// <returns> A instance of the manager created. </returns>
-        public Manager? CreateManager(string name, decimal salary)
+        public Manager CreateManager(string name, decimal salary)
         {
-            if (string.IsNullOrEmpty(name) || salary <= 0)
-            {
-                return null;
-            }
-
             return new Manager(name, salary);
         }
 

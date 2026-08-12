@@ -18,6 +18,6 @@
         /// <summary>
         /// Represents an option to get back to the main menu.
         /// </summary>
-        Exit = 3,
+        Back = 3,
     }
 }

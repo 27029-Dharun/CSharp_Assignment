@@ -33,7 +33,7 @@ namespace Assignment2.Controllers
             int option;
             while (true)
             {
-                option = this._view.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Exit\n");
+                option = this._view.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Back\n");
                 switch (option)
                 {
                     case (int)BankOperation.Add:
@@ -44,7 +44,7 @@ namespace Assignment2.Controllers
                         this.LogIn();
                         break;
 
-                    case (int)BankOperation.Exit:
+                    case (int)BankOperation.Back:
                         return;
 
                     default:
@@ -61,22 +61,21 @@ namespace Assignment2.Controllers
         /// </summary>
         private void CreateNewAccount()
         {
+            this._view.DisplayNote();
             string name = this._view.GetName("Enter your Name: ");
-            int type = this._view.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checking Account\n");
+            AccountType type = (AccountType)this._view.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checkings Account\n");
             decimal initialAmount = this._view.GetAmount("\nEnter Initial Amount to create a account: ");
-            if (type == 1)
+            if (type == AccountType.SavingsAccount)
             {
-                this._view.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateSavingsAccount(name, initialAmount));
-                this._view.DisplayNote();
+                this._view.PrintInfo(this._bankService.CreateSavingsAccount(name, initialAmount));
             }
-            else if (type == 2)
+            else if (type == AccountType.CheckingsAccount)
             {
-                this._view.PrintInfo("Account created Successfully with account Number: " + this._bankService.CreateCheckingAccount(name, initialAmount));
-                this._view.DisplayNote();
+                this._view.PrintInfo(this._bankService.CreateCheckingAccount(name, initialAmount));
             }
             else
             {
-                this._view.PrintInfo("Invalid Type of Account");
+                this._view.PrintInfo("Invalid type of account.");
             }
         }
 
@@ -85,12 +84,11 @@ namespace Assignment2.Controllers
         /// </summary>
         private void LogIn()
         {
-            string accountNumber = this._view.GetString("Enter the account number to LogIn: ");
-            string validateLogIn = this._bankService.LogInAccount(accountNumber);
+            string accountNumber = this._view.GetAccountNumber("Enter the account number to LogIn: ");
 
-            if (validateLogIn != string.Empty)
+            if (!this._bankService.LoginToAccount(accountNumber))
             {
-                this._view.PrintInfo(validateLogIn);
+                this._view.PrintInfo("Invalid Account number, Login failed");
                 return;
             }
 
@@ -98,7 +96,7 @@ namespace Assignment2.Controllers
             int option;
             while (true)
             {
-                option = this._view.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Exit\n");
+                option = this._view.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Log Out\n");
                 switch (option)
                 {
                     case (int)LogInOperation.CheckBalance:
@@ -113,7 +111,7 @@ namespace Assignment2.Controllers
                         this.DepositAmount(accountNumber);
                         break;
 
-                    case (int)LogInOperation.Exit:
+                    case (int)LogInOperation.Logout:
                         return;
 
                     default:

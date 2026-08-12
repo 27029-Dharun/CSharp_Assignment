@@ -10,6 +10,7 @@ namespace Assignment2.Services
     {
         private readonly BankRepository _repository;
         private long _accountNum = 100000000000;
+        private decimal _minimumBalance = 1000;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankService"/> class.
@@ -32,7 +33,7 @@ namespace Assignment2.Services
             CheckingAccount checkingAccount = new CheckingAccount(name, accountNumber, initialAmount);
 
             this._repository.Add(checkingAccount);
-            return accountNumber;
+            return $"Account created successfully with account number: {accountNumber}";
         }
 
         /// <summary>
@@ -43,11 +44,16 @@ namespace Assignment2.Services
         /// <returns> A string value with account number that is created. </returns>
         internal string CreateSavingsAccount(string name, decimal initialAmount)
         {
+            if (initialAmount < this._minimumBalance)
+            {
+                return "Initial amount should be greater than minimum balance.";
+            }
+
             string accountNumber = (this._accountNum++).ToString();
             SavingsAccount savings = new SavingsAccount(name, accountNumber, initialAmount);
 
             this._repository.Add(savings);
-            return accountNumber;
+            return $"Account created successfully with account number: {accountNumber}";
         }
 
         /// <summary>
@@ -58,12 +64,14 @@ namespace Assignment2.Services
         /// <returns>string that tell the status of the operation</returns>
         internal string DepositAmount(string accountNumber, decimal depositAmount)
         {
-            if (this._repository.DepositAmount(accountNumber, depositAmount))
+            BankAccount? account = this._repository.GetByAccountNumber(accountNumber);
+            if (account is null)
             {
-                return $"Rs.{depositAmount} deposited successfully";
+                return "Account not found";
             }
 
-            return "Amount not found, please try again";
+            account.Deposit(depositAmount);
+            return $"Rs.{depositAmount} deposited successfully";
         }
 
         /// <summary>
@@ -96,26 +104,10 @@ namespace Assignment2.Services
         /// Checks if the account exists in the record
         /// </summary>
         /// <param name="accountNumber"> The account number entered by the user. </param>
-        /// <returns> A Boolean value true if the account is exists; otherwise false. </returns>
-        internal bool IsAccountExist(string accountNumber)
+        /// <returns> A Boolean value true if the login operation is success; otherwise false. </returns>
+        internal bool LoginToAccount(string accountNumber)
         {
             return this._repository.GetByAccountNumber(accountNumber) is not null;
-        }
-
-        /// <summary>
-        /// Login to an existing account
-        /// </summary>
-        /// <param name="accountNumber">Account number to LogIn</param>
-        /// <returns>String output</returns>
-        internal string LogInAccount(string accountNumber)
-        {
-            // check if account exists
-            if (!this.IsAccountExist(accountNumber))
-            {
-                return "Account doesn't exist";
-            }
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -126,12 +118,18 @@ namespace Assignment2.Services
         /// <returns> A string representing the status of the operations. </returns>
         internal string WithdrawAmount(string accountNumber, decimal amount)
         {
-            if (this._repository.WithdrawAmount(accountNumber, amount))
+            BankAccount? account = this._repository.GetByAccountNumber(accountNumber);
+            if (account is null)
+            {
+                return "Account not found.";
+            }
+
+            if (account.Withdraw(amount))
             {
                 return $"Rs.{amount} withdrawn successfully";
             }
 
-            return "Account not found, please try again.";
+            return "Insufficient balance.";
         }
     }
 }

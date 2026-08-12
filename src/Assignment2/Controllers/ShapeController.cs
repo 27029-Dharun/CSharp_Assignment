@@ -29,7 +29,7 @@ internal class ShapeController
     /// </summary>
     public void ShapeOperations()
     {
-        ShapeOption input = (ShapeOption)this._view.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Exit\nEnter the option: ");
+        ShapeOption input = (ShapeOption)this._view.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Back\nEnter the option: ");
         switch (input)
         {
             case ShapeOption.Circle:
@@ -40,7 +40,7 @@ internal class ShapeController
                 this.RectangleOperation();
                 break;
 
-            case ShapeOption.Exit:
+            case ShapeOption.Back:
                 return;
 
             default:
@@ -58,14 +58,9 @@ internal class ShapeController
     {
         double length = this._view.GetDimension("Enter the length of the rectangle: ");
         double width = this._view.GetDimension("Enter the width of the rectangle: ");
-        string color = this._view.GetString("Enter the color of the rectangle: ");
-        Rectangle? rectangle = this._shapeService.CreateRectangle(length, width, color);
-        if (rectangle == null)
-        {
-            this._view.PrintInfo("Dimension should be positive and color should only have alphabets");
-            return;
-        }
+        string color = this._view.GetName("Enter the color of the rectangle: ");
 
+        Rectangle rectangle = this._shapeService.CreateRectangle(length, width, color);
         this._view.PrintInfo(this._shapeService.GetDetails(rectangle));
     }
 
@@ -75,14 +70,9 @@ internal class ShapeController
     private void CircleOperation()
     {
         double radius = this._view.GetDimension("Enter the radius of the circle: ");
-        string color = this._view.GetString("Enter the color of the circle: ");
-        Circle? circle = this._shapeService.CreateCircle(radius, color);
-        if (circle == null)
-        {
-            this._view.PrintInfo("Dimension should be positive and color should only have alphabets");
-            return;
-        }
+        string color = this._view.GetName("Enter the color of the circle: ");
 
+        Circle circle = this._shapeService.CreateCircle(radius, color);
         this._view.PrintInfo(this._shapeService.GetDetails(circle));
     }
 }

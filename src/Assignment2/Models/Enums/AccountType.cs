@@ -13,6 +13,6 @@
         /// <summary>
         /// Represents a checking account which has no withdrawal limit.
         /// </summary>
-        CheckingAccount = 2,
+        CheckingsAccount = 2,
     }
 }

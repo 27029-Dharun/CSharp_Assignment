@@ -5,6 +5,8 @@
     /// </summary>
     internal class Circle : Shape
     {
+        private const string _type = "Circle";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Circle"/> class.
         /// </summary>
@@ -38,6 +40,6 @@
         /// Format and return a string with details of the circle.
         /// </summary>
         /// <returns>A string containing color, shape type, and area of the circle.</returns>
-        public override string PrintDetails() => $"\nCircle Color: {this.Color}\nArea: {this.CalculateArea()}\n";
+        public override string PrintDetails() => $"\nColor: {this.Color}\nShape Type: {_type}\nArea: {this.CalculateArea()}\n";
     }
 }

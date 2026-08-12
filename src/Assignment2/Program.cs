@@ -26,8 +26,6 @@ namespace Assignment2
 
             ApplicationController controller = new ApplicationController(view, shapeController, employeeController, bankController);
             controller.StartApplication();
-            Console.WriteLine("Enter a key to exit");
-            Console.ReadKey();
         }
     }
 }

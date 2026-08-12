@@ -12,6 +12,11 @@ internal class Validator
     /// <returns> True if all the letter or alphabets; otherwise false </returns>
     public static bool IsAllAlphabet(string input)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            return false;
+        }
+
         foreach (char c in input)
         {
             if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
@@ -30,6 +35,11 @@ internal class Validator
     /// <returns> True if the account number is valid; otherwise false </returns>
     public static bool IsValidAccountNumber(string number)
     {
+        if (string.IsNullOrEmpty(number))
+        {
+            return false;
+        }
+
         if (number.Length != 12)
         {
             return false;

@@ -29,7 +29,7 @@ namespace Assignment2.Controllers
         /// </summary>
         public void EmployeeOperations()
         {
-            EmployeeRole option = (EmployeeRole)this._view.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Exit\nEnter the option: ");
+            EmployeeRole option = (EmployeeRole)this._view.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Back\nEnter the option: ");
             switch (option)
             {
                 case EmployeeRole.Developer:
@@ -56,15 +56,10 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Manager()
         {
-            string name = this._view.GetString("Enter the name of the Developer: ");
-            decimal salary = this._view.GetAmount("Enter the Salary of the Developer: ");
+            string name = this._view.GetName("Enter the name of the manager: ");
+            decimal salary = this._view.GetAmount("Enter the salary of the manager: ");
 
-            Manager? manager = this._employeeService.CreateManager(name, salary);
-            if (manager == null)
-            {
-                this._view.PrintInfo("Salary can't be Negative");
-                return;
-            }
+            Manager manager = this._employeeService.CreateManager(name, salary);
 
             this._view.PrintInfo(this._employeeService.GetDetails(manager));
         }
@@ -74,16 +69,10 @@ namespace Assignment2.Controllers
         /// </summary>
         private void Developer()
         {
-            string name = this._view.GetString("Enter the name of the Developer: ");
-            decimal salary = this._view.GetAmount("Enter the Salary of the Developer: ");
+            string name = this._view.GetName("Enter the name of the developer: ");
+            decimal salary = this._view.GetAmount("Enter the Salary of the developer: ");
 
-            Developer? developer = this._employeeService.CreateDeveloper(name, salary);
-            if (developer is null)
-            {
-                this._view.PrintInfo("Salary can't be Negative");
-                return;
-            }
-
+            Developer developer = this._employeeService.CreateDeveloper(name, salary);
             this._view.PrintInfo(this._employeeService.GetDetails(developer));
         }
     }

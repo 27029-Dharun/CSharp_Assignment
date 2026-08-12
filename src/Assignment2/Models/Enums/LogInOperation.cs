@@ -21,8 +21,8 @@
         Deposit = 3,
 
         /// <summary>
-        /// Represents an option to return to the main menu.
+        /// Represents an option to logout to account.
         /// </summary>
-        Exit = 4,
+        Logout = 4,
     }
 }

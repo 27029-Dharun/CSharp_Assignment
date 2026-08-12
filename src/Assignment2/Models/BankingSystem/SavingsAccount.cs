@@ -5,7 +5,7 @@
     /// </summary>
     internal class SavingsAccount : BankAccount
     {
-        private decimal _minimumBalance = 1000m;
+        public decimal _minimumBalance = 1000m;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SavingsAccount"/> class.

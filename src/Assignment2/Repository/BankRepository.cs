@@ -42,6 +42,7 @@ internal class BankRepository
             return false;
         }
 
+        account.Withdraw(amount);
         return true;
     }
 

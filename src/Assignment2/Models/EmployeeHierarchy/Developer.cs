@@ -6,6 +6,7 @@
     internal class Developer : Employee
     {
         private const decimal DeveloperBonusRate = 0.10M;
+        private const string _position = "Developer";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Developer"/> class.
@@ -30,6 +31,6 @@
         /// Creates a string with the details of employee.
         /// </summary>
         /// <returns>a string containing the name and salary of the developer</returns>
-        public override string PrintDetails() => $"Developer Name: {this.Name}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
+        public override string PrintDetails() => $"Name: {this.Name}\nPosition: {_position}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
     }
 }

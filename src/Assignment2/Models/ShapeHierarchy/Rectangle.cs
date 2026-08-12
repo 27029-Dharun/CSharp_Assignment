@@ -5,6 +5,8 @@
     /// </summary>
     internal class Rectangle : Shape
     {
+        private const string _type = "Rectangle";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Rectangle"/> class.
         /// The Rectangle class
@@ -54,6 +56,6 @@
         /// Formats and returns the detail of the rectangle
         /// </summary>
         /// <returns>A string containing color, shape type, and area.</returns>
-        public override string PrintDetails() => $"\nRectangle with Color: {this.Color}\nArea: {this.CalculateArea()}\n";
+        public override string PrintDetails() => $"\nColor: {this.Color}\nShape Type: {_type}\nArea: {this.CalculateArea()}\n";
     }
 }

@@ -46,11 +46,9 @@
         /// Adds a specific sum of amount to the current balance.
         /// </summary>
         /// <param name="amount"> A sum of amount to be deposited. </param>
-        /// <returns> A message confirming the amount deposited to the account. </returns>
-        public bool Deposit(decimal amount)
+        public void Deposit(decimal amount)
         {
             this.Balance = this.Balance + amount;
-            return true;
         }
 
         /// <summary>

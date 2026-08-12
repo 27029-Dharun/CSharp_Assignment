@@ -18,6 +18,6 @@
         /// <summary>
         /// Represents a option to exit from the Banking Operation
         /// </summary>
-        Exit = 3,
+        Back = 3,
     }
 }
