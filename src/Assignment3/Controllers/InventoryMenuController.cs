@@ -60,7 +60,6 @@ namespace Assignment3.Controllers
 
         private bool InventoryOptions()
         {
-            this._view.PrintEmptyLine();
             int option = this._view.GetMenuOption("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
             switch (option)
             {

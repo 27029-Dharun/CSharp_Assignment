@@ -169,14 +169,6 @@ namespace Assignment3.View
         }
 
         /// <summary>
-        /// Prints empty line
-        /// </summary>
-        public void PrintEmptyLine()
-        {
-            Console.WriteLine();
-        }
-
-        /// <summary>
         /// Prints the product object in console
         /// </summary>
         /// <param name="product">Product object to be printed</param>
