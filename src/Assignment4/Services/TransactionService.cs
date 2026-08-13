@@ -18,7 +18,7 @@ namespace Assignment4.Services
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
         /// <param name="validator">Validator instance</param>
-        /// <param name="idGenerator">IdGenerator instance</param>
+        /// <param name="idGenerator">Id Generator instance</param>
         /// <param name="repository">repository instance</param>
         public TransactionService(TransactionIdGenerator idGenerator, TransactionRepository repository)
         {
@@ -38,6 +38,31 @@ namespace Assignment4.Services
         }
 
         /// <summary>
+        /// Deletes the transaction by id
+        /// </summary>
+        /// <param name="id">Unique id of the transaction to be deleted</param>
+        internal void DeleteTransaction(string id)
+        {
+            this._repository.DeleteTransactionById(id);
+        }
+
+        /// <summary>
+        /// Update the existing transaction.
+        /// </summary>
+        /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
+        /// <param name="id"> Unique identifier of the transaction. </param>
+        /// <returns> True if the update process is done; otherwise false. </returns>
+        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id)
+        {
+            if (this._repository.Edit(editedTransaction, id))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Get the expense from the repository
         /// </summary>
         /// <returns>returns a list of expenses</returns>
@@ -53,15 +78,6 @@ namespace Assignment4.Services
         internal IReadOnlyList<Transaction> GetIncome()
         {
             return this._repository.GetIncome();
-        }
-
-        /// <summary>
-        /// Deletes the transaction by id
-        /// </summary>
-        /// <param name="id">Unique id of the transaction to be deleted</param>
-        internal void DeleteTransaction(string id)
-        {
-            this._repository.DeleteTransactionById(id);
         }
 
         /// <summary>
@@ -106,22 +122,6 @@ namespace Assignment4.Services
         internal bool CheckTransactionsExist()
         {
             return this._repository.HasAny();
-        }
-
-        /// <summary>
-        /// Update the existing transaction.
-        /// </summary>
-        /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
-        /// <param name="id"> Unique identifier of the transaction. </param>
-        /// <returns> True if the update process is done; otherwise false. </returns>
-        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id)
-        {
-            if (this._repository.Edit(editedTransaction, id))
-            {
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>
