@@ -65,7 +65,7 @@ namespace Assignment4.Controllers
             TransactionDTO? transaction = this.GetCreateTransactionInput();
             if (transaction is null)
             {
-                this._view.PrintError("Transaction failed, Please try again");
+                this._view.PrintError("Transaction failed, please try again");
                 return;
             }
 
@@ -205,7 +205,7 @@ namespace Assignment4.Controllers
         /// <param name="transaction">A transaction instance</param>
         private void EditTransactionInputHandler(TransactionDTO transaction)
         {
-            transaction.Category = this.GetCategory(transaction.Type);
+            string category = this._view.GetValidCategory($"Enter the category of {transaction.Type}: ");
             string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
             if (!string.IsNullOrWhiteSpace(amount))
             {
@@ -232,25 +232,13 @@ namespace Assignment4.Controllers
         private TransactionDTO? GetCreateTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
-            string category = this.GetCategory(type);
+            string category = this._view.GetValidCategory($"Enter the category of {type}: ");
             decimal amount = decimal.Parse(this._view.GetValidAmount("Enter the amount involved in the transaction: "));
             DateTime date = DateTime.Parse(this._view.GetValidDate());
             string description = this._view.GetValidDescription("Enter the description: ");
 
             // Creates the transaction DTO
             return new TransactionDTO(description, date, type, category, amount);
-        }
-
-        private string GetCategory(TransactionType type)
-        {
-            if (type is TransactionType.Expense)
-            {
-                return this._view.GetEnumValue<ExpenseCategory>($"Select the category of the {type}: ").ToString();
-            }
-            else
-            {
-                return this._view.GetEnumValue<IncomeCategory>($"Select the category of the {type}: ").ToString();
-            }
         }
     }
 }

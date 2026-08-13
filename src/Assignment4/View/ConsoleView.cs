@@ -124,7 +124,7 @@ namespace Assignment4.View
                 $"Enter a date in format ({Configurable.DateFormat}): ",
                 optional,
                 TransactionValidator.IsValidDate,
-                $"Invalid date.Please enter a date in format {Configurable.DateFormat}:");
+                $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
 
             return input;
         }
@@ -202,18 +202,35 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Gets a valid string category
+        /// </summary>
+        /// <param name="prompt">Message to be displayed</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
+        /// <returns>A string containing the category</returns>
+        internal string GetValidCategory(string prompt, bool optional = true)
+        {
+            string input = this.GetValidatedInput(
+                prompt,
+                optional,
+                TransactionValidator.IsValidCategory,
+                $"Invalid category, Entered string should only contain alphabets.");
+
+            return input;
+        }
+
+        /// <summary>
         /// Displays the menu
         /// </summary>
         internal void DisplayMainMenu()
         {
             Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
 
-            Console.WriteLine("[1] Add Transaction (Income/Expense)");
-            Console.WriteLine("[2] Edit Transaction");
-            Console.WriteLine("[3] Delete Transaction");
-            Console.WriteLine("[4] View Financial Summary");
-            Console.WriteLine("[5] View History / Transactions");
-            Console.WriteLine("[6] Exit Application\n");
+            Console.WriteLine("[1] Add Transaction (Income/Expense)" +
+                "[2] Edit Transaction" +
+                "[3] Delete Transaction" +
+                "[4] View Financial Summary" +
+                "[5] View History / Transactions" +
+                "[6] Exit Application\n");
 
             Console.WriteLine("Please enter your choice (1-6): ");
         }
