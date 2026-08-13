@@ -30,7 +30,7 @@ namespace Assignment4.Repository
         /// Checks if any transactions exists
         /// </summary>
         /// <returns> True if any transaction exists; otherwise false. </returns>
-        bool IsAny();
+        bool HasAny();
 
         /// <summary>
         /// Edit the transaction from the repository

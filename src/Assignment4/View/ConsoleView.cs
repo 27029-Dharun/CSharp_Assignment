@@ -229,7 +229,7 @@ namespace Assignment4.View
 
             while (!isValidField(input))
             {
-                if (tries <= 0)
+                if (tries == 1)
                 {
                     throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
                 }

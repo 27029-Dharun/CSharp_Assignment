@@ -62,7 +62,7 @@ namespace Assignment4.Controllers
         private void CreateTransaction()
         {
             // Creates the transaction DTO
-            TransactionDTO? transaction = this.CreateTransactionInputHandler();
+            TransactionDTO? transaction = this.GetCreateTransactionInput();
             if (transaction is null)
             {
                 this._view.PrintError("Transaction failed, Please try again");
@@ -180,10 +180,10 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            string? id = this.GetTransactionId();
-            if (id is null || !this._service.IsValidTransactionId(id))
+            string id = this.GetTransactionId();
+            if (!this._service.IsValidTransactionId(id))
             {
-                this._view.PrintWarning("Enter a valid transaction id");
+                this._view.PrintInfo("Invalid transaction id to delete");
                 return;
             }
 
@@ -229,7 +229,7 @@ namespace Assignment4.Controllers
         /// Gets the input from the user for creating a transaction.
         /// </summary>
         /// <returns>Transaction data instance</returns>
-        private TransactionDTO? CreateTransactionInputHandler()
+        private TransactionDTO? GetCreateTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
             string category = this.GetCategory(type);

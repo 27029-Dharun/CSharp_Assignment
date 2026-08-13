@@ -26,7 +26,7 @@ namespace Assignment4.Repository
         /// <returns>transaction stored</returns>
         public IReadOnlyList<Transaction> GetAll()
         {
-            return this._transactions.ToList();
+            return this._transactions.Select(this.Copy).ToList();
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Assignment4.Repository
         /// Checks if any transactions exists
         /// </summary>
         /// <returns>true if any transaction exists, false if it is empty</returns>
-        public bool IsAny()
+        public bool HasAny()
         {
             return this._transactions.Any();
         }
@@ -131,6 +131,11 @@ namespace Assignment4.Repository
         private Transaction? GetById(string id)
         {
             return this._transactions.FirstOrDefault(x => id == x.Id);
+        }
+
+        private Transaction Copy(Transaction transaction)
+        {
+            return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
         }
     }
 }

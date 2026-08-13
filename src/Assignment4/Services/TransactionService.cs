@@ -105,7 +105,7 @@ namespace Assignment4.Services
         /// <returns>true if any transaction exists; otherwise false. </returns>
         internal bool CheckTransactionsExist()
         {
-            return this._repository.IsAny();
+            return this._repository.HasAny();
         }
 
         /// <summary>
