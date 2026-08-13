@@ -148,5 +148,46 @@ namespace Assignment4.Services
 
             return new TransactionSummary(income, expense);
         }
+
+        /// <summary>
+        /// Gets the matching
+        /// </summary>
+        /// <param name="query">Query entered by the user</param>
+        /// <param name="option">Option to search</param>
+        /// <returns>A list containing the transactions that matches the query text</returns>
+        internal IReadOnlyList<Transaction> GetSearchResult(string query, int option)
+        {
+            return this._repository.Search(query, option);
+        }
+
+        /// <summary>
+        /// Gets the income in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option"> Option to sort ascending or descending. </param>
+        /// <returns> A list of income sorted based on user preference. </returns>
+        internal IReadOnlyList<Transaction> GetSortedIncome(int option)
+        {
+            if (option == 1)
+            {
+                return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderBy(x => x.Amount).ToList();
+            }
+
+            return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderByDescending(x => x.Amount).ToList();
+        }
+
+        /// <summary>
+        /// Gets the expense in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option"> Option to sort ascending or descending. </param>
+        /// <returns> A list of expense sorted based on user preference. </returns>
+        internal IReadOnlyList<Transaction> GetSortedExpense(int option)
+        {
+            if (option == 1)
+            {
+                return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderBy(x => x.Amount).ToList();
+            }
+
+            return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderByDescending(x => x.Amount).ToList();
+        }
     }
 }

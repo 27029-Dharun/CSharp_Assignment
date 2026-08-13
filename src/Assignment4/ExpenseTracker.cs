@@ -9,7 +9,7 @@ namespace Assignment4
     /// </summary>
     internal class ExpenseTracker
     {
-        private const int Max = 6;
+        private const int Max = 8;
         private readonly ConsoleView _view;
         private readonly TransactionController _controller;
 

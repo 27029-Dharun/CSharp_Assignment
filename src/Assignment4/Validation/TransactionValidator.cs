@@ -62,5 +62,28 @@ namespace Assignment4.Validation
 
             return true;
         }
+
+        /// <summary>
+        /// Validates the category of the transaction.
+        /// </summary>
+        /// <param name="category"> The category of the transaction. </param>
+        /// <returns>A string containing the category of the product. </returns>
+        internal static bool IsValidCategory(string category)
+        {
+            if (category is null || category.Length < Configurable.MinimumCharacter)
+            {
+                return false;
+            }
+
+            foreach (char character in category)
+            {
+                if (!char.IsLetter(character) && !char.IsWhiteSpace(character))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

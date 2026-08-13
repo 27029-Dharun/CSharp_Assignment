@@ -54,9 +54,49 @@ namespace Assignment4.Controllers
                     this.ViewTransaction();
                     break;
 
+                case TransactionMenu.SearchTransaction:
+                    this.SearchTransaction();
+                    break;
+
+                case TransactionMenu.SortTransaction:
+                    this.SortTransactionByAmount();
+                    break;
+
                 case TransactionMenu.Exit:
                     return;
             }
+        }
+
+        private void SortTransactionByAmount()
+        {
+            int option = this._view.GetInteger("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            int option = this._view.GetInteger("1. Category\n2. Date\nSelect the field to search with: ");
+            string query;
+            if (option == 1)
+            {
+                query = this._view.GetValidCategory($"Enter the category to search: ");
+            }
+            else if (option == 2)
+            {
+                query = this._view.GetValidDate();
+            }
+            else
+            {
+                this._view.PrintInfo("Please enter a valid field to search.");
+                return;
+            }
+
+            IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
+            this._view.PrintTransactionTable(filteredTransaction);
         }
 
         private void CreateTransaction()
@@ -205,7 +245,7 @@ namespace Assignment4.Controllers
         /// <param name="transaction">A transaction instance</param>
         private void EditTransactionInputHandler(TransactionDTO transaction)
         {
-            transaction.Category = this.GetCategory(transaction.Type);
+            transaction.Category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
             string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
             if (!string.IsNullOrWhiteSpace(amount))
             {
@@ -232,25 +272,13 @@ namespace Assignment4.Controllers
         private TransactionDTO? GetCreateTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
-            string category = this.GetCategory(type);
+            string category = this._view.GetValidCategory($"Enter the category of the {type}: ");
             decimal amount = decimal.Parse(this._view.GetValidAmount("Enter the amount involved in the transaction: "));
             DateTime date = DateTime.Parse(this._view.GetValidDate());
             string description = this._view.GetValidDescription("Enter the description: ");
 
             // Creates the transaction DTO
             return new TransactionDTO(description, date, type, category, amount);
-        }
-
-        private string GetCategory(TransactionType type)
-        {
-            if (type is TransactionType.Expense)
-            {
-                return this._view.GetEnumValue<ExpenseCategory>($"Select the category of the {type}: ").ToString();
-            }
-            else
-            {
-                return this._view.GetEnumValue<IncomeCategory>($"Select the category of the {type}: ").ToString();
-            }
         }
     }
 }

@@ -108,7 +108,24 @@ namespace Assignment4.View
                 prompt,
                 optional,
                 TransactionValidator.IsValidAmount,
-                $"Invalid amount.Please enter a valid amount greater than {Configurable.MinimumAmount}");
+                $"Invalid amount. Please enter a valid amount greater than {Configurable.MinimumAmount}.");
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets a valid string category
+        /// </summary>
+        /// <param name="prompt">Message to be displayed</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
+        /// <returns>A string containing the category</returns>
+        internal string GetValidCategory(string prompt, bool optional = true)
+        {
+            string input = this.GetValidatedInput(
+                prompt,
+                optional,
+                TransactionValidator.IsValidCategory,
+                $"Invalid category, Entered string should only contain alphabets.");
 
             return input;
         }
@@ -124,7 +141,7 @@ namespace Assignment4.View
                 $"Enter a date in format ({Configurable.DateFormat}): ",
                 optional,
                 TransactionValidator.IsValidDate,
-                $"Invalid date.Please enter a date in format {Configurable.DateFormat}:");
+                $"Invalid date. Please enter a date in format {Configurable.DateFormat} that is not a future date");
 
             return input;
         }
@@ -208,14 +225,16 @@ namespace Assignment4.View
         {
             Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
 
-            Console.WriteLine("[1] Add Transaction (Income/Expense)");
-            Console.WriteLine("[2] Edit Transaction");
-            Console.WriteLine("[3] Delete Transaction");
-            Console.WriteLine("[4] View Financial Summary");
-            Console.WriteLine("[5] View History / Transactions");
-            Console.WriteLine("[6] Exit Application\n");
+            Console.WriteLine("[1] Add transaction (Income/Expense)");
+            Console.WriteLine("[2] Edit transaction");
+            Console.WriteLine("[3] Delete transaction");
+            Console.WriteLine("[4] View financial summary");
+            Console.WriteLine("[5] View history");
+            Console.WriteLine("[6] Search transactions");
+            Console.WriteLine("[7] Sort transactions");
+            Console.WriteLine("[8] Exit application\n");
 
-            Console.WriteLine("Please enter your choice (1-6): ");
+            Console.WriteLine("Please enter your choice (1-8): ");
         }
 
         private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)
