@@ -33,7 +33,18 @@ namespace Assignment4
             while (option != TransactionMenu.Exit)
             {
                 TransactionMenu menu = option;
-                this._controller.HandleMenu(menu);
+                try
+                {
+                    this._controller.HandleMenu(menu);
+                }
+                catch (InvalidDataException ex)
+                {
+                    this._view.PrintInfo(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    this._view.PrintInfo(ex.Message);
+                }
 
                 this._view.PauseAndReturn();
                 option = this.GetMenuOption(Max);
@@ -49,14 +60,14 @@ namespace Assignment4
         private TransactionMenu GetMenuOption(int max)
         {
             this._view.DisplayMainMenu();
-            int option = this._view.GetOptionalInteger("Select an option to proceed: ");
+            int option = this._view.GetInteger("Select an option to proceed: ");
 
             while (option > max)
             {
                 this._view.ClearConsole();
                 this._view.PrintInfo($"Enter an input in range 1 - {max}");
                 this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
-                option = this._view.GetOptionalInteger("Select an option to proceed: ");
+                option = this._view.GetInteger("Select an option to proceed: ");
             }
 
             return (TransactionMenu)option;

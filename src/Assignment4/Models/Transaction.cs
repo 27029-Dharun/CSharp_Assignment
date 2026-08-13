@@ -11,15 +11,15 @@ namespace Assignment4.Models
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
         /// <param name="id">Id of the transaction</param>
-        /// <param name="title">Description of the transaction</param>
+        /// <param name="description">Description of the transaction</param>
         /// <param name="date">Date of the transaction</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="category">Category of the transaction</param>
         /// <param name="amount">Amount used in the transaction</param>
-        public Transaction(string id, string title, DateTime date, TransactionType type, string category, decimal amount)
+        public Transaction(string id, string description, DateTime date, TransactionType type, string category, decimal amount)
         {
             this.Id = id;
-            this.Description = title;
+            this.Description = description;
             this.Date = date;
             this.Type = type;
             this.Category = category;

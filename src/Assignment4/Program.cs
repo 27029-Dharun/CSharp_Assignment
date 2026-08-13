@@ -27,13 +27,11 @@ namespace Assignment4
                 // Repository instance for add the transactions in the list.
                 TransactionRepository repository = new TransactionRepository();
 
-                TransactionInputHandler inputHandler = new TransactionInputHandler(view);
-
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(idGenerator, repository);
 
                 // Controller instance that coordinates the view and service.
-                TransactionController controller = new TransactionController(service, view, inputHandler);
+                TransactionController controller = new TransactionController(service, view);
 
                 // Expense tracker instance that contains the entry point for the application.
                 ExpenseTracker expenseTracker = new ExpenseTracker(view, controller);

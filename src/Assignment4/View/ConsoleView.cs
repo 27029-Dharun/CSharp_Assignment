@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Assignment4.Constants;
+﻿using Assignment4.Constants;
 using Assignment4.Models;
+using Assignment4.Validation;
 using ConsoleTables;
 
 namespace Assignment4.View
@@ -9,14 +9,48 @@ namespace Assignment4.View
     /// Contains the console operations that prints and gets input from user
     /// </summary>
     public class ConsoleView
-    {
+    {/// <summary>
+     /// Prints the empty line
+     /// </summary>
+        internal void PrintEmptyLine() => Console.WriteLine();
+
         /// <summary>
-        /// Prints the message in console
+        /// Prints the input string
         /// </summary>
-        /// <param name="message">Message to be printed</param>
+        /// <param name="message">The string to be printed</param>
         internal void PrintInfo(string message)
         {
             Console.WriteLine(message);
+        }
+
+        /// <summary>
+        /// Gets the string input from the user.
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>int value that we got as input</returns>
+        internal string GetString(string message)
+        {
+            Console.Write(message);
+            string input = (Console.ReadLine() ?? string.Empty).Trim();
+
+            return input;
+        }
+
+        /// <summary>
+        /// Gets the Integer input
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>int value that we got as input</returns>
+        internal int GetInteger(string message)
+        {
+            int input;
+            Console.Write(message);
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.WriteLine("Please enter a integer");
+            }
+
+            return input;
         }
 
         /// <summary>
@@ -47,101 +81,52 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Gets an optional integer from the user
+        /// Gets decimal input
         /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <param name="tries">Tries left to enter a valid Integer</param>
-        /// <returns>Integer value that is entered by the user</returns>
-        internal int GetOptionalInteger(string message, int tries = Configurable.Tries)
+        /// <param name="prompt">Message to be displayed</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
+        /// <returns>decimal input</returns>
+        internal string GetValidDescription(string prompt, bool optional = false)
         {
-            int input;
-            Console.Write(message);
-            while (!int.TryParse(Console.ReadLine(), out input))
-            {
-                Console.Write(message);
-            }
-
+            string input = this.GetValidatedInput(
+                prompt,
+                optional,
+                TransactionValidator.IsValidDescription,
+                $"Please enter a valid description with more than {Configurable.MinimumCharacter}.");
             return input;
-        }
-
-        /// <summary>
-        /// Gets the string
-        /// </summary>
-        /// <param name="message">Message to be displayed</param>
-        /// <param name="input">out param that returns the string input</param>
-        /// <param name="tries">Tries left to enter a valid string</param>
-        /// <returns>Returns false if the user enters repeated invalid input</returns>
-        internal bool GetString(string message, out string input, int tries = Configurable.Tries)
-        {
-            Console.Write(message);
-            input = Console.ReadLine() ?? string.Empty;
-
-            while (input.Equals(string.Empty))
-            {
-                if (tries <= 0)
-                {
-                    return false;
-                }
-
-                Console.WriteLine($"Tries Left: {tries--}");
-                Console.WriteLine("Entered string can't be empty\n");
-                Console.Write(message);
-                input = Console.ReadLine() ?? string.Empty;
-            }
-
-            return true;
         }
 
         /// <summary>
         /// Gets decimal input
         /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <param name="input">out param that returns the decimal input</param>
-        /// <param name="tries">Tries left to enter a valid decimal</param>
+        /// <param name="prompt">Message to be displayed</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>decimal input</returns>
-        internal bool GetDecimal(string message, out decimal input, int tries = Configurable.Tries)
+        internal string GetValidAmount(string prompt, bool optional = false)
         {
-            Console.Write(message);
-            while (!decimal.TryParse(Console.ReadLine(), out input))
-            {
-                if (tries <= 0)
-                {
-                    return false;
-                }
+            string input = this.GetValidatedInput(
+                prompt,
+                optional,
+                TransactionValidator.IsValidAmount,
+                $"Invalid amount.Please enter a valid amount greater than {Configurable.MinimumAmount}");
 
-                Console.WriteLine($"Tries Left: {tries--}");
-                Console.WriteLine("Enter a valid decimal\n");
-                Console.Write(message);
-            }
-
-            return true;
+            return input;
         }
 
         /// <summary>
         /// Gets the Date from the user
         /// </summary>
-        /// <param name="validDate">Out param that returns the valid date</param>
-        /// <param name="tries">Tries for user to retry</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>DateTime value entered by user</returns>
-        internal bool GetDate(out DateTime validDate, int tries = Configurable.Tries)
+        internal string GetValidDate(bool optional = false)
         {
-            string input;
-            Console.Write($"Enter a date in format ({Configurable.DateFormat}): ");
+            string input = this.GetValidatedInput(
+                $"Enter a date in format ({Configurable.DateFormat}): ",
+                optional,
+                TransactionValidator.IsValidDate,
+                $"Invalid date.Please enter a date in format {Configurable.DateFormat}:");
 
-            input = Console.ReadLine() ?? string.Empty;
-            while (!DateTime.TryParseExact(input, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDate))
-            {
-                if (tries <= 0)
-                {
-                    return false;
-                }
-
-                Console.WriteLine($"Tries Left: {tries--}");
-                Console.Write($"Invalid date. Please enter in format {Configurable.DateFormat}: ");
-                input = Console.ReadLine() ?? string.Empty;
-            }
-
-            return true;
+            return input;
         }
 
         /// <summary>
@@ -193,11 +178,11 @@ namespace Assignment4.View
         /// <param name="transactions">List of transactions</param>
         internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
-            var table = new ConsoleTable("Transaction Id", "Transaction Type", "Transaction Title", "Transaction Date", "Transaction Amount", "Transaction Category");
+            var table = new ConsoleTable("Transaction Id", "Type", "Category", "Date", "Amount", "Description");
 
             foreach (Transaction transaction in transactions)
             {
-                table.AddRow(transaction.Id, transaction.Type, transaction.Description, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Category);
+                table.AddRow(transaction.Id, transaction.Type, transaction.Category, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Description);
             }
 
             table.Write();
@@ -233,15 +218,28 @@ namespace Assignment4.View
             Console.WriteLine("Please enter your choice (1-6): ");
         }
 
-        /// <summary>
-        /// Gets a optional string value from the user.
-        /// </summary>
-        /// <param name="message">Message to be displayed to the user</param>
-        /// <returns> A string value entered by the user; otherwise empty string </returns>
-        internal string GetOptionalString(string message)
+        private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)
         {
-            Console.Write(message);
-            return Console.ReadLine() ?? string.Empty;
+            int tries = Configurable.Tries;
+            string input = this.GetString(prompt);
+            if (optional && string.IsNullOrWhiteSpace(input))
+            {
+                return string.Empty;
+            }
+
+            while (!isValidField(input))
+            {
+                if (tries <= 0)
+                {
+                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                }
+
+                Console.WriteLine(errorMessage);
+                Console.WriteLine($"Tries left: {--tries}\n");
+                input = this.GetString(prompt);
+            }
+
+            return input;
         }
     }
 }

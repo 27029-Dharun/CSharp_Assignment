@@ -3,7 +3,6 @@ using Assignment4.Helper;
 using Assignment4.Models;
 using Assignment4.Models.Enums;
 using Assignment4.Repository;
-using Assignment4.Validation;
 
 namespace Assignment4.Services
 {
@@ -31,20 +30,11 @@ namespace Assignment4.Services
         /// Creates a Transaction instance and returns it.
         /// </summary>
         /// <param name="transaction">An instance of transaction DTO</param>
-        /// <param name="validationOutput">A string telling representing the validation output. </param>
-        /// <returns>A string output showing the status of the operation</returns>
-        public bool CreateTransaction(TransactionDTO transaction, out string validationOutput)
+        public void CreateTransaction(TransactionDTO transaction)
         {
-            validationOutput = this.ValidateTransaction(transaction);
-            if (validationOutput != string.Empty)
-            {
-                return false;
-            }
-
             string id = this._idGenerator.GetNextId(transaction.Type);
             Transaction createdTransaction = new Transaction(id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
             this._repository.Add(createdTransaction);
-            return true;
         }
 
         /// <summary>
@@ -123,17 +113,15 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
         /// <param name="id"> Unique identifier of the transaction. </param>
-        /// <param name="validationOutput"> Validation output. </param>
         /// <returns> True if the update process is done; otherwise false. </returns>
-        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id, out string validationOutput)
+        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id)
         {
-            validationOutput = this.ValidateTransaction(editedTransaction);
-            if (!string.IsNullOrEmpty(validationOutput))
+            if (this._repository.Edit(editedTransaction, id))
             {
-                return false;
+                return true;
             }
 
-            return this._repository.Edit(editedTransaction, id);
+            return false;
         }
 
         /// <summary>
@@ -159,20 +147,6 @@ namespace Assignment4.Services
             }
 
             return new TransactionSummary(income, expense);
-        }
-
-        private string ValidateTransaction(TransactionDTO transaction)
-        {
-            string nameValidator = TransactionValidator.ValidateTitle(transaction.Description);
-            string dateValidator = TransactionValidator.ValidateDate(transaction.Date);
-            string amountValidator = TransactionValidator.ValidateAmount(transaction.Amount);
-
-            if ((!nameValidator.Equals(string.Empty)) || (!dateValidator.Equals(string.Empty)) || (!amountValidator.Equals(string.Empty)))
-            {
-                return nameValidator + dateValidator + amountValidator;
-            }
-
-            return string.Empty;
         }
     }
 }
