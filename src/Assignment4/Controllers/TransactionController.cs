@@ -183,7 +183,7 @@ namespace Assignment4.Controllers
             string id = this.GetTransactionId();
             if (!this._service.IsValidTransactionId(id))
             {
-                this._view.PrintInfo("Invalid transaction id to delete");
+                this._view.PrintWarning("Invalid transaction id to delete");
                 return;
             }
 
