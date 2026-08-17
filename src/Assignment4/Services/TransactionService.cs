@@ -146,7 +146,10 @@ namespace Assignment4.Services
                 }
             }
 
-            return new TransactionSummary(income, expense);
+            decimal monthlyExpense = transactions.Where(transaction => transaction.Date.Month == DateTime.Now.Month && transaction.Type == TransactionType.Expense).Sum(transaction => transaction.Amount);
+            decimal monthlyIncome = transactions.Where(transaction => transaction.Date.Month == DateTime.Now.Month && transaction.Type == TransactionType.Income).Sum(transaction => transaction.Amount);
+
+            return new TransactionSummary(income, expense, monthlyExpense, monthlyIncome);
         }
 
         /// <summary>

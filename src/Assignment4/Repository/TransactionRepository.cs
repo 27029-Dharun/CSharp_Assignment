@@ -10,6 +10,20 @@ namespace Assignment4.Repository
     internal class TransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions = new List<Transaction>();
+        private readonly string _filePath;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
+        /// </summary>
+        public TransactionRepository()
+        {
+            this._filePath = "transaction.json";
+            if (!File.Exists(this._filePath))
+            {
+                File.WriteAllText(_filePath, "Transaction");
+            }
+
+        }
 
         /// <summary>
         /// Add a transaction to existing list

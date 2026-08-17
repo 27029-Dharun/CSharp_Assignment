@@ -178,6 +178,8 @@ namespace Assignment4.Controllers
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+            this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
+            this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
         }
 
         private void EditTransaction()

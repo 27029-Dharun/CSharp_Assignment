@@ -5,7 +5,7 @@ namespace Assignment4.Models
     /// <summary>
     /// Represents a transaction in the system
     /// </summary>
-    internal class Transaction
+    public class Transaction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
