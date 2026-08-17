@@ -125,7 +125,7 @@ namespace Assignment4.Repository
         /// </summary>
         /// <param name="id">Unique identifier of the transaction</param>
         /// <returns>A transaction instance</returns>
-        internal Transaction? GetTransactionCopy(string id)
+        public Transaction? GetTransactionCopy(string id)
         {
             Transaction? transaction = this.GetById(id);
             if (transaction is null)
@@ -142,7 +142,7 @@ namespace Assignment4.Repository
         /// <param name="query">Query text entered by the user</param>
         /// <param name="option">Option to sort by </param>
         /// <returns>A list containing the list that matched the query text</returns>
-        internal IReadOnlyList<Transaction> Search(string query, int option)
+        public IReadOnlyList<Transaction> Search(string query, int option)
         {
             if (option == 2)
             {

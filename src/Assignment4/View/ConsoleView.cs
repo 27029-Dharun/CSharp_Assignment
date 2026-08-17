@@ -92,7 +92,7 @@ namespace Assignment4.View
                 prompt,
                 optional,
                 TransactionValidator.IsValidDescription,
-                $"Please enter a valid description with more than {Configurable.MinimumCharacter}.");
+                $"Please enter a valid description with more than {Configurable.MinimumCharacter} character and less than {Configurable.MaximumCharacter}.");
             return input;
         }
 
@@ -162,9 +162,7 @@ namespace Assignment4.View
         /// <param name="message">message to be printed</param>
         internal void PrintError(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            this.PrintColoredText(message, ConsoleColor.Red);
         }
 
         /// <summary>
@@ -173,9 +171,7 @@ namespace Assignment4.View
         /// <param name="message">message to be printed</param>
         internal void PrintSuccess(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            this.PrintColoredText(message, ConsoleColor.Green);
         }
 
         /// <summary>
@@ -184,9 +180,7 @@ namespace Assignment4.View
         /// <param name="message">message to be printed</param>
         internal void PrintWarning(string message)
         {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            this.PrintColoredText(message, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -235,6 +229,13 @@ namespace Assignment4.View
             Console.WriteLine("[8] Exit application\n");
 
             Console.WriteLine("Please enter your choice (1-8): ");
+        }
+
+        private void PrintColoredText(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)

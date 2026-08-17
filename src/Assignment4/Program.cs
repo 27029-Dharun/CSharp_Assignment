@@ -25,7 +25,7 @@ namespace Assignment4
                 TransactionIdGenerator idGenerator = new TransactionIdGenerator();
 
                 // Repository instance for add the transactions in the list.
-                TransactionRepository repository = new TransactionRepository();
+                IRepository repository = new TransactionRepository();
 
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(idGenerator, repository);
