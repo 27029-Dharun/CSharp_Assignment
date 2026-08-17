@@ -160,7 +160,7 @@ namespace Assignment4.Repository
                 return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
             }
 
-            return this._transactions.Where(x => x.Category.ToLower() == query.ToLower()).ToList();
+            return this._transactions.Where(x => x.Category == query).ToList();
         }
 
         /// <summary>

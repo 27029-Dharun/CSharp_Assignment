@@ -93,7 +93,7 @@ namespace Assignment4.View
                 prompt,
                 optional,
                 TransactionValidator.IsValidDescription,
-                $"Please enter a valid description with more than {Configurable.MinimumCharacter} character and less than {Configurable.MaximumCharacter}.");
+                $"Please enter a valid description with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCharacter}.");
             return input;
         }
 
@@ -142,7 +142,7 @@ namespace Assignment4.View
                 $"Enter a date in format ({Configurable.DateFormat}): ",
                 optional,
                 TransactionValidator.IsValidDate,
-                $"Invalid date. Please enter a date in format {Configurable.DateFormat} that is not a future date");
+                $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
 
             return input;
         }

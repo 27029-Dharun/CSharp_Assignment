@@ -1,7 +1,8 @@
 ﻿namespace Assignment4.Constants
 {
     /// <summary>
-    /// Contains all the configurable.
+    /// Contains all configurable constants used across the application.
+    /// This class cannot be instantiated.
     /// </summary>
     public class Configurable
     {
@@ -11,28 +12,28 @@
         public const int Tries = 3;
 
         /// <summary>
-        /// Represents the format in which the Date is stored.
+        /// Represents the standard date format used for storing and displaying dates..
         /// </summary>
         public const string DateFormat = "dd/MM/yyyy";
 
         /// <summary>
-        /// Represents the minimum character for descriptions.
+        /// Represents the minimum character for descriptions and category.
         /// </summary>
         public const int MinimumCharacter = 3;
 
         /// <summary>
-        /// Represents the maximum character for descriptions.
+        /// Represents the minimum character for descriptions and category.
         /// </summary>
         public const int MaximumCharacter = 30;
 
         /// <summary>
         /// Represents the minimum amount that can be tracked.
         /// </summary>
-        public const int MinimumAmount = 1;
+        public const int MinimumAmount = 0;
 
         /// <summary>
-        /// Represents the maximum bar length.
+        /// Represents the maximum length of the bar chart
         /// </summary>
-        public const int MaxBarLength = 20;
+        public const int MaxBarLength = 40;
     }
 }

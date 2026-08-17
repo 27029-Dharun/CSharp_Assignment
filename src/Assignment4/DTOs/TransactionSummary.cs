@@ -12,9 +12,9 @@
         /// <param name="expense">Total expense recorded.</param>
         /// <param name="monthlyExpense">Total expense recorded in the current month.</param>
         /// <param name="monthlyIncome">Total income recorded in the current month.</param>
-        /// <param name="expenseCategoryTotals">The sum of amount spent in each category.</param>
         /// <param name="incomeCategoryTotals">The sum of amount earned in each category.</param>
-        public TransactionSummary(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> expenseCategoryTotals, Dictionary<string, decimal> incomeCategoryTotals)
+        /// <param name="expenseCategoryTotals">The sum of amount spent in each category.</param>
+        public TransactionSummary(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> incomeCategoryTotals, Dictionary<string, decimal> expenseCategoryTotals)
         {
             this.Income = income;
             this.Expense = expense;

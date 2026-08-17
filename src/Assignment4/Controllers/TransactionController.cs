@@ -211,6 +211,44 @@ namespace Assignment4.Controllers
             this.ViewAllTransaction();
         }
 
+        private string GetTransactionId()
+        {
+            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
+            this._view.PrintTransactionTable(transactions);
+            return this._view.GetString("Select the transaction by id: ");
+        }
+
+        /// <summary>
+        /// Gets the data for editing a transaction
+        /// </summary>
+        /// <param name="transaction">A transaction instance</param>
+        private void EditTransactionInputHandler(TransactionDTO transaction)
+        {
+            string category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                transaction.Category = category;
+            }
+
+            string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
+            if (!string.IsNullOrWhiteSpace(amount))
+            {
+                transaction.Amount = decimal.Parse(amount);
+            }
+
+            string date = this._view.GetValidDate(true);
+            if (!string.IsNullOrWhiteSpace(date))
+            {
+                transaction.Date = DateTime.Parse(date);
+            }
+
+            string description = this._view.GetValidDescription("Enter the description of the transaction: ", true);
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                transaction.Description = description;
+            }
+        }
+
         private void SortTransactionByAmount()
         {
             if (!this._service.CheckTransactionsExist())
@@ -261,44 +299,6 @@ namespace Assignment4.Controllers
             this._view.PrintTransactionTable(filteredTransaction);
         }
 
-        private string GetTransactionId()
-        {
-            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
-            this._view.PrintTransactionTable(transactions);
-            return this._view.GetString("Select the transaction by id: ");
-        }
-
-        /// <summary>
-        /// Gets the data for editing a transaction
-        /// </summary>
-        /// <param name="transaction">A transaction instance</param>
-        private void EditTransactionInputHandler(TransactionDTO transaction)
-        {
-            string category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
-            if (!string.IsNullOrWhiteSpace(category))
-            {
-                transaction.Category = category;
-            }
-
-            string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
-            if (!string.IsNullOrWhiteSpace(amount))
-            {
-                transaction.Amount = decimal.Parse(amount);
-            }
-
-            string date = this._view.GetValidDate(true);
-            if (!string.IsNullOrWhiteSpace(date))
-            {
-                transaction.Date = DateTime.Parse(date);
-            }
-
-            string description = this._view.GetValidDescription("Enter the description of the transaction: ", true);
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                transaction.Description = description;
-            }
-        }
-
         /// <summary>
         /// Gets the input from the user for creating a transaction.
         /// </summary>
@@ -306,7 +306,7 @@ namespace Assignment4.Controllers
         private TransactionDTO? GetCreateTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
-            string category = this._view.GetValidCategory($"Enter the category of the {type}: ");
+            string category = this._view.GetValidCategory($"Enter the category of {type}: ");
             decimal amount = decimal.Parse(this._view.GetValidAmount("Enter the amount involved in the transaction: "));
             DateTime date = DateTime.Parse(this._view.GetValidDate());
             string description = this._view.GetValidDescription("Enter the description: ");

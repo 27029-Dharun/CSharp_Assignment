@@ -130,25 +130,44 @@ namespace Assignment4.Services
         internal TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
-            decimal expense = transactions.Where(transaction => transaction.Type == TransactionType.Expense).Sum(t => t.Amount);
-            decimal income = transactions.Where(transaction => transaction.Type == TransactionType.Income).Sum(t => t.Amount);
+            decimal income = transactions
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .Sum(transaction => transaction.Amount);
 
-            int currentMonth = DateTime.Now.Month;
+            decimal expense = transactions
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .Sum(transaction => transaction.Amount);
+
             int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
 
-            var currentMonthTransactions = transactions.Where(transaction => transaction.Date.Month == currentMonth && transaction.Date.Year == currentYear).ToList();
-            decimal monthlyExpense = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Expense).Sum(t => t.Amount);
-            decimal monthlyIncome = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Income).Sum(t => t.Amount);
+            IReadOnlyList<Transaction> currentMonthTransaction = transactions
+                .Where(transaction => transaction.Date.Month == currentMonth && transaction.Date.Year == currentYear)
+                .ToList();
 
-            Dictionary<string, decimal> expenseCategoryTotals = transactions.Where(transaction => transaction.Type == TransactionType.Expense).GroupBy(t => t.Category).ToDictionary(
+            decimal currentIncome = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .Sum(transaction => transaction.Amount);
+
+            decimal currentExpense = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .Sum(transaction => transaction.Amount);
+
+            Dictionary<string, decimal> categoryWiseExpense = transactions
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
                     group => group.Key,
-                    group => group.Sum(t => t.Amount));
+                    group => group.Sum(transaction => transaction.Amount));
 
-            Dictionary<string, decimal> incomeCategoryTotals = transactions.Where(transaction => transaction.Type == TransactionType.Income).GroupBy(t => t.Category).ToDictionary(
+            Dictionary<string, decimal> categoryWiseIncome = transactions
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
                     group => group.Key,
-                    group => group.Sum(t => t.Amount));
+                    group => group.Sum(transaction => transaction.Amount));
 
-            return new TransactionSummary(income, expense, monthlyExpense, monthlyIncome, expenseCategoryTotals, incomeCategoryTotals);
+            return new TransactionSummary(income, expense, currentIncome, currentExpense, categoryWiseIncome, categoryWiseExpense);
         }
 
         /// <summary>
