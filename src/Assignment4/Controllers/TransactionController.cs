@@ -67,38 +67,6 @@ namespace Assignment4.Controllers
             }
         }
 
-        private void SortTransactionByAmount()
-        {
-            int option = this._view.GetInteger("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
-
-            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
-            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
-            this._view.PrintTransactionTable(filteredIncome);
-            this._view.PrintTransactionTable(filteredExpense);
-        }
-
-        private void SearchTransaction()
-        {
-            int option = this._view.GetInteger("1. Category\n2. Date\nSelect the field to search with: ");
-            string query;
-            if (option == 1)
-            {
-                query = this._view.GetValidCategory($"Enter the category to search: ");
-            }
-            else if (option == 2)
-            {
-                query = this._view.GetValidDate();
-            }
-            else
-            {
-                this._view.PrintInfo("Please enter a valid field to search.");
-                return;
-            }
-
-            IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
-            this._view.PrintTransactionTable(filteredTransaction);
-        }
-
         private void CreateTransaction()
         {
             // Creates the transaction DTO
@@ -116,7 +84,7 @@ namespace Assignment4.Controllers
         }
 
         /// <summary>
-        /// View all the transaction
+        /// Handles view all the transaction
         /// </summary>
         private void ViewTransaction()
         {
@@ -234,6 +202,50 @@ namespace Assignment4.Controllers
             this.ViewAllTransaction();
         }
 
+        private void SortTransactionByAmount()
+        {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to sort.");
+                return;
+            }
+
+            int option = this._view.GetInteger("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to search.");
+                return;
+            }
+
+            int option = this._view.GetInteger("1. Category\n2. Date\nSelect the field to search with: ");
+            string query;
+            if (option == 1)
+            {
+                query = this._view.GetValidCategory($"Enter the category to search: ");
+            }
+            else if (option == 2)
+            {
+                query = this._view.GetValidDate();
+            }
+            else
+            {
+                this._view.PrintInfo("Please enter a valid field to search.");
+                return;
+            }
+
+            IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
+            this._view.PrintTransactionTable(filteredTransaction);
+        }
+
         private string GetTransactionId()
         {
             IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
@@ -247,7 +259,12 @@ namespace Assignment4.Controllers
         /// <param name="transaction">A transaction instance</param>
         private void EditTransactionInputHandler(TransactionDTO transaction)
         {
-            transaction.Category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
+            string category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                transaction.Category = category;
+            }
+
             string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
             if (!string.IsNullOrWhiteSpace(amount))
             {

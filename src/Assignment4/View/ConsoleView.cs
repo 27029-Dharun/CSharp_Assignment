@@ -108,7 +108,7 @@ namespace Assignment4.View
                 prompt,
                 optional,
                 TransactionValidator.IsValidAmount,
-                $"Invalid amount. Please enter a valid amount greater than {Configurable.MinimumAmount}.");
+                $"Invalid amount. Please enter a valid amount greater than or equal to {Configurable.MinimumAmount}.");
 
             return input;
         }
@@ -125,7 +125,7 @@ namespace Assignment4.View
                 prompt,
                 optional,
                 TransactionValidator.IsValidCategory,
-                $"Invalid category, Entered string should only contain alphabets.");
+                $"Invalid category, Category should only contain alphabets with minimum {Configurable.MinimumCharacter} and maximum {Configurable.MaximumCharacter}.");
 
             return input;
         }
@@ -189,6 +189,11 @@ namespace Assignment4.View
         /// <param name="transactions">List of transactions</param>
         internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
+            if (!transactions.Any())
+            {
+                Console.WriteLine("No transactions to display");
+            }
+
             var table = new ConsoleTable("Transaction Id", "Type", "Category", "Date", "Amount", "Description");
 
             foreach (Transaction transaction in transactions)
@@ -233,7 +238,7 @@ namespace Assignment4.View
 
         private void PrintColoredText(string message, ConsoleColor color)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = color;
             Console.WriteLine(message);
             Console.ResetColor();
         }

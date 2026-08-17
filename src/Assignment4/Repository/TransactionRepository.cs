@@ -1,4 +1,5 @@
-﻿using Assignment4.DTOs;
+﻿using System.Text.Json;
+using Assignment4.DTOs;
 using Assignment4.Models;
 using Assignment4.Models.Enums;
 
@@ -9,7 +10,7 @@ namespace Assignment4.Repository
     /// </summary>
     internal class TransactionRepository : IRepository
     {
-        private readonly List<Transaction> _transactions = new List<Transaction>();
+        private readonly List<Transaction> _transactions;
         private readonly string _filePath;
 
         /// <summary>
@@ -17,11 +18,15 @@ namespace Assignment4.Repository
         /// </summary>
         public TransactionRepository()
         {
-            this._filePath = "../transaction.json";
+            this._filePath = "transaction.json";
             if (!File.Exists(this._filePath))
             {
-                File.Create(this._filePath);
+                File.WriteAllText(this._filePath, string.Empty);
+                this._transactions = new List<Transaction>();
+                return;
             }
+
+            this._transactions = this.ReadAll();
         }
 
         /// <summary>
@@ -31,6 +36,7 @@ namespace Assignment4.Repository
         public void Add(Transaction transaction)
         {
             this._transactions.Add(transaction);
+            this.WriteAll();
         }
 
         /// <summary>
@@ -40,45 +46,6 @@ namespace Assignment4.Repository
         public IReadOnlyList<Transaction> GetAll()
         {
             return this._transactions.Select(this.Copy).ToList();
-        }
-
-        /// <summary>
-        /// Get the transaction with a Id
-        /// </summary>
-        /// <param name="id">Id to find the transaction</param>
-        /// <returns>Transaction object</returns>
-        public bool IsValidId(string id)
-        {
-            if (this._transactions.FirstOrDefault(x => id == x.Id) is not null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// deletes a transaction from the list
-        /// </summary>
-        /// <param name="id">Id of the transaction to be deleted</param>
-        public void DeleteTransactionById(string id)
-        {
-            Transaction? transaction = this.GetById(id);
-            if (transaction is null)
-            {
-                return;
-            }
-
-            this._transactions.Remove(transaction);
-        }
-
-        /// <summary>
-        /// Checks if any transactions exists
-        /// </summary>
-        /// <returns>true if any transaction exists, false if it is empty</returns>
-        public bool HasAny()
-        {
-            return this._transactions.Any();
         }
 
         /// <summary>
@@ -100,6 +67,22 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
+        /// deletes a transaction from the list
+        /// </summary>
+        /// <param name="id">Id of the transaction to be deleted</param>
+        public void DeleteTransactionById(string id)
+        {
+            Transaction? transaction = this.GetById(id);
+            if (transaction is null)
+            {
+                return;
+            }
+
+            this._transactions.Remove(transaction);
+            this.WriteAll();
+        }
+
+        /// <summary>
         /// Edit the transactions in the repository
         /// </summary>
         /// <param name="editedTransaction">Edit the transaction</param>
@@ -117,7 +100,32 @@ namespace Assignment4.Repository
             transaction.Date = editedTransaction.Date;
             transaction.Amount = editedTransaction.Amount;
             transaction.Category = editedTransaction.Category;
+            this.WriteAll();
             return true;
+        }
+
+        /// <summary>
+        /// Get the transaction with a Id
+        /// </summary>
+        /// <param name="id">Id to find the transaction</param>
+        /// <returns>Transaction object</returns>
+        public bool IsValidId(string id)
+        {
+            if (this._transactions.FirstOrDefault(x => id == x.Id) is not null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if any transactions exists
+        /// </summary>
+        /// <returns>true if any transaction exists, false if it is empty</returns>
+        public bool HasAny()
+        {
+            return this._transactions.Any();
         }
 
         /// <summary>
@@ -165,6 +173,24 @@ namespace Assignment4.Repository
         private Transaction Copy(Transaction transaction)
         {
             return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+        }
+
+        private void WriteAll()
+        {
+            string json = JsonSerializer.Serialize(this._transactions);
+            File.WriteAllText(this._filePath, json);
+        }
+
+        private List<Transaction> ReadAll()
+        {
+            string text = File.ReadAllText(this._filePath);
+            List<Transaction>? transactions = JsonSerializer.Deserialize<List<Transaction>>(text);
+            if (transactions is null)
+            {
+                return new List<Transaction>();
+            }
+
+            return transactions;
         }
     }
 }

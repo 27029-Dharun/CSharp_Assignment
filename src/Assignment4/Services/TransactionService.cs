@@ -130,23 +130,15 @@ namespace Assignment4.Services
         internal TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
-            decimal income = 0;
-            decimal expense = 0;
+            decimal expense = transactions.Where(transaction => transaction.Type == TransactionType.Expense).Sum(t => t.Amount);
+            decimal income = transactions.Where(transaction => transaction.Type == TransactionType.Income).Sum(t => t.Amount);
 
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction.Type == TransactionType.Expense)
-                {
-                    expense += transaction.Amount;
-                }
-                else
-                {
-                    income += transaction.Amount;
-                }
-            }
+            int currentMonth = DateTime.Now.Month;
+            int currentYear = DateTime.Now.Year;
 
-            decimal monthlyExpense = transactions.Where(transaction => transaction.Date.Month == DateTime.Now.Month && transaction.Type == TransactionType.Expense).Sum(transaction => transaction.Amount);
-            decimal monthlyIncome = transactions.Where(transaction => transaction.Date.Month == DateTime.Now.Month && transaction.Type == TransactionType.Income).Sum(transaction => transaction.Amount);
+            var currentMonthTransactions = transactions.Where(transaction => transaction.Date.Month == currentMonth && transaction.Date.Year == currentYear).ToList();
+            decimal monthlyExpense = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Expense).Sum(t => t.Amount);
+            decimal monthlyIncome = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Income).Sum(t => t.Amount);
 
             return new TransactionSummary(income, expense, monthlyExpense, monthlyIncome);
         }
@@ -169,11 +161,13 @@ namespace Assignment4.Services
         /// <returns> A list of income sorted based on user preference. </returns>
         internal IReadOnlyList<Transaction> GetSortedIncome(int option)
         {
+            // Ascending order
             if (option == 1)
             {
                 return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderBy(x => x.Amount).ToList();
             }
 
+            // Descending order
             return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderByDescending(x => x.Amount).ToList();
         }
 
@@ -184,11 +178,13 @@ namespace Assignment4.Services
         /// <returns> A list of expense sorted based on user preference. </returns>
         internal IReadOnlyList<Transaction> GetSortedExpense(int option)
         {
+            // Ascending order
             if (option == 1)
             {
                 return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderBy(x => x.Amount).ToList();
             }
 
+            // Descending order
             return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderByDescending(x => x.Amount).ToList();
         }
     }
