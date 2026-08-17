@@ -55,7 +55,7 @@ namespace Assignment4.Validation
         /// <returns>A string containing the validation output; empty string if it is valid</returns>
         public static bool IsValidDescription(string name)
         {
-            if (name is null || name.Length < Configurable.MinimumCharacter)
+            if (name is null || name.Length < Configurable.MinimumCharacter || name.Length > Configurable.MaximumCharacter)
             {
                 return false;
             }
