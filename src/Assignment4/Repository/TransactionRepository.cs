@@ -17,12 +17,11 @@ namespace Assignment4.Repository
         /// </summary>
         public TransactionRepository()
         {
-            this._filePath = "transaction.json";
+            this._filePath = "../transaction.json";
             if (!File.Exists(this._filePath))
             {
-                File.WriteAllText(_filePath, "Transaction");
+                File.Create(this._filePath);
             }
-
         }
 
         /// <summary>

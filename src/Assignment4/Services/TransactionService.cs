@@ -11,7 +11,7 @@ namespace Assignment4.Services
     /// </summary>
     internal class TransactionService
     {
-        private readonly TransactionRepository _repository;
+        private readonly IRepository _repository;
         private readonly TransactionIdGenerator _idGenerator;
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Assignment4.Services
         /// <param name="validator">Validator instance</param>
         /// <param name="idGenerator">Id Generator instance</param>
         /// <param name="repository">repository instance</param>
-        public TransactionService(TransactionIdGenerator idGenerator, TransactionRepository repository)
+        public TransactionService(TransactionIdGenerator idGenerator, IRepository repository)
         {
             this._idGenerator = idGenerator;
             this._repository = repository;
