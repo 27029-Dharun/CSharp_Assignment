@@ -1,4 +1,5 @@
 ﻿using Assignment4.Constants;
+using Assignment4.DTOs;
 using Assignment4.Models;
 using Assignment4.Validation;
 using ConsoleTables;
@@ -192,6 +193,7 @@ namespace Assignment4.View
             if (!transactions.Any())
             {
                 Console.WriteLine("No transactions to display");
+                return;
             }
 
             var table = new ConsoleTable("Transaction Id", "Type", "Category", "Date", "Amount", "Description");
@@ -234,6 +236,44 @@ namespace Assignment4.View
             Console.WriteLine("[8] Exit application\n");
 
             Console.WriteLine("Please enter your choice (1-8): ");
+        }
+
+        /// <summary>
+        /// Prints the summary of all the transactions with visualizations
+        /// </summary>
+        /// <param name="summary">Summary instance that contains the summary of all the transactions</param>
+        internal void PrintSummary(TransactionSummary summary)
+        {
+            Console.WriteLine(Environment.NewLine + "Income vs expense");
+            this.PrintBarChart(new Dictionary<string, decimal>()
+            {
+                { "Income", summary.Income },
+                { "Expense", summary.Expense },
+            });
+
+            Console.WriteLine(Environment.NewLine + "Category wise expense");
+            this.PrintBarChart(summary.ExpenseCategoryTotals);
+
+            Console.WriteLine(Environment.NewLine + "Category wise income");
+            this.PrintBarChart(summary.IncomeCategoryTotals);
+        }
+
+        private void PrintBarChart(Dictionary<string, decimal> categoryTotals)
+        {
+            decimal maxValue = categoryTotals.Values.Max();
+            int maxPad = categoryTotals.Keys.Max(key => key.Length);
+            int maxBarLength = Configurable.MaxBarLength;
+
+            foreach (var item in categoryTotals)
+            {
+                int barLength = (int)(item.Value * maxBarLength / maxValue) + 1;
+
+                Console.Write($"{item.Key,-10} ");
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.Write($" {new string(' ', barLength)}");
+                Console.ResetColor();
+                Console.WriteLine($" {item.Value}\n");
+            }
         }
 
         private void PrintColoredText(string message, ConsoleColor color)

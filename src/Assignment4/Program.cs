@@ -22,10 +22,12 @@ namespace Assignment4
                 ConsoleView view = new ConsoleView();
 
                 // Transaction id generator instance
-                TransactionIdGenerator idGenerator = new TransactionIdGenerator();
+                TransactionIdGenerator idGenerator = new TransactionIdGenerator("transactionId.json");
+
+                JsonFileManager jsonFileManager = new JsonFileManager();
 
                 // Repository instance for add the transactions in the list.
-                IRepository repository = new TransactionRepository();
+                IRepository repository = new TransactionRepository("transactions.json", jsonFileManager);
 
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(idGenerator, repository);

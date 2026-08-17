@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Assignment4.DTOs;
+﻿using Assignment4.DTOs;
 using Assignment4.Models;
 using Assignment4.Models.Enums;
 
@@ -11,14 +10,18 @@ namespace Assignment4.Repository
     internal class TransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions;
+        private readonly JsonFileManager _jsonFileManager;
         private readonly string _filePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
         /// </summary>
-        public TransactionRepository()
+        /// <param name="path">Path where the file is to be saved</param>
+        /// <param name="fileManager">File manager instance</param>
+        public TransactionRepository(string path, JsonFileManager fileManager)
         {
-            this._filePath = "transaction.json";
+            this._filePath = path;
+            this._jsonFileManager = fileManager;
             if (!File.Exists(this._filePath))
             {
                 File.WriteAllText(this._filePath, string.Empty);
@@ -26,7 +29,7 @@ namespace Assignment4.Repository
                 return;
             }
 
-            this._transactions = this.ReadAll();
+            this._transactions = this._jsonFileManager.LoadAll(this._filePath);
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace Assignment4.Repository
         public void Add(Transaction transaction)
         {
             this._transactions.Add(transaction);
-            this.WriteAll();
+            this._jsonFileManager.WriteAll(this._filePath, this._transactions);
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace Assignment4.Repository
             }
 
             this._transactions.Remove(transaction);
-            this.WriteAll();
+            this._jsonFileManager.WriteAll(this._filePath, this._transactions);
         }
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace Assignment4.Repository
             transaction.Date = editedTransaction.Date;
             transaction.Amount = editedTransaction.Amount;
             transaction.Category = editedTransaction.Category;
-            this.WriteAll();
+            this._jsonFileManager.WriteAll(this._filePath, this._transactions);
             return true;
         }
 
@@ -157,7 +160,7 @@ namespace Assignment4.Repository
                 return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
             }
 
-            return this._transactions.Where(x => x.Category == query).ToList();
+            return this._transactions.Where(x => x.Category.ToLower() == query.ToLower()).ToList();
         }
 
         /// <summary>
@@ -173,24 +176,6 @@ namespace Assignment4.Repository
         private Transaction Copy(Transaction transaction)
         {
             return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
-        }
-
-        private void WriteAll()
-        {
-            string json = JsonSerializer.Serialize(this._transactions);
-            File.WriteAllText(this._filePath, json);
-        }
-
-        private List<Transaction> ReadAll()
-        {
-            string text = File.ReadAllText(this._filePath);
-            List<Transaction>? transactions = JsonSerializer.Deserialize<List<Transaction>>(text);
-            if (transactions is null)
-            {
-                return new List<Transaction>();
-            }
-
-            return transactions;
         }
     }
 }

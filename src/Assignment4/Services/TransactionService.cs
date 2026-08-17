@@ -140,7 +140,15 @@ namespace Assignment4.Services
             decimal monthlyExpense = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Expense).Sum(t => t.Amount);
             decimal monthlyIncome = currentMonthTransactions.Where(transaction => transaction.Type == TransactionType.Income).Sum(t => t.Amount);
 
-            return new TransactionSummary(income, expense, monthlyExpense, monthlyIncome);
+            Dictionary<string, decimal> expenseCategoryTotals = transactions.Where(transaction => transaction.Type == TransactionType.Expense).GroupBy(t => t.Category).ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(t => t.Amount));
+
+            Dictionary<string, decimal> incomeCategoryTotals = transactions.Where(transaction => transaction.Type == TransactionType.Income).GroupBy(t => t.Category).ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(t => t.Amount));
+
+            return new TransactionSummary(income, expense, monthlyExpense, monthlyIncome, expenseCategoryTotals, incomeCategoryTotals);
         }
 
         /// <summary>

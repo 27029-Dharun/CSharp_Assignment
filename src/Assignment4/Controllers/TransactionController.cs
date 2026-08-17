@@ -142,12 +142,21 @@ namespace Assignment4.Controllers
 
         private void ViewSummary()
         {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to edit");
+                return;
+            }
+
             TransactionSummary summary = this._service.GenerateSummary();
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+            this._view.PrintEmptyLine();
             this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
             this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
+
+            this._view.PrintSummary(summary);
         }
 
         private void EditTransaction()
@@ -243,6 +252,12 @@ namespace Assignment4.Controllers
             }
 
             IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
+            if (!filteredTransaction.Any())
+            {
+                this._view.PrintInfo("No matched transactions found");
+                return;
+            }
+
             this._view.PrintTransactionTable(filteredTransaction);
         }
 

@@ -9,13 +9,15 @@ namespace Assignment4.Helper
     public class TransactionIdGenerator
     {
         private readonly Dictionary<TransactionType, int> _transactionId;
-        private readonly string _filePath = "TransactionId.json";
+        private readonly string _filePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionIdGenerator"/> class.
         /// </summary>
-        public TransactionIdGenerator()
+        /// <param name="path">The path where the file is to be stored</param>
+        public TransactionIdGenerator(string path)
         {
+            this._filePath = path;
             if (!File.Exists(this._filePath))
             {
                 File.WriteAllText(this._filePath, string.Empty);
