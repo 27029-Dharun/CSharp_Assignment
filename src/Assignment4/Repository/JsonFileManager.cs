@@ -42,7 +42,7 @@ namespace Assignment4.Repository
         public List<Transaction> LoadAll(string filePath)
         {
             string text = File.ReadAllText(filePath);
-            List<Transaction>? transactions = JsonSerializer.Deserialize<List<Transaction>>(text);
+            List<Transaction>? transactions = JsonSerializer.Deserialize<List<Transaction>>(text, _options);
             if (transactions is null)
             {
                 return new List<Transaction>();

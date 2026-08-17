@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies all the view options available.
     /// </summary>
-    internal enum ViewTransactionOption
+    public enum ViewTransactionOption
     {
         /// <summary>
         /// Represents option to display only the expenses.

@@ -9,7 +9,7 @@ namespace Assignment4
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.
     /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Execution of flow begins from here.

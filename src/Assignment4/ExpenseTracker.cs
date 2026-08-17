@@ -7,7 +7,7 @@ namespace Assignment4
     /// <summary>
     /// Entry point of the expense tracker.
     /// </summary>
-    internal class ExpenseTracker
+    public class ExpenseTracker
     {
         private const int Max = 8;
         private readonly ConsoleView _view;
@@ -30,6 +30,7 @@ namespace Assignment4
         public void ExecuteExpenseTracker()
         {
             TransactionMenu option = this.GetMenuOption(Max);
+            this._view.ClearConsole();
             while (option != TransactionMenu.Exit)
             {
                 TransactionMenu menu = option;

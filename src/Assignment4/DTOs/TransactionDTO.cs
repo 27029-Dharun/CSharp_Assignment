@@ -5,7 +5,7 @@ namespace Assignment4.DTOs
     /// <summary>
     /// Represents the data required to create/edit a transaction.
     /// </summary>
-    internal class TransactionDTO
+    public class TransactionDTO
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionDTO"/> class.

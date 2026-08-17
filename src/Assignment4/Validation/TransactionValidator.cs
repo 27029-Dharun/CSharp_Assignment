@@ -68,9 +68,9 @@ namespace Assignment4.Validation
         /// </summary>
         /// <param name="category"> The category of the transaction. </param>
         /// <returns>A string containing the category of the product. </returns>
-        internal static bool IsValidCategory(string category)
+        public static bool IsValidCategory(string category)
         {
-            if (category is null || category.Length < Configurable.MinimumCharacter)
+            if (category is null || category.Length < Configurable.MinimumCharacter || category.Length > Configurable.MaximumCategoryCharacter)
             {
                 return false;
             }

@@ -6,7 +6,7 @@ namespace Assignment4.Repository
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving transaction entities
     /// </summary>
-    internal interface IRepository
+    public interface IRepository
     {
         /// <summary>
         /// Add a transaction to existing list

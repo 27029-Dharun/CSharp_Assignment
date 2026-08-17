@@ -7,7 +7,7 @@ namespace Assignment4.Repository
     /// <summary>
     /// Transactions are stored as list of Transaction
     /// </summary>
-    internal class TransactionRepository : IRepository
+    public class TransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions;
         private readonly JsonFileManager _jsonFileManager;
