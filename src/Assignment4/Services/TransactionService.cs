@@ -17,7 +17,6 @@ namespace Assignment4.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
-        /// <param name="validator">Validator instance</param>
         /// <param name="idGenerator">Id Generator instance</param>
         /// <param name="repository">repository instance</param>
         public TransactionService(TransactionIdGenerator idGenerator, IRepository repository)
