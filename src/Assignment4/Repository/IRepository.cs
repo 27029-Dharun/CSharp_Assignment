@@ -51,5 +51,19 @@ namespace Assignment4.Repository
         /// </summary>
         /// <returns> Returns the income. </returns>
         public IReadOnlyList<Transaction> GetIncome();
+
+        /// <summary>
+        /// Gets the transaction copy by id
+        /// </summary>
+        /// <param name="id">Unique identifier of the transaction</param>
+        /// <returns>The transaction copy</returns>
+        public Transaction? GetTransactionCopy(string id);
+
+        /// <summary>
+        /// Returns if the id is valid or not.
+        /// </summary>
+        /// <param name="id"> Unique identifier of the transaction. </param>
+        /// <returns> True if the id id valid; otherwise false. </returns>
+        public bool IsValidId(string id);
     }
 }

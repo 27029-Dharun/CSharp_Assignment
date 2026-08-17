@@ -206,6 +206,11 @@ namespace Assignment4.Controllers
         private void EditTransactionInputHandler(TransactionDTO transaction)
         {
             string category = this._view.GetValidCategory($"Enter the category of {transaction.Type}: ");
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                transaction.Category = category;
+            }
+
             string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
             if (!string.IsNullOrWhiteSpace(amount))
             {

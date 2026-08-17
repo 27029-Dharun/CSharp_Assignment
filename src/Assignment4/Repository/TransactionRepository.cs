@@ -10,6 +10,19 @@ namespace Assignment4.Repository
     internal class TransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions = new List<Transaction>();
+        private readonly string _filePath;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
+        /// </summary>
+        public TransactionRepository()
+        {
+            this._filePath = "../transaction.json";
+            if (!File.Exists(this._filePath))
+            {
+                File.Create(this._filePath);
+            }
+        }
 
         /// <summary>
         /// Add a transaction to existing list
@@ -112,7 +125,7 @@ namespace Assignment4.Repository
         /// </summary>
         /// <param name="id">Unique identifier of the transaction</param>
         /// <returns>A transaction instance</returns>
-        internal Transaction? GetTransactionCopy(string id)
+        public Transaction? GetTransactionCopy(string id)
         {
             Transaction? transaction = this.GetById(id);
             if (transaction is null)
@@ -121,6 +134,22 @@ namespace Assignment4.Repository
             }
 
             return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+        }
+
+        /// <summary>
+        /// Search the transaction by date and category
+        /// </summary>
+        /// <param name="query">Query text entered by the user</param>
+        /// <param name="option">Option to sort by </param>
+        /// <returns>A list containing the list that matched the query text</returns>
+        internal IReadOnlyList<Transaction> Search(string query, int option)
+        {
+            if (option == 2)
+            {
+                return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
+            }
+
+            return this._transactions.Where(x => x.Category == query).ToList();
         }
 
         /// <summary>
