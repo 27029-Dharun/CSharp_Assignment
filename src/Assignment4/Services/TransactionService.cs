@@ -9,7 +9,7 @@ namespace Assignment4.Services
     /// <summary>
     /// Contains the business logic for transactions, perform validation and create transaction instances
     /// </summary>
-    internal class TransactionService
+    public class TransactionService
     {
         private readonly IRepository _repository;
         private readonly TransactionIdGenerator _idGenerator;
@@ -40,7 +40,7 @@ namespace Assignment4.Services
         /// Deletes the transaction by id
         /// </summary>
         /// <param name="id">Unique id of the transaction to be deleted</param>
-        internal void DeleteTransaction(string id)
+        public void DeleteTransaction(string id)
         {
             this._repository.DeleteTransactionById(id);
         }
@@ -51,7 +51,7 @@ namespace Assignment4.Services
         /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
         /// <param name="id"> Unique identifier of the transaction. </param>
         /// <returns> True if the update process is done; otherwise false. </returns>
-        internal bool UpdateTransaction(TransactionDTO editedTransaction, string id)
+        public bool UpdateTransaction(TransactionDTO editedTransaction, string id)
         {
             if (this._repository.Edit(editedTransaction, id))
             {
@@ -65,7 +65,7 @@ namespace Assignment4.Services
         /// Get the expense from the repository
         /// </summary>
         /// <returns>returns a list of expenses</returns>
-        internal IReadOnlyList<Transaction> GetExpense()
+        public IReadOnlyList<Transaction> GetExpense()
         {
             return this._repository.GetExpense();
         }
@@ -74,7 +74,7 @@ namespace Assignment4.Services
         /// Get the income from the repository
         /// </summary>
         /// <returns>  list of incomes</returns>
-        internal IReadOnlyList<Transaction> GetIncome()
+        public IReadOnlyList<Transaction> GetIncome()
         {
             return this._repository.GetIncome();
         }
@@ -83,7 +83,7 @@ namespace Assignment4.Services
         /// Gets all the transactions from the repository
         /// </summary>
         /// <returns>List of transaction</returns>
-        internal IReadOnlyList<Transaction> GetAllTransaction()
+        public IReadOnlyList<Transaction> GetAllTransaction()
         {
             return this._repository.GetAll();
         }
@@ -93,7 +93,7 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="id">Id of the transaction to be validated</param>
         /// <returns>boolean true if valid</returns>
-        internal bool IsValidTransactionId(string id)
+        public bool IsValidTransactionId(string id)
         {
             return this._repository.IsValidId(id);
         }
@@ -103,7 +103,7 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="id">Id of the transaction. </param>
         /// <returns> Transaction Instance if it is present; otherwise null. </returns>
-        internal TransactionDTO? GetTransactionById(string id)
+        public TransactionDTO? GetTransactionById(string id)
         {
             Transaction? transaction = this._repository.GetTransactionCopy(id);
             if (transaction is null)
@@ -118,7 +118,7 @@ namespace Assignment4.Services
         /// Check if any transactions exists
         /// </summary>
         /// <returns>true if any transaction exists; otherwise false. </returns>
-        internal bool CheckTransactionsExist()
+        public bool CheckTransactionsExist()
         {
             return this._repository.HasAny();
         }
@@ -127,7 +127,7 @@ namespace Assignment4.Services
         /// Generates the summary of the transaction
         /// </summary>
         /// <returns>Transaction summary instance that contains the summary data</returns>
-        internal TransactionSummary GenerateSummary()
+        public TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
             decimal income = 0;

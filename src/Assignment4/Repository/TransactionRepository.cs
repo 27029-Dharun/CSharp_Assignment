@@ -7,7 +7,7 @@ namespace Assignment4.Repository
     /// <summary>
     /// Transactions are stored as list of Transaction
     /// </summary>
-    internal class TransactionRepository : IRepository
+    public class TransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions = new List<Transaction>();
         private readonly string _filePath;
@@ -142,7 +142,7 @@ namespace Assignment4.Repository
         /// <param name="query">Query text entered by the user</param>
         /// <param name="option">Option to sort by </param>
         /// <returns>A list containing the list that matched the query text</returns>
-        internal IReadOnlyList<Transaction> Search(string query, int option)
+        public IReadOnlyList<Transaction> Search(string query, int option)
         {
             if (option == 2)
             {

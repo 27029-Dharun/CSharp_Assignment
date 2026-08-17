@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies all the transaction menu operations
     /// </summary>
-    internal enum TransactionMenu
+    public enum TransactionMenu
     {
         /// <summary>
         /// Represents an option to  add new transaction.

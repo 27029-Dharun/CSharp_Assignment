@@ -12,13 +12,13 @@ namespace Assignment4.View
     {/// <summary>
      /// Prints the empty line
      /// </summary>
-        internal void PrintEmptyLine() => Console.WriteLine();
+        public void PrintEmptyLine() => Console.WriteLine();
 
         /// <summary>
         /// Prints the input string
         /// </summary>
         /// <param name="message">The string to be printed</param>
-        internal void PrintInfo(string message)
+        public void PrintInfo(string message)
         {
             Console.WriteLine(message);
         }
@@ -28,7 +28,7 @@ namespace Assignment4.View
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>int value that we got as input</returns>
-        internal string GetString(string message)
+        public string GetString(string message)
         {
             Console.Write(message);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
@@ -41,7 +41,7 @@ namespace Assignment4.View
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>int value that we got as input</returns>
-        internal int GetInteger(string message)
+        public int GetInteger(string message)
         {
             int input;
             Console.Write(message);
@@ -59,7 +59,7 @@ namespace Assignment4.View
         /// <typeparam name="T">Type variable that should be struct</typeparam>
         /// <param name="message">String to be printed</param>
         /// <returns>returns a enum value entered by use</returns>
-        internal T GetEnumValue<T>(string message)
+        public T GetEnumValue<T>(string message)
             where T : struct, Enum
         {
             Console.WriteLine($"\n{message}");
@@ -86,7 +86,7 @@ namespace Assignment4.View
         /// <param name="prompt">Message to be displayed</param>
         /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>decimal input</returns>
-        internal string GetValidDescription(string prompt, bool optional = false)
+        public string GetValidDescription(string prompt, bool optional = false)
         {
             string input = this.GetValidatedInput(
                 prompt,
@@ -102,7 +102,7 @@ namespace Assignment4.View
         /// <param name="prompt">Message to be displayed</param>
         /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>decimal input</returns>
-        internal string GetValidAmount(string prompt, bool optional = false)
+        public string GetValidAmount(string prompt, bool optional = false)
         {
             string input = this.GetValidatedInput(
                 prompt,
@@ -118,7 +118,7 @@ namespace Assignment4.View
         /// </summary>
         /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>DateTime value entered by user</returns>
-        internal string GetValidDate(bool optional = false)
+        public string GetValidDate(bool optional = false)
         {
             string input = this.GetValidatedInput(
                 $"Enter a date in format ({Configurable.DateFormat}): ",
@@ -132,7 +132,7 @@ namespace Assignment4.View
         /// <summary>
         /// Clears the console messages
         /// </summary>
-        internal void ClearConsole()
+        public void ClearConsole()
         {
             // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
@@ -143,7 +143,7 @@ namespace Assignment4.View
         /// Displays the error message in red color
         /// </summary>
         /// <param name="message">message to be printed</param>
-        internal void PrintError(string message)
+        public void PrintError(string message)
         {
             this.PrintColoredText(message, ConsoleColor.Red);
         }
@@ -152,7 +152,7 @@ namespace Assignment4.View
         /// Displays the success message in green color
         /// </summary>
         /// <param name="message">message to be printed</param>
-        internal void PrintSuccess(string message)
+        public void PrintSuccess(string message)
         {
             this.PrintColoredText(message, ConsoleColor.Green);
         }
@@ -161,7 +161,7 @@ namespace Assignment4.View
         /// Displays the error message in red color
         /// </summary>
         /// <param name="message">message to be printed</param>
-        internal void PrintWarning(string message)
+        public void PrintWarning(string message)
         {
             this.PrintColoredText(message, ConsoleColor.Yellow);
         }
@@ -170,7 +170,7 @@ namespace Assignment4.View
         /// Displays the transactions
         /// </summary>
         /// <param name="transactions">List of transactions</param>
-        internal void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
+        public void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
             var table = new ConsoleTable("Transaction Id", "Type", "Category", "Date", "Amount", "Description");
 
@@ -185,7 +185,7 @@ namespace Assignment4.View
         /// <summary>
         /// Waits for user to press a key and clears the console.
         /// </summary>
-        internal void PauseAndReturn()
+        public void PauseAndReturn()
         {
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
@@ -201,7 +201,7 @@ namespace Assignment4.View
         /// <param name="prompt">Message to be displayed</param>
         /// <param name="optional">True if we want to perform edit operation</param>
         /// <returns>A string containing the category</returns>
-        internal string GetValidCategory(string prompt, bool optional = true)
+        public string GetValidCategory(string prompt, bool optional = true)
         {
             string input = this.GetValidatedInput(
                 prompt,
@@ -215,7 +215,7 @@ namespace Assignment4.View
         /// <summary>
         /// Displays the menu
         /// </summary>
-        internal void DisplayMainMenu()
+        public void DisplayMainMenu()
         {
             Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
 

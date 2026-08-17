@@ -7,7 +7,7 @@ namespace Assignment4
     /// <summary>
     /// Entry point of the expense tracker.
     /// </summary>
-    internal class ExpenseTracker
+    public class ExpenseTracker
     {
         private const int Max = 6;
         private readonly ConsoleView _view;

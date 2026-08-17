@@ -9,7 +9,7 @@ namespace Assignment4.Controllers
     /// <summary>
     /// Coordinates operations between the view and services.
     /// </summary>
-    internal class TransactionController
+    public class TransactionController
     {
         private readonly TransactionService _service;
         private readonly ConsoleView _view;

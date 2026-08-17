@@ -1,9 +1,9 @@
-﻿namespace Assignment4.Models
+﻿namespace Assignment4.DTOs
 {
     /// <summary>
     /// DTO to transfer the summary data
     /// </summary>
-    internal class TransactionSummary
+    public class TransactionSummary
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionSummary"/> class.
@@ -12,8 +12,8 @@
         /// <param name="expense">Total expense recorded</param>
         public TransactionSummary(decimal income, decimal expense)
         {
-            this.Income = income;
-            this.Expense = expense;
+            Income = income;
+            Expense = expense;
         }
 
         /// <summary>
@@ -36,6 +36,6 @@
         /// calculates the balance of the user
         /// </summary>
         /// <returns>returns the balance</returns>
-        public decimal GetBalance() => this.Income - this.Expense;
+        public decimal GetBalance() => Income - Expense;
     }
 }
