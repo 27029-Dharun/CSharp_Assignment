@@ -151,7 +151,7 @@ namespace Assignment4.Repository
         /// Search the transaction by date and category
         /// </summary>
         /// <param name="query">Query text entered by the user</param>
-        /// <param name="option">Option to sort by </param>
+        /// <param name="option">Option to search by date and category. </param>
         /// <returns>A list containing the list that matched the query text</returns>
         public IReadOnlyList<Transaction> Search(string query, int option)
         {
@@ -160,7 +160,7 @@ namespace Assignment4.Repository
                 return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
             }
 
-            return this._transactions.Where(x => x.Category == query).ToList();
+            return this._transactions.Where(x => x.Category.ToLower() == query.ToLower()).ToList();
         }
 
         /// <summary>
