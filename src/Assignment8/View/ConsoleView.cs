@@ -1,34 +1,53 @@
-﻿
-namespace Assignment8.View
+﻿using Assignment8.CustomExceptions;
+using Assignment8.Enums;
+using Assignment8.Helpers;
+
+namespace Assignment8.View;
+
+/// <summary>
+/// Contains all the view
+/// </summary>
+public class ConsoleView
 {
-    /// <summary>
-    /// Contains all the view 
-    /// </summary>
-    public class ConsoleView
+    public void PrintInfo(string message)
     {
-        public void PrintInfo(string message)
+        Console.WriteLine(message);
+    }
+
+    public void PrintError(string message)
+    {
+        ConsoleHelper.PrintColoredText(message, ConsoleColor.Red);
+    }
+
+    public void PrintSuccess(string message)
+    {
+        ConsoleHelper.PrintColoredText(message, ConsoleColor.Green);
+    }
+
+    public void PrintWarning(string message)
+    {
+        ConsoleHelper.PrintColoredText(message, ConsoleColor.Yellow);
+    }
+
+    internal int GetInteger(string prompt)
+    {
+        string input = ConsoleHelper.GetString(prompt);
+        int value;
+        if (!int.TryParse(input, out value))
         {
-            Console.WriteLine(message);
+            throw new InvalidUserInputException("Enter a valid integer");
         }
 
-        public void PrintError(string message)
-        {
-            PrintColoredText(message, ConsoleColor.Red);
-        }
+        return value;
+    }
 
-        public void PrintSuccess(string message)
-        {
-            PrintColoredText(message, ConsoleColor.Green);
-        }
+    internal MenuOption GetMenuOption()
+    {
+        Console.WriteLine(
+            "1. Divide integers\n" +
+            "2. Array\n" +
+            "3. Custom Exception\n");
 
-        public void PrintWarning(string message)
-        {
-            PrintColoredText(message, ConsoleColor.Yellow);
-        }
-
-        internal int GetInteger()
-        {
-
-        }
+        return (MenuOption)this.GetInteger("Select an operation to perform: ");
     }
 }
