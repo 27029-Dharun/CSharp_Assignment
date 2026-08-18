@@ -44,7 +44,7 @@ namespace Assignment3.Services
         /// </summary>
         /// <param name="option">option to sort by</param>
         /// <returns>sorted product list</returns>
-        List<Product>? SortProducts(int option);
+        List<Product> SortProducts(int option);
 
         /// <summary>
         /// Checks the product existence in the inventory
@@ -58,5 +58,11 @@ namespace Assignment3.Services
         /// <param name="search_query">Name or id entered by user</param>
         /// <returns>List of filtered products</returns>
         List<Product> SearchProductByNameOrId(string search_query);
+
+        /// <summary>
+        /// Checks if inventory is empty
+        /// </summary>
+        /// <returns>True if empty</returns>
+        public bool IsInventoryEmpty();
     }
 }

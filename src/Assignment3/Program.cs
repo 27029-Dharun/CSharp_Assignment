@@ -17,9 +17,9 @@ namespace Assignment3
         {
             try
             {
-                InventoryRepository repository = new InventoryRepository();
+                IRepository repository = new InventoryRepository();
                 ConsoleView view = new ConsoleView();
-                InventoryService inventoryService = new InventoryService(repository);
+                IService inventoryService = new InventoryService(repository);
                 InventoryController controller = new InventoryController(inventoryService, view);
                 InventoryMenuController inventoryManager = new InventoryMenuController(controller, view);
 

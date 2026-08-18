@@ -9,7 +9,7 @@ namespace Assignment3.Controllers;
 /// </summary>
 public class InventoryController
 {
-    private readonly InventoryService _inventoryService;
+    private readonly IService _inventoryService;
     private readonly ConsoleView _consoleView;
 
     /// <summary>
@@ -17,7 +17,7 @@ public class InventoryController
     /// </summary>
     /// <param name="inventoryService">Instance of service handling inventory data operations and business rules.</param>
     /// <param name="view">Instance of view used to display data and capture user input. </param>
-    public InventoryController(InventoryService inventoryService, ConsoleView view)
+    public InventoryController(IService inventoryService, ConsoleView view)
     {
         this._inventoryService = inventoryService;
         this._consoleView = view;

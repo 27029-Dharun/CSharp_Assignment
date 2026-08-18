@@ -10,14 +10,14 @@ namespace Assignment3.Services
     public class InventoryService : IService
     {
         private const int AssignExistingValue = -1;
-        private readonly InventoryRepository _inventoryRepository;
+        private readonly IRepository _inventoryRepository;
         private int _id = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryService"/> class.
         /// </summary>
         /// <param name="repository">Instance of repository injected from origin</param>
-        public InventoryService(InventoryRepository repository)
+        public InventoryService(IRepository repository)
         {
             this._inventoryRepository = repository;
         }

@@ -31,5 +31,11 @@ namespace Assignment3.Repository
         /// </summary>
         /// <param name="product"> Instance of a product to be added. </param>
         public void AddProduct(Product product);
+
+        /// <summary>
+        /// Gets the product names of all the product in the inventory.
+        /// </summary>
+        /// <returns> List of all the product names in the inventory. </returns>
+        public List<string> GetProductName();
     }
 }
