@@ -35,22 +35,6 @@ namespace Assignment3.Controllers
                 {
                     isRunning = this.InventoryOptions();
                 }
-                catch (KeyNotFoundException ex)
-                {
-                    this._view.PrintInfo(ex.Message);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this._view.PrintInfo(ex.Message);
-                }
-                catch (ArgumentException ex)
-                {
-                    this._view.PrintInfo(ex.Message);
-                }
-                catch (FormatException ex)
-                {
-                    this._view.PrintInfo(ex.Message);
-                }
                 catch (Exception ex)
                 {
                     this._view.PrintInfo(ex.Message);
@@ -60,34 +44,34 @@ namespace Assignment3.Controllers
 
         private bool InventoryOptions()
         {
-            int option = this._view.GetMenuOption("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
+            InventoryOperation option = (InventoryOperation)this._view.GetMenuOption("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
             switch (option)
             {
-                case (int)InventoryOperation.Add:
+                case InventoryOperation.Add:
                     this._controller.AddProduct();
                     break;
 
-                case (int)InventoryOperation.View:
+                case InventoryOperation.View:
                     this._controller.ViewProduct();
                     break;
 
-                case (int)InventoryOperation.Update:
+                case InventoryOperation.Update:
                     this._controller.EditProduct();
                     break;
 
-                case (int)InventoryOperation.Delete:
+                case InventoryOperation.Delete:
                     this._controller.DeleteProduct();
                     break;
 
-                case (int)InventoryOperation.Search:
+                case InventoryOperation.Search:
                     this._controller.SearchProduct();
                     break;
 
-                case (int)InventoryOperation.Sort:
+                case InventoryOperation.Sort:
                     this._controller.SortProduct();
                     break;
 
-                case (int)InventoryOperation.Exit:
+                case InventoryOperation.Exit:
                     return false;
 
                 default:
