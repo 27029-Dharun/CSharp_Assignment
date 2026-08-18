@@ -7,7 +7,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        AppDomain domain = AppDomain.CurrentDomain;
+        AppDomain.CurrentDomain +=
         domain.UnhandledException += new UnhandledExceptionEventHandler(HandleException);
 
         ConsoleView view = new ConsoleView();
