@@ -60,8 +60,9 @@ namespace Assignment4.View
         /// <param name="message">String to be printed</param>
         /// <returns>returns a enum value entered by use</returns>
         public T GetEnumValue<T>(string message)
-            where T : struct, Enum
+           where T : struct, Enum
         {
+            int tries = Configurable.Tries;
             Console.WriteLine($"\n{message}");
             foreach (var value in Enum.GetValues<T>())
             {
@@ -72,7 +73,12 @@ namespace Assignment4.View
             int integer;
             while (!int.TryParse(input, out integer) || !Enum.IsDefined(typeof(T), integer))
             {
-                Console.WriteLine("Enter the valid integer");
+                if (tries == 1)
+                {
+                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                }
+
+                Console.WriteLine($"Tries left: {--tries}, Enter the valid integer");
                 Console.WriteLine($"{message}");
                 input = Console.ReadLine() ?? string.Empty;
             }

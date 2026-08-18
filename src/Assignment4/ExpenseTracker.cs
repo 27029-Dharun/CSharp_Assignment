@@ -30,6 +30,7 @@ namespace Assignment4
         public void ExecuteExpenseTracker()
         {
             TransactionMenu option = this.GetMenuOption(Max);
+            this._view.ClearConsole();
             while (option != TransactionMenu.Exit)
             {
                 TransactionMenu menu = option;
