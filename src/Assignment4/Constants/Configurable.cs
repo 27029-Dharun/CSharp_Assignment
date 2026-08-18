@@ -29,6 +29,6 @@
         /// <summary>
         /// Represents the minimum amount that can be tracked.
         /// </summary>
-        public const int MinimumAmount = 0;
+        public const int MinimumAmount = 1;
     }
 }
