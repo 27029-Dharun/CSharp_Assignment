@@ -12,8 +12,8 @@
         /// <param name="expense">Total expense recorded</param>
         public TransactionSummary(decimal income, decimal expense)
         {
-            Income = income;
-            Expense = expense;
+            this.Income = income;
+            this.Expense = expense;
         }
 
         /// <summary>
@@ -36,6 +36,6 @@
         /// calculates the balance of the user
         /// </summary>
         /// <returns>returns the balance</returns>
-        public decimal GetBalance() => Income - Expense;
+        public decimal GetBalance() => this.Income - this.Expense;
     }
 }
