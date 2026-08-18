@@ -1,6 +1,5 @@
 ﻿using Assignment8.CustomExceptions;
 using Assignment8.Enums;
-using Assignment8.Helpers;
 
 namespace Assignment8.View;
 
@@ -9,29 +8,33 @@ namespace Assignment8.View;
 /// </summary>
 public class ConsoleView
 {
+    public void PrintColoredText(string message, ConsoleColor color)
+    {
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
+    public string GetString(string prompt)
+    {
+        Console.Write(prompt);
+        string input = (Console.ReadLine() ?? string.Empty).Trim();
+        return input;
+    }
+
     public void PrintInfo(string message)
     {
         Console.WriteLine(message);
     }
 
-    public void PrintError(string message)
-    {
-        ConsoleHelper.PrintColoredText(message, ConsoleColor.Red);
-    }
-
-    public void PrintSuccess(string message)
-    {
-        ConsoleHelper.PrintColoredText(message, ConsoleColor.Green);
-    }
-
     public void PrintWarning(string message)
     {
-        ConsoleHelper.PrintColoredText(message, ConsoleColor.Yellow);
+        this.PrintColoredText(message, ConsoleColor.Yellow);
     }
 
     internal int GetInteger(string prompt)
     {
-        string input = ConsoleHelper.GetString(prompt);
+        string input = this.GetString(prompt);
         int value;
         if (!int.TryParse(input, out value))
         {
@@ -46,7 +49,9 @@ public class ConsoleView
         Console.WriteLine(
             "1. Divide integers\n" +
             "2. Array\n" +
-            "3. Custom Exception\n");
+            "3. Custom Exception\n + " +
+            "4. Global Unhandled exception\n +" +
+            "5. ");
 
         return (MenuOption)this.GetInteger("Select an operation to perform: ");
     }

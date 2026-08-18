@@ -7,8 +7,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        AppDomain.CurrentDomain +=
-        domain.UnhandledException += new UnhandledExceptionEventHandler(HandleException);
+        AppDomain domain = AppDomain.CurrentDomain;
+        domain.UnhandledException += DomainUnhandledException;
 
         ConsoleView view = new ConsoleView();
         Controller controller = new Controller(view);
@@ -17,8 +17,9 @@ public class Program
         Console.ReadKey();
     }
 
-    public static void HandleException()
+    private static void DomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
-        Console.WriteLine($"Unhandled exception caught, {}");
+        Console.WriteLine(e.IsTerminating);
+        Console.WriteLine(e.ToString());
     }
 }

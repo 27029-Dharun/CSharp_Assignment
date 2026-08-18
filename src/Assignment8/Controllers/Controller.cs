@@ -1,5 +1,4 @@
-﻿using Assignment8.Enums;
-using Assignment8.View;
+﻿using Assignment8.View;
 
 namespace Assignment8.Controllers
 {
@@ -14,18 +13,30 @@ namespace Assignment8.Controllers
 
         public void HandleMenu()
         {
-            MenuOption option = this._view.GetMenuOption();
+            int option = this._view.GetMenuOption();
 
             try
             {
                 switch (option)
                 {
-                    case MenuOption.Divide:
-                        this.HandleDivideInteger();
+                    case 1:
+                        this.Task1();
                         break;
 
-                    case MenuOption.Array:
-                        this.HandleArray();
+                    case 2:
+                        this.Task2();
+                        break;
+
+                    case 3:
+                        this.Task3();
+                        break;
+
+                    case 4:
+                        this.Task4();
+                        break;
+
+                    case 5:
+                        this.Task5();
                         break;
 
                     default:
@@ -38,10 +49,10 @@ namespace Assignment8.Controllers
             }
         }
 
-        public void HandleDivideInteger()
+        public void Task1()
         {
-            int dividend = this._view.GetInteger("Enter the dividend to perform division: ");
-            int divisor = this._view.GetInteger("Enter the divisor to perform division: ");
+            int dividend = 10;
+            int divisor = 5;
 
             try
             {
@@ -57,19 +68,49 @@ namespace Assignment8.Controllers
             }
         }
 
-        public void HandleArray()
+        public void Task2()
         {
             int[] array = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            int index = this._view.GetInteger("Enter the index to get the value from the array: ");
             try
             {
-                this._view.PrintInfo($"The element in the array at index[{index}] is {array[index]}");
+                for (int i = 0; i <= array.Length; i++)
+                {
+                    this._view.PrintInfo($"The element in the array at index[{i}] is {array[i]}");
+                }
             }
             catch (IndexOutOfRangeException)
             {
                 throw new Exception("Invalid index, please enter the index in range 0-9");
             }
         }
+
+        public void Task3()
+        {
+            int[] array = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int index = this._view.GetInteger("Enter the index to get the value from the array: ");
+
+            try
+            {
+                this._view.PrintInfo($"The element in the array at index {index} is {array[index]}");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new Exception("Invalid index, please enter the index in range 0-9");
+            }
+
+            throw new Exception("Unhandled exception thrown");
+        }
+
+        private void Task5()
+        {
+
+        }
+
+        private void Task4()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
