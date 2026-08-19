@@ -9,7 +9,6 @@ namespace Assignment3.Services
     /// </summary>
     public class InventoryService : IService
     {
-        private const int AssignExistingValue = -1;
         private readonly IRepository _inventoryRepository;
         private int _id = 1;
 
