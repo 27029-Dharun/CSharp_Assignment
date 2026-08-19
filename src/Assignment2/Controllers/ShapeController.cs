@@ -30,6 +30,7 @@ internal class ShapeController
     internal void ShapeOperations()
     {
         ShapeOption input = this._view.GetEnumOption<ShapeOption>("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Back\nEnter the option: ");
+        this._view.ClearConsole();
         switch (input)
         {
             case ShapeOption.Circle:
@@ -44,7 +45,7 @@ internal class ShapeController
                 return;
 
             default:
-                this._view.PrintInfo("Enter number in range 1 - 3");
+                this._view.PrintInfo("Invalid option.");
                 break;
         }
 

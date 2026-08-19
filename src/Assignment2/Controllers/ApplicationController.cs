@@ -38,6 +38,7 @@ namespace Assignment2.Controllers
             while (true)
             {
                 input = this._view.GetEnumOption<MainMenuOption>("Application main menu\n1. Shape\n2. Employee\n3. Banking system\n4. Exit\nEnter an operation to continue: ");
+                this._view.ClearConsole();
                 switch (input)
                 {
                     case MainMenuOption.Shape:

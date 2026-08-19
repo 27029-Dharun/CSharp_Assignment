@@ -34,6 +34,7 @@ namespace Assignment2.Controllers
             while (true)
             {
                 option = this._view.GetEnumOption<BankOperation>("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Back\n");
+                this._view.ClearConsole();
                 switch (option)
                 {
                     case BankOperation.Add:
@@ -51,8 +52,6 @@ namespace Assignment2.Controllers
                         this._view.PrintInfo("Enter a valid input in range 1-3");
                         break;
                 }
-
-                this._view.PauseAndReturn();
             }
         }
 
@@ -97,6 +96,7 @@ namespace Assignment2.Controllers
             while (true)
             {
                 option = this._view.GetEnumOption<LogInOperation>("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Log Out\n");
+                this._view.ClearConsole();
                 switch (option)
                 {
                     case LogInOperation.CheckBalance:

@@ -51,7 +51,7 @@ internal class ConsoleView
     {
         string input = this.GetString(prompt);
         T result;
-        while (!Enum.TryParse<T>(input, true, out result))
+        while ((!Enum.TryParse<T>(input, true, out result)) || (!Enum.IsDefined(typeof(T), result)))
         {
             Console.Clear();
             Console.WriteLine("Enter a valid input");
@@ -76,7 +76,7 @@ internal class ConsoleView
     /// </summary>
     internal void PauseAndReturn()
     {
-        Console.WriteLine("Press any key to return to main menu.");
+        Console.WriteLine("Press any key to return.");
         Console.ReadKey();
 
         // Erases the entire scroll back buffer history
@@ -170,5 +170,15 @@ internal class ConsoleView
         }
 
         return input;
+    }
+
+    /// <summary>
+    /// Clears the console completely
+    /// </summary>
+    internal void ClearConsole()
+    {
+        // Erases the entire scroll back buffer history
+        Console.Write("\x1b[3J");
+        Console.Clear();
     }
 }

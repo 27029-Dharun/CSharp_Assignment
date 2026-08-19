@@ -30,6 +30,7 @@ namespace Assignment2.Controllers
         internal void EmployeeOperations()
         {
             EmployeeRole option = this._view.GetEnumOption<EmployeeRole>("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Back\nEnter the option: ");
+            this._view.ClearConsole();
             switch (option)
             {
                 case EmployeeRole.Developer:
@@ -44,7 +45,7 @@ namespace Assignment2.Controllers
                     return;
 
                 default:
-                    this._view.PrintInfo("Enter a valid Integer in range 1-3");
+                    this._view.PrintInfo("Invalid option.");
                     break;
             }
 
