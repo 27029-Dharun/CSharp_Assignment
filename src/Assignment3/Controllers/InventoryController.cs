@@ -93,8 +93,8 @@ public class InventoryController
         this._inventoryService.ValidateProductId(id);
         this._consoleView.PrintInfo("Enter value for field that you only want to edit");
         string name = this._consoleView.GetProductName("Enter the product name: ", true);
-        decimal price = this._consoleView.GetProductPrice("Enter the price of the product: ", true);
-        int quantity = this._consoleView.GetProductQuantity("Enter the quantity of the product: ", true);
+        decimal? price = this._consoleView.GetOptionalProductPrice("Enter the price of the product: ");
+        int? quantity = this._consoleView.GetOptionalProductQuantity("Enter the quantity of the product: ");
         Product product = this._inventoryService.EditProductById(id, name, price, quantity);
         this._consoleView.PrintProduct(product);
         this._consoleView.PrintInfo("Product edited successfully !!");

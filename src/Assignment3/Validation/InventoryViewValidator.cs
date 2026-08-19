@@ -13,21 +13,41 @@
         /// <summary>
         /// Validates price of the product
         /// </summary>
-        /// <param name="price">Price of the product</param>
+        /// <param name="input">Price of the product</param>
         /// <returns>True if the price is positive; otherwise false</returns>
-        public static bool IsValidatePrice(decimal price)
+        public static bool IsValidatePrice(string input)
         {
-            return price >= MinimumPrice;
+            if (!decimal.TryParse(input, out decimal quantity))
+            {
+                return false;
+            }
+
+            if (quantity < MinimumPrice)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
         /// Validates the quantity of the product.
         /// </summary>
-        /// <param name="quantity">Quantity of the product</param>
+        /// <param name="input">Quantity of the product</param>
         /// <returns>True if quantity is not negative; otherwise false. </returns>
-        public static bool IsValidateQuantity(decimal quantity)
+        public static bool IsValidateQuantity(string input)
         {
-            return quantity >= MinimumQuantity;
+            if (!int.TryParse(input, out int quantity))
+            {
+                return false;
+            }
+
+            if (quantity < MinimumQuantity)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -37,7 +57,7 @@
         /// <returns>True if name is valid; otherwise false. </returns>
         public static bool IsValidateName(string name)
         {
-            if (name is null || name.Length < MinimumNameLength)
+            if (string.IsNullOrWhiteSpace(name) || name.Length < MinimumNameLength)
             {
                 return false;
             }

@@ -53,39 +53,24 @@ namespace Assignment3.View
         }
 
         /// <summary>
-        /// Gets the product quantity from the user
+        /// Gets the enum value, validates and return an enum value
         /// </summary>
-        /// <param name="message">Message to be displayed to user before getting the quantity</param>
-        /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
-        /// <param name="tries">Tries left to enter a valid decimal</param>
-        /// <returns>An integer value that is enter by user</returns>
-        public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
+        /// <typeparam name="T">Generics type parameter which accepts all Enum type.</typeparam>
+        /// <param name="prompt">Prompt displayed to the user.</param>
+        /// <returns>A Enum option selected by the user.</returns>
+        public T GetEnumOption<T>(string prompt)
+            where T : struct, Enum
         {
-            string input = this.GetString(message);
-
-            // Can be used for edit if it is empty the already existing value can be assigned
-            if (optional)
+            string input = this.GetString(prompt);
+            T result;
+            while ((!Enum.TryParse<T>(input, true, out result)) || (!Enum.IsDefined(typeof(T), result)))
             {
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    return AssignExistingValue;
-                }
+                Console.Clear();
+                Console.WriteLine("Enter a valid input");
+                input = this.GetString(prompt);
             }
 
-            int quantity;
-            while ((!int.TryParse(input, out quantity)) || !InventoryViewValidator.IsValidateQuantity(quantity))
-            {
-                if (tries <= 0)
-                {
-                    throw new InvalidCastException("Enter a valid quantity that is greater than or equal to zero");
-                }
-
-                Console.WriteLine($"Tries Left: {tries--}");
-                Console.WriteLine("Enter a valid quantity that is greater than or equal to zero\n");
-                input = this.GetString(message);
-            }
-
-            return quantity;
+            return result;
         }
 
         /// <summary>
@@ -97,66 +82,67 @@ namespace Assignment3.View
         /// <returns>A string containing product name</returns>
         public string GetProductName(string message, bool optional = false, int tries = Tries)
         {
-            string productName = this.GetString(message);
+            return this.GetValidatedInput(message, optional, InventoryViewValidator.IsValidateName, "Name must atleast contain 3 characters");
+        }
 
-            // Can be used for edit if it is empty the already existing value can be assigned
-            if (optional)
-            {
-                if (string.IsNullOrWhiteSpace(productName))
-                {
-                    return AssignExistingValue.ToString();
-                }
-            }
+        /// <summary>
+        /// Gets the product quantity from the user
+        /// </summary>
+        /// <param name="message">Message to be displayed to user before getting the quantity</param>
+        /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
+        /// <param name="tries">Tries left to enter a valid decimal</param>
+        /// <returns>An integer value that is enter by user</returns>
+        public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
+        {
+            string input = this.GetValidatedInput(message, optional, InventoryViewValidator.IsValidateQuantity, "Quantity can't be negative");
 
-            while (string.IsNullOrWhiteSpace(productName) || !InventoryViewValidator.IsValidateName(productName))
-            {
-                if (tries <= 0)
-                {
-                    throw new ArgumentException("Product name should have minimum three character, and all the characters should be alphabets");
-                }
-
-                Console.WriteLine("Product name should have minimum three character, and all the characters should be alphabets\n");
-                Console.WriteLine($"Tries Left: {--tries}");
-                productName = this.GetString(message);
-            }
-
-            return productName;
+            return int.Parse(input);
         }
 
         /// <summary>
         /// Gets decimal product price from the user.
         /// </summary>
         /// <param name="message"> Message to be displayed. </param>
-        /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
-        /// <param name="tries"> Tries left to enter a valid decimal. </param>
         /// <returns> A decimal value containing the price of the product. </returns>
-        public decimal GetProductPrice(string message, bool optional = false, int tries = Tries)
+        public decimal GetProductPrice(string message)
         {
-            string input = this.GetString(message);
+            string input = this.GetValidatedInput(message, false, InventoryViewValidator.IsValidatePrice, "Price must a valid positive integer.");
 
-            // Can be used for edit if it is empty the already existing value can be assigned
-            if (optional)
+            return decimal.Parse(input);
+        }
+
+        /// <summary>
+        /// Gets decimal product price from the user.
+        /// </summary>
+        /// <param name="message"> Message to be displayed. </param>
+        /// <returns> A decimal value containing the price of the product. </returns>
+        public decimal? GetOptionalProductPrice(string message)
+        {
+            string input = this.GetValidatedInput(message, true, InventoryViewValidator.IsValidatePrice, "Price must a valid positive integer.");
+
+            if (string.IsNullOrWhiteSpace(input))
             {
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    return AssignExistingValue;
-                }
+                return null;
             }
 
-            decimal price;
-            while ((!decimal.TryParse(input, out price)) || !InventoryViewValidator.IsValidatePrice(price))
-            {
-                if (tries <= 0)
-                {
-                    throw new InvalidCastException("Enter a valid amount greater than zero");
-                }
+            return decimal.Parse(input);
+        }
 
-                Console.WriteLine($"Tries Left: {--tries}");
-                Console.WriteLine("Enter a valid amount greater than zero\n");
-                input = this.GetString(message);
+        /// <summary>
+        /// Gets the product quantity from the user
+        /// </summary>
+        /// <param name="message">Message to be displayed to user before getting the quantity</param>
+        /// <returns>An integer value that is enter by user</returns>
+        public int? GetOptionalProductQuantity(string message)
+        {
+            string input = this.GetValidatedInput(message, true, InventoryViewValidator.IsValidateQuantity, "Quantity must a valid non negative integer.");
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return null;
             }
 
-            return price;
+            return int.Parse(input);
         }
 
         /// <summary>
@@ -201,25 +187,30 @@ namespace Assignment3.View
         /// </summary>
         public void PauseAndContinue()
         {
-            Console.WriteLine("Enter a key to continue");
+            Console.WriteLine("Enter a key to return to main menu");
             Console.ReadKey();
             Console.Clear();
         }
 
-        /// <summary>
-        /// Gets menu option
-        /// </summary>
-        /// <param name="message">Menu options</param>
-        /// <returns>Menu option entered by the user</returns>
-        public int GetMenuOption(string message)
+        private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)
         {
-            Console.Write(message);
-            int input;
-            while (!int.TryParse(Console.ReadLine(), out input))
+            int tries = Tries;
+            string input = this.GetString(prompt);
+            if (optional && string.IsNullOrWhiteSpace(input))
             {
-                Console.Clear();
-                Console.WriteLine("Enter a valid integer\n");
-                Console.Write(message);
+                return string.Empty;
+            }
+
+            while (!isValidField(input))
+            {
+                if (tries == 1)
+                {
+                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                }
+
+                Console.WriteLine(errorMessage);
+                Console.WriteLine($"Tries left: {--tries}\n");
+                input = this.GetString(prompt);
             }
 
             return input;

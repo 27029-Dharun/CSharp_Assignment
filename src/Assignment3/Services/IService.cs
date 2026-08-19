@@ -37,7 +37,7 @@ namespace Assignment3.Services
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the product</param>
         /// <returns>Product edited instance</returns>
-        Product EditProductById(int id, string name, decimal price, int quantity);
+        Product EditProductById(int id, string name, decimal? price, int? quantity);
 
         /// <summary>
         /// Sort the product by name, price, quantity

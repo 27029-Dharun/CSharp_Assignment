@@ -51,18 +51,18 @@ namespace Assignment3.Services
         }
 
         /// <inheritdoc />
-        public Product EditProductById(int id, string name, decimal price, int quantity)
+        public Product EditProductById(int id, string name, decimal? price, int? quantity)
         {
             Product product = this._inventoryRepository.GetProductById(id);
 
             // If all the fields are Empty throws an Exception
-            if (name == AssignExistingValue.ToString() && price == AssignExistingValue && quantity == AssignExistingValue)
+            if (string.IsNullOrWhiteSpace(name) && price is null && quantity is null)
             {
-                throw new Exception("Nothing to Edit");
+                throw new Exception("\nNothing to Edit");
             }
 
-            // If name is not -1 the name is updated
-            if (name != AssignExistingValue.ToString())
+            // If name is not null the name is updated
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 List<string> productNames = this._inventoryRepository.GetProductName();
                 if (!InventoryServiceValidator.IsUniqueProductName(name, productNames, product.Name))
@@ -73,16 +73,16 @@ namespace Assignment3.Services
                 product.Name = name;
             }
 
-            // If the price is not -1 the price is edited
-            if (price is not AssignExistingValue)
+            // If the price is not null the price is edited
+            if (price != null)
             {
-                product.Price = price;
+                product.Price = (decimal)price;
             }
 
-            // If the quantity is not -1 the quantity is edited
-            if (quantity is not AssignExistingValue)
+            // If the quantity is not null the quantity is edited
+            if (quantity != null)
             {
-                product.Quantity = quantity;
+                product.Quantity = (int)quantity;
             }
 
             return product;
