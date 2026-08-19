@@ -13,7 +13,7 @@ namespace Assignment2
         /// <summary>
         /// Main entry point of the program and starts the application.
         /// </summary>
-        public static void Main()
+        internal static void Main()
         {
             ConsoleView view = new ConsoleView();
             EmployeeService employeeService = new EmployeeService();

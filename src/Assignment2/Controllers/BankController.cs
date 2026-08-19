@@ -18,7 +18,7 @@ namespace Assignment2.Controllers
         /// </summary>
         /// <param name="view">Instance of the view</param>
         /// <param name="bankService"> Instance of bank service. </param>
-        public BankController(ConsoleView view, BankService bankService)
+        internal BankController(ConsoleView view, BankService bankService)
         {
             this._view = view;
             this._bankService = bankService;
@@ -28,23 +28,23 @@ namespace Assignment2.Controllers
         /// Serves as entry point of the banking system.
         /// Starts the execution flow for the banking system.
         /// </summary>
-        public void BankOperations()
+        internal void BankOperations()
         {
-            int option;
+            BankOperation option;
             while (true)
             {
-                option = this._view.GetInteger("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Back\n");
+                option = this._view.GetEnumOption<BankOperation>("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Back\n");
                 switch (option)
                 {
-                    case (int)BankOperation.Add:
+                    case BankOperation.Add:
                         this.CreateNewAccount();
                         break;
 
-                    case (int)BankOperation.LogIn:
+                    case BankOperation.LogIn:
                         this.LogIn();
                         break;
 
-                    case (int)BankOperation.Back:
+                    case BankOperation.Back:
                         return;
 
                     default:
@@ -63,7 +63,7 @@ namespace Assignment2.Controllers
         {
             this._view.DisplayNote();
             string name = this._view.GetName("Enter your Name: ");
-            AccountType type = (AccountType)this._view.GetInteger("\nSelect Your Account Type\n1. Saving Account\n2. Checkings Account\n");
+            AccountType type = this._view.GetEnumOption<AccountType>("\nSelect Your Account Type\n1. Saving Account\n2. Checkings Account\n");
             decimal initialAmount = this._view.GetAmount("\nEnter Initial Amount to create a account: ");
             if (type == AccountType.SavingsAccount)
             {
@@ -93,25 +93,25 @@ namespace Assignment2.Controllers
             }
 
             this._view.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
-            int option;
+            LogInOperation option;
             while (true)
             {
-                option = this._view.GetInteger("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Log Out\n");
+                option = this._view.GetEnumOption<LogInOperation>("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Log Out\n");
                 switch (option)
                 {
-                    case (int)LogInOperation.CheckBalance:
+                    case LogInOperation.CheckBalance:
                         this.DisplayBalance(accountNumber);
                         break;
 
-                    case (int)LogInOperation.Withdraw:
+                    case LogInOperation.Withdraw:
                         this.WithdrawAmount(accountNumber);
                         break;
 
-                    case (int)LogInOperation.Deposit:
+                    case LogInOperation.Deposit:
                         this.DepositAmount(accountNumber);
                         break;
 
-                    case (int)LogInOperation.Logout:
+                    case LogInOperation.Logout:
                         return;
 
                     default:

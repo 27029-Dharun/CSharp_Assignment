@@ -12,7 +12,7 @@ internal class BankRepository
     /// <summary>
     /// Adds a bank account of a new customer into the repository.
     /// </summary>
-    /// <param name="bankAccount"> A bank account instance that is need to be added. </param>
+    /// <param name="bankAccount">A bank account instance that is need to be added.</param>
     internal void Add(BankAccount bankAccount)
     {
         this._accounts.Add(bankAccount);
@@ -22,7 +22,7 @@ internal class BankRepository
     /// Finds the account with matching account number.
     /// </summary>
     /// <param name="accountNumber">Account number.</param>
-    /// <returns>The bank account instance</returns>
+    /// <returns>The bank account instance.</returns>
     internal BankAccount? GetByAccountNumber(string accountNumber)
     {
         return this._accounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
@@ -31,9 +31,9 @@ internal class BankRepository
     /// <summary>
     /// Deducts a sum of amount from an account.
     /// </summary>
-    /// <param name="accountNumber"> Account number of the account where amount is to be withdrawn. </param>
-    /// <param name="amount"> A sum of amount that is to be withdrawn. </param>
-    /// <returns> A string containing the status of the withdrawal operation. </returns>
+    /// <param name="accountNumber">Account number of the account where amount is to be withdrawn.</param>
+    /// <param name="amount">A sum of amount that is to be withdrawn.</param>
+    /// <returns>A string containing the status of the withdrawal operation.</returns>
     internal bool WithdrawAmount(string accountNumber, decimal amount)
     {
         BankAccount? account = this.GetByAccountNumber(accountNumber);
@@ -42,15 +42,19 @@ internal class BankRepository
             return false;
         }
 
-        account.Withdraw(amount);
-        return true;
+        if (account.Withdraw(amount))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
     /// Deposits a sum of amount into an account.
     /// </summary>
-    /// <param name="accountNumber"> Account number where amount is to be deposited. </param>
-    /// <param name="amount"> A sum of amount to be deposited. </param>
+    /// <param name="accountNumber">Account number where amount is to be deposited.</param>
+    /// <param name="amount">A sum of amount to be deposited.</param>
     /// <returns>A string containing the status of the deposit operation</returns>
     internal bool DepositAmount(string accountNumber, decimal amount)
     {
@@ -60,6 +64,7 @@ internal class BankRepository
             return false;
         }
 
+        account.Deposit(amount);
         return true;
     }
 }

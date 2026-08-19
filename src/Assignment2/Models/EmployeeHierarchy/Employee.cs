@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="name"> Name of the employee. </param>
         /// <param name="salary"> Salary received by the employee. </param>
-        public Employee(string name, decimal salary)
+        internal Employee(string name, decimal salary)
         {
             this.Name = name;
             this.Salary = salary;
@@ -22,7 +22,7 @@
         /// <value>
         /// A string value representing the name of the employee.
         /// </value>
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// Gets or sets salary of employee
@@ -30,19 +30,19 @@
         /// <value>
         /// A decimal value representing the salary of an individual.
         /// </value>
-        public decimal Salary { get; set; }
+        internal decimal Salary { get; set; }
 
         /// <summary>
         /// Calculates Bonus for the Employee.
         /// Must be customized by the role of the employee.
         /// </summary>
-        /// <returns>A decimal value representing the bonus of employee. </returns>
-        public abstract decimal CalculateBonus();
+        /// <returns>A decimal value representing the bonus of employee.</returns>
+        internal abstract decimal CalculateBonus();
 
         /// <summary>
         /// Creates a string containing employee details
         /// </summary>
         /// <returns>A string with name, salary and bonus of the employee</returns>
-        public virtual string PrintDetails() => $"{this.Name}, {this.Salary} {this.CalculateBonus()}";
+        internal virtual string PrintDetails() => $"{this.Name}, {this.Salary} {this.CalculateBonus()}";
     }
 }

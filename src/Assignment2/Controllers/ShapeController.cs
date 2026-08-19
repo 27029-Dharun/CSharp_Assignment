@@ -18,7 +18,7 @@ internal class ShapeController
     /// </summary>
     /// <param name="view">Instance of the view</param>
     /// <param name="shapeService">Shape service object</param>
-    public ShapeController(ConsoleView view, ShapeService shapeService)
+    internal ShapeController(ConsoleView view, ShapeService shapeService)
     {
         this._shapeService = shapeService;
         this._view = view;
@@ -27,9 +27,9 @@ internal class ShapeController
     /// <summary>
     /// Serves as a entry point to root shape hierarchy.
     /// </summary>
-    public void ShapeOperations()
+    internal void ShapeOperations()
     {
-        ShapeOption input = (ShapeOption)this._view.GetInteger("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Back\nEnter the option: ");
+        ShapeOption input = this._view.GetEnumOption<ShapeOption>("\nSelect a Shape to Create\r\n1. Circle\n2. Rectangle\n3. Back\nEnter the option: ");
         switch (input)
         {
             case ShapeOption.Circle:
@@ -58,7 +58,7 @@ internal class ShapeController
     {
         double length = this._view.GetDimension("Enter the length of the rectangle: ");
         double width = this._view.GetDimension("Enter the width of the rectangle: ");
-        string color = this._view.GetName("Enter the color of the rectangle: ");
+        string color = this._view.GetColor("Enter the color of the rectangle: ");
 
         Rectangle rectangle = this._shapeService.CreateRectangle(length, width, color);
         this._view.PrintInfo(this._shapeService.GetDetails(rectangle));
@@ -70,7 +70,7 @@ internal class ShapeController
     private void CircleOperation()
     {
         double radius = this._view.GetDimension("Enter the radius of the circle: ");
-        string color = this._view.GetName("Enter the color of the circle: ");
+        string color = this._view.GetColor("Enter the color of the circle: ");
 
         Circle circle = this._shapeService.CreateCircle(radius, color);
         this._view.PrintInfo(this._shapeService.GetDetails(circle));

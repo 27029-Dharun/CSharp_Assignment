@@ -18,7 +18,7 @@ namespace Assignment2.Controllers
         /// </summary>
         /// <param name="view">Instance of the view</param>
         /// <param name="employeeService"> Instance of employee service. </param>
-        public EmployeeController(ConsoleView view, EmployeeService employeeService)
+        internal EmployeeController(ConsoleView view, EmployeeService employeeService)
         {
             this._view = view;
             this._employeeService = employeeService;
@@ -27,9 +27,9 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Serves as the primary entry point to root employee hierarchy operations.
         /// </summary>
-        public void EmployeeOperations()
+        internal void EmployeeOperations()
         {
-            EmployeeRole option = (EmployeeRole)this._view.GetInteger("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Back\nEnter the option: ");
+            EmployeeRole option = this._view.GetEnumOption<EmployeeRole>("\nSelect Employee Type to Create\r\n1. Developer\n2. Manager\n3. Back\nEnter the option: ");
             switch (option)
             {
                 case EmployeeRole.Developer:

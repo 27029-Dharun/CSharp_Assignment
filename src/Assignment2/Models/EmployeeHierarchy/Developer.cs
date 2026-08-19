@@ -11,9 +11,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Developer"/> class.
         /// </summary>
-        /// <param name="name"> Name of the developer. </param>
-        /// <param name="salary"> Salary received by the developer. </param>
-        public Developer(string name, decimal salary)
+        /// <param name="name">Name of the developer.</param>
+        /// <param name="salary">Salary received by the developer.</param>
+        internal Developer(string name, decimal salary)
             : base(name, salary)
         {
         }
@@ -21,16 +21,16 @@
         /// <summary>
         /// Calculates the bonus of the developer.
         /// </summary>
-        /// <returns> Bonus for the Employee. </returns>
-        public override decimal CalculateBonus()
+        /// <returns>Bonus for the Employee.</returns>
+        internal override decimal CalculateBonus()
         {
-            return decimal.Multiply((decimal)this.Salary, DeveloperBonusRate);
+            return this.Salary * DeveloperBonusRate;
         }
 
         /// <summary>
         /// Creates a string with the details of employee.
         /// </summary>
-        /// <returns>a string containing the name and salary of the developer</returns>
-        public override string PrintDetails() => $"Name: {this.Name}\nPosition: {_position}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
+        /// <returns>A string containing the name and salary of the developer.</returns>
+        internal override string PrintDetails() => $"Name: {this.Name}\nPosition: {_position}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
     }
 }

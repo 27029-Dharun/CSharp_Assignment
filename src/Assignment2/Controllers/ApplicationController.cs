@@ -20,7 +20,7 @@ namespace Assignment2.Controllers
         /// <param name="shapeController">Instance of shape controller</param>
         /// <param name="employeeController">Instance of employee controller object</param>
         /// <param name="bankController">Instance of bank controller</param>
-        public ApplicationController(ConsoleView view, ShapeController shapeController, EmployeeController employeeController, BankController bankController)
+        internal ApplicationController(ConsoleView view, ShapeController shapeController, EmployeeController employeeController, BankController bankController)
         {
             this._view = view;
             this._shapeController = shapeController;
@@ -32,27 +32,27 @@ namespace Assignment2.Controllers
         /// Starts the application and show the main menu
         /// Calls the specific application controller
         /// </summary>
-        public void StartApplication()
+        internal void StartApplication()
         {
-            ChooseTask input;
+            MainMenuOption input;
             while (true)
             {
-                input = (ChooseTask)this._view.GetInteger("Application main menu\n1. Shape\n2. Employee\n3. Banking system\n4. Exit\nEnter an operation to continue: ");
+                input = this._view.GetEnumOption<MainMenuOption>("Application main menu\n1. Shape\n2. Employee\n3. Banking system\n4. Exit\nEnter an operation to continue: ");
                 switch (input)
                 {
-                    case ChooseTask.Shape:
+                    case MainMenuOption.Shape:
                         this._shapeController.ShapeOperations();
                         break;
 
-                    case ChooseTask.Employee:
+                    case MainMenuOption.Employee:
                         this._employeeController.EmployeeOperations();
                         break;
 
-                    case ChooseTask.Bank:
+                    case MainMenuOption.Bank:
                         this._bankController.BankOperations();
                         break;
 
-                    case ChooseTask.Exit:
+                    case MainMenuOption.Exit:
                         return;
 
                     default:

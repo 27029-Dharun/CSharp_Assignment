@@ -31,8 +31,8 @@ internal class ConsoleView
     /// <summary>
     /// Gets a string input from the user until the input is a valid string.
     /// </summary>
-    /// <param name="prompt"> Prompt to be displayed to the user. </param>
-    /// <returns> The string entered by user. </returns>
+    /// <param name="prompt"> Prompt to be displayed to the user.</param>
+    /// <returns> The string entered by user.</returns>
     internal string GetString(string prompt)
     {
         Console.Write(prompt);
@@ -41,26 +41,30 @@ internal class ConsoleView
     }
 
     /// <summary>
-    /// Gets a integer input from the user until the input is a valid integer number.
+    /// Gets the enum value, validates and return an enum value
     /// </summary>
-    /// <param name="prompt"> Prompt to be displayed to the user. </param>
-    /// <returns> The integer value entered by user. </returns>
-    internal int GetInteger(string prompt)
+    /// <typeparam name="T">Generics type parameter which accepts all Enum type.</typeparam>
+    /// <param name="prompt">Prompt displayed to the user.</param>
+    /// <returns>A Enum option selected by the user.</returns>
+    internal T GetEnumOption<T>(string prompt)
+        where T : struct, Enum
     {
-        Console.Write(prompt);
-        int input;
-        while (!int.TryParse(Console.ReadLine(), out input))
+        string input = this.GetString(prompt);
+        T result;
+        while (!Enum.TryParse<T>(input, true, out result))
         {
-            Console.WriteLine("Enter a valid integer");
+            Console.Clear();
+            Console.WriteLine("Enter a valid input");
+            input = this.GetString(prompt);
         }
 
-        return input;
+        return result;
     }
 
     /// <summary>
     /// This prints the balance and account of the Account.
     /// </summary>
-    /// <param name="account"> Instance of the account. </param>
+    /// <param name="account"> Instance of the account.</param>
     internal void PrintBalance(BankAccount account)
     {
         Console.WriteLine($"Account Number: {account.AccountNumber}");
@@ -145,6 +149,23 @@ internal class ConsoleView
         while (!Validator.IsValidAccountNumber(input))
         {
             Console.WriteLine("Account number must be a valid 12 digit number.");
+            input = this.GetString(message);
+        }
+
+        return input;
+    }
+
+    /// <summary>
+    /// Gets the color of the shape
+    /// </summary>
+    /// <param name="message">Message to be displayed to get the color name</param>
+    /// <returns>Name entered by the user.</returns>
+    internal string GetColor(string message)
+    {
+        string input = this.GetString(message);
+        while (!Validator.IsAllAlphabet(input))
+        {
+            Console.WriteLine("Color should only contain alphabets.");
             input = this.GetString(message);
         }
 

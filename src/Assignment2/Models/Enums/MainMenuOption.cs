@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies all the task that are available in the application
     /// </summary>
-    internal enum ChooseTask
+    internal enum MainMenuOption
     {
         /// <summary>
         /// Represents an option to get into shape hierarchy.

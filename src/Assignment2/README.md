@@ -58,8 +58,8 @@ The application will ask you to enter:
 
 Example
 
-Enter Shape Color : Blue
-Enter Length      : 15
+Enter Shape Color : Blue  
+Enter Length      : 15  
 Enter Width       : 8
 
 After entering the values, the application calculates the area automatically and displays:
@@ -70,8 +70,8 @@ After entering the values, the application calculates the area automatically and
 
 Example Output
 
-Shape Type : Rectangle
-Color      : Blue
+Shape Type : Rectangle  
+Color      : Blue  
 Area       : 120
 
 ---
@@ -87,7 +87,7 @@ Enter:
 
 Example
 
-Enter Shape Color : Red
+Enter Shape Color : Red  
 Enter Radius      : 7
 
 The application calculates the area and displays:
@@ -98,8 +98,8 @@ The application calculates the area and displays:
 
 Example Output
 
-Shape Type : Circle
-Color      : Red
+Shape Type : Circle  
+Color      : Red  
 Area       : 153.94
 
 ---
@@ -126,7 +126,7 @@ Enter:
 
 Example
 
-Enter Employee Name : Rahul
+Enter Employee Name : Rahul  
 Enter Salary        : 85000
 
 The application automatically calculates the manager bonus which is 15% of the salary.
@@ -140,9 +140,9 @@ It then displays:
 
 Example Output
 
-Name      : Rahul
-Position  : Manager
-Salary    : 85000
+Name      : Rahul  
+Position  : Manager  
+Salary    : 85000  
 Bonus     : 17000
 
 ---
@@ -158,7 +158,7 @@ Enter:
 
 Example
 
-Enter Employee Name : Priya
+Enter Employee Name : Priya  
 Enter Salary        : 65000
 
 The application calculates the developer bonus which is 10% of the salary.
@@ -172,9 +172,9 @@ It then displays:
 
 Example Output
 
-Name      : Priya
-Position  : Developer
-Salary    : 65000
+Name      : Priya  
+Position  : Developer  
+Salary    : 65000  
 Bonus     : 9750
 
 ---
@@ -210,7 +210,7 @@ Enter
 
 Example
 
-Account Holder Name : Dharun
+Account Holder Name : Dharun  
 Balance        : 15000
 
 ---
@@ -224,7 +224,7 @@ Example
 
 Deposit Amount : 5000
 
-The balance will be updated.
+The balance will be updated.  
 Current Balance : 20000
 
 ---
@@ -256,27 +256,27 @@ Checking Accounts do not have a minimum balance restriction.
 
 Example
 
-Account Holder Name : Dharun
+Account Holder Name : Dharun  
 Balance        : 15000
 
 ---
 
 ### Deposit
 
-Enter the deposit amount.
+Enter the deposit amount.  
 Deposit Amount : 2500
 
-Updated Balance
+Updated Balance  
 Current Balance : 17500
 
 ---
 
 ### Withdraw
 
-Enter the withdrawal amount.
+Enter the withdrawal amount.  
 Withdraw Amount : 10000
 
 Since Checking Accounts have no minimum balance restriction, the transaction is processed.
 
-Updated Balance
+Updated Balance  
 Current Balance : 7500

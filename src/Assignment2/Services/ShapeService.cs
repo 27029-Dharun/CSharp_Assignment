@@ -10,11 +10,11 @@ namespace Assignment2.Services
         /// <summary>
         /// Creates a rectangle instance with the data of the rectangle
         /// </summary>
-        /// <param name="length"> Length of the rectangle. </param>
-        /// <param name="width"> Width of the rectangle. </param>
-        /// <param name="color"> Color of the rectangle. </param>
-        /// <returns> An instance of rectangle object. </returns>
-        public Rectangle CreateRectangle(double length, double width, string color)
+        /// <param name="length">Length of the rectangle.</param>
+        /// <param name="width">Width of the rectangle.</param>
+        /// <param name="color">Color of the rectangle.</param>
+        /// <returns>An instance of rectangle object.</returns>
+        internal Rectangle CreateRectangle(double length, double width, string color)
         {
             return new Rectangle(length, width, color);
         }
@@ -22,10 +22,10 @@ namespace Assignment2.Services
         /// <summary>
         /// Creates a circle instance with the data of the circle
         /// </summary>
-        /// <param name="radius"> Radius of the circle.</param>
-        /// <param name="color"> Color of the circle. </param>
-        /// <returns> An instance of circle that is created. </returns>
-        public Circle CreateCircle(double radius, string color)
+        /// <param name="radius">Radius of the circle.</param>
+        /// <param name="color">Color of the circle.</param>
+        /// <returns>An instance of circle that is created.</returns>
+        internal Circle CreateCircle(double radius, string color)
         {
             return new Circle(radius, color);
         }
@@ -37,14 +37,7 @@ namespace Assignment2.Services
         /// <returns>A string containing Details of the shape</returns>
         internal string GetDetails(Shape shape)
         {
-            if (shape is Rectangle rect)
-            {
-                return rect.PrintDetails();
-            }
-
-            // Every shapes other than rectangle is a circle
-            Circle circle = (Circle)shape;
-            return circle.PrintDetails();
+            return shape.PrintDetails();
         }
     }
 }
