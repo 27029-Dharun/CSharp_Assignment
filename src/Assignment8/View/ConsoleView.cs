@@ -5,14 +5,14 @@ namespace Assignment8.View;
 /// <summary>
 /// Contains all the view
 /// </summary>
-public class ConsoleView
+internal class ConsoleView
 {
     /// <summary>
     /// Displays the text in the color requested by the user and resets the color.
     /// </summary>
     /// <param name="message">Message to be printed by the user.</param>
     /// <param name="color">Color of the text</param>
-    public void PrintColoredText(string message, ConsoleColor color)
+    internal void PrintColoredText(string message, ConsoleColor color)
     {
         Console.ForegroundColor = color;
         Console.WriteLine(message);
@@ -24,7 +24,7 @@ public class ConsoleView
     /// </summary>
     /// <param name="prompt">Prompt to be displayed to the user.</param>
     /// <returns>A non null string value entered by the user.</returns>
-    public string GetString(string prompt)
+    internal string GetString(string prompt)
     {
         Console.Write(prompt);
         string input = (Console.ReadLine() ?? string.Empty).Trim();
@@ -35,7 +35,7 @@ public class ConsoleView
     /// Displays message to the user.
     /// </summary>
     /// <param name="message">Prompt to be displayed to the user.</param>
-    public void PrintInfo(string message)
+    internal void PrintInfo(string message)
     {
         Console.WriteLine(message);
     }
@@ -44,7 +44,7 @@ public class ConsoleView
     /// Displays an yellow colored text.
     /// </summary>
     /// <param name="message">Message to be displayed to the user.</param>
-    public void PrintWarning(string message)
+    internal void PrintWarning(string message)
     {
         this.PrintColoredText(message, ConsoleColor.Yellow);
     }
@@ -74,11 +74,11 @@ public class ConsoleView
     internal int GetMenuOption()
     {
         Console.WriteLine(
-            "1. Task 1\n" +
-            "2. Task 2\n" +
-            "3. Task 3\n" +
-            "4. Task 4\n" +
-            "5. Task 5\n" +
+            "1. Task 1 - Divide integer\n" +
+            "2. Task 2 - Print array elements\n" +
+            "3. Task 3 - Print the value present in the index at requested index\n" +
+            "4. Task 4 - Throws a unhandled exception\n" +
+            "5. Task 5 - Catch the exception and prints the stack trace\n" +
             "6. Exit");
 
         return this.GetInteger("Select an operation to perform: ");
@@ -90,5 +90,24 @@ public class ConsoleView
     internal void ClearConsole()
     {
         Console.Clear();
+    }
+
+    /// <summary>
+    /// Pause until a key is read and clear the console.
+    /// </summary>
+    internal void PauseAndReturn()
+    {
+        Console.WriteLine("Press any key to return to menu");
+        Console.ReadKey();
+        Console.Clear();
+    }
+
+    /// <summary>
+    /// Displays message to the user in the same line.
+    /// </summary>
+    /// <param name="message">Prompt to be displayed to the user.</param>
+    internal void Print(string message)
+    {
+        Console.Write(message);
     }
 }

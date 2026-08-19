@@ -1,11 +1,17 @@
 ﻿using Assignment8.Controllers;
 using Assignment8.View;
 
-namespace Assignments;
+namespace Assignment8;
 
-public class Program
+/// <summary>
+/// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.
+/// </summary>
+internal class Program
 {
-    public static void Main(string[] args)
+    /// <summary>
+    /// Execution of flow begins from here.
+    /// </summary>
+    internal static void Main()
     {
         AppDomain domain = AppDomain.CurrentDomain;
         domain.UnhandledException += DomainUnhandledException;
@@ -20,6 +26,7 @@ public class Program
     private static void DomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         Console.WriteLine(e.IsTerminating);
-        Console.WriteLine(e.ToString());
+        Exception ex = (Exception)e.ExceptionObject;
+        Console.WriteLine(ex.Message);
     }
 }

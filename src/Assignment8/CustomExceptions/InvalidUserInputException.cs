@@ -3,13 +3,13 @@
 /// <summary>
 /// Exception thrown when user input is invalid.
 /// </summary>
-public class InvalidUserInputException : Exception
+internal class InvalidUserInputException : Exception
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class.
     /// With a default error message.
     /// </summary>
-    public InvalidUserInputException()
+    internal InvalidUserInputException()
         : base("Input provided is invalid, please enter a valid input")
     {
     }
@@ -19,7 +19,7 @@ public class InvalidUserInputException : Exception
     /// With a custom error message.
     /// </summary>
     /// <param name="message"> Custom error message. </param>
-    public InvalidUserInputException(string message)
+    internal InvalidUserInputException(string message)
         : base(message)
     {
     }

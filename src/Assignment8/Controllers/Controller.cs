@@ -1,11 +1,12 @@
-﻿using Assignment8.View;
+﻿using Assignment8.CustomExceptions;
+using Assignment8.View;
 
 namespace Assignment8.Controllers
 {
     /// <summary>
     /// Contains the tasks and controls the flow among the tasks.
     /// </summary>
-    public class Controller
+    internal class Controller
     {
         private ConsoleView _view;
 
@@ -13,7 +14,7 @@ namespace Assignment8.Controllers
         /// Initializes a new instance of the <see cref="Controller"/> class.
         /// </summary>
         /// <param name="view">Instance of view</param>
-        public Controller(ConsoleView view)
+        internal Controller(ConsoleView view)
         {
             this._view = view;
         }
@@ -21,7 +22,7 @@ namespace Assignment8.Controllers
         /// <summary>
         /// Gets menu and navigates between different tasks.
         /// </summary>
-        public void HandleMenu()
+        internal void HandleMenu()
         {
             while (true)
             {
@@ -59,21 +60,24 @@ namespace Assignment8.Controllers
                             break;
                     }
                 }
-                catch (Exception ex)
+                catch (InvalidOperationException)
                 {
-                    this._view.PrintInfo(ex.ToString());
+                    this._view.PrintInfo("Exception thrown in the catch block caught in the handle menu.");
                 }
+
+                this._view.PauseAndReturn();
             }
         }
 
         private void Task1()
         {
             int dividend = 10;
-            int divisor = 5;
+            int divisor = 0;
 
             try
             {
                 decimal quotient = dividend / divisor;
+                this._view.PrintInfo($"{quotient}");
             }
             catch (DivideByZeroException)
             {
@@ -91,6 +95,7 @@ namespace Assignment8.Controllers
 
             try
             {
+                // Intentionally throwing an error
                 for (int i = 0; i <= array.Length; i++)
                 {
                     this._view.PrintInfo($"The element in the array at index[{i}] is {array[i]}");
@@ -98,22 +103,39 @@ namespace Assignment8.Controllers
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Invalid index, please enter the index in range 0-9");
+                this._view.PrintInfo("\nCaught in task 2 catch block... ");
+                this._view.PrintInfo("Throwing an error from task 2 catch block... ");
+
+                throw new InvalidOperationException("Invalid index, please enter the index in range 0-9");
             }
         }
 
         private void Task3()
         {
             int[] array = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            int index = this._view.GetInteger("Enter the index to get the value from the array: ");
 
             try
             {
-                this._view.PrintInfo($"The element in the array at index {index} is {array[index]}");
+                this._view.PrintInfo("The elements in the array");
+                for (int i = 0; i < array.Length - 1; i++)
+                {
+                    this._view.Print($"{array[i]},");
+                }
+
+                this._view.PrintInfo($"{array[array.Length - 1]}");
+
+                // throws error if the entered value is not integer.
+                int index = this._view.GetInteger("Enter the index to get the value from the array: ");
+                this._view.PrintInfo($"The element in the array at index {index} is {array[index]}.");
             }
             catch (IndexOutOfRangeException)
             {
-                throw new Exception("Invalid index, please enter the index in range 0-9");
+                this._view.PrintInfo("Invalid index, please enter the index in range 0-9.");
+            }
+            catch (InvalidUserInputException ex)
+            {
+                this._view.PrintInfo("Exception thrown for invalid integer caught in the task 3 catch block.");
+                this._view.PrintInfo(ex.Message);
             }
         }
 
@@ -135,7 +157,8 @@ namespace Assignment8.Controllers
             }
             catch (Exception ex)
             {
-                this._view.PrintInfo($"Stack Trace: {ex.StackTrace}");
+                this._view.PrintInfo($"\nCaught in the catch black of task 5");
+                this._view.PrintInfo($"\nStack Trace:\n {ex.StackTrace}");
             }
         }
     }
