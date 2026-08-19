@@ -1,5 +1,4 @@
 ﻿using Assignment8.CustomExceptions;
-using Assignment8.Enums;
 
 namespace Assignment8.View;
 
@@ -8,6 +7,11 @@ namespace Assignment8.View;
 /// </summary>
 public class ConsoleView
 {
+    /// <summary>
+    /// Displays the text in the color requested by the user and resets the color.
+    /// </summary>
+    /// <param name="message">Message to be printed by the user.</param>
+    /// <param name="color">Color of the text</param>
     public void PrintColoredText(string message, ConsoleColor color)
     {
         Console.ForegroundColor = color;
@@ -15,6 +19,11 @@ public class ConsoleView
         Console.ResetColor();
     }
 
+    /// <summary>
+    /// Gets a string input from the user.
+    /// </summary>
+    /// <param name="prompt">Prompt to be displayed to the user.</param>
+    /// <returns>A non null string value entered by the user.</returns>
     public string GetString(string prompt)
     {
         Console.Write(prompt);
@@ -22,16 +31,30 @@ public class ConsoleView
         return input;
     }
 
+    /// <summary>
+    /// Displays message to the user.
+    /// </summary>
+    /// <param name="message">Prompt to be displayed to the user.</param>
     public void PrintInfo(string message)
     {
         Console.WriteLine(message);
     }
 
+    /// <summary>
+    /// Displays an yellow colored text.
+    /// </summary>
+    /// <param name="message">Message to be displayed to the user.</param>
     public void PrintWarning(string message)
     {
         this.PrintColoredText(message, ConsoleColor.Yellow);
     }
 
+    /// <summary>
+    /// Get the integer value from the user by displaying the prompt
+    /// </summary>
+    /// <param name="prompt">Prompt to be displayed to the user.</param>
+    /// <returns>A integer value entered by the user.</returns>
+    /// <exception cref="InvalidUserInputException">Throws if the user input is not parsed.</exception>
     internal int GetInteger(string prompt)
     {
         string input = this.GetString(prompt);
@@ -44,15 +67,28 @@ public class ConsoleView
         return value;
     }
 
-    internal MenuOption GetMenuOption()
+    /// <summary>
+    /// Display and gets the menu option from the user
+    /// </summary>
+    /// <returns>An integer value representing the option</returns>
+    internal int GetMenuOption()
     {
         Console.WriteLine(
-            "1. Divide integers\n" +
-            "2. Array\n" +
-            "3. Custom Exception\n + " +
-            "4. Global Unhandled exception\n +" +
-            "5. ");
+            "1. Task 1\n" +
+            "2. Task 2\n" +
+            "3. Task 3\n" +
+            "4. Task 4\n" +
+            "5. Task 5\n" +
+            "6. Exit");
 
-        return (MenuOption)this.GetInteger("Select an operation to perform: ");
+        return this.GetInteger("Select an operation to perform: ");
+    }
+
+    /// <summary>
+    /// Clears the console.
+    /// </summary>
+    internal void ClearConsole()
+    {
+        Console.Clear();
     }
 }
