@@ -17,7 +17,7 @@ namespace Assignment2.Controllers
         /// Initializes a new instance of the <see cref="EmployeeController"/> class.
         /// </summary>
         /// <param name="view">Instance of the view</param>
-        /// <param name="employeeService"> Instance of employee service. </param>
+        /// <param name="employeeService">Instance of employee service.</param>
         internal EmployeeController(ConsoleView view, EmployeeService employeeService)
         {
             this._view = view;

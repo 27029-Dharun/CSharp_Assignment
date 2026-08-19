@@ -87,7 +87,7 @@ internal class ConsoleView
     /// <summary>
     /// Gets the name
     /// </summary>
-    /// <param name="message">Message to be displayed to get the name</param>
+    /// <param name="message">Message to be displayed to get the name.</param>
     /// <returns>Name entered by the user.</returns>
     internal string GetName(string message)
     {

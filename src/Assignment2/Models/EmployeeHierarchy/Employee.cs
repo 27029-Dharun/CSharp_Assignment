@@ -8,8 +8,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Employee"/> class.
         /// </summary>
-        /// <param name="name"> Name of the employee. </param>
-        /// <param name="salary"> Salary received by the employee. </param>
+        /// <param name="name">Name of the employee.</param>
+        /// <param name="salary">Salary received by the employee.</param>
         internal Employee(string name, decimal salary)
         {
             this.Name = name;

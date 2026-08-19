@@ -63,7 +63,7 @@ namespace Assignment2.Services
         /// </summary>
         /// <param name="accountNumber">This contains the account number where amount is to be deposited.</param>
         /// <param name="depositAmount">This contains the amount to be deposited.</param>
-        /// <returns>string that tell the status of the operation.</returns>
+        /// <returns>A string that tell the status of the operation.</returns>
         internal string DepositAmount(string accountNumber, decimal depositAmount)
         {
             if (this._repository.DepositAmount(accountNumber, depositAmount))
@@ -78,7 +78,7 @@ namespace Assignment2.Services
         /// Gets a bank account from the repository
         /// </summary>
         /// <param name="accountNumber">Account number of the account.</param>
-        /// <returns> A instance of the bank account that matches the account number.</returns>
+        /// <returns>A instance of the bank account that matches the account number.</returns>
         internal BankAccount? GetAccountByAccountNumber(string accountNumber)
         {
             return this._repository.GetByAccountNumber(accountNumber);

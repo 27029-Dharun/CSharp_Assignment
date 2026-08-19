@@ -17,7 +17,7 @@ namespace Assignment2.Controllers
         /// Initializes a new instance of the <see cref="BankController"/> class.
         /// </summary>
         /// <param name="view">Instance of the view</param>
-        /// <param name="bankService"> Instance of bank service. </param>
+        /// <param name="bankService">Instance of bank service.</param>
         internal BankController(ConsoleView view, BankService bankService)
         {
             this._view = view;
@@ -126,7 +126,7 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Performs deposit operation.
         /// </summary>
-        /// <param name="accountNumber"> Account number of the account. </param>
+        /// <param name="accountNumber">Account number of the account.</param>
         private void DepositAmount(string accountNumber)
         {
             decimal depositAmount = this._view.GetAmount("Enter amount to deposit: ");
@@ -136,7 +136,7 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Performs withdraw operation.
         /// </summary>
-        /// <param name="accountNumber"> Account number of the account. </param>
+        /// <param name="accountNumber">Account number of the account.</param>
         private void WithdrawAmount(string accountNumber)
         {
             decimal withdrawAmount = this._view.GetAmount("Enter amount to withdraw: ");
@@ -146,7 +146,7 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Displays bank account balance.
         /// </summary>
-        /// <param name="accountNumber"> Account number. </param>
+        /// <param name="accountNumber">Account number.</param>
         private void DisplayBalance(string accountNumber)
         {
             BankAccount? account = this._bankService.GetAccountByAccountNumber(accountNumber);
