@@ -73,7 +73,7 @@ namespace Assignment4.Controllers
             TransactionDTO? transaction = this.GetCreateTransactionInput();
             if (transaction is null)
             {
-                this._view.PrintError("Transaction failed, Please try again");
+                this._view.PrintError("Transaction failed, please try again");
                 return;
             }
 
@@ -202,7 +202,7 @@ namespace Assignment4.Controllers
             string id = this.GetTransactionId();
             if (!this._service.IsValidTransactionId(id))
             {
-                this._view.PrintInfo("Invalid transaction id to delete");
+                this._view.PrintWarning("Invalid transaction id to delete");
                 return;
             }
 

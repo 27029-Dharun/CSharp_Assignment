@@ -222,6 +222,23 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Gets a valid string category
+        /// </summary>
+        /// <param name="prompt">Message to be displayed</param>
+        /// <param name="optional">True if we want to perform edit operation</param>
+        /// <returns>A string containing the category</returns>
+        public string GetValidCategory(string prompt, bool optional = true)
+        {
+            string input = this.GetValidatedInput(
+                prompt,
+                optional,
+                TransactionValidator.IsValidCategory,
+                $"Invalid category, Entered string should only contain alphabets.");
+
+            return input;
+        }
+
+        /// <summary>
         /// Displays the menu
         /// </summary>
         public void DisplayMainMenu()
@@ -276,6 +293,13 @@ namespace Assignment4.View
                 Console.ResetColor();
                 Console.WriteLine($" {item.Value}\n");
             }
+        }
+
+        private void PrintColoredText(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         private void PrintColoredText(string message, ConsoleColor color)
