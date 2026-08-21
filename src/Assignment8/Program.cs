@@ -20,11 +20,11 @@ internal class Program
         Controller controller = new Controller(view);
 
         controller.HandleMenu();
-        Console.ReadKey();
     }
 
     private static void DomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
+        Console.WriteLine("\nGlobal exception handled");
         Console.WriteLine(e.IsTerminating);
         Exception ex = (Exception)e.ExceptionObject;
         Console.WriteLine(ex.Message);

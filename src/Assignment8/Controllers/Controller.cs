@@ -76,12 +76,13 @@ namespace Assignment8.Controllers
 
             try
             {
+                this._view.PrintInfo("Attempting to divide 10 by 0");
                 decimal quotient = dividend / divisor;
                 this._view.PrintInfo($"{quotient}");
             }
             catch (DivideByZeroException)
             {
-                this._view.PrintWarning("Can't divide a number with zero, Please enter a valid divisor");
+                this._view.PrintWarning("Can't divide a number with zero");
             }
             finally
             {
@@ -95,7 +96,6 @@ namespace Assignment8.Controllers
 
             try
             {
-                // Intentionally throwing an error
                 for (int i = 0; i <= array.Length; i++)
                 {
                     this._view.PrintInfo($"The element in the array at index[{i}] is {array[i]}");
@@ -157,8 +157,13 @@ namespace Assignment8.Controllers
             }
             catch (Exception ex)
             {
-                this._view.PrintInfo($"\nCaught in the catch black of task 5");
+                this._view.PrintInfo($"\nCaught in the catch block of task 5");
+                this._view.PrintInfo($"Stack trace provides a historical record of the function calls that led to the exception.");
                 this._view.PrintInfo($"\nStack Trace:\n {ex.StackTrace}");
+
+                this._view.PrintInfo("The Stack trace contains two entities" +
+                    "Task4 method that throws the exception " +
+                    "Task5 method that calls Task4 and catches the exception");
             }
         }
     }

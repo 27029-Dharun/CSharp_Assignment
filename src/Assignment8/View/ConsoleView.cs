@@ -74,11 +74,11 @@ internal class ConsoleView
     internal int GetMenuOption()
     {
         Console.WriteLine(
-            "1. Task 1 - Divide integer\n" +
-            "2. Task 2 - Print array elements\n" +
-            "3. Task 3 - Print the value present in the index at requested index\n" +
-            "4. Task 4 - Throws a unhandled exception\n" +
-            "5. Task 5 - Catch the exception and prints the stack trace\n" +
+            "1. Task 1 -  Divide by zero\n" +
+            "2. Task 2 - Index out of bound\n" +
+            "3. Task 3 - Custom exception\n" +
+            "4. Task 4 - Global exception handling\n" +
+            "5. Task 5 - View stack trace\n" +
             "6. Exit");
 
         return this.GetInteger("Select an operation to perform: ");
