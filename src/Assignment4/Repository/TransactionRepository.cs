@@ -162,6 +162,22 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
+        /// Search the transaction by date and category
+        /// </summary>
+        /// <param name="query">Query text entered by the user</param>
+        /// <param name="option">Option to sort by </param>
+        /// <returns>A list containing the list that matched the query text</returns>
+        public IReadOnlyList<Transaction> Search(string query, int option)
+        {
+            if (option == 2)
+            {
+                return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
+            }
+
+            return this._transactions.Where(x => x.Category == query).ToList();
+        }
+
+        /// <summary>
         /// Get the transaction with a Id
         /// </summary>
         /// <param name="id">Id to find the transaction</param>
