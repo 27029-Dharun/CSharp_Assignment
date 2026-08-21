@@ -6,18 +6,18 @@ namespace Assignment4.Repository
     /// <summary>
     /// Transactions are stored as list of Transaction
     /// </summary>
-    public class TransactionRepository : IRepository
+    public class PersistenceTransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions;
         private readonly JsonFileManager _jsonFileManager;
         private readonly string _filePath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
+        /// Initializes a new instance of the <see cref="PersistenceTransactionRepository"/> class.
         /// </summary>
         /// <param name="path">Path where the file is to be saved</param>
         /// <param name="fileManager">File manager instance</param>
-        public TransactionRepository(string path, JsonFileManager fileManager)
+        public PersistenceTransactionRepository(string path, JsonFileManager fileManager)
         {
             this._filePath = path;
             this._jsonFileManager = fileManager;
@@ -159,22 +159,6 @@ namespace Assignment4.Repository
             }
 
             return this._transactions.Where(x => x.Category.ToLower() == query.ToLower()).ToList();
-        }
-
-        /// <summary>
-        /// Search the transaction by date and category
-        /// </summary>
-        /// <param name="query">Query text entered by the user</param>
-        /// <param name="option">Option to sort by </param>
-        /// <returns>A list containing the list that matched the query text</returns>
-        public IReadOnlyList<Transaction> Search(string query, int option)
-        {
-            if (option == 2)
-            {
-                return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
-            }
-
-            return this._transactions.Where(x => x.Category == query).ToList();
         }
 
         /// <summary>

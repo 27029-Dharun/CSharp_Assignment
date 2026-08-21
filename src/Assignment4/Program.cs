@@ -27,7 +27,7 @@ namespace Assignment4
                 JsonFileManager jsonFileManager = new JsonFileManager();
 
                 // Repository instance for add the transactions in the list.
-                IRepository repository = new PeristanceTransactionRepository("transactions.json", jsonFileManager);
+                IRepository repository = new PersistenceTransactionRepository("transactions.json", jsonFileManager);
 
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(idGenerator, repository);
