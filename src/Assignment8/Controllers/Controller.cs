@@ -60,9 +60,11 @@ namespace Assignment8.Controllers
                             break;
                     }
                 }
-                catch (InvalidOperationException)
+                catch (InvalidOperationException e)
                 {
-                    this._view.PrintInfo("Exception thrown in the catch block caught in the handle menu.");
+                    this._view.PrintWarning("Exception thrown in the catch block caught in the handle menu.");
+                    this._view.PrintInfo("Inner exception message");
+                    this._view.PrintWarning(e.InnerException?.Message ?? string.Empty);
                 }
 
                 this._view.PauseAndReturn();
@@ -73,10 +75,10 @@ namespace Assignment8.Controllers
         {
             int dividend = 10;
             int divisor = 0;
+            this._view.PrintInfo($"Attempting to divide {dividend} by {divisor}");
 
             try
             {
-                this._view.PrintInfo("Attempting to divide 10 by 0");
                 decimal quotient = dividend / divisor;
                 this._view.PrintInfo($"{quotient}");
             }
@@ -101,12 +103,12 @@ namespace Assignment8.Controllers
                     this._view.PrintInfo($"The element in the array at index[{i}] is {array[i]}");
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException e)
             {
                 this._view.PrintInfo("\nCaught in task 2 catch block... ");
                 this._view.PrintInfo("Throwing an error from task 2 catch block... ");
 
-                throw new InvalidOperationException("Invalid index, please enter the index in range 0-9");
+                throw new InvalidOperationException("Invalid index, please enter the index in range 0-9", e);
             }
         }
 
@@ -130,12 +132,12 @@ namespace Assignment8.Controllers
             }
             catch (IndexOutOfRangeException)
             {
-                this._view.PrintInfo("Invalid index, please enter the index in range 0-9.");
+                this._view.PrintWarning("Invalid index, please enter the index in range 0-9.");
             }
             catch (InvalidUserInputException ex)
             {
-                this._view.PrintInfo("Exception thrown for invalid integer caught in the task 3 catch block.");
-                this._view.PrintInfo(ex.Message);
+                this._view.PrintWarning("Exception thrown for invalid integer caught in the task 3 catch block.");
+                this._view.PrintWarning(ex.Message);
             }
         }
 
@@ -161,9 +163,9 @@ namespace Assignment8.Controllers
                 this._view.PrintInfo($"Stack trace provides a historical record of the function calls that led to the exception.");
                 this._view.PrintInfo($"\nStack Trace:\n {ex.StackTrace}");
 
-                this._view.PrintInfo("The Stack trace contains two entities" +
-                    "Task4 method that throws the exception " +
-                    "Task5 method that calls Task4 and catches the exception");
+                this._view.PrintInfo("The Stack trace contains two entities\n" +
+                    "Task4 method that throws the exception\n" +
+                    "Task5 method that calls Task4 and catches the exception\n");
             }
         }
     }
