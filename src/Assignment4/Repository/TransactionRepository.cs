@@ -1,5 +1,4 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
+﻿using Assignment4.Models;
 using Assignment4.Models.Enums;
 
 namespace Assignment4.Repository
@@ -89,11 +88,10 @@ namespace Assignment4.Repository
         /// Edit the transactions in the repository
         /// </summary>
         /// <param name="editedTransaction">Edit the transaction</param>
-        /// <param name="id">Unique transaction identifier</param>
         /// <returns>True if edited; otherwise false</returns>
-        public bool Edit(TransactionDTO editedTransaction, string id)
+        public bool Edit(Transaction editedTransaction)
         {
-            Transaction? transaction = this.GetById(id);
+            Transaction? transaction = this.GetById(editedTransaction.Id);
             if (transaction is null)
             {
                 return false;
@@ -108,7 +106,7 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
-        /// Get the transaction with a Id
+        /// Checks if the transaction id is valid.
         /// </summary>
         /// <param name="id">Id to find the transaction</param>
         /// <returns>Transaction object</returns>
@@ -123,7 +121,7 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
-        /// Checks if any transactions exists
+        /// Checks if any transactions exists.
         /// </summary>
         /// <returns>true if any transaction exists, false if it is empty</returns>
         public bool HasAny()
@@ -144,7 +142,7 @@ namespace Assignment4.Repository
                 return null;
             }
 
-            return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            return this.Copy(transaction);
         }
 
         /// <summary>

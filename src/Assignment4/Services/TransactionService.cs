@@ -49,11 +49,10 @@ namespace Assignment4.Services
         /// Update the existing transaction.
         /// </summary>
         /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
-        /// <param name="id"> Unique identifier of the transaction. </param>
         /// <returns> True if the update process is done; otherwise false. </returns>
-        public bool UpdateTransaction(TransactionDTO editedTransaction, string id)
+        public bool UpdateTransaction(Transaction editedTransaction)
         {
-            if (this._repository.Edit(editedTransaction, id))
+            if (this._repository.Edit(editedTransaction))
             {
                 return true;
             }
@@ -103,15 +102,9 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="id">Id of the transaction. </param>
         /// <returns> Transaction Instance if it is present; otherwise null. </returns>
-        public TransactionDTO? GetTransactionById(string id)
+        public Transaction? GetTransactionById(string id)
         {
-            Transaction? transaction = this._repository.GetTransactionCopy(id);
-            if (transaction is null)
-            {
-                return null;
-            }
-
-            return new TransactionDTO(transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            return this._repository.GetTransactionCopy(id);
         }
 
         /// <summary>
@@ -171,7 +164,7 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Gets the matching
+        /// Gets the matching transactions with matching query
         /// </summary>
         /// <param name="query">Query entered by the user</param>
         /// <param name="option">Option to search</param>

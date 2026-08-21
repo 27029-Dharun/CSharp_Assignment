@@ -40,7 +40,7 @@ namespace Assignment4.Validation
                 return false;
             }
 
-            if (validDate > DateTime.Now)
+            if (validDate > DateTime.Today)
             {
                 return false;
             }
@@ -49,7 +49,7 @@ namespace Assignment4.Validation
         }
 
         /// <summary>
-        /// Validates the name of the transaction
+        /// Validates the description of the transaction
         /// </summary>
         /// <param name="name">Description of the transaction</param>
         /// <returns>A string containing the validation output; empty string if it is valid</returns>

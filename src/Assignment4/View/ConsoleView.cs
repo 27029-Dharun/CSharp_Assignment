@@ -88,7 +88,7 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Gets decimal input
+        /// Gets the description for the transaction
         /// </summary>
         /// <param name="prompt">Message to be displayed</param>
         /// <param name="optional">True if we want to perform edit operation</param>
