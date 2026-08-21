@@ -224,7 +224,7 @@ namespace Assignment4.Controllers
         /// <param name="transaction">A transaction instance</param>
         private void EditTransactionInputHandler(Transaction transaction)
         {
-            string category = this._view.GetValidCategory($"Enter the category of the {transaction.Type}: ");
+            string category = this._view.GetValidCategory($"Enter the category of {transaction.Type}: ");
             if (!string.IsNullOrWhiteSpace(category))
             {
                 transaction.Category = category;
