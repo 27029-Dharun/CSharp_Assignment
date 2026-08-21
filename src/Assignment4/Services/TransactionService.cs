@@ -132,7 +132,81 @@ namespace Assignment4.Services
                 .Where(transaction => transaction.Type == TransactionType.Expense)
                 .Sum(transaction => transaction.Amount);
 
-            return new TransactionSummary(income, expense);
+            int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
+
+            IReadOnlyList<Transaction> currentMonthTransaction = transactions
+                .Where(transaction => transaction.Date.Month == currentMonth && transaction.Date.Year == currentYear)
+                .ToList();
+
+            decimal currentIncome = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .Sum(transaction => transaction.Amount);
+
+            decimal currentExpense = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .Sum(transaction => transaction.Amount);
+
+            Dictionary<string, decimal> categoryWiseExpense = transactions
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(transaction => transaction.Amount));
+
+            Dictionary<string, decimal> categoryWiseIncome = transactions
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(transaction => transaction.Amount));
+
+            return new TransactionSummary(income, expense, currentIncome, currentExpense, categoryWiseIncome, categoryWiseExpense);
+        }
+
+        /// <summary>
+        /// Gets the matching transactions with matching query
+        /// </summary>
+        /// <param name="query">Query entered by the user</param>
+        /// <param name="option">Option to search</param>
+        /// <returns>A list containing the transactions that matches the query text</returns>
+        public IReadOnlyList<Transaction> GetSearchResult(string query, int option)
+        {
+            return this._repository.Search(query, option);
+        }
+
+        /// <summary>
+        /// Gets the income in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option"> Option to sort ascending or descending. </param>
+        /// <returns> A list of income sorted based on user preference. </returns>
+        public IReadOnlyList<Transaction> GetSortedIncome(int option)
+        {
+            // Ascending order
+            if (option == 1)
+            {
+                return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderBy(x => x.Amount).ToList();
+            }
+
+            // Descending order
+            return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderByDescending(x => x.Amount).ToList();
+        }
+
+        /// <summary>
+        /// Gets the expense in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option"> Option to sort ascending or descending. </param>
+        /// <returns> A list of expense sorted based on user preference. </returns>
+        public IReadOnlyList<Transaction> GetSortedExpense(int option)
+        {
+            // Ascending order
+            if (option == 1)
+            {
+                return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderBy(x => x.Amount).ToList();
+            }
+
+            // Descending order
+            return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderByDescending(x => x.Amount).ToList();
         }
     }
 }

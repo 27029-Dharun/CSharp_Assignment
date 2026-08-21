@@ -63,5 +63,13 @@ namespace Assignment4.Repository
         /// <param name="id"> Unique identifier of the transaction. </param>
         /// <returns> True if the id is valid; otherwise false. </returns>
         public bool IsValidId(string id);
+
+        /// <summary>
+        /// Search the transaction by date and category
+        /// </summary>
+        /// <param name="query">Query text entered by the user</param>
+        /// <param name="option">Option to sort by </param>
+        /// <returns>A list containing the list that matched the query text</returns>
+        public IReadOnlyList<Transaction> Search(string query, int option);
     }
 }
