@@ -58,15 +58,19 @@ The summary includes:
 - Total income
 - Total expense
 - Balance
+- Monthly Income
+- Monthly Expense
+- Category wise income
+- Category wise expense
 
 ---
 
 ## View Transaction
 
 User will be prompted to select an option:
-1. Expense
-2. Income
-3. All Transaction
+1. Expense  
+2. Income  
+3. All Transaction  
 
 Based on the selected option you will be displayed all the recorded transactions
 
@@ -79,3 +83,24 @@ Each transaction includes:
 - Transaction Description
 
 If no transactions have been added, an appropriate message is displayed.
+
+## Search Transaction
+
+Search the transaction using date and category
+
+User will be prompted to select an option to search with
+1. Date
+2. Category
+
+Enter the query to search
+All the transactions with the matching Date/Category will be display.
+
+## Sort Transaction
+
+Display the transaction in sort order by amount
+
+User will be prompted to select the option
+1. Ascending
+2. Descending
+
+And the transaction will be sorted in the requested order.
