@@ -123,6 +123,7 @@ namespace Assignment4.Services
         public TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
+
             decimal income = transactions
                 .Where(transaction => transaction.Type == TransactionType.Income)
                 .Sum(transaction => transaction.Amount);

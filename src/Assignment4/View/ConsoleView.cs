@@ -1,4 +1,5 @@
-﻿using Assignment4.Constants;
+﻿using System.Globalization;
+using Assignment4.Constants;
 using Assignment4.DTOs;
 using Assignment4.Models;
 using Assignment4.Validation;
@@ -100,7 +101,7 @@ namespace Assignment4.View
                 optional,
                 TransactionValidator.IsValidDescription,
                 $"Please enter a valid description with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCharacter}.");
-            return input;
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
 
         /// <summary>
@@ -134,7 +135,7 @@ namespace Assignment4.View
                 TransactionValidator.IsValidCategory,
                 $"Invalid category, Category should only contain alphabets with minimum {Configurable.MinimumCharacter} and maximum {Configurable.MaximumCategoryCharacter}.");
 
-            return input;
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
 
         /// <summary>

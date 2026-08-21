@@ -18,8 +18,8 @@
         {
             this.Income = income;
             this.Expense = expense;
-            this.MonthlyIncome = monthlyExpense;
-            this.MonthlyExpense = monthlyIncome;
+            this.MonthlyIncome = monthlyIncome;
+            this.MonthlyExpense = monthlyExpense;
             this.ExpenseCategoryTotals = expenseCategoryTotals;
             this.IncomeCategoryTotals = incomeCategoryTotals;
         }
