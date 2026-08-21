@@ -193,7 +193,7 @@ namespace Assignment4.View
         /// </summary>
         public void PauseAndReturn()
         {
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
 
             // Erases the entire scroll back buffer history

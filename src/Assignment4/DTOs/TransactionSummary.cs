@@ -17,20 +17,20 @@
         }
 
         /// <summary>
-        /// Gets or sets total income recorded.
+        /// Gets total income recorded.
         /// </summary>
         /// <value>
         /// Total income recorded.
         /// </value>
-        public decimal Income { get; set; }
+        public decimal Income { get; }
 
         /// <summary>
-        /// Gets or sets total expense recorded.
+        /// Gets total expense recorded.
         /// </summary>
         /// <value>
         /// Total expense recorded.
         /// </value>
-        public decimal Expense { get; set; }
+        public decimal Expense { get; }
 
         /// <summary>
         /// calculates the balance of the user

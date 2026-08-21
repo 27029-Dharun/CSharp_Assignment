@@ -1,5 +1,4 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
+﻿using Assignment4.Models;
 using Assignment4.Models.Enums;
 
 namespace Assignment4.Repository
@@ -103,11 +102,10 @@ namespace Assignment4.Repository
         /// Edit the transactions in the repository
         /// </summary>
         /// <param name="editedTransaction">Edit the transaction</param>
-        /// <param name="id">Unique transaction identifier</param>
         /// <returns>True if edited; otherwise false</returns>
-        public bool Edit(TransactionDTO editedTransaction, string id)
+        public bool Edit(Transaction editedTransaction)
         {
-            Transaction? transaction = this.GetById(id);
+            Transaction? transaction = this.GetById(editedTransaction.Id);
             if (transaction is null)
             {
                 return false;

@@ -76,7 +76,7 @@ namespace Assignment4.Controllers
         }
 
         /// <summary>
-        /// View all the transaction
+        /// Handles view all the transaction
         /// </summary>
         private void ViewTransaction()
         {
@@ -134,6 +134,12 @@ namespace Assignment4.Controllers
 
         private void ViewSummary()
         {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions available");
+                return;
+            }
+
             TransactionSummary summary = this._service.GenerateSummary();
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
@@ -151,7 +157,7 @@ namespace Assignment4.Controllers
             // Gets id of the transaction to edit
             string id = this.GetTransactionId();
 
-            TransactionDTO? transaction = this._service.GetTransactionById(id);
+            Transaction? transaction = this._service.GetTransactionById(id);
             if (transaction is null)
             {
                 this._view.PrintWarning("Enter a valid transaction id.");
@@ -161,7 +167,7 @@ namespace Assignment4.Controllers
             TransactionType type = transaction.Type;
             this.EditTransactionInputHandler(transaction);
 
-            if (!this._service.UpdateTransaction(transaction, id))
+            if (!this._service.UpdateTransaction(transaction))
             {
                 this._view.PrintError("Failed to update the transaction.");
                 return;
@@ -203,7 +209,7 @@ namespace Assignment4.Controllers
         /// Gets the data for editing a transaction
         /// </summary>
         /// <param name="transaction">A transaction instance</param>
-        private void EditTransactionInputHandler(TransactionDTO transaction)
+        private void EditTransactionInputHandler(Transaction transaction)
         {
             string category = this._view.GetValidCategory($"Enter the category of {transaction.Type}: ");
             if (!string.IsNullOrWhiteSpace(category))

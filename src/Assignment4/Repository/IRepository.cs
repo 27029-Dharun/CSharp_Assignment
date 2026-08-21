@@ -1,5 +1,4 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
+﻿using Assignment4.Models;
 
 namespace Assignment4.Repository
 {
@@ -36,9 +35,8 @@ namespace Assignment4.Repository
         /// Edit the transaction from the repository
         /// </summary>
         /// <param name="editedTransaction">The edited transaction</param>
-        /// <param name="id">Identifier to edit the transaction</param>
         /// <returns>True if edited; otherwise false</returns>
-        public bool Edit(TransactionDTO editedTransaction, string id);
+        public bool Edit(Transaction editedTransaction);
 
         /// <summary>
         /// Fetches all the expense from the repository
@@ -63,7 +61,7 @@ namespace Assignment4.Repository
         /// Returns if the id is valid or not.
         /// </summary>
         /// <param name="id"> Unique identifier of the transaction. </param>
-        /// <returns> True if the id id valid; otherwise false. </returns>
+        /// <returns> True if the id is valid; otherwise false. </returns>
         public bool IsValidId(string id);
     }
 }
