@@ -1,11 +1,10 @@
-﻿namespace Assignment9AdvancedLINQ.Tasks;
+﻿namespace Assignment9AdvancedLINQ;
 
 /// <summary>
 /// Query builder class containing
 /// </summary>
 /// <typeparam name="T">Type parameter that contains the IEnumerable</typeparam>
 public class QueryBuilder<T>
-    where T : class
 {
     private IEnumerable<T> _list;
 

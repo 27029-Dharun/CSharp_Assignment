@@ -28,16 +28,16 @@ public class Database
         this._products.Add(new Product("P009", "Ikigai", 900, ProductCategory.Books));
         this._products.Add(new Product("P010", "Dal", 160, ProductCategory.Groceries));
 
-        this._suppliers.Add(new Supplier("S001", "Dharun", "P001"));
-        this._suppliers.Add(new Supplier("S002", "Dharanish", "P002"));
-        this._suppliers.Add(new Supplier("S003", "Vasanth", "P003"));
-        this._suppliers.Add(new Supplier("S004", "Sanjeevi", "P004"));
-        this._suppliers.Add(new Supplier("S005", "Prabha", "P005"));
-        this._suppliers.Add(new Supplier("S006", "Diwas", "P006"));
-        this._suppliers.Add(new Supplier("S007", "Dave", "P007"));
-        this._suppliers.Add(new Supplier("S008", "Hemanth", "P008"));
-        this._suppliers.Add(new Supplier("S009", "Dharani", "P009"));
-        this._suppliers.Add(new Supplier("S010", "Dharwin", "P010"));
+        this._suppliers.Add(new Supplier("S001", "iQOO", "P001"));
+        this._suppliers.Add(new Supplier("S002", "US Polo", "P002"));
+        this._suppliers.Add(new Supplier("S003", "LG", "P003"));
+        this._suppliers.Add(new Supplier("S004", "Aram Publishers", "P004"));
+        this._suppliers.Add(new Supplier("S005", "D Mart", "P005"));
+        this._suppliers.Add(new Supplier("S006", "Asus", "P006"));
+        this._suppliers.Add(new Supplier("S007", "Denin", "P007"));
+        this._suppliers.Add(new Supplier("S008", "Samsung", "P008"));
+        this._suppliers.Add(new Supplier("S009", "Arivom Store", "P009"));
+        this._suppliers.Add(new Supplier("S010", "N Store", "P010"));
     }
 
     /// <summary>
