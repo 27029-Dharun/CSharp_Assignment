@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the supplier
     /// </summary>
-    internal class Supplier
+    public class Supplier
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Supplier"/> class.

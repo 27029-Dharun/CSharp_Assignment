@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the menu options available
     /// </summary>
-    internal enum MenuOption
+    public enum MenuOption
     {
         /// <summary>
         /// Represents an option to get into task 1
@@ -29,5 +29,10 @@
         /// Represents an option to get into task 5
         /// </summary>
         Task5 = 5,
+
+        /// <summary>
+        /// Represents an option to exit the application.
+        /// </summary>
+        Exit = 6,
     }
 }

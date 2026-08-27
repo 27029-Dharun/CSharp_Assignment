@@ -10,7 +10,6 @@ namespace Assignment9AdvancedLINQ;
 /// </summary>
 public class Program
 {
-
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.
     /// </summary>
@@ -19,11 +18,11 @@ public class Program
         ConsoleView view = new ConsoleView();
         Database database = new Database();
 
-        Task1 task1 = new Task1(database, view);
-        Task2 task2 = new Task2(database, view);
-        Task3 task3 = new Task3(database, view);
-        Task4 task4 = new Task4(database, view);
-        Task5 task5 = new Task5(database, view);
+        BasicLinqQuery basicLinqQuery = new BasicLinqQuery(database, view);
+        ComplexLinqQuery complexLinqQuery = new ComplexLinqQuery(database, view);
+        ArrayOperations task3 = new ArrayOperations(database, view);
+        QueryOptimization task4 = new QueryOptimization(database, view);
+        QueryBuilderUsage task5 = new QueryBuilderUsage(database, view);
 
         database.InitializeData();
 
@@ -34,19 +33,34 @@ public class Program
             switch (option)
             {
                 case MenuOption.Task1:
-                    task1.GetAveragePrice();
+                    basicLinqQuery.GetAveragePrice();
                     break;
 
                 case MenuOption.Task2:
+                    complexLinqQuery.ComplexLinqQueries();
                     break;
 
                 case MenuOption.Task3:
+                    task3.HandleArrayOperations();
                     break;
+
+                case MenuOption.Task4:
+                    task4.GetBooksCategory();
+                    break;
+
+                case MenuOption.Task5:
+                    task5.SortList();
+                    break;
+
+                case MenuOption.Exit:
+                    return;
 
                 default:
                     view.PrintInfo("Enter a valid option");
                     break;
             }
+
+            view.PauseAndClear();
         }
     }
 }

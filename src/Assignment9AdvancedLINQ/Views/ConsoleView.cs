@@ -12,7 +12,7 @@
         /// <returns>A string value entered by the user.</returns>
         public string GetString(string message)
         {
-            Console.WriteLine(message);
+            Console.Write(message);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
             return input;
         }
@@ -61,12 +61,40 @@
         }
 
         /// <summary>
+        /// Pause the console and clear
+        /// </summary>
+        public void PauseAndClear()
+        {
+            Console.WriteLine("Press a key to continue...");
+            Console.ReadKey();
+            this.ClearConsole();
+        }
+
+        /// <summary>
         /// Prints the message in the console.
         /// </summary>
         /// <param name="message">The message to be printed</param>
-        internal void PrintInfo(string message)
+        public void PrintInfo(string message)
         {
             Console.WriteLine($"{message}");
+        }
+
+        /// <summary>
+        /// Gets a valid integer from the user.
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
+        /// <returns>An integer value</returns>
+        public int GetInteger(string message)
+        {
+            string input = this.GetString(message);
+            int integer;
+            while (!int.TryParse(input, out integer))
+            {
+                Console.WriteLine("Enter a valid input");
+                input = this.GetString(message);
+            }
+
+            return integer;
         }
     }
 }

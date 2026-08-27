@@ -6,18 +6,28 @@
     public enum OrderStatus
     {
         /// <summary>
-        /// Represents the status of order after placing the order
+        /// Represents the status of order after the order is placed
         /// </summary>
-        Ordered = 1,
+        Pending = 1,
 
         /// <summary>
-        /// Represents the status of order after dispatching the order package
+        /// Represents the status of order while processing the order
         /// </summary>
-        Dispatched = 2,
+        Processing = 2,
+
+        /// <summary>
+        /// Represents the status of order after the order is shipped
+        /// </summary>
+        Shipped = 3,
 
         /// <summary>
         /// Represents the status of order after delivering the order
         /// </summary>
-        Delivered = 3,
+        Delivered = 4,
+
+        /// <summary>
+        /// Represents the status of order after cancelling the order
+        /// </summary>
+        Cancelled = 5,
     }
 }

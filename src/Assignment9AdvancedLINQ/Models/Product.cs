@@ -16,7 +16,7 @@ public class Product
     /// <param name="category">Category of the product</param>
     public Product(string id, string name, decimal price, ProductCategory category)
     {
-        this.ProductId = id;
+        this.Id = id;
         this.ProductName = name;
         this.Price = price;
         this.Category = category;
@@ -26,7 +26,7 @@ public class Product
     /// Gets or sets Unique identifier for the product
     /// </summary>
     /// <value>The unique identifier for the product</value>
-    public string ProductId { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Gets or sets the product id
