@@ -5,7 +5,7 @@ namespace Assignment3.Services
     /// <summary>
     /// Defines business logic operations for managing product in inventory.
     /// </summary>
-    public interface IService
+    public interface IInventoryService
     {
         /// <summary>
         /// Validates a product and create a product instance

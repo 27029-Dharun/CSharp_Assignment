@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Models
+﻿namespace Assignment3.Models.Enums
 {
     /// <summary>
     /// Specifies the inventory operation available

@@ -1,4 +1,5 @@
 ﻿using Assignment3.Models;
+using Assignment3.Models.Enums;
 using Assignment3.Services;
 using Assignment3.View;
 
@@ -9,7 +10,7 @@ namespace Assignment3.Controllers;
 /// </summary>
 public class InventoryController
 {
-    private readonly IService _inventoryService;
+    private readonly IInventoryService _inventoryService;
     private readonly ConsoleView _consoleView;
 
     /// <summary>
@@ -17,7 +18,7 @@ public class InventoryController
     /// </summary>
     /// <param name="inventoryService">Instance of service handling inventory data operations and business rules.</param>
     /// <param name="view">Instance of view used to display data and capture user input. </param>
-    public InventoryController(IService inventoryService, ConsoleView view)
+    public InventoryController(IInventoryService inventoryService, ConsoleView view)
     {
         this._inventoryService = inventoryService;
         this._consoleView = view;
@@ -40,8 +41,6 @@ public class InventoryController
             {
                 this._consoleView.PrintInfo(ex.Message);
             }
-
-            this._consoleView.PauseAndContinue();
         }
     }
 
@@ -213,6 +212,7 @@ public class InventoryController
                 break;
         }
 
+        this._consoleView.PauseAndContinue();
         return true;
     }
 }

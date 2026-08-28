@@ -82,7 +82,7 @@ namespace Assignment3.View
         /// <returns>A string containing product name</returns>
         public string GetProductName(string message, bool optional = false, int tries = Tries)
         {
-            return this.GetValidatedInput(message, optional, InventoryViewValidator.IsValidateName, "Name must atleast contain 3 characters");
+            return this.GetValidatedInput(message, optional, InventoryValidator.IsValidateName, "Name must atleast contain 3 characters");
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Assignment3.View
         /// <returns>An integer value that is enter by user</returns>
         public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
         {
-            string input = this.GetValidatedInput(message, optional, InventoryViewValidator.IsValidateQuantity, "Quantity can't be negative");
+            string input = this.GetValidatedInput(message, optional, InventoryValidator.IsValidateQuantity, "Quantity can't be negative");
 
             return int.Parse(input);
         }
@@ -106,7 +106,7 @@ namespace Assignment3.View
         /// <returns> A decimal value containing the price of the product. </returns>
         public decimal GetProductPrice(string message)
         {
-            string input = this.GetValidatedInput(message, false, InventoryViewValidator.IsValidatePrice, "Price must a valid positive integer.");
+            string input = this.GetValidatedInput(message, false, InventoryValidator.IsValidatePrice, "Price must a valid positive integer.");
             return decimal.Parse(input);
         }
 
@@ -117,7 +117,7 @@ namespace Assignment3.View
         /// <returns> A decimal value containing the price of the product. </returns>
         public decimal? GetOptionalProductPrice(string message)
         {
-            string input = this.GetValidatedInput(message, true, InventoryViewValidator.IsValidatePrice, "Price must a valid positive integer.");
+            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidatePrice, "Price must a valid positive integer.");
 
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -134,7 +134,7 @@ namespace Assignment3.View
         /// <returns>An integer value that is enter by user</returns>
         public int? GetOptionalProductQuantity(string message)
         {
-            string input = this.GetValidatedInput(message, true, InventoryViewValidator.IsValidateQuantity, "Quantity must a valid non negative integer.");
+            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidateQuantity, "Quantity must a valid non negative integer.");
 
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -188,6 +188,9 @@ namespace Assignment3.View
         {
             Console.WriteLine("Enter a key to return to main menu");
             Console.ReadKey();
+
+            // Erases the entire scroll back buffer history
+            Console.Write("\x1b[3J");
             Console.Clear();
         }
 

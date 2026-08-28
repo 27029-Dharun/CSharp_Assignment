@@ -5,7 +5,7 @@ namespace Assignment3.Repository
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving product in the inventory.
     /// </summary>
-    public class InventoryRepository : IRepository
+    public class InventoryRepository : IInventoryRepository
     {
         private readonly List<Product> _inventories = new List<Product>();
 

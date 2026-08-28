@@ -5,7 +5,7 @@ namespace Assignment3.Repository
     /// <summary>
     /// Contract for the repository.
     /// </summary>
-    public interface IRepository
+    public interface IInventoryRepository
     {
         /// <summary>
         /// Gets the inventory objects and returns it.

@@ -7,16 +7,16 @@ namespace Assignment3.Services
     /// <summary>
     /// Contains business logics for adding product, viewing, updating, deleting product from the inventory.
     /// </summary>
-    public class InventoryService : IService
+    public class InventoryService : IInventoryService
     {
-        private readonly IRepository _inventoryRepository;
+        private readonly IInventoryRepository _inventoryRepository;
         private int _id = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryService"/> class.
         /// </summary>
         /// <param name="repository">Instance of repository injected from origin</param>
-        public InventoryService(IRepository repository)
+        public InventoryService(IInventoryRepository repository)
         {
             this._inventoryRepository = repository;
         }
@@ -25,7 +25,7 @@ namespace Assignment3.Services
         public Product CreateInventoryProduct(string name, decimal price, int quantity)
         {
             List<string> productNames = this._inventoryRepository.GetProductName();
-            if (!InventoryServiceValidator.IsUniqueProductName(name, productNames))
+            if (!InventoryValidator.IsUniqueProductName(name, productNames))
             {
                 throw new ArgumentException("Invalid Name: Name should be unique");
             }
@@ -64,7 +64,7 @@ namespace Assignment3.Services
             if (!string.IsNullOrWhiteSpace(name))
             {
                 List<string> productNames = this._inventoryRepository.GetProductName();
-                if (!InventoryServiceValidator.IsUniqueProductName(name, productNames, product.Name))
+                if (!InventoryValidator.IsUniqueProductName(name, productNames, product.Name))
                 {
                     throw new Exception(" The name of the product should be unique. ");
                 }
