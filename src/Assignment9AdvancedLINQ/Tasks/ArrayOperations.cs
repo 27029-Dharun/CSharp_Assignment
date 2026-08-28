@@ -1,5 +1,4 @@
-﻿using Assignment9AdvancedLINQ.Repository;
-using Assignment9AdvancedLINQ.Views;
+﻿using Assignment9AdvancedLINQ.Views;
 
 namespace Assignment9AdvancedLINQ.Tasks;
 
@@ -8,17 +7,6 @@ namespace Assignment9AdvancedLINQ.Tasks;
 /// </summary>
 public class ArrayOperations
 {
-    private readonly Database _database;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ArrayOperations"/> class.
-    /// </summary>
-    /// <param name="database">Instance of the database</param>
-    public ArrayOperations(Database database)
-    {
-        this._database = database;
-    }
-
     /// <summary>
     /// Gets the average price of the product
     /// </summary>

@@ -42,6 +42,11 @@ public class QueryBuilder<T>
         return this;
     }
 
+    public QueryBuilder<T> Contains(Expression<Func<T, bool>> predicate)
+    {
+        this._list.Contains()
+    }
+
     /// <summary>
     /// Performs join operation
     /// </summary>

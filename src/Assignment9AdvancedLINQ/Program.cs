@@ -19,7 +19,7 @@ public class Program
 
         BasicLinqQuery basicLinqQuery = new BasicLinqQuery(database);
         ComplexLinqQuery complexLinqQuery = new ComplexLinqQuery(database);
-        ArrayOperations task3 = new ArrayOperations(database);
+        ArrayOperations task3 = new ArrayOperations();
         QueryOptimization task4 = new QueryOptimization(database);
         QueryBuilderUsage task5 = new QueryBuilderUsage(database);
 
