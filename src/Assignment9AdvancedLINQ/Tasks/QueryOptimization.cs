@@ -59,9 +59,24 @@ public class QueryOptimization
             table1.AddRow(book.ProductName, book.Price);
         }
 
-        stopwatch.Stop();
-        ConsoleIO.PrintInfo($"{stopwatch.Elapsed.TotalMilliseconds}");
-        table1.Options.EnableCount = false;
+        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
         table1.Write();
+
+        stopwatch.Stop();
+
+        // reducing the column and use only the required column
+        List<(string Name, decimal Price)> sortBooks = product
+           .Where(product => product.Category == ProductCategory.Books)
+           .Select(product => (product.ProductName, product.Price))
+           .OrderBy(product => product.Price).ToList();
+
+        ConsoleTable list = new ConsoleTable("Product Name", "Price");
+        foreach (var book in sortBooks)
+        {
+            list.AddRow(book.Name, book.Price);
+        }
+
+        list.Options.EnableCount = false;
+        list.Write();
     }
 }
