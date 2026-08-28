@@ -133,10 +133,7 @@ namespace Assignment3.Services
             this._inventoryRepository.GetProductById(id);
         }
 
-        /// <summary>
-        /// Checks if inventory is empty
-        /// </summary>
-        /// <returns>True if empty</returns>
+        /// <inheritdoc />
         public bool IsInventoryEmpty()
         {
             return !this._inventoryRepository.GetInventory().Any();

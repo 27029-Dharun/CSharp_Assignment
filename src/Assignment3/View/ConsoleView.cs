@@ -107,7 +107,6 @@ namespace Assignment3.View
         public decimal GetProductPrice(string message)
         {
             string input = this.GetValidatedInput(message, false, InventoryViewValidator.IsValidatePrice, "Price must a valid positive integer.");
-
             return decimal.Parse(input);
         }
 

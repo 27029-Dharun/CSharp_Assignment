@@ -24,6 +24,28 @@ public class InventoryController
     }
 
     /// <summary>
+    /// Displays the menu option and gets a option as input continuously until the user exits.
+    /// </summary>
+    public void InventoryManagement()
+    {
+        this._consoleView.PrintInfo("Welcome to Inventory Management Application");
+        bool isRunning = true;
+        while (isRunning)
+        {
+            try
+            {
+                isRunning = this.InventoryOptions();
+            }
+            catch (Exception ex)
+            {
+                this._consoleView.PrintInfo(ex.Message);
+            }
+
+            this._consoleView.PauseAndContinue();
+        }
+    }
+
+    /// <summary>
     /// Collects product details from the user, creates a new inventory item, and displays a success confirmation.
     /// </summary>
     public void AddProduct()
@@ -92,9 +114,11 @@ public class InventoryController
         int id = this.GetProductID(inventories, "edit");
         this._inventoryService.ValidateProductId(id);
         this._consoleView.PrintInfo("Enter value for field that you only want to edit");
+
         string name = this._consoleView.GetProductName("Enter the product name: ", true);
         decimal? price = this._consoleView.GetOptionalProductPrice("Enter the price of the product: ");
         int? quantity = this._consoleView.GetOptionalProductQuantity("Enter the quantity of the product: ");
+
         Product product = this._inventoryService.EditProductById(id, name, price, quantity);
         this._consoleView.PrintProduct(product);
         this._consoleView.PrintInfo("Product edited successfully !!");
@@ -149,7 +173,46 @@ public class InventoryController
     private int GetProductID(List<Product> inventories, string option)
     {
         this._consoleView.PrintInventory(inventories);
-
         return this._consoleView.GetInteger($"Enter the product Id to {option}: ");
+    }
+
+    private bool InventoryOptions()
+    {
+        InventoryOperation option = this._consoleView.GetEnumOption<InventoryOperation>("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
+        switch (option)
+        {
+            case InventoryOperation.Add:
+                this.AddProduct();
+                break;
+
+            case InventoryOperation.View:
+                this.ViewProduct();
+                break;
+
+            case InventoryOperation.Update:
+                this.EditProduct();
+                break;
+
+            case InventoryOperation.Delete:
+                this.DeleteProduct();
+                break;
+
+            case InventoryOperation.Search:
+                this.SearchProduct();
+                break;
+
+            case InventoryOperation.Sort:
+                this.SortProduct();
+                break;
+
+            case InventoryOperation.Exit:
+                return false;
+
+            default:
+                this._consoleView.PrintInfo("Enter an option in range 1 - 7");
+                break;
+        }
+
+        return true;
     }
 }

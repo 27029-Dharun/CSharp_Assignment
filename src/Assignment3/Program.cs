@@ -21,9 +21,8 @@ namespace Assignment3
                 ConsoleView view = new ConsoleView();
                 IService inventoryService = new InventoryService(repository);
                 InventoryController controller = new InventoryController(inventoryService, view);
-                InventoryMenuController inventoryManager = new InventoryMenuController(controller, view);
 
-                inventoryManager.Starter();
+                controller.InventoryManagement();
             }
             catch (Exception ex)
             {
