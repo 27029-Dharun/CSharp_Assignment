@@ -15,20 +15,19 @@ public class Program
     /// </summary>
     public static void Main()
     {
-        ConsoleView view = new ConsoleView();
         Database database = new Database();
 
-        BasicLinqQuery basicLinqQuery = new BasicLinqQuery(database, view);
-        ComplexLinqQuery complexLinqQuery = new ComplexLinqQuery(database, view);
-        ArrayOperations task3 = new ArrayOperations(database, view);
-        QueryOptimization task4 = new QueryOptimization(database, view);
-        QueryBuilderUsage task5 = new QueryBuilderUsage(database, view);
+        BasicLinqQuery basicLinqQuery = new BasicLinqQuery(database);
+        ComplexLinqQuery complexLinqQuery = new ComplexLinqQuery(database);
+        ArrayOperations task3 = new ArrayOperations(database);
+        QueryOptimization task4 = new QueryOptimization(database);
+        QueryBuilderUsage task5 = new QueryBuilderUsage(database);
 
         database.InitializeData();
 
         while (true)
         {
-            MenuOption option = view.GetEnumValue<MenuOption>("Select the option to continue: ");
+            MenuOption option = ConsoleIO.GetEnumValue<MenuOption>("Select the option to continue: ");
 
             switch (option)
             {
@@ -56,11 +55,11 @@ public class Program
                     return;
 
                 default:
-                    view.PrintInfo("Enter a valid option");
+                    ConsoleIO.PrintInfo("Enter a valid option");
                     break;
             }
 
-            view.PauseAndClear();
+            ConsoleIO.PauseAndClear();
         }
     }
 }

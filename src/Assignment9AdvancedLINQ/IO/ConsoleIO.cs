@@ -3,14 +3,14 @@
     /// <summary>
     /// Contains the view level operations
     /// </summary>
-    public class ConsoleView
+    public static class ConsoleIO
     {
         /// <summary>
         /// Displays the message and gets the input from the user.
         /// </summary>
         /// <param name="message">Message to be printed.</param>
         /// <returns>A string value entered by the user.</returns>
-        public string GetString(string message)
+        public static string GetString(string message)
         {
             Console.Write(message);
             string input = (Console.ReadLine() ?? string.Empty).Trim();
@@ -23,7 +23,7 @@
         /// <typeparam name="T">Type variable that should be struct</typeparam>
         /// <param name="message">String to be printed</param>
         /// <returns>returns a enum value entered by use</returns>
-        public T GetEnumValue<T>(string message)
+        public static T GetEnumValue<T>(string message)
            where T : struct, Enum
         {
             int tries = 3;
@@ -53,7 +53,7 @@
         /// <summary>
         /// Clears the console messages
         /// </summary>
-        public void ClearConsole()
+        public static void ClearConsole()
         {
             // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
@@ -63,18 +63,18 @@
         /// <summary>
         /// Pause the console and clear
         /// </summary>
-        public void PauseAndClear()
+        public static void PauseAndClear()
         {
             Console.WriteLine("Press a key to continue...");
             Console.ReadKey();
-            this.ClearConsole();
+            ClearConsole();
         }
 
         /// <summary>
         /// Prints the message in the console.
         /// </summary>
         /// <param name="message">The message to be printed</param>
-        public void PrintInfo(string message)
+        public static void PrintInfo(string message)
         {
             Console.WriteLine($"{message}");
         }
@@ -84,14 +84,14 @@
         /// </summary>
         /// <param name="message">Message to be printed</param>
         /// <returns>An integer value</returns>
-        public int GetInteger(string message)
+        public static int GetInteger(string message)
         {
-            string input = this.GetString(message);
+            string input = GetString(message);
             int integer;
             while (!int.TryParse(input, out integer))
             {
                 Console.WriteLine("Enter a valid input");
-                input = this.GetString(message);
+                input = GetString(message);
             }
 
             return integer;

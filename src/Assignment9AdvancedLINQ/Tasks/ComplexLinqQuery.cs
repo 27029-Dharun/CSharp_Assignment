@@ -1,4 +1,6 @@
 ﻿using Assignment9AdvancedLINQ.Models;
+using Assignment9AdvancedLINQ.Models.DTO;
+using Assignment9AdvancedLINQ.Models.Enums;
 using Assignment9AdvancedLINQ.Repository;
 using Assignment9AdvancedLINQ.Views;
 using ConsoleTables;
@@ -11,17 +13,14 @@ namespace Assignment9AdvancedLINQ.Tasks;
 public class ComplexLinqQuery
 {
     private readonly Database _database;
-    private readonly ConsoleView _view;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ComplexLinqQuery"/> class.
     /// </summary>
     /// <param name="database">Instance of the database</param>
-    /// <param name="view">Instance of the view</param>
-    public ComplexLinqQuery(Database database, ConsoleView view)
+    public ComplexLinqQuery(Database database)
     {
         this._database = database;
-        this._view = view;
     }
 
     /// <summary>
@@ -29,7 +28,9 @@ public class ComplexLinqQuery
     /// </summary>
     public void ComplexLinqQueries()
     {
+        ConsoleIO.PrintInfo("Expensive product in each category");
         this.GroupByCategory();
+        ConsoleIO.PrintInfo("Supplier name of each product");
         this.JoinProductAndSuppliers();
     }
 
@@ -40,14 +41,14 @@ public class ComplexLinqQuery
     {
         List<Product> product = this._database.GetAllProduct();
 
-        var groupByCategory = product.GroupBy(x => x.Category)
-            .Select(group => new
-            {
-                Category = group.Key,
-                ExpensiveProduct = group.OrderByDescending(product => product.Price).First().ProductName,
-                ExpensiveProductPrice = group.Max(product => product.Price),
-                Count = group.Count(),
-            });
+        List<(ProductCategory Category, string ExpensiveProduct, decimal ExpensiveProductPrice, int Count)> groupByCategory = product
+            .GroupBy(x => x.Category)
+            .Select(group =>
+            (
+                group.Key,
+                group.OrderByDescending(product => product.Price).First().ProductName,
+                group.Max(product => product.Price),
+                group.Count())).ToList();
 
         ConsoleTable table = new ConsoleTable("Category", "Expensive Product", "Expensive Product Price", "Count of Product");
         foreach (var category in groupByCategory)
@@ -67,18 +68,18 @@ public class ComplexLinqQuery
         List<Product> products = this._database.GetAllProduct();
         List<Supplier> suppliers = this._database.GetAllSuppliers();
 
-        var joined = products.Join(
+        List<ProductSupplierName> joined = products.Join(
             suppliers,
             product => product.Id,
             supplier => supplier.ProductId,
-            (product, supplier) => new
+            (product, supplier) => new ProductSupplierName
             {
                 ProductId = product.Id,
                 ProductName = product.ProductName,
                 ProductPrice = product.Price,
                 ProductCategory = product.Category,
                 SupplierName = supplier.SupplierName,
-            });
+            }).ToList();
 
         ConsoleTable table = new ConsoleTable("Product Id", "Product Name", "Supplier Name", "Price", "Category");
         foreach (var product in joined)

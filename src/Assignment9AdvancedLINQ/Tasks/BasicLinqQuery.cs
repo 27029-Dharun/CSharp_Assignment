@@ -12,17 +12,14 @@ namespace Assignment9AdvancedLINQ.Tasks
     public class BasicLinqQuery
     {
         private readonly Database _database;
-        private readonly ConsoleView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicLinqQuery"/> class.
         /// </summary>
         /// <param name="database">Instance of the database</param>
-        /// <param name="view">Instance of the view</param>
-        public BasicLinqQuery(Database database, ConsoleView view)
+        public BasicLinqQuery(Database database)
         {
             this._database = database;
-            this._view = view;
         }
 
         /// <summary>
@@ -32,12 +29,12 @@ namespace Assignment9AdvancedLINQ.Tasks
         {
             List<Product> product = this._database.GetAllProduct();
 
-            var filteredProduct = product
+            IEnumerable<(string ProductName, decimal Price)> filteredProduct = product
                 .Where(product => product.Category == ProductCategory.Electronics && product.Price > 500)
-                .Select(product => new { product.ProductName, product.Price });
-            var orderedByPrice = filteredProduct.OrderByDescending(product => product.Price).ToList();
+                .Select(product => (product.ProductName, product.Price));
+            List<(string ProductName, decimal Price)> orderedByPrice = filteredProduct.OrderByDescending(product => product.Price).ToList();
 
-            this._view.PrintInfo($"Electronics product greater than 500:");
+            ConsoleIO.PrintInfo($"Electronics product greater than 500:");
             ConsoleTable table = new ConsoleTable("Product Name", "Price");
             foreach (var electronics in orderedByPrice)
             {
@@ -48,7 +45,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             table.Write();
 
             decimal averagePrice = orderedByPrice.Average(product => product.Price);
-            this._view.PrintInfo($"The average price of the product: {averagePrice}");
+            ConsoleIO.PrintInfo($"The average price of the product: {averagePrice}");
         }
     }
 }

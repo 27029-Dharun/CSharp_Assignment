@@ -13,17 +13,14 @@ namespace Assignment9AdvancedLINQ.Tasks;
 public class QueryOptimization
 {
     private readonly Database _database;
-    private readonly ConsoleView _view;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryOptimization"/> class.
     /// </summary>
     /// <param name="database">Instance of the database</param>
-    /// <param name="view">Instance of the view</param>
-    public QueryOptimization(Database database, ConsoleView view)
+    public QueryOptimization(Database database)
     {
         this._database = database;
-        this._view = view;
     }
 
     /// <summary>
@@ -38,7 +35,7 @@ public class QueryOptimization
             .Where(product => product.Category == ProductCategory.Books)
             .OrderBy(product => product.Price);
 
-        this._view.PrintInfo("Books sorted in ascending order");
+        ConsoleIO.PrintInfo("Books sorted in ascending order");
         ConsoleTable table = new ConsoleTable("Product Name", "Price");
         foreach (var book in booksSortedByPrice)
         {
@@ -46,7 +43,7 @@ public class QueryOptimization
         }
 
         stopwatch.Stop();
-        this._view.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
+        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
         table.Options.EnableCount = false;
         table.Write();
 
@@ -63,7 +60,7 @@ public class QueryOptimization
         }
 
         stopwatch.Stop();
-        this._view.PrintInfo($"{stopwatch.Elapsed.TotalMilliseconds}");
+        ConsoleIO.PrintInfo($"{stopwatch.Elapsed.TotalMilliseconds}");
         table1.Options.EnableCount = false;
         table1.Write();
     }
