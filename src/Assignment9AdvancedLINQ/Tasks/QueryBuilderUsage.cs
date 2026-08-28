@@ -1,6 +1,7 @@
 ﻿using Assignment9AdvancedLINQ.Models;
 using Assignment9AdvancedLINQ.Models.DTO;
 using Assignment9AdvancedLINQ.Repository;
+using Assignment9AdvancedLINQ.Views;
 using ConsoleTables;
 
 namespace Assignment9AdvancedLINQ.Tasks
@@ -49,6 +50,34 @@ namespace Assignment9AdvancedLINQ.Tasks
 
             table.Options.EnableCount = false;
             table.Write();
+
+            ConsoleIO.PrintInfo("Product starting with letter L");
+            List<Product> productStartingWithL = queryBuilder
+                .Filter(p => p.ProductName.StartsWith("L"))
+                .Execute();
+
+            ConsoleTable table1 = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in productStartingWithL)
+            {
+                table1.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+            }
+
+            table1.Options.EnableCount = false;
+            table1.Write();
+
+            ConsoleIO.PrintInfo("Product ending with letter t");
+            List<Product> product = queryBuilder
+                .Filter(p => p.ProductName.EndsWith("t"))
+                .Execute();
+
+            ConsoleTable table2 = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in productStartingWithL)
+            {
+                table2.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+            }
+
+            table2.Options.EnableCount = false;
+            table2.Write();
         }
     }
 }

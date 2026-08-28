@@ -22,11 +22,11 @@ public class QueryBuilder<T>
     /// <summary>
     /// Filters the collection
     /// </summary>
-    /// <param name="predicate">Predicate</param>
-    /// <returns>returns the predicate</returns>
-    public QueryBuilder<T> Filter(Expression<Func<T, bool>> predicate)
+    /// <param name="filter">filter condition</param>
+    /// <returns>The filtered result</returns>
+    public QueryBuilder<T> Filter(Expression<Func<T, bool>> filter)
     {
-        this._list = this._list.Where(predicate);
+        this._list = this._list.Where(filter);
         return this;
     }
 
@@ -40,11 +40,6 @@ public class QueryBuilder<T>
     {
         this._list = this._list.OrderBy(keySelector);
         return this;
-    }
-
-    public QueryBuilder<T> Contains(Expression<Func<T, bool>> predicate)
-    {
-        this._list.Contains()
     }
 
     /// <summary>
