@@ -10,7 +10,8 @@
         /// </summary>
         public static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Assignment 10");
+            Console.WriteLine("Basic Calculator Application");
         }
     }
 }
