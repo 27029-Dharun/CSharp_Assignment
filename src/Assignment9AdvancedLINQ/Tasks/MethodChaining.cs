@@ -55,7 +55,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             // Product price less than or equal to 1000
             ConsoleIO.PrintInfo("Product price less than or equal to 1000");
             List<Product> productLessThan1000 = new QueryBuilder<Product>(products)
-                .Filter(p => p.Price, Models.Enums.FilterCondition.LessThanOrEqualTo, 1000)
+                .Filter(p => p.Price, FilterCondition.LessThanOrEqualTo, 1000)
                 .Execute();
 
             ConsoleTable productLessThan1000Table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
@@ -70,7 +70,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             // Product price more than or equal to 1000
             ConsoleIO.PrintInfo("Product price more than or equal to 1000");
             List<Product> productGreaterThan1000 = new QueryBuilder<Product>(products)
-                .Filter(p => p.Price, Models.Enums.FilterCondition.GreaterThanOrEqualTo, 1000)
+                .Filter(p => p.Price, FilterCondition.GreaterThanOrEqualTo, 1000)
                 .Execute();
 
             ConsoleTable productGreaterThan1000Table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");

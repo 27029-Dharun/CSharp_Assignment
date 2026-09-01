@@ -8,7 +8,7 @@ namespace Assignment9AdvancedLINQ.Tasks;
 public class ArrayOperations
 {
     /// <summary>
-    /// Handles the array operations.
+    /// Handles the array operations
     /// </summary>
     public void HandleArrayOperations()
     {

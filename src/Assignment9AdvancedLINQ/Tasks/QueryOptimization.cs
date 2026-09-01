@@ -42,10 +42,10 @@ public class QueryOptimization
             table.AddRow(book.ProductName, book.Price);
         }
 
-        stopwatch.Stop();
-        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
         table.Options.EnableCount = false;
         table.Write();
+        stopwatch.Stop();
+        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
 
         // Optimized version
         stopwatch.Restart();
@@ -59,10 +59,9 @@ public class QueryOptimization
             table1.AddRow(book.ProductName, book.Price);
         }
 
-        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
         table1.Write();
-
         stopwatch.Stop();
+        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
 
         // reducing the column and use only the required column
         List<(string Name, decimal Price)> sortBooks = product
