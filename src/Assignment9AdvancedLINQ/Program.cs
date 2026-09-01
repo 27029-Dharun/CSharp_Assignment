@@ -23,43 +23,50 @@ public class Program
         QueryOptimization task4 = new QueryOptimization(database);
         MethodChaining task5 = new MethodChaining(database);
 
-        database.InitializeData();
-
-        while (true)
+        try
         {
-            MenuOption option = ConsoleIO.GetEnumValue<MenuOption>("Select the option to continue: ");
+            database.InitializeData();
 
-            switch (option)
+            while (true)
             {
-                case MenuOption.Task1:
-                    basicLinqQuery.GetAveragePrice();
-                    break;
+                MenuOption option = ConsoleIO.GetEnumValue<MenuOption>("Select the option to continue: ");
 
-                case MenuOption.Task2:
-                    complexLinqQuery.ComplexLinqQueries();
-                    break;
+                switch (option)
+                {
+                    case MenuOption.Task1:
+                        basicLinqQuery.GetAveragePrice();
+                        break;
 
-                case MenuOption.Task3:
-                    task3.HandleArrayOperations();
-                    break;
+                    case MenuOption.Task2:
+                        complexLinqQuery.ComplexLinqQueries();
+                        break;
 
-                case MenuOption.Task4:
-                    task4.GetBooksCategory();
-                    break;
+                    case MenuOption.Task3:
+                        task3.HandleArrayOperations();
+                        break;
 
-                case MenuOption.Task5:
-                    task5.SortList();
-                    break;
+                    case MenuOption.Task4:
+                        task4.GetBooksCategory();
+                        break;
 
-                case MenuOption.Exit:
-                    return;
+                    case MenuOption.Task5:
+                        task5.SortList();
+                        break;
 
-                default:
-                    ConsoleIO.PrintInfo("Enter a valid option");
-                    break;
+                    case MenuOption.Exit:
+                        return;
+
+                    default:
+                        ConsoleIO.PrintInfo("Enter a valid option");
+                        break;
+                }
+
+                ConsoleIO.PauseAndClear();
             }
-
-            ConsoleIO.PauseAndClear();
+        }
+        catch (Exception ex)
+        {
+            ConsoleIO.PrintInfo(ex.Message);
         }
     }
 }
