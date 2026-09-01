@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Assignment9AdvancedLINQ.Models.Enums;
 
-namespace Assignment9AdvancedLINQ;
+namespace Assignment9AdvancedLINQ.Models;
 
 /// <summary>
 /// A fluent query builder class containing methods to dynamically build and execute LINQ queries.

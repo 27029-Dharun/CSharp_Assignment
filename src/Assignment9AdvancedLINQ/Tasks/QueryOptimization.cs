@@ -76,6 +76,7 @@ public class QueryOptimization
             list.AddRow(book.Name, book.Price);
         }
 
+        ConsoleIO.PrintInfo($"Selecting only the required parameter before ordering reduces the memory usage");
         list.Options.EnableCount = false;
         list.Write();
     }
