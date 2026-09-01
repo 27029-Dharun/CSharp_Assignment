@@ -50,8 +50,8 @@ Performed basic LINQ operations listed below like
 
 ## Task 5 - Query Builder
 
-Implemented in Fluent API pattern to support method chaining.
-Implemented query build with collection type `IQueryable` to perform all the operations in runtime rather than loading everything in memory.
-Used expression to store all the operations as tree and execute them.
-
-
+- Implemented QueryBuilder in Fluent API pattern to support method chaining.
+- Used `IQueryable<T>` to perform deferred execution and only the memory is created when we materialize by using `Execute` method.
+- Used expression to store all the operations as tree and execute them dynamically.
+- Implemented dynamic filtering option containing  'Contains', 'StartsWith', 'EndsWith', 'GreaterThanOrEqualTo', and 'LessThanOrEqualTo'.
+- Used `Execute` method that call `ToList` to materialize the collection and return a materialized list.
