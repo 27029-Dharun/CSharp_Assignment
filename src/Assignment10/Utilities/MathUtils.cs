@@ -44,7 +44,7 @@ public static class MathUtils
     /// <param name="num1">An first integer value</param>
     /// <param name="num2">An second integer value</param>
     /// <returns>A integer value containing the quotient.</returns>
-    public static int Division(int num1, int num2)
+    public static int Divide(int num1, int num2)
     {
         return num1 / num2;
     }
