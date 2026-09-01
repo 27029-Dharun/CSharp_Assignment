@@ -50,7 +50,7 @@ public class Program
                         break;
 
                     case MenuOption.Task5:
-                        task5.SortList();
+                        task5.HandleMethodChaining();
                         break;
 
                     case MenuOption.Exit:

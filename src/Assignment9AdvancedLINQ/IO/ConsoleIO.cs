@@ -22,7 +22,7 @@
         /// </summary>
         /// <typeparam name="T">Type variable that should be struct</typeparam>
         /// <param name="message">String to be printed</param>
-        /// <returns>returns a enum value entered by use</returns>
+        /// <returns>returns a enum value entered by user</returns>
         public static T GetEnumValue<T>(string message)
            where T : struct, Enum
         {

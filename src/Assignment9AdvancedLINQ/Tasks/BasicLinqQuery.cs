@@ -7,7 +7,7 @@ using ConsoleTables;
 namespace Assignment9AdvancedLINQ.Tasks
 {
     /// <summary>
-    /// Contains the task1
+    /// Contains the basic linq operations.
     /// </summary>
     public class BasicLinqQuery
     {

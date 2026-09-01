@@ -1,5 +1,6 @@
 ﻿using Assignment9AdvancedLINQ.Models;
 using Assignment9AdvancedLINQ.Models.DTO;
+using Assignment9AdvancedLINQ.Models.Enums;
 using Assignment9AdvancedLINQ.Repository;
 using Assignment9AdvancedLINQ.Views;
 using ConsoleTables;
@@ -23,9 +24,9 @@ namespace Assignment9AdvancedLINQ.Tasks
         }
 
         /// <summary>
-        /// Sort the list
+        /// Implements the method chaining operations.
         /// </summary>
-        public void SortList()
+        public void HandleMethodChaining()
         {
             List<Product> products = this._database.GetAllProduct();
             List<Supplier> suppliers = this._database.GetAllSuppliers();
@@ -84,7 +85,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             // Product starting with letter L
             ConsoleIO.PrintInfo("Product starting with letter L");
             List<Product> productStartingWithL = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, Models.Enums.FilterCondition.StartsWith, "L")
+                .Filter(p => p.ProductName, FilterCondition.StartsWith, "L")
                 .Execute();
 
             ConsoleTable productStartingWithLTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
@@ -99,7 +100,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             // Product ending with letter t
             ConsoleIO.PrintInfo("Product ending with letter t");
             List<Product> productEndingWithT = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, Models.Enums.FilterCondition.EndsWith, "t")
+                .Filter(p => p.ProductName, FilterCondition.EndsWith, "t")
                 .Execute();
 
             ConsoleTable productEndingWithTTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
@@ -114,7 +115,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             // Product containing "lap"
             ConsoleIO.PrintInfo("Product containing lap");
             List<Product> productContaining = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, Models.Enums.FilterCondition.Contains, "Lap")
+                .Filter(p => p.ProductName, FilterCondition.Contains, "Lap")
                 .Execute();
 
             ConsoleTable productContainingTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");

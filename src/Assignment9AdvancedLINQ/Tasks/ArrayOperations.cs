@@ -3,12 +3,12 @@
 namespace Assignment9AdvancedLINQ.Tasks;
 
 /// <summary>
-/// Contains the task1
+/// Contains the array operations
 /// </summary>
 public class ArrayOperations
 {
     /// <summary>
-    /// Gets the average price of the product
+    /// Handles the array operations.
     /// </summary>
     public void HandleArrayOperations()
     {
