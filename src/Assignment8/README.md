@@ -1,8 +1,7 @@
 # Assignment 8 - Error Handling
 
-- This assignment showcases the error handling techniques by managing and responding to errors that occur during the execution of the program.
-- It implements various strategies like try, catch and finally blocks, custom exceptions and global unhandled exception handling.
-- It also interprets the exception stack trace.
+- This assignment implements the error handling techniques to manage exception.
+- It implements various strategies like try, catch and finally blocks, interpretion of exception stack trace, custom exceptions and global unhandled exception handling.
 
 ## Menu Options
 
