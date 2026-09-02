@@ -12,7 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acceptance", "acceptance", "{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment2", "src\Assignment2\Assignment2.csproj", "{D4AA2B9A-EE9B-42A2-8E4E-6B9E556918BA}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment1", "src\Assignment1\Assignment1.csproj", "{83CE69B4-70B6-4858-8875-072FC23A5ED7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment9AdvancedLINQ", "src\Assignment9AdvancedLINQ\Assignment9AdvancedLINQ.csproj", "{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +31,10 @@ Global
 		{83CE69B4-70B6-4858-8875-072FC23A5ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83CE69B4-70B6-4858-8875-072FC23A5ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83CE69B4-70B6-4858-8875-072FC23A5ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,8 +44,10 @@ Global
 		{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9} = {06861454-9561-492A-9F93-A33B6F7AE3AB}
 		{D4AA2B9A-EE9B-42A2-8E4E-6B9E556918BA} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{83CE69B4-70B6-4858-8875-072FC23A5ED7} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
+		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		        SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
+		SolutionGuid = {EE65E8FE-C3F4-42A4-82CA-49741C56DB69}
 	EndGlobalSection
 EndGlobal
