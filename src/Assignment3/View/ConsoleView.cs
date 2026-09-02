@@ -26,7 +26,7 @@ namespace Assignment3.View
         /// Gets an integer input.
         /// </summary>
         /// <param name="message">Message to be printed</param>
-        /// <param name="tries">Tries left to enter a valid Integer</param>
+        /// <param name="tries">Tries left to enter a valid integer</param>
         /// <returns>Integer input</returns>
         public int GetInteger(string message, int tries = Tries)
         {
