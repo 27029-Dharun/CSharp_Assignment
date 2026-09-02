@@ -18,13 +18,7 @@ namespace Assignment3.Repository
         /// <inheritdoc />
         public Product GetProductById(int id)
         {
-            Product? product = this._inventories.FirstOrDefault(product => product.Id == id);
-            if (product is null)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            return product;
+            return this._inventories.FirstOrDefault(product => product.Id == id) ?? throw new KeyNotFoundException("Invalid id - Enter a valid product id");
         }
 
         /// <inheritdoc />
