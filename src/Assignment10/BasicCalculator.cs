@@ -57,7 +57,6 @@ public class BasicCalculator
             catch (FormatException e)
             {
                 this._view.Print(e.Message);
-                this._view.Print("Enter a valid data in correct format");
             }
             catch (ArgumentException e)
             {

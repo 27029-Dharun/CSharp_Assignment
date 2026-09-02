@@ -19,7 +19,7 @@ namespace Assignment10.Views
             int integer;
             if (!int.TryParse(input, out integer))
             {
-                throw new FormatException("No attempt left - Please enter a valid integer." + Environment.NewLine);
+                throw new FormatException("Please enter a valid integer." + Environment.NewLine);
             }
 
             return integer;
