@@ -28,7 +28,7 @@ public static class MathUtils
     }
 
     /// <summary>
-    /// Multiply two integer and returns their result.
+    /// Multiply two integer and returns their product.
     /// </summary>
     /// <param name="num1">An first integer value.</param>
     /// <param name="num2">An second integer value.</param>
