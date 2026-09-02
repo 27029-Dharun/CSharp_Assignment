@@ -18,15 +18,13 @@ namespace Assignment3.Repository
         /// <inheritdoc />
         public Product GetProductById(int id)
         {
-            foreach (Product item in this._inventories)
+            Product? product = this._inventories.FirstOrDefault(product => product.Id == id);
+            if (product is null)
             {
-                if (item.Id == id)
-                {
-                    return item;
-                }
+                throw new KeyNotFoundException();
             }
 
-            throw new KeyNotFoundException("Product Id not Found");
+            return product;
         }
 
         /// <inheritdoc />

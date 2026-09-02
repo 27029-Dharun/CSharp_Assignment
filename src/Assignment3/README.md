@@ -1,3 +1,4 @@
+
 # Inventory Management Console Application
 
 This application helps to manage your product inventory through a simple, menu-driven console interface. You can add new products, update existing ones, remove products, search for products, and sort your inventory.
@@ -27,7 +28,7 @@ User will be prompted to enter:
 * Product Price
 * Product Quantity
 
-The application automatically assigns a unique Product ID.
+The application automatically assigns a unique Product Id.
 
 ---
 
@@ -36,7 +37,7 @@ The application automatically assigns a unique Product ID.
 Displays all products currently available in the inventory in a tabular form.
 Each product includes:
 
-* Product ID
+* Product Id
 * Product Name
 * Price
 * Quantity
@@ -50,11 +51,11 @@ If no products have been added, a message `INVENTORY IS EMPTY` is displayed.
 Modify the details of an existing product.
 Steps:
 
-1. Enter the Product ID.
+1. Enter the Product Id.
 2. Enter the product details that you only want to edit and skip the field if it is empty.
 3. Updated product information is displayed.
 
-If the Product ID does not exist, an error message is displayed.
+If the Product Id does not exist, an error message is displayed.
 
 ---
 
@@ -63,10 +64,10 @@ If the Product ID does not exist, an error message is displayed.
 Remove a product from the inventory.
 Steps:
 
-1. Enter the Product ID.
+1. Enter the Product Id.
 2. If the product exists, it is deleted.
 
-If the Product ID does not exist, an error message is displayed.
+If the Product Id does not exist, an error message is displayed.
 
 ---
 

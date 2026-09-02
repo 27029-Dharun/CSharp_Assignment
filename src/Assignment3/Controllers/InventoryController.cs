@@ -63,15 +63,14 @@ public class InventoryController
     public void ViewProduct()
     {
         List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (inventories.Any())
-        {
-            this._consoleView.PrintInfo("Products in inventory");
-            this._consoleView.PrintInventory(inventories);
-        }
-        else
+        if (this._inventoryService.IsInventoryEmpty())
         {
             this._consoleView.PrintInfo("Inventory is empty");
+            return;
         }
+
+        this._consoleView.PrintInfo("Products in inventory");
+        this._consoleView.PrintInventory(inventories);
     }
 
     /// <summary>
@@ -80,19 +79,14 @@ public class InventoryController
     public void DeleteProduct()
     {
         List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (inventories.Count == 0)
+        if (this._inventoryService.IsInventoryEmpty())
         {
             this._consoleView.PrintInfo("No product available to delete");
             return;
         }
 
-        int id = this.GetProductID(inventories, "delete");
-        Product? product = this._inventoryService.DeleteProductById(id);
-        if (product is null)
-        {
-            this._consoleView.PrintInfo("Product id is not valid");
-            return;
-        }
+        int id = this.GetProductId(inventories, "delete");
+        Product product = this._inventoryService.DeleteProductById(id);
 
         this._consoleView.PrintProduct(product);
         this._consoleView.PrintInfo("Product deleted successfully !!");
@@ -104,13 +98,13 @@ public class InventoryController
     public void EditProduct()
     {
         List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (inventories.Count == 0)
+        if (this._inventoryService.IsInventoryEmpty())
         {
             this._consoleView.PrintInfo("No product available to edit.");
             return;
         }
 
-        int id = this.GetProductID(inventories, "edit");
+        int id = this.GetProductId(inventories, "edit");
         this._inventoryService.ValidateProductId(id);
         this._consoleView.PrintInfo("Enter value for field that you only want to edit");
 
@@ -134,17 +128,16 @@ public class InventoryController
             return;
         }
 
-        string search_query = this._consoleView.GetString("Enter the name or product Id to search: ");
-        List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(search_query);
-        if (filteredProducts.Any())
-        {
-            this._consoleView.PrintInfo("Products matched are: ");
-            this._consoleView.PrintInventory(filteredProducts);
-        }
-        else
+        string searchQuery = this._consoleView.GetString("Enter the name or product Id to search: ");
+        List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(searchQuery);
+        if (!filteredProducts.Any())
         {
             this._consoleView.PrintInfo("No product matched");
+            return;
         }
+
+        this._consoleView.PrintInfo("Products matched are: ");
+        this._consoleView.PrintInventory(filteredProducts);
     }
 
     /// <summary>
@@ -158,18 +151,12 @@ public class InventoryController
             return;
         }
 
-        this._consoleView.PrintInfo("Sort Product By\n1. Name\n2. Price\n3. Quantity");
-        int option = this._consoleView.GetInteger("Enter the option to sort: ");
+        SortOption option = this._consoleView.GetEnumOption<SortOption>("Sort Product By\n1. Name\n2. Price\n3. Quantity\nEnter the option to sort: ");
         List<Product> products = this._inventoryService.SortProducts(option);
         this._consoleView.PrintInventory(products);
     }
 
-    /// <summary>
-    /// Gets the product id by displaying all the products
-    /// </summary>
-    /// <param name="inventories">List of inventory product</param>
-    /// <returns>Index value that user entered</returns>
-    private int GetProductID(List<Product> inventories, string option)
+    private int GetProductId(List<Product> inventories, string option)
     {
         this._consoleView.PrintInventory(inventories);
         return this._consoleView.GetInteger($"Enter the product Id to {option}: ");

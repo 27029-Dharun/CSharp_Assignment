@@ -5,9 +5,8 @@
     /// </summary>
     public static class InventoryValidator
     {
-        private const int MinimumPrice = 1;
-
-        private const decimal MinimumQuantity = 0;
+        private const decimal MinimumPrice = 1;
+        private const int MinimumQuantity = 0;
         private const int MinimumNameLength = 3;
 
         /// <summary>
@@ -17,17 +16,12 @@
         /// <returns>True if the price is positive; otherwise false</returns>
         public static bool IsValidatePrice(string input)
         {
-            if (!decimal.TryParse(input, out decimal quantity))
+            if (!decimal.TryParse(input, out decimal price))
             {
                 return false;
             }
 
-            if (quantity < MinimumPrice)
-            {
-                return false;
-            }
-
-            return true;
+            return HasValidMinimumValue(price, MinimumPrice);
         }
 
         /// <summary>
@@ -35,19 +29,14 @@
         /// </summary>
         /// <param name="input">Quantity of the product</param>
         /// <returns>True if quantity is not negative; otherwise false. </returns>
-        public static bool IsValidateQuantity(string input)
+        public static bool IsValidQuantity(string input)
         {
             if (!int.TryParse(input, out int quantity))
             {
                 return false;
             }
 
-            if (quantity < MinimumQuantity)
-            {
-                return false;
-            }
-
-            return true;
+            return HasValidMinimumValue(quantity, MinimumQuantity);
         }
 
         /// <summary>
@@ -55,7 +44,7 @@
         /// </summary>
         /// <param name="name">Name of the product. </param>
         /// <returns>True if name is valid; otherwise false. </returns>
-        public static bool IsValidateName(string name)
+        public static bool IsValidName(string name)
         {
             if (string.IsNullOrWhiteSpace(name) || name.Length < MinimumNameLength)
             {
@@ -97,6 +86,12 @@
             }
 
             return true;
+        }
+
+        private static bool HasValidMinimumValue<T>(T input, T minimumValue)
+            where T : IComparable
+        {
+            return input.CompareTo(minimumValue) >= 0;
         }
     }
 }

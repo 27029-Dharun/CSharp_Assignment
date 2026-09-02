@@ -9,11 +9,6 @@ namespace Assignment3.View
     /// </summary>
     public class ConsoleView
     {
-        /// <summary>
-        /// A value the represents an option to assign existing value to the inventory product.
-        /// </summary>
-        public const int AssignExistingValue = -1;
-
         private const int Tries = 3;
 
         /// <summary>
@@ -82,7 +77,7 @@ namespace Assignment3.View
         /// <returns>A string containing product name</returns>
         public string GetProductName(string message, bool optional = false, int tries = Tries)
         {
-            return this.GetValidatedInput(message, optional, InventoryValidator.IsValidateName, "Name must atleast contain 3 characters");
+            return this.GetValidatedInput(message, optional, InventoryValidator.IsValidName, "Name must atleast contain 3 characters");
         }
 
         /// <summary>
@@ -94,7 +89,7 @@ namespace Assignment3.View
         /// <returns>An integer value that is enter by user</returns>
         public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
         {
-            string input = this.GetValidatedInput(message, optional, InventoryValidator.IsValidateQuantity, "Quantity can't be negative");
+            string input = this.GetValidatedInput(message, optional, InventoryValidator.IsValidQuantity, "Quantity can't be negative");
 
             return int.Parse(input);
         }
@@ -134,7 +129,7 @@ namespace Assignment3.View
         /// <returns>An integer value that is enter by user</returns>
         public int? GetOptionalProductQuantity(string message)
         {
-            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidateQuantity, "Quantity must a valid non negative integer.");
+            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidQuantity, "Quantity must a valid non negative integer.");
 
             if (string.IsNullOrWhiteSpace(input))
             {

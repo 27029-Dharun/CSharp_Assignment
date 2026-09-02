@@ -1,4 +1,5 @@
 ﻿using Assignment3.Models;
+using Assignment3.Models.Enums;
 using Assignment3.Repository;
 using Assignment3.Validation;
 
@@ -57,7 +58,7 @@ namespace Assignment3.Services
             // If all the fields are Empty throws an Exception
             if (string.IsNullOrWhiteSpace(name) && price is null && quantity is null)
             {
-                throw new Exception("\nNothing to Edit");
+                throw new InvalidOperationException("\nNothing to Edit - invalid call given current state");
             }
 
             // If name is not null the name is updated
@@ -66,7 +67,7 @@ namespace Assignment3.Services
                 List<string> productNames = this._inventoryRepository.GetProductName();
                 if (!InventoryValidator.IsUniqueProductName(name, productNames, product.Name))
                 {
-                    throw new Exception(" The name of the product should be unique. ");
+                    throw new ArgumentException("Duplicate name — an invalid argument.");
                 }
 
                 product.Name = name;
@@ -88,36 +89,38 @@ namespace Assignment3.Services
         }
 
         /// <inheritdoc />
-        public List<Product> SortProducts(int option)
+        public List<Product> SortProducts(SortOption option)
         {
+            List<Product> products = this._inventoryRepository.GetInventory().ToList();
+
             switch (option)
             {
-                case 1:
-                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Name).ToList();
+                case SortOption.Name:
+                    return products.OrderBy(x => x.Name).ToList();
 
-                case 2:
-                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Price).ToList();
+                case SortOption.Price:
+                    return products.OrderBy(x => x.Price).ToList();
 
-                case 3:
-                    return this._inventoryRepository.GetInventory().OrderBy(x => x.Quantity).ToList();
+                case SortOption.Quantity:
+                    return products.OrderBy(x => x.Quantity).ToList();
 
                 default:
-                    throw new InvalidOperationException();
+                    throw new ArgumentOutOfRangeException(nameof(option), option, "Unsupported sort option");
             }
         }
 
         /// <inheritdoc />
-        public List<Product> SearchProductByNameOrId(string search_query)
+        public List<Product> SearchProductByNameOrId(string searchQuery)
         {
             List<Product> products = this._inventoryRepository.GetInventory().ToList();
             List<Product> filtered = new List<Product>();
             foreach (Product product in products)
             {
-                if (product.Name != null && product.Name.ToLower().Contains(search_query.ToLower()))
+                if (product.Name != null && product.Name.ToLower().Contains(searchQuery.ToLower()))
                 {
                     filtered.Add(product);
                 }
-                else if (product.Id.ToString().Contains(search_query))
+                else if (product.Id.ToString().Contains(searchQuery))
                 {
                     filtered.Add(product);
                 }

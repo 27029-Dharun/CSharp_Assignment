@@ -34,7 +34,7 @@
         /// <value>
         /// Name of the product.
         /// </value>
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets product price.

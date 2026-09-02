@@ -1,4 +1,5 @@
 ﻿using Assignment3.Models;
+using Assignment3.Models.Enums;
 
 namespace Assignment3.Services
 {
@@ -44,7 +45,7 @@ namespace Assignment3.Services
         /// </summary>
         /// <param name="option">option to sort by</param>
         /// <returns>sorted product list</returns>
-        List<Product> SortProducts(int option);
+        List<Product> SortProducts(SortOption option);
 
         /// <summary>
         /// Checks the product existence in the inventory
