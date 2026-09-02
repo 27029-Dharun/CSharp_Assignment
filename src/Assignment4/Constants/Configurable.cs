@@ -35,5 +35,10 @@
         /// Represents the minimum amount that can be tracked.
         /// </summary>
         public const int MinimumAmount = 1;
+
+        /// <summary>
+        /// Represents the maximum length of the bar chart
+        /// </summary>
+        public const int MaxBarLength = 40;
     }
 }

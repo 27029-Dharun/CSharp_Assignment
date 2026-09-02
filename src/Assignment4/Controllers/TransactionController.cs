@@ -54,6 +54,14 @@ namespace Assignment4.Controllers
                     this.ViewTransaction();
                     break;
 
+                case TransactionMenu.SearchTransaction:
+                    this.SearchTransaction();
+                    break;
+
+                case TransactionMenu.SortTransaction:
+                    this.SortTransactionByAmount();
+                    break;
+
                 case TransactionMenu.Exit:
                     return;
             }
@@ -144,6 +152,11 @@ namespace Assignment4.Controllers
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+            this._view.PrintEmptyLine();
+            this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
+            this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
+
+            this._view.PrintSummary(summary);
         }
 
         private void EditTransaction()
@@ -234,6 +247,56 @@ namespace Assignment4.Controllers
             {
                 transaction.Description = description;
             }
+        }
+
+        private void SortTransactionByAmount()
+        {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to sort.");
+                return;
+            }
+
+            int option = this._view.GetInteger("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            if (!this._service.CheckTransactionsExist())
+            {
+                this._view.PrintInfo("No transactions to search.");
+                return;
+            }
+
+            int option = this._view.GetInteger("1. Category\n2. Date\nSelect the field to search with: ");
+            string query;
+            if (option == 1)
+            {
+                query = this._view.GetValidCategory($"Enter the category to search: ");
+            }
+            else if (option == 2)
+            {
+                query = this._view.GetValidDate();
+            }
+            else
+            {
+                this._view.PrintInfo("Please enter a valid field to search.");
+                return;
+            }
+
+            IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
+            if (!filteredTransaction.Any())
+            {
+                this._view.PrintInfo("No matched transactions found");
+                return;
+            }
+
+            this._view.PrintTransactionTable(filteredTransaction);
         }
 
         /// <summary>
