@@ -15,7 +15,14 @@ namespace Assignment10.Views
         /// <returns>A integer value entered by the user.</returns>
         public int GetNumber(string prompt)
         {
-            return ConsoleIO.GetInteger(prompt);
+            string input = ConsoleIO.GetString(prompt);
+            int integer;
+            if (!int.TryParse(input, out integer))
+            {
+                throw new FormatException("No attempt left - Please enter a valid integer." + Environment.NewLine);
+            }
+
+            return integer;
         }
 
         /// <summary>
@@ -49,7 +56,7 @@ namespace Assignment10.Views
         /// <param name="message">Header to be printed</param>
         public void Print(string message)
         {
-            Console.WriteLine(message);
+            ConsoleIO.PrintInfo(message);
         }
 
         /// <summary>
@@ -57,11 +64,11 @@ namespace Assignment10.Views
         /// </summary>
         public void PauseAndClear()
         {
-            Console.WriteLine("Enter a key to return to main menu");
+            ConsoleIO.PrintInfo("Enter a key to return to main menu");
             Console.ReadKey();
 
             // Erases the entire scroll back buffer history
-            Console.Write("\x1b[3J");
+            ConsoleIO.PrintInfo("\x1b[3J");
             Console.Clear();
         }
 
@@ -71,7 +78,7 @@ namespace Assignment10.Views
         public void ClearConsole()
         {
             // Erases the entire scroll back buffer history
-            Console.Write("\x1b[3J");
+            ConsoleIO.PrintInfo("\x1b[3J");
             Console.Clear();
         }
     }

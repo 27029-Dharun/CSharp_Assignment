@@ -18,7 +18,7 @@ namespace Assignments
 
             try
             {
-                calculator.HandleMenu();
+                calculator.HandleCalculatorMenu();
             }
             catch (Exception e)
             {

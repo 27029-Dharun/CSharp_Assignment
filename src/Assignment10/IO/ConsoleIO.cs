@@ -57,31 +57,5 @@
         {
             Console.WriteLine($"{message}");
         }
-
-        /// <summary>
-        /// Gets a valid integer from the user.
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <returns>An integer value</returns>
-        public static int GetInteger(string message)
-        {
-            int tries = 3;
-            string input = GetString(message);
-            int integer;
-            while (!int.TryParse(input, out integer))
-            {
-                if (tries == 1)
-                {
-                    throw new FormatException("No attempt left - Please enter a valid integer." + Environment.NewLine);
-                }
-
-                tries--;
-                Console.WriteLine($"Tries left: {tries}");
-                Console.WriteLine("Enter a valid input" + Environment.NewLine);
-                input = GetString(message);
-            }
-
-            return integer;
-        }
     }
 }

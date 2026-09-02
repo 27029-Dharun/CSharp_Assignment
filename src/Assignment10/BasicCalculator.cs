@@ -24,7 +24,7 @@ public class BasicCalculator
     /// Calculator entry point
     /// Handle menu and switch between operation
     /// </summary>
-    public void HandleMenu()
+    public void HandleCalculatorMenu()
     {
         while (true)
         {
@@ -35,19 +35,19 @@ public class BasicCalculator
                 switch (option)
                 {
                     case MenuOption.Add:
-                        this.AddInteger();
+                        this.CalculateResult(MathUtils.Add, "addition");
                         break;
 
                     case MenuOption.Subtract:
-                        this.SubtractInteger();
+                        this.CalculateResult(MathUtils.Subtract, "subtraction");
                         break;
 
                     case MenuOption.Multiply:
-                        this.MultiplyInteger();
+                        this.CalculateResult(MathUtils.Multiply, "multiplication");
                         break;
 
                     case MenuOption.Division:
-                        this.DivideInteger();
+                        this.CalculateResult(MathUtils.Divide, "division");
                         break;
 
                     case MenuOption.Exit:
@@ -59,7 +59,7 @@ public class BasicCalculator
                 this._view.Print(e.Message);
                 this._view.Print("Enter a valid data in correct format");
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 this._view.Print(e.Message);
             }
@@ -68,45 +68,12 @@ public class BasicCalculator
         }
     }
 
-    private void AddInteger()
+    private void CalculateResult(Func<int, int, int> calculate, string option)
     {
-        this._view.PrintHeader("Add two integer");
+        this._view.PrintHeader($"Performing {option}");
         int num1 = this._view.GetNumber("Enter the first number: ");
         int num2 = this._view.GetNumber("Enter the second number: ");
 
-        this._view.Print($"The result for {num1} + {num2} = {MathUtils.Add(num1, num2)}");
-    }
-
-    private void SubtractInteger()
-    {
-        this._view.PrintHeader("Subtract two integer");
-        int num1 = this._view.GetNumber("Enter the first number: ");
-        int num2 = this._view.GetNumber("Enter the second number: ");
-
-        this._view.Print($"The result for {num1} - {num2} = {MathUtils.Subtract(num1, num2)}");
-    }
-
-    private void MultiplyInteger()
-    {
-        this._view.PrintHeader("Multiply two integer");
-        int num1 = this._view.GetNumber("Enter the first number: ");
-        int num2 = this._view.GetNumber("Enter the second number: ");
-
-        this._view.Print($"The result for {num1} * {num2} = {MathUtils.Multiply(num1, num2)}");
-    }
-
-    private void DivideInteger()
-    {
-        this._view.PrintHeader("Divide two integer");
-        int num1 = this._view.GetNumber("Enter the first number: ");
-        int num2 = this._view.GetNumber("Enter the second number: ");
-
-        if (num2 == 0)
-        {
-            this._view.Print("Can't divide an integer by zero");
-            return;
-        }
-
-        this._view.Print($"The result for {num1} / {num2} = {MathUtils.Divide(num1, num2)}");
+        this._view.Print($"The result for {option} on {num1} & {num2} is {calculate(num1, num2)}");
     }
 }
