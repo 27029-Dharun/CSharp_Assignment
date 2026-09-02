@@ -29,17 +29,21 @@ public class InventoryController
     /// </summary>
     public void InventoryManagement()
     {
-        this._consoleView.PrintInfo("Welcome to Inventory Management Application");
         bool isRunning = true;
         while (isRunning)
         {
             try
             {
+                this._consoleView.PrintInfo("Inventory Management Application");
                 isRunning = this.InventoryOptions();
             }
             catch (Exception ex)
             {
                 this._consoleView.PrintInfo(ex.Message);
+            }
+            finally
+            {
+                this._consoleView.PauseAndContinue();
             }
         }
     }
@@ -199,7 +203,6 @@ public class InventoryController
                 break;
         }
 
-        this._consoleView.PauseAndContinue();
         return true;
     }
 }

@@ -189,6 +189,16 @@ namespace Assignment3.View
             Console.Clear();
         }
 
+        /// <summary>
+        /// Clears the console
+        /// </summary>
+        public void Clear()
+        {
+            // Erases the entire scroll back buffer history
+            Console.Write("\x1b[3J");
+            Console.Clear();
+        }
+
         private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)
         {
             int tries = Tries;
