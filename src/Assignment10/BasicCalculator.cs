@@ -54,13 +54,14 @@ public class BasicCalculator
                         return;
                 }
             }
-            catch (InvalidDataException e)
+            catch (FormatException e)
             {
                 this._view.Print(e.Message);
+                this._view.Print("Enter a valid data in correct format");
             }
-            catch (DivideByZeroException)
+            catch (Exception e)
             {
-                this._view.Print("Can't divide an integer by zero");
+                this._view.Print(e.Message);
             }
 
             this._view.PauseAndClear();

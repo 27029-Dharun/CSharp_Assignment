@@ -72,7 +72,7 @@
             {
                 if (tries == 1)
                 {
-                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                    throw new FormatException("No attempt left - Please enter a valid integer." + Environment.NewLine);
                 }
 
                 tries--;
