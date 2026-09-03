@@ -26,14 +26,14 @@
            where T : struct, Enum
         {
             string input = Console.ReadLine() ?? string.Empty;
-            int integer;
-            while (!int.TryParse(input, out integer) || !Enum.IsDefined(typeof(T), integer))
+            T result;
+            while (!Enum.TryParse<T>(input, out result) || !Enum.IsDefined(result))
             {
                 Console.WriteLine("Enter a valid option");
                 input = Console.ReadLine() ?? string.Empty;
             }
 
-            return (T)Enum.ToObject(typeof(T), integer);
+            return result;
         }
 
         /// <summary>

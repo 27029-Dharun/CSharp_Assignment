@@ -8,49 +8,49 @@ public static class MathUtils
     /// <summary>
     /// Add two integer and returns their sum.
     /// </summary>
-    /// <param name="num1">First integer value to add.</param>
-    /// <param name="num2">Second integer value to add.</param>
+    /// <param name="firstNumber">First integer value to add.</param>
+    /// <param name="secondNumber">Second integer value to add.</param>
     /// <returns>A integer value containing the sum of two integer.</returns>
-    public static int Add(int num1, int num2)
+    public static int Add(int firstNumber, int secondNumber)
     {
-        return num1 + num2;
+        return firstNumber + secondNumber;
     }
 
     /// <summary>
     /// Subtract two integer and returns their difference.
     /// </summary>
-    /// <param name="num1">First integer value.</param>
-    /// <param name="num2">Second integer value.</param>
+    /// <param name="firstNumber">First integer value.</param>
+    /// <param name="secondNumber">Second integer value.</param>
     /// <returns>A integer value containing the difference of two integer.</returns>
-    public static int Subtract(int num1, int num2)
+    public static int Subtract(int firstNumber, int secondNumber)
     {
-        return num1 - num2;
+        return firstNumber - secondNumber;
     }
 
     /// <summary>
     /// Multiply two integer and returns their product.
     /// </summary>
-    /// <param name="num1">First integer value.</param>
-    /// <param name="num2">second integer value.</param>
+    /// <param name="firstNumber">First integer value.</param>
+    /// <param name="secondNumber">second integer value.</param>
     /// <returns>A integer value containing the multiplication result.</returns>
-    public static int Multiply(int num1, int num2)
+    public static int Multiply(int firstNumber, int secondNumber)
     {
-        return num1 * num2;
+        return firstNumber * secondNumber;
     }
 
     /// <summary>
     /// Divide two integer and returns their quotient.
     /// </summary>
-    /// <param name="num1">First integer value.</param>
-    /// <param name="num2">Second integer value.</param>
+    /// <param name="firstNumber">First integer value.</param>
+    /// <param name="secondNumber">Second integer value.</param>
     /// <returns>A integer value containing the quotient.</returns>
-    public static int Divide(int num1, int num2)
+    public static double Divide(int firstNumber, int secondNumber)
     {
-        if (num2 == 0)
+        if (secondNumber == 0)
         {
-            throw new ArgumentException("Invalid Argument - Divisor can't be zero");
+            throw new DivideByZeroException("Invalid Argument - Divisor can't be zero");
         }
 
-        return num1 / num2;
+        return (double)firstNumber / secondNumber;
     }
 }

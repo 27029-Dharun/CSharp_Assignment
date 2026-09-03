@@ -6,8 +6,9 @@
 
 * .NET is a software development framework released by Microsoft that provides support to programming languages like **C#** , **F#**, **Visual basics**
 * The primary purpose is to provide cross platform environment for developing and running applications.
-* It provides runtime execution, memory management, garbage collection, exception handling, security mechanisms
-* It can be used to develop **Desktop Applications**, **Unity-based Games**, and **Windows-based applications**.
+* It provides common platform, libraries, tools and environment to develop and running applications.
+* It provides runtime execution, memory management, garbage collection, exception handling, security mechanisms.
+* It can be used to develop **Desktop Applications**, **Web Application**, **Unity-based Games**, and **Windows-based applications**.
 
 ### 2. What are the key components of the .NET platform?
 
@@ -24,14 +25,27 @@ The primary components making up the .NET platform include:
 #### Common Language Runtime (CLR)
 
 * The standard runtime execution environment provided by .NET.
+* It is responsible for running .NET applications and managing their lifecycle. It acts as a virtual machine that takes compiled Intermediate Language (IL) code from languages like C#, VB.NET, or F#, and uses the Just-In-Time (JIT) compiler to convert it into native machine code at runtime.
+
+##### Key Functions of CLR
+
 * **Memory Management:** Allocates and manages memory.
-* Converts CIL to machine level code during runtime.
+* **Code Execution:** Converts CIL to machine level code during runtime.
 * **Garbage Collection:** Automatically manages memory for managed code by collecting unreachable objects and defragmenting application memory.
+* **Exception handling:** Provides structured excption handling to prevent crashes.
+* **Thread Management:** Manages concurrent execution.
 
 #### Common Type System (CTS)
 
 * Dictates how data types are defined, declared, and managed inside the CLR.
 * **Cross-Language Integration:** Enables seamless language interoperability by establishing a standard type standard across all .NET languages.
+* Example:
+
+C# code `int num = 4;`
+
+This is converted as `System.Int32 num = 4;`
+
+So internally, the CLR understand the type as System.Int32, for all the programming language like C#, F#
 
 ### 4. What is the role of the Global Assembly Cache (GAC) in .NET?
 
@@ -89,9 +103,13 @@ Garbage collector used the Generation of Object concept and separates object int
 #### Common Intermediate Language (CIL)
 
 * High-level source code in C# is not compiled directly into native machine code. It is first compiled into an intermediate form called **CIL**.
-* Languages like C#, F#, and VB.NET all compile down into this identical structural format, allowing seamless cross-language referencing.
+* Languages like C#, F#, and VB.NET all compile down into an identical structural format CIL.
+* And this provides a common execution format for .NET runtime.
+* CIL is then converted to machine level code by JIT.
 
 #### Just-In-Time (JIT) Compiler
 
 * The CLR uses a specialized compiler called the **JIT Compiler** to translate CIL instructions into native machine code during execution.
+* A piece of code it converted to machine level code right before it got executed for the first time.
+* The entire code is not compiled to machine level code only the code that are used are compiled.
 * Modern runtimes also support AOT compilation, which translates CIL into machine code before execution to achieve near-instant application startup times.

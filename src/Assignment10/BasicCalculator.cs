@@ -58,7 +58,7 @@ public class BasicCalculator
             {
                 this._view.Print(e.Message);
             }
-            catch (ArgumentException e)
+            catch (DivideByZeroException e)
             {
                 this._view.Print(e.Message);
             }
@@ -67,12 +67,12 @@ public class BasicCalculator
         }
     }
 
-    private void CalculateResult(Func<int, int, int> calculate, string option)
+    private void CalculateResult<T>(Func<int, int, T> calculate, string option)
     {
         this._view.PrintHeader($"Performing {option}");
-        int num1 = this._view.GetNumber("Enter the first number: ");
-        int num2 = this._view.GetNumber("Enter the second number: ");
+        int firstNumber = this._view.GetNumber("Enter the first number: ");
+        int secondNumber = this._view.GetNumber("Enter the second number: ");
 
-        this._view.Print($"The result for {option} on {num1} & {num2} is {calculate(num1, num2)}");
+        this._view.Print($"The result for {option} on {firstNumber} & {secondNumber} is {calculate(firstNumber, secondNumber)}");
     }
 }
