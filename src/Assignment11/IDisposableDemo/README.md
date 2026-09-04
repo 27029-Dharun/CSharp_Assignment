@@ -17,7 +17,7 @@ namespace System
 }
 ```
 
-- When implemented and used it allow us to release the unmanaged resources.
+- Implementing and using it allow us to release the unmanaged resources.
 - It can be used with using statement for automatic cleanup.
 
 ### Using Statement

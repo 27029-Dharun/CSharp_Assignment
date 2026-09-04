@@ -23,3 +23,9 @@
   - string, array
 
 ## Working with the Stack and the Heap
+
+When the memory for a reference type is created the memory of heap got increased.
+
+![Reference Type](images/MemoryAllocationReferenceType.png)
+
+Value type variable are stored in the stack.
