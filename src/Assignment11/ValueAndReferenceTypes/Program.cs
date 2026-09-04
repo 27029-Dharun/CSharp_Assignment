@@ -21,7 +21,7 @@ public class Program
             Age = 20,
         };
 
-        Console.WriteLine("=======Value And Reference type=======" + Environment.NewLine);
+        Console.WriteLine("======= Value And Reference type =======" + Environment.NewLine);
         Console.WriteLine($"The value of value type variable before incrementing: {personStruct.Age}");
         Console.WriteLine($"The value of reference type variable before incrementing: {person.Age}" + Environment.NewLine);
 
@@ -30,7 +30,7 @@ public class Program
         Console.WriteLine($"The value of reference type variable after incrementing: {person.Age}" + Environment.NewLine);
 
         // Task 2
-        Console.WriteLine("=======Working with the Stack and the Heap=======" + Environment.NewLine);
+        Console.WriteLine("======= Working with the Stack and the Heap =======" + Environment.NewLine);
         Console.WriteLine("Creating memory for reference type");
         long startMemory = GC.GetAllocatedBytesForCurrentThread();
 
