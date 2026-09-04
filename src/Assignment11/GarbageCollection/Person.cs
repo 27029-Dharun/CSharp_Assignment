@@ -1,4 +1,4 @@
-﻿namespace ValueAndReferenceTypes.Model
+﻿namespace ValueAndReferenceTypes
 {
     /// <summary>
     /// Represents a person.
