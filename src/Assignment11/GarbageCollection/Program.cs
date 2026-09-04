@@ -38,7 +38,7 @@ internal class Program
 
     private static long GetMemoryInKB()
     {
-        long memory = GC.GetTotalMemory(false);
+        long memory = GC.GetAllocatedBytesForCurrentThread();
         return memory / 1024;
     }
 

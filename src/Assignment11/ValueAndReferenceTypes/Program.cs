@@ -12,8 +12,6 @@ public class Program
     {
         // Task 1
         PersonStruct personStruct = default;
-        Console.WriteLine(personStruct.Name);
-        Console.WriteLine(personStruct.Age);
         personStruct.Name = "Dharun";
         personStruct.Age = 20;
 
@@ -34,26 +32,39 @@ public class Program
         // Task 2
         Console.WriteLine("=======Working with the Stack and the Heap=======" + Environment.NewLine);
         Console.WriteLine("Creating memory for reference type");
+        long startMemory = GC.GetAllocatedBytesForCurrentThread();
+
         CreateArray();
-        Console.WriteLine("Heap memory is increased" + Environment.NewLine);
+
+        long endMemory = GC.GetAllocatedBytesForCurrentThread();
+        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n");
 
         Console.WriteLine("Calculation with large number of local variables");
+
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        startMemory = GC.GetAllocatedBytesForCurrentThread();
+
         CalculateUsingLocalVariables();
 
+        endMemory = GC.GetAllocatedBytesForCurrentThread();
+
+        Console.WriteLine($"Heap memory increased {endMemory - startMemory} bytes - for creating a value type\n");
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }
 
-    private static void CalculateUsingLocalVariables()
+    private static decimal CalculateUsingLocalVariables()
     {
-        int number1 = 10;
-        int number2 = 20;
-        int number3 = 30;
-        int number4 = 40;
-        int number5 = 50;
-        int number6 = 60;
-        int number7 = 70;
-        Console.WriteLine($"Sum: {number1 + number2 + number3 + number4 + number5 + number6 + number7}");
+        decimal number1 = 10;
+        decimal number2 = 20;
+        decimal number3 = 30;
+        decimal number4 = 40;
+        decimal number5 = 50;
+        decimal number6 = 60;
+        decimal number7 = 70;
+
+        return number1 + number2 + number3 + number4 + number5 + number6 + number7;
     }
 
     private static void CreateArray()

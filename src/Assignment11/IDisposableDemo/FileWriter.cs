@@ -32,11 +32,10 @@ public class FileWriter : IDisposable
         this._streamWriter.Write(text);
     }
 
-    /// <summary>
-    /// Disposes the stream writer.
-    /// </summary>
+    /// <inheritdoc/>
     public void Dispose()
     {
         this._streamWriter.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
