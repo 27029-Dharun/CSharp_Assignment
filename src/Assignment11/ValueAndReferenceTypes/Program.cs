@@ -11,7 +11,11 @@ public class Program
     public static void Main()
     {
         // Task 1
-        int count = 10;
+        PersonStruct personStruct = default;
+        Console.WriteLine(personStruct.Name);
+        Console.WriteLine(personStruct.Age);
+        personStruct.Name = "Dharun";
+        personStruct.Age = 20;
 
         Person person = new Person()
         {
@@ -20,18 +24,18 @@ public class Program
         };
 
         Console.WriteLine("=======Value And Reference type=======" + Environment.NewLine);
-        Console.WriteLine($"The value of value type variable before incrementing: {count}");
+        Console.WriteLine($"The value of value type variable before incrementing: {personStruct.Age}");
         Console.WriteLine($"The value of reference type variable before incrementing: {person.Age}" + Environment.NewLine);
 
-        Increment(person, count);
-        Console.WriteLine($"The value of value type variable after incrementing: {count}");
+        Increment(person, personStruct);
+        Console.WriteLine($"The value of value type variable after incrementing: {personStruct.Age}");
         Console.WriteLine($"The value of reference type variable after incrementing: {person.Age}" + Environment.NewLine);
 
         // Task 2
         Console.WriteLine("=======Working with the Stack and the Heap=======" + Environment.NewLine);
         Console.WriteLine("Creating memory for reference type");
         CreateArray();
-        Console.WriteLine("The memory allocation is happened in heap" + Environment.NewLine);
+        Console.WriteLine("Heap memory is increased" + Environment.NewLine);
 
         Console.WriteLine("Calculation with large number of local variables");
         CalculateUsingLocalVariables();
@@ -58,9 +62,9 @@ public class Program
         int[] array = new int[100000];
     }
 
-    private static void Increment(Person person, int count)
+    private static void Increment(Person person, PersonStruct personStruct)
     {
         person.Age++;
-        count++;
+        personStruct.Age++;
     }
 }
