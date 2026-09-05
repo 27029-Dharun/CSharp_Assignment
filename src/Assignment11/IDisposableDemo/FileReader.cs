@@ -36,5 +36,6 @@ internal class FileReader : IDisposable
     public void Dispose()
     {
         this._streamReader.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

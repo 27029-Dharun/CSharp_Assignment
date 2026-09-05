@@ -1,4 +1,5 @@
-﻿using ValueAndReferenceTypes;
+﻿using System.Diagnostics;
+using ValueAndReferenceTypes;
 
 namespace GarbageCollection;
 
@@ -14,16 +15,17 @@ internal class Program
     /// </summary>
     public static void Main()
     {
+        Process currentProcess = new Process();
         Console.WriteLine("======= Garbage Collection =======" + Environment.NewLine);
 
-        Console.WriteLine($"Total memory before creating all objects: {GetMemoryInKB()} KB");
+        Console.WriteLine($"Total memory before creating all objects: {GetMemoryInKB(currentProcess)} KB");
         CreateObjects();
 
-        Console.WriteLine($"Total memory after creating all objects: {GetMemoryInKB()} KB");
+        Console.WriteLine($"Total memory after creating all objects: {GetMemoryInKB(currentProcess)} KB");
 
         // Force garbage collection (even though objects are still referenced)
         GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(object still referred): {GetMemoryInKB()} KB");
+        Console.WriteLine($"Total memory after triggering garbage collector(object still referred): {GetMemoryInKB(currentProcess)} KB");
 
         // Made the list null now all the objects created are unreachable.
         _person = null;
@@ -31,14 +33,15 @@ internal class Program
 
         // Force garbage collection again (now objects can be collected)
         GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(objects unreachable): {GetMemoryInKB()} KB");
+        Console.WriteLine($"Total memory after triggering garbage collector(objects unreachable): {GetMemoryInKB(currentProcess)} KB");
 
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }
 
-    private static long GetMemoryInKB()
+    private static long GetMemoryInKB(Process currentProcess)
     {
+        currentProcess.Refresh();
         long memory = GC.GetTotalMemory(false);
         return memory / 1024;
     }
