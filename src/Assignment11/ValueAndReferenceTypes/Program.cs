@@ -21,27 +21,27 @@ public class Program
             Age = 20,
         };
 
-        Console.WriteLine("======= Value And Reference type =======" + Environment.NewLine);
-        Console.WriteLine($"The value of value type variable before incrementing: {personStruct.Age}");
-        Console.WriteLine($"The value of reference type variable before incrementing: {person.Age}" + Environment.NewLine);
+        Console.WriteLine("======= Value And Reference type =======\n\n" +
+            $"The value of value type variable before incrementing: {personStruct.Age}\n" +
+            $"The value of reference type variable before incrementing: {person.Age}\n");
 
         Increment(person, personStruct);
-        Console.WriteLine($"The value of value type variable after incrementing: {personStruct.Age}");
-        Console.WriteLine($"The value of reference type variable after incrementing: {person.Age}" + Environment.NewLine);
+        Console.WriteLine($"The value of value type variable after incrementing: {personStruct.Age}\n" +
+            $"The value of reference type variable after incrementing: {person.Age}\n");
 
         // Task 2
-        Console.WriteLine("======= Working with the Stack and the Heap =======" + Environment.NewLine);
-        Console.WriteLine("Creating memory for reference type");
+        Console.WriteLine("======= Working with the Stack and the Heap =======\n\n" +
+            "Creating memory for reference type\n");
         long startMemory = GC.GetAllocatedBytesForCurrentThread();
 
         CreateArray();
 
         long endMemory = GC.GetAllocatedBytesForCurrentThread();
-        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n");
+        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n")
 
-        Console.WriteLine("Calculation with large number of local variables");
+        // Creating value type variables are performing calculations.
+        Console.WriteLine("Calculation with large number of local variables\n");
 
-        GC.WaitForPendingFinalizers();
         GC.Collect();
         startMemory = GC.GetAllocatedBytesForCurrentThread();
 
@@ -49,7 +49,9 @@ public class Program
 
         endMemory = GC.GetAllocatedBytesForCurrentThread();
 
-        Console.WriteLine($"Heap memory increased {endMemory - startMemory} bytes - for creating a value type\n");
+        Console.WriteLine($"Heap memory increased {endMemory - startMemory} bytes - for creating a value type\n" +
+            "The heap memory is not increased because the variables are stored in the stack\n");
+
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }

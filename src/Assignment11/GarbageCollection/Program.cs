@@ -16,9 +16,9 @@ internal class Program
     public static void Main()
     {
         Process currentProcess = new Process();
-        Console.WriteLine("======= Garbage Collection =======" + Environment.NewLine);
+        Console.WriteLine("======= Garbage Collection =======\n" +
+                $"Total memory before creating all objects: {GetMemoryInKB(currentProcess)} KB");
 
-        Console.WriteLine($"Total memory before creating all objects: {GetMemoryInKB(currentProcess)} KB");
         CreateObjects();
 
         Console.WriteLine($"Total memory after creating all objects: {GetMemoryInKB(currentProcess)} KB");
@@ -29,7 +29,6 @@ internal class Program
 
         // Made the list null now all the objects created are unreachable.
         _person = null;
-        GC.WaitForPendingFinalizers();
 
         // Force garbage collection again (now objects can be collected)
         GC.Collect();
