@@ -72,7 +72,7 @@ public class Program
     private static void CreateArray()
     {
         // create a array with all values as zero.
-        int[] array = new int[100000];
+        int[] array = new int[1_00_000];
     }
 
     private static void Increment(Person person, PersonStruct personStruct)
