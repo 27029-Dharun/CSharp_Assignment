@@ -14,7 +14,7 @@ internal class Program
     /// </summary>
     public static void Main()
     {
-        Console.WriteLine("=======Garbage Collection=======" + Environment.NewLine);
+        Console.WriteLine("======= Garbage Collection =======" + Environment.NewLine);
 
         Console.WriteLine($"Total memory before creating all objects: {GetMemoryInKB()} KB");
         CreateObjects();
@@ -27,6 +27,7 @@ internal class Program
 
         // Made the list null now all the objects created are unreachable.
         _person = null;
+        GC.WaitForPendingFinalizers();
 
         // Force garbage collection again (now objects can be collected)
         GC.Collect();
@@ -38,7 +39,7 @@ internal class Program
 
     private static long GetMemoryInKB()
     {
-        long memory = GC.GetAllocatedBytesForCurrentThread();
+        long memory = GC.GetTotalMemory(false);
         return memory / 1024;
     }
 

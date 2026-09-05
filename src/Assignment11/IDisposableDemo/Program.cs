@@ -11,21 +11,24 @@ public class Program
     public static void Main()
     {
         string path = "file.txt";
-        Console.WriteLine("=======File Handling=======");
+        Console.WriteLine("======= File Handling =======");
         try
         {
             using (FileWriter fileWriter = new FileWriter(path))
             {
                 fileWriter.Write("Hello World");
             } // fileWriter.Dispose() is called automatically
+
+            using (FileReader fileReader = new FileReader(path))
+            {
+                Console.WriteLine("Contents in file");
+                Console.WriteLine(fileReader.ReadFile());
+            } // fileReader.Dispose() is called automatically
         }
         catch (IOException ex)
         {
             Console.WriteLine(ex.Message);
         }
-
-        string content = File.ReadAllText(path);
-        Console.WriteLine(content);
 
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
