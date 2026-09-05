@@ -29,7 +29,7 @@ public class FileWriter : IDisposable
     /// <param name="text">Text to be written in the file.</param>
     public void Write(string text)
     {
-        this._streamWriter.Write(text);
+        this._streamWriter.WriteLine(text);
     }
 
     /// <inheritdoc/>

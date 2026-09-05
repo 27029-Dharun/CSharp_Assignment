@@ -16,12 +16,14 @@ public class Program
         {
             using (FileWriter fileWriter = new FileWriter(path))
             {
-                fileWriter.Write("Hello World");
+                fileWriter.Write("IDisposable interface.");
+                fileWriter.Write("IDisposable is an interface that helps us to release unmanaged resources like database collections, file handlers and opened network connections.");
+                fileWriter.Write("It contains a method Dispose that releases the resources when called.");
             } // fileWriter.Dispose() is called automatically
 
             using (FileReader fileReader = new FileReader(path))
             {
-                Console.WriteLine("Contents in file");
+                Console.WriteLine("      Contents in file");
                 Console.WriteLine(fileReader.ReadFile());
             } // fileReader.Dispose() is called automatically
         }

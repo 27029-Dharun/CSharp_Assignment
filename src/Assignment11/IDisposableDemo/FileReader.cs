@@ -26,7 +26,7 @@ internal class FileReader : IDisposable
         string? line;
         while ((line = this._streamReader.ReadLine()) != null)
         {
-            content += line;
+            content += line + Environment.NewLine;
         }
 
         return content;

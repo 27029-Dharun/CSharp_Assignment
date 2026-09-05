@@ -37,7 +37,7 @@ public class Program
         CreateArray();
 
         long endMemory = GC.GetAllocatedBytesForCurrentThread();
-        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n")
+        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n");
 
         // Creating value type variables are performing calculations.
         Console.WriteLine("Calculation with large number of local variables\n");
