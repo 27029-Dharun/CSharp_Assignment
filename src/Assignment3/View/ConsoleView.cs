@@ -1,216 +1,234 @@
-﻿using Assignment3.Models;
-using Assignment3.Validation;
+﻿using Assignment3.Constants;
+using Assignment3.Models;
+using Assignment3.Validators;
 using ConsoleTables;
 
-namespace Assignment3.View
+namespace Assignment3.View;
+
+/// <summary>
+/// Handles input and output operations.
+/// </summary>
+public class ConsoleView
 {
     /// <summary>
-    /// Handles console operation like display, get user inputs.
+    /// Gets the string from the user.
     /// </summary>
-    public class ConsoleView
+    /// <param name="message">Message to be displayed.</param>
+    /// <returns>String given as input.</returns>
+    public string GetString(string message)
     {
-        private const int Tries = 3;
+        Console.Write(message);
+        return Console.ReadLine() ?? string.Empty;
+    }
 
-        /// <summary>
-        /// Gets the string from the user.
-        /// </summary>
-        /// <param name="message">Message to be displayed</param>
-        /// <returns>String given as input</returns>
-        public string GetString(string message)
+    /// <summary>
+    /// Gets an integer input.
+    /// </summary>
+    /// <param name="message">Message to be printed.</param>
+    /// <returns>Integer input.</returns>
+    public int GetInteger(string message)
+    {
+        int remainingAttempts = ValidationConstants.MaxAttempts;
+        while (true)
         {
-            Console.Write(message);
-            return Console.ReadLine() ?? string.Empty;
-        }
+            string input = this.GetString(message);
 
-        /// <summary>
-        /// Gets an integer input.
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <param name="tries">Tries left to enter a valid integer</param>
-        /// <returns>Integer input</returns>
-        public int GetInteger(string message, int tries = Tries)
-        {
-            Console.Write(message);
-            int input;
-            while (!int.TryParse(Console.ReadLine(), out input))
+            if (int.TryParse(input, out int integer))
             {
-                if (tries <= 0)
-                {
-                    throw new InvalidCastException("Enter a valid integer");
-                }
-
-                Console.WriteLine($"Tries left: {--tries}");
-                Console.WriteLine("Enter a valid integer\n");
-                Console.Write(message);
+                return integer;
             }
 
-            return input;
-        }
+            remainingAttempts--;
+            if (remainingAttempts == 0)
+            {
+                throw new InvalidCastException("Enter a valid integer");
+            }
 
-        /// <summary>
-        /// Gets the enum value, validates and return an enum value
-        /// </summary>
-        /// <typeparam name="T">Generics type parameter which accepts all Enum type.</typeparam>
-        /// <param name="prompt">Prompt displayed to the user.</param>
-        /// <returns>A Enum option selected by the user.</returns>
-        public T GetEnumOption<T>(string prompt)
-            where T : struct, Enum
+            Console.WriteLine($"Tries left: {remainingAttempts}");
+            Console.WriteLine("Enter a valid integer\n");
+            Console.Write(message);
+        }
+    }
+
+    /// <summary>
+    /// Gets and validates an enum option selected by the user.
+    /// </summary>
+    /// <typeparam name="T">Generics type parameter which accepts all Enum type.</typeparam>
+    /// <param name="prompt">Prompt displayed to the user.</param>
+    /// <returns>The enum type to parse and validate.</returns>
+    public T GetEnumOption<T>(string prompt)
+        where T : struct, Enum
+    {
+        while (true)
         {
             string input = this.GetString(prompt);
-            T result;
-            while ((!Enum.TryParse<T>(input, true, out result)) || (!Enum.IsDefined(typeof(T), result)))
+            if (Enum.TryParse(input, out T result) && Enum.IsDefined(result))
             {
-                Console.Clear();
-                Console.WriteLine("Enter a valid input");
-                input = this.GetString(prompt);
+                return result;
             }
 
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the name of the product from the user.
-        /// </summary>
-        /// <param name="message">Message to be displayed</param>
-        /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
-        /// <param name="tries">Tries left to enter a valid decimal</param>
-        /// <returns>A string containing product name</returns>
-        public string GetProductName(string message, bool optional = false, int tries = Tries)
-        {
-            return this.GetValidatedInput(message, optional, InventoryValidator.IsValidName, "Name must atleast contain 3 characters");
-        }
-
-        /// <summary>
-        /// Gets the product quantity from the user
-        /// </summary>
-        /// <param name="message">Message to be displayed to user before getting the quantity</param>
-        /// <param name="optional"> Optional indicates that the price can be empty used for edited the amount. </param>
-        /// <param name="tries">Tries left to enter a valid decimal</param>
-        /// <returns>An integer value that is enter by user</returns>
-        public int GetProductQuantity(string message, bool optional = false, int tries = Tries)
-        {
-            string input = this.GetValidatedInput(message, optional, InventoryValidator.IsValidQuantity, "Quantity can't be negative");
-
-            return int.Parse(input);
-        }
-
-        /// <summary>
-        /// Gets decimal product price from the user.
-        /// </summary>
-        /// <param name="message"> Message to be displayed. </param>
-        /// <returns> A decimal value containing the price of the product. </returns>
-        public decimal GetProductPrice(string message)
-        {
-            string input = this.GetValidatedInput(message, false, InventoryValidator.IsValidatePrice, "Price must a valid positive integer.");
-            return decimal.Parse(input);
-        }
-
-        /// <summary>
-        /// Gets decimal product price from the user.
-        /// </summary>
-        /// <param name="message"> Message to be displayed. </param>
-        /// <returns> A decimal value containing the price of the product. </returns>
-        public decimal? GetOptionalProductPrice(string message)
-        {
-            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidatePrice, "Price must a valid positive integer.");
-
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                return null;
-            }
-
-            return decimal.Parse(input);
-        }
-
-        /// <summary>
-        /// Gets the product quantity from the user
-        /// </summary>
-        /// <param name="message">Message to be displayed to user before getting the quantity</param>
-        /// <returns>An integer value that is enter by user</returns>
-        public int? GetOptionalProductQuantity(string message)
-        {
-            string input = this.GetValidatedInput(message, true, InventoryValidator.IsValidQuantity, "Quantity must a valid non negative integer.");
-
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                return null;
-            }
-
-            return int.Parse(input);
-        }
-
-        /// <summary>
-        /// Print the message in console
-        /// </summary>
-        /// <param name="message">Message to be printed</param>
-        public void PrintInfo(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Prints the product object in console
-        /// </summary>
-        /// <param name="product">Product object to be printed</param>
-        public void PrintProduct(Product product)
-        {
-            Console.WriteLine("\nProduct Id: " + product.Id);
-            Console.WriteLine("Product name: " + product.Name);
-            Console.WriteLine("Product price: " + product.Price);
-            Console.WriteLine("Product quantity: " + product.Quantity + "\n");
-        }
-
-        /// <summary>
-        /// Displays the list of the inventory object
-        /// </summary>
-        /// <param name="inventories">List of inventory objects</param>
-        public void PrintInventory(List<Product> inventories)
-        {
-            var table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Quantity");
-
-            foreach (Product inventory in inventories)
-            {
-                table.AddRow(inventory.Id, inventory.Name, inventory.Price, inventory.Quantity);
-            }
-
-            table.Write();
-        }
-
-        /// <summary>
-        /// Pauses and waits for the user to enter a value.
-        /// </summary>
-        public void PauseAndContinue()
-        {
-            Console.WriteLine("Enter a key to return to main menu");
-            Console.ReadKey();
-
-            // Erases the entire scroll back buffer history
-            Console.Write("\x1b[3J");
             Console.Clear();
+            Console.WriteLine("Enter a valid option");
+        }
+    }
+
+    /// <summary>
+    /// Gets the name of the product from the user.
+    /// </summary>
+    /// <param name="isEditMode "> Optional indicates that the price can be empty used for edited the amount. </param>
+    /// <returns>A string containing product name.</returns>
+    public string GetProductName(bool isEditMode = false)
+    {
+        return this.GetValidatedInput(
+            "Enter the product name: ",
+            isEditMode,
+            InventoryValidator.IsValidName,
+            "Name should atleast contain three alphabets.");
+    }
+
+    /// <summary>
+    /// Gets the product quantity from the user.
+    /// </summary>
+    /// <param name="isEditMode "> Optional indicates that the price can be empty used for edited the amount. </param>
+    /// <returns>An integer value that is enter by user.</returns>
+    public int? GetProductQuantity(bool isEditMode = false)
+    {
+        string input = this.GetValidatedInput(
+            "Enter the quantity of the product: ",
+            isEditMode,
+            InventoryValidator.IsValidQuantity,
+            "Quantity can't be negative");
+
+        if (isEditMode && string.IsNullOrWhiteSpace(input))
+        {
+            return null;
         }
 
-        private string GetValidatedInput(string prompt, bool optional, Func<string, bool> isValidField, string errorMessage)
+        return int.Parse(input);
+    }
+
+    /// <summary>
+    /// Gets decimal product price from the user.
+    /// </summary>
+    /// <param name="isEditMode"> Optional indicates that the price can be empty used for edited the amount. </param>
+    /// <returns> A decimal value containing the price of the product. </returns>
+    public decimal? GetProductPrice(bool isEditMode = false)
+    {
+        string input = this.GetValidatedInput(
+            "Enter the price of the product: ",
+            isEditMode,
+            InventoryValidator.IsValidPrice,
+            "Price must a valid positive integer.");
+
+        if (isEditMode && string.IsNullOrWhiteSpace(input))
         {
-            int tries = Tries;
+            return null;
+        }
+
+        return decimal.Parse(input);
+    }
+
+    /// <summary>
+    /// Gets the search query to search product in the inventory.
+    /// </summary>
+    /// <returns>The query entered by the user.</returns>
+    public string GetSearchQuery()
+    {
+        return this.GetString("Enter the name or product Id to search: ");
+    }
+
+    /// <summary>
+    /// Print the message in console.
+    /// </summary>
+    /// <param name="message">Message to be printed.</param>
+    public void PrintInfo(string message)
+    {
+        Console.WriteLine(message);
+    }
+
+    /// <summary>
+    /// Displays the edit option instruction
+    /// </summary>
+    public void DisplayEditInstruction()
+    {
+        this.PrintInfo("Enter value for field that you only want to edit, leave the remaining field empty");
+    }
+
+    /// <summary>
+    /// Prints the product object in console.
+    /// </summary>
+    /// <param name="product">Product to display.</param>
+    public void PrintProduct(Product product)
+    {
+        Console.WriteLine($"\nProduct Id: {product.Id}");
+        Console.WriteLine($"Product name: {product.Name}");
+        Console.WriteLine($"Product price: {product.Price}");
+        Console.WriteLine($"Product quantity: {product.Quantity}\n");
+    }
+
+    /// <summary>
+    /// Displays the list of the products in the inventory.
+    /// </summary>
+    /// <param name="products">Products to display.</param>
+    public void PrintInventory(List<Product> products)
+    {
+        var table = new ConsoleTable(
+            "Product Id",
+            "Product Name",
+            "Product Price",
+            "Product Quantity");
+
+        foreach (Product inventory in products)
+        {
+            table.AddRow(inventory.Id, inventory.Name, inventory.Price, inventory.Quantity);
+        }
+
+        table.Write();
+    }
+
+    /// <summary>
+    /// Pauses and waits for the user to enter a value.
+    /// </summary>
+    public void PauseAndContinue()
+    {
+        Console.WriteLine("Enter a key to return to main menu");
+        Console.ReadKey();
+
+        // Erases the entire scroll back buffer history
+        Console.Write("\x1b[3J");
+        Console.Clear();
+    }
+
+    private string GetValidatedInput(
+        string prompt,
+        bool isEditMode,
+        Func<string, bool> isValidField,
+        string errorMessage)
+    {
+        int remainingAttempts = ValidationConstants.MaxAttempts;
+
+        while (true)
+        {
             string input = this.GetString(prompt);
-            if (optional && string.IsNullOrWhiteSpace(input))
+
+            if (isEditMode && string.IsNullOrWhiteSpace(input))
             {
                 return string.Empty;
             }
 
-            while (!isValidField(input))
+            if (isValidField(input))
             {
-                if (tries == 1)
-                {
-                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
-                }
-
-                Console.WriteLine(errorMessage);
-                Console.WriteLine($"Tries left: {--tries}\n");
-                input = this.GetString(prompt);
+                return input;
             }
 
-            return input;
+            remainingAttempts--;
+            if (remainingAttempts == 0)
+            {
+                throw new InvalidDataException("No attempt left, Please try again.\n");
+            }
+
+            Console.WriteLine(errorMessage);
+            Console.WriteLine($"Attempts left: {remainingAttempts}\n");
         }
     }
 }

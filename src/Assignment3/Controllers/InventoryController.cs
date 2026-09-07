@@ -1,17 +1,17 @@
-﻿using Assignment3.Models;
-using Assignment3.Models.Enums;
+﻿using Assignment3.Constants;
+using Assignment3.Models;
 using Assignment3.Services;
 using Assignment3.View;
 
 namespace Assignment3.Controllers;
 
 /// <summary>
-/// Manages the expense tracker, connects view and service
+/// Coordinates user interactions between view and service.
 /// </summary>
 public class InventoryController
 {
-    private readonly IInventoryService _inventoryService;
-    private readonly ConsoleView _consoleView;
+    private readonly IInventoryService _service;
+    private readonly ConsoleView _view;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InventoryController"/> class.
@@ -20,30 +20,30 @@ public class InventoryController
     /// <param name="view">Instance of view used to display data and capture user input. </param>
     public InventoryController(IInventoryService inventoryService, ConsoleView view)
     {
-        this._inventoryService = inventoryService;
-        this._consoleView = view;
+        this._service = inventoryService;
+        this._view = view;
     }
 
     /// <summary>
     /// Displays the menu option and gets a option as input continuously until the user exits.
     /// </summary>
-    public void InventoryManagement()
+    public void Run()
     {
         bool isRunning = true;
         while (isRunning)
         {
             try
             {
-                this._consoleView.PrintInfo("Inventory Management Application");
-                isRunning = this.InventoryOptions();
+                this._view.PrintInfo("Inventory Management Application");
+                isRunning = this.ProcessMenuSelection();
             }
             catch (Exception ex)
             {
-                this._consoleView.PrintInfo(ex.Message);
+                this._view.PrintInfo(ex.Message);
             }
             finally
             {
-                this._consoleView.PauseAndContinue();
+                this._view.PauseAndContinue();
             }
         }
     }
@@ -51,124 +51,139 @@ public class InventoryController
     /// <summary>
     /// Collects product details from the user, creates a new inventory item, and displays a success confirmation.
     /// </summary>
-    public void AddProduct()
+    private void AddProduct()
     {
-        string name = this._consoleView.GetProductName("Enter the product name: ");
-        decimal price = this._consoleView.GetProductPrice("Enter the price of the product: ");
-        int quantity = this._consoleView.GetProductQuantity("Enter the quantity of the product: ");
-        Product product = this._inventoryService.CreateInventoryProduct(name, price, quantity);
-        this._consoleView.PrintProduct(product);
-        this._consoleView.PrintInfo("Product added successfully !!");
+        string name = this._view.GetProductName();
+        decimal price = this._view.GetProductPrice() !.Value;
+        int quantity = this._view.GetProductQuantity() !.Value;
+
+        Product product = this._service.AddProduct(name, price, quantity);
+
+        this._view.PrintProduct(product);
+        this._view.PrintInfo("Product added successfully.");
     }
 
     /// <summary>
     /// Displays all current inventory products in the console, or outputs a warning if the inventory is empty.
     /// </summary>
-    public void ViewProduct()
+    private void ViewProduct()
     {
-        List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (this._inventoryService.IsInventoryEmpty())
+        List<Product> products = this._service.GetProducts();
+
+        if (!this._service.HasProducts())
         {
-            this._consoleView.PrintInfo("Inventory is empty");
+            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
             return;
         }
 
-        this._consoleView.PrintInfo("Products in inventory");
-        this._consoleView.PrintInventory(inventories);
+        this._view.PrintInfo("Products in inventory");
+        this._view.PrintInventory(products);
     }
 
     /// <summary>
     /// Deletes a product from the inventory by the unique product identifier.
     /// </summary>
-    public void DeleteProduct()
+    private void DeleteProduct()
     {
-        List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (this._inventoryService.IsInventoryEmpty())
+        if (!this._service.HasProducts())
         {
-            this._consoleView.PrintInfo("No product available to delete");
+            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
             return;
         }
 
-        int id = this.GetProductId(inventories, "delete");
-        Product product = this._inventoryService.DeleteProductById(id);
+        int id = this.GetProductId("delete");
+        Product product = this._service.DeleteProductById(id);
 
-        this._consoleView.PrintProduct(product);
-        this._consoleView.PrintInfo("Product deleted successfully !!");
+        this._view.PrintProduct(product);
+        this._view.PrintInfo("Product deleted successfully.");
     }
 
     /// <summary>
     /// Gets the detail to edited and edit the product.
     /// </summary>
-    public void EditProduct()
+    private void EditProduct()
     {
-        List<Product> inventories = this._inventoryService.GetInventoryProducts();
-        if (this._inventoryService.IsInventoryEmpty())
+        if (!this._service.HasProducts())
         {
-            this._consoleView.PrintInfo("No product available to edit.");
+            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
             return;
         }
 
-        int id = this.GetProductId(inventories, "edit");
-        this._inventoryService.ValidateProductId(id);
-        this._consoleView.PrintInfo("Enter value for field that you only want to edit");
+        int id = this.GetProductId("edit");
+        this._service.ValidateProductId(id);
 
-        string name = this._consoleView.GetProductName("Enter the product name: ", true);
-        decimal? price = this._consoleView.GetOptionalProductPrice("Enter the price of the product: ");
-        int? quantity = this._consoleView.GetOptionalProductQuantity("Enter the quantity of the product: ");
+        this._view.DisplayEditInstruction();
 
-        Product product = this._inventoryService.EditProductById(id, name, price, quantity);
-        this._consoleView.PrintProduct(product);
-        this._consoleView.PrintInfo("Product edited successfully !!");
+        string name = this._view.GetProductName(true);
+        decimal? price = this._view.GetProductPrice(true);
+        int? quantity = this._view.GetProductQuantity(true);
+
+        Product product = this._service.EditProductById(id, name, price, quantity);
+        this._view.PrintProduct(product);
+        this._view.PrintInfo("Product edited successfully.");
     }
 
     /// <summary>
     /// Search the product in inventory by matching the name and product id.
     /// </summary>
-    public void SearchProduct()
+    private void SearchProduct()
     {
-        if (this._inventoryService.IsInventoryEmpty())
+        if (!this._service.HasProducts())
         {
-            this._consoleView.PrintInfo("Inventory is empty");
+            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
             return;
         }
 
-        string searchQuery = this._consoleView.GetString("Enter the name or product Id to search: ");
-        List<Product> filteredProducts = this._inventoryService.SearchProductByNameOrId(searchQuery);
+        string searchQuery = this._view.GetSearchQuery();
+        List<Product> filteredProducts = this._service.SearchProductByNameOrId(searchQuery);
+
         if (!filteredProducts.Any())
         {
-            this._consoleView.PrintInfo("No product matched");
+            this._view.PrintInfo("No product matched");
             return;
         }
 
-        this._consoleView.PrintInfo("Products matched are: ");
-        this._consoleView.PrintInventory(filteredProducts);
+        this._view.PrintInfo("Products matched are: ");
+        this._view.PrintInventory(filteredProducts);
     }
 
     /// <summary>
     /// Displays product in sorted order.
     /// </summary>
-    public void SortProduct()
+    private void SortProduct()
     {
-        if (this._inventoryService.IsInventoryEmpty())
+        if (!this._service.HasProducts())
         {
-            this._consoleView.PrintInfo("Inventory is empty");
+            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
             return;
         }
 
-        SortOption option = this._consoleView.GetEnumOption<SortOption>("Sort Product By\n1. Name\n2. Price\n3. Quantity\nEnter the option to sort: ");
-        List<Product> products = this._inventoryService.SortProducts(option);
-        this._consoleView.PrintInventory(products);
+        SortOption option = this._view.GetEnumOption<SortOption>(ConstantMessages.SortOptionsPrompt);
+        List<Product> products = this._service.SortProducts(option);
+        this._view.PrintInventory(products);
     }
 
-    private int GetProductId(List<Product> inventories, string option)
+    /// <summary>
+    /// Gets the product Id from the list the products in the inventory.
+    /// </summary>
+    /// <param name="operation">Indicates the operation for which the product is selected.</param>
+    /// <returns>The index of the product.</returns>
+    private int GetProductId(string operation)
     {
-        this._consoleView.PrintInventory(inventories);
-        return this._consoleView.GetInteger($"Enter the product Id to {option}: ");
+        List<Product> products = this._service.GetProducts();
+        this._view.PrintInventory(products);
+
+        return this._view.GetInteger($"Enter the product Id to {operation}: ");
     }
 
-    private bool InventoryOptions()
+    /// <summary>
+    /// Processes the user's menu selection and executes the corresponding operation.
+    /// Returns true if the application should continue running, false if user selected exit.
+    /// </summary>
+    /// <returns>Boolean indicating whether to continue the application loop.< /returns>
+    private bool ProcessMenuSelection()
     {
-        InventoryOperation option = this._consoleView.GetEnumOption<InventoryOperation>("1. Add a product\n2. View all product\n3. Edit Product\n4. Delete Product\n5. Search Product\n6. Sort Products\n7. Exit\nChoose an operation to continue: ");
+        InventoryOperation option = this._view.GetEnumOption<InventoryOperation>(ConstantMessages.MainMenuPrompt);
         switch (option)
         {
             case InventoryOperation.Add:
@@ -199,7 +214,7 @@ public class InventoryController
                 return false;
 
             default:
-                this._consoleView.PrintInfo("Enter an option in range 1 - 7");
+                this._view.PrintInfo("Enter an option in range 1 - 7");
                 break;
         }
 

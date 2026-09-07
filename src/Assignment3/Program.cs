@@ -3,31 +3,30 @@ using Assignment3.Repository;
 using Assignment3.Services;
 using Assignment3.View;
 
-namespace Assignment3
+namespace Assignment3;
+
+/// <summary>
+/// Application entry point and composition root.
+/// </summary>
+public class Program
 {
     /// <summary>
-    /// Application entry point and composition root. Wires up the dependencies once.
+    /// Application startup and dependency composition.
     /// </summary>
-    public class Program
+    public static void Main()
     {
-        /// <summary>
-        /// Application entry point for the inventory management.
-        /// </summary>
-        public static void Main()
+        try
         {
-            try
-            {
-                IInventoryRepository repository = new InventoryRepository();
-                ConsoleView view = new ConsoleView();
-                IInventoryService inventoryService = new InventoryService(repository);
-                InventoryController controller = new InventoryController(inventoryService, view);
+            IInventoryRepository repository = new InventoryRepository();
+            ConsoleView view = new ConsoleView();
+            IInventoryService service = new InventoryService(repository);
+            InventoryController controller = new InventoryController(service, view);
 
-                controller.InventoryManagement();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            controller.Run();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Assignment3.Models.Enums;
+﻿namespace Assignment3.Models;
 
 /// <summary>
 /// Specifies the fields in the inventory that we can sort with.

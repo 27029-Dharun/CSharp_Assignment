@@ -1,55 +1,53 @@
-﻿namespace Assignment3.Models
+﻿namespace Assignment3.Models;
+
+/// <summary>
+/// Represents a product available in the inventory.
+/// </summary>
+public class Product
 {
     /// <summary>
-    /// Represents a product available in the inventory
+    /// Initializes a new instance of the <see cref="Product"/> class.
     /// </summary>
-    public class Product
+    /// <param name="id"> Product id. </param>
+    /// <param name="name"> Name of the product. </param>
+    /// <param name="price"> Price of the product. </param>
+    /// <param name="quantity"> Quantity of the product. </param>
+    public Product(string name, decimal price, int quantity)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Product"/> class.
-        /// </summary>
-        /// <param name="id"> Product id. </param>
-        /// <param name="name"> Name of the product. </param>
-        /// <param name="price"> Price of the product. </param>
-        /// <param name="quantity"> Quantity of the product. </param>
-        public Product(int id, string name, decimal price, int quantity)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Price = price;
-            this.Quantity = quantity;
-        }
-
-        /// <summary>
-        /// Gets a unique product id during object initialization.
-        /// </summary>
-        /// <value>
-        /// Integer value uniquely identifying a product in inventory.
-        /// </value>
-        public int Id { get; }
-
-        /// <summary>
-        /// Gets or sets product name.
-        /// </summary>
-        /// <value>
-        /// Name of the product.
-        /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets product price.
-        /// </summary>
-        /// <value>
-        /// Price of the product.
-        /// </value>
-        public decimal Price { get; set; }
-
-        /// <summary>
-        /// gets or sets product quantity.
-        /// </summary>
-        /// <value>
-        /// Quantity of the product.
-        /// </value>
-        public int Quantity { get; set; }
+        this.Name = name;
+        this.Price = price;
+        this.Quantity = quantity;
     }
+
+    /// <summary>
+    /// Gets or sets the unique product id during object initialization.
+    /// </summary>
+    /// <value>
+    /// Integer value uniquely identifying a product in inventory.
+    /// </value>
+    public int Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets product name.
+    /// </summary>
+    /// <value>
+    /// Name of the product.
+    /// </value>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets product price.
+    /// </summary>
+    /// <value>
+    /// Price of the product.
+    /// </value>
+    public decimal Price { get; set; }
+
+    /// <summary>
+    /// gets or sets product quantity.
+    /// </summary>
+    /// <value>
+    /// Quantity of the product.
+    /// </value>
+    public int Quantity { get; set; }
 }
