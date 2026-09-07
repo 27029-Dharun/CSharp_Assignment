@@ -24,6 +24,7 @@ public class InventoryService : IInventoryService
     public Product AddProduct(string name, decimal price, int quantity)
     {
         List<string> productNames = this._inventoryRepository.GetProductName();
+
         if (!InventoryValidator.IsProductNameUnique(name, productNames))
         {
             throw new ArgumentException("Invalid Name: Name should be unique");
@@ -44,6 +45,7 @@ public class InventoryService : IInventoryService
     public Product DeleteProductById(int id)
     {
         Product product = this._inventoryRepository.GetProductById(id);
+
         this._inventoryRepository.RemoveProduct(product);
         return product;
     }
@@ -59,7 +61,7 @@ public class InventoryService : IInventoryService
             throw new InvalidOperationException("\nNothing to Edit - invalid call given current state");
         }
 
-        // If name is not null the name is updated
+        // If name is not empty the name is updated
         if (!string.IsNullOrWhiteSpace(name))
         {
             List<string> productNames = this._inventoryRepository.GetProductName();
@@ -92,40 +94,25 @@ public class InventoryService : IInventoryService
     {
         List<Product> products = this._inventoryRepository.GetInventory().ToList();
 
-        switch (option)
+        return option switch
         {
-            case SortOption.Name:
-                return products.OrderBy(x => x.Name).ToList();
-
-            case SortOption.Price:
-                return products.OrderBy(x => x.Price).ToList();
-
-            case SortOption.Quantity:
-                return products.OrderBy(x => x.Quantity).ToList();
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(option), option, "Unsupported sort option");
-        }
+            SortOption.Name => products.OrderBy(x => x.Name).ToList(),
+            SortOption.Price => products.OrderBy(x => x.Price).ToList(),
+            SortOption.Quantity => products.OrderBy(x => x.Quantity).ToList(),
+            _ => throw new ArgumentOutOfRangeException(nameof(option), option, "Unsupported sort option"),
+        };
     }
 
     /// <inheritdoc />
     public List<Product> SearchProductByNameOrId(string searchQuery)
     {
         List<Product> products = this._inventoryRepository.GetInventory().ToList();
-        List<Product> filtered = new List<Product>();
-        foreach (Product product in products)
-        {
-            if (product.Name != null && product.Name.ToLower().Contains(searchQuery.ToLower()))
-            {
-                filtered.Add(product);
-            }
-            else if (product.Id.ToString().Contains(searchQuery))
-            {
-                filtered.Add(product);
-            }
-        }
 
-        return filtered;
+        return products
+        .Where(product =>
+            (product.Name != null && product.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)) ||
+            product.Id.ToString().Contains(searchQuery))
+        .ToList();
     }
 
     /// <inheritdoc />

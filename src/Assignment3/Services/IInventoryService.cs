@@ -25,7 +25,7 @@ public interface IInventoryService
     /// <summary>
     /// Deletes the product in inventory by using ID.
     /// </summary>
-    /// <param name="id"> Id of the product to be deleted. </param>
+    /// <param name="id"> ID of the product to be deleted. </param>
     /// <returns>The deleted product.</returns>
     Product DeleteProductById(int id);
 

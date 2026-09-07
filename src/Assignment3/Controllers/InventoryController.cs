@@ -119,6 +119,7 @@ public class InventoryController
         int? quantity = this._view.GetProductQuantity(true);
 
         Product product = this._service.EditProductById(id, name, price, quantity);
+
         this._view.PrintProduct(product);
         this._view.PrintInfo("Product edited successfully.");
     }
@@ -159,6 +160,7 @@ public class InventoryController
         }
 
         SortOption option = this._view.GetEnumOption<SortOption>(ConstantMessages.SortOptionsPrompt);
+
         List<Product> products = this._service.SortProducts(option);
         this._view.PrintInventory(products);
     }
