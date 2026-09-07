@@ -8,7 +8,6 @@ public class Product
     /// <summary>
     /// Initializes a new instance of the <see cref="Product"/> class.
     /// </summary>
-    /// <param name="id"> Product id. </param>
     /// <param name="name"> Name of the product. </param>
     /// <param name="price"> Price of the product. </param>
     /// <param name="quantity"> Quantity of the product. </param>
@@ -20,7 +19,7 @@ public class Product
     }
 
     /// <summary>
-    /// Gets or sets the unique product id during object initialization.
+    /// Gets or sets the unique product ID during object initialization.
     /// </summary>
     /// <value>
     /// Integer value uniquely identifying a product in inventory.
@@ -44,7 +43,7 @@ public class Product
     public decimal Price { get; set; }
 
     /// <summary>
-    /// gets or sets product quantity.
+    /// Gets or sets product quantity.
     /// </summary>
     /// <value>
     /// Quantity of the product.

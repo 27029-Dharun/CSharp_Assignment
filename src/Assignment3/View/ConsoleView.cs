@@ -11,17 +11,6 @@ namespace Assignment3.View;
 public class ConsoleView
 {
     /// <summary>
-    /// Gets the string from the user.
-    /// </summary>
-    /// <param name="message">Message to be displayed.</param>
-    /// <returns>String given as input.</returns>
-    public string GetString(string message)
-    {
-        Console.Write(message);
-        return Console.ReadLine() ?? string.Empty;
-    }
-
-    /// <summary>
     /// Gets an integer input.
     /// </summary>
     /// <param name="message">Message to be printed.</param>
@@ -147,11 +136,11 @@ public class ConsoleView
     }
 
     /// <summary>
-    /// Displays the edit option instruction
+    /// Displays the edit option instruction.
     /// </summary>
     public void DisplayEditInstruction()
     {
-        this.PrintInfo("Enter value for field that you only want to edit, leave the remaining field empty");
+        Console.WriteLine("Enter value for field that you only want to edit, leave the remaining field empty");
     }
 
     /// <summary>
@@ -230,5 +219,16 @@ public class ConsoleView
             Console.WriteLine(errorMessage);
             Console.WriteLine($"Attempts left: {remainingAttempts}\n");
         }
+    }
+
+    /// <summary>
+    /// Gets the string from the user.
+    /// </summary>
+    /// <param name="message">Message to be displayed.</param>
+    /// <returns>String given as input.</returns>
+    private string GetString(string message)
+    {
+        Console.Write(message);
+        return Console.ReadLine() ?? string.Empty;
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Assignment3.Constants;
 
 /// <summary>
-/// Contains all the configurable variables
+/// Contains all the configurable variables.
 /// </summary>
 public static class ValidationConstants
 {

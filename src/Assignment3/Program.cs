@@ -10,10 +10,7 @@ namespace Assignment3;
 /// </summary>
 public class Program
 {
-    /// <summary>
-    /// Application startup and dependency composition.
-    /// </summary>
-    public static void Main()
+    private static void Main()
     {
         try
         {

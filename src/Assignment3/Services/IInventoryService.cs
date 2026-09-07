@@ -17,13 +17,13 @@ public interface IInventoryService
     Product AddProduct(string name, decimal price, int quantity);
 
     /// <summary>
-    /// Gets the all the product inventory.
+    /// Gets all the products in the inventory.
     /// </summary>
-    /// <returns>Returns the product.</returns>
+    /// <returns>Returns the products list.</returns>
     List<Product> GetProducts();
 
     /// <summary>
-    /// Deletes the product in inventory by using a unique identifier.
+    /// Deletes the product in inventory by using ID.
     /// </summary>
     /// <param name="id"> Id of the product to be deleted. </param>
     /// <returns>The deleted product.</returns>
@@ -32,7 +32,7 @@ public interface IInventoryService
     /// <summary>
     /// Edit the product by id.
     /// </summary>
-    /// <param name="id">Id of the product to be deleted.</param>
+    /// <param name="id">ID of the product to be edited.</param>
     /// <param name="name">Name of the product.</param>
     /// <param name="price">Price of the product.</param>
     /// <param name="quantity">Quantity of the product.</param>
@@ -43,25 +43,25 @@ public interface IInventoryService
     /// Sort the product by name, price, quantity.
     /// </summary>
     /// <param name="option">Option to sort the products.</param>
-    /// <returns>Sorted list of inventory products.</returns>
+    /// <returns>Sorted list of products in the inventory.</returns>
     List<Product> SortProducts(SortOption option);
 
     /// <summary>
     /// Checks the product existence in the inventory.
     /// </summary>
-    /// <param name="id">Id of product to check.</param>
+    /// <param name="id">ID of product to be validated.</param>
     void ValidateProductId(int id);
 
     /// <summary>
-    /// Search product by id or name entered by the user.
+    /// Search product by ID or name entered by the user.
     /// </summary>
-    /// <param name="search_query">Name or id entered by user.</param>
+    /// <param name="search_query">Name or ID entered by user.</param>
     /// <returns>List of filtered products.</returns>
     List<Product> SearchProductByNameOrId(string search_query);
 
     /// <summary>
     /// Checks if inventory is empty.
     /// </summary>
-    /// <returns>True if the inventory have products; otherwise, false</returns>
+    /// <returns>True if the inventory have products; otherwise, false.</returns>
     public bool HasProducts();
 }

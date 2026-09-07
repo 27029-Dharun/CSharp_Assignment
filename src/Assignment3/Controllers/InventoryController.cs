@@ -16,11 +16,11 @@ public class InventoryController
     /// <summary>
     /// Initializes a new instance of the <see cref="InventoryController"/> class.
     /// </summary>
-    /// <param name="inventoryService">Instance of service handling inventory data operations and business rules.</param>
+    /// <param name="service">Instance of service handling inventory data operations and business rules.</param>
     /// <param name="view">Instance of view used to display data and capture user input. </param>
-    public InventoryController(IInventoryService inventoryService, ConsoleView view)
+    public InventoryController(IInventoryService service, ConsoleView view)
     {
-        this._service = inventoryService;
+        this._service = service;
         this._view = view;
     }
 
@@ -81,7 +81,7 @@ public class InventoryController
     }
 
     /// <summary>
-    /// Deletes a product from the inventory by the unique product identifier.
+    /// Deletes a product from the inventory by ID of the product.
     /// </summary>
     private void DeleteProduct()
     {
@@ -99,7 +99,7 @@ public class InventoryController
     }
 
     /// <summary>
-    /// Gets the detail to edited and edit the product.
+    /// Gets the detail to edit the product, and updates the product.
     /// </summary>
     private void EditProduct()
     {

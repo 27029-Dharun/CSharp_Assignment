@@ -6,7 +6,7 @@
 public static class ConstantMessages
 {
     /// <summary>
-    /// Contains the options be which the products can be sorted.
+    /// Contains message to display when getting sort options.
     /// </summary>
     public const string SortOptionsPrompt = "Sort Product By\n" +
         "1. Name\n" +
@@ -15,7 +15,7 @@ public static class ConstantMessages
         "Enter the option to sort: ";
 
     /// <summary>
-    /// Contains the main menu options.
+    /// Contains the message to display when getting the main menu options.
     /// </summary>
     public const string MainMenuPrompt = "1. Add a product\n" +
         "2. View all product\n" +
