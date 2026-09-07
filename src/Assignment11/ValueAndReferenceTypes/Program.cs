@@ -11,9 +11,11 @@ public class Program
     public static void Main()
     {
         // Task 1
-        PersonStruct personStruct = default;
-        personStruct.Name = "Dharun";
-        personStruct.Age = 20;
+        PersonStruct personStruct = new PersonStruct()
+        {
+            Name = "Dharun",
+            Age = 20,
+        };
 
         Person person = new Person()
         {
