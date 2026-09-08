@@ -26,7 +26,12 @@ namespace Assignment4.Services
         /// <param name="transaction">An instance of transaction DTO.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
-            Transaction createdTransaction = new Transaction(transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            Transaction createdTransaction = new Transaction(
+                transaction.Description,
+                transaction.Date,
+                transaction.Type,
+                transaction.Category,
+                transaction.Amount);
             this._repository.Add(createdTransaction);
         }
 

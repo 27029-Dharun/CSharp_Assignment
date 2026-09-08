@@ -217,26 +217,6 @@ namespace Assignment4.View
         }
 
         /// <summary>
-        /// Displays the menu.
-        /// Displays the menu
-        /// </summary>
-        public void DisplayMainMenu()
-        {
-            Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
-
-            Console.WriteLine("[1] Add transaction (Income/Expense)");
-            Console.WriteLine("[2] Edit transaction");
-            Console.WriteLine("[3] Delete transaction");
-            Console.WriteLine("[4] View financial summary");
-            Console.WriteLine("[5] View history");
-            Console.WriteLine("[6] Search transactions");
-            Console.WriteLine("[7] Sort transactions");
-            Console.WriteLine("[8] Exit application\n");
-
-            Console.WriteLine("Please enter your choice (1-8): ");
-        }
-
-        /// <summary>
         /// Prints an empty line.
         /// </summary>
         public void PrintEmptyLine()

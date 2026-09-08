@@ -13,6 +13,17 @@ namespace Assignment4.Controllers
         private readonly TransactionService _service;
         private readonly ConsoleView _view;
 
+        private readonly string _menuMessage = "       FINANCE TRACKER - MAIN MENU       \n" +
+                "[1] Add Transaction (Income/Expense)\n" +
+                "[2] Edit Transaction\n" +
+                "[3] Delete Transaction\n" +
+                "[4] View Financial Summary\n" +
+                "[5] View History / Transactions\n" +
+                "[6] Search Transaction\n" +
+                "[7] Sort Transaction\n" +
+                "[8] Exit Application\n\n" +
+                "Please enter your choice (1-8): ";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
         /// </summary>
@@ -22,6 +33,38 @@ namespace Assignment4.Controllers
         {
             this._service = service;
             this._view = view;
+        }
+
+        /// <summary>
+        /// Loops and get menu option until the user exits.
+        /// </summary>
+        public void Run()
+        {
+            TransactionMenu option = default;
+            while (option != TransactionMenu.Exit)
+            {
+                option = this._view.GetEnumValue<TransactionMenu>(this._menuMessage);
+                this._view.ClearConsole();
+                if (option == TransactionMenu.Exit)
+                {
+                    return;
+                }
+
+                try
+                {
+                    this.HandleMenu(option);
+                }
+                catch (InvalidDataException ex)
+                {
+                    this._view.PrintInfo(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    this._view.PrintInfo(ex.Message);
+                }
+
+                this._view.PauseAndReturn();
+            }
         }
 
         /// <summary>
@@ -59,9 +102,6 @@ namespace Assignment4.Controllers
                 case TransactionMenu.SortTransaction:
                     this.SortTransactionByAmount();
                     break;
-
-                case TransactionMenu.Exit:
-                    return;
             }
         }
 

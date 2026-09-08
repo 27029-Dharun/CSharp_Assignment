@@ -35,10 +35,7 @@ namespace Assignment4
                 // Controller instance that coordinates the view and service.
                 TransactionController controller = new TransactionController(service, view);
 
-                // Expense tracker instance that contains the entry point for the application.
-                ExpenseTracker expenseTracker = new ExpenseTracker(view, controller);
-
-                expenseTracker.ExecuteExpenseTracker();
+                controller.Run();
             }
             catch (Exception ex)
             {
