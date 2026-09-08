@@ -191,23 +191,6 @@ namespace Assignment4.View
             Console.Clear();
         }
 
-        /// <summary>
-        /// Displays the menu.
-        /// </summary>
-        public void DisplayMainMenu()
-        {
-            Console.WriteLine("       FINANCE TRACKER - MAIN MENU       \n");
-
-            Console.WriteLine("[1] Add Transaction (Income/Expense)\n" +
-                "[2] Edit Transaction\n" +
-                "[3] Delete Transaction\n" +
-                "[4] View Financial Summary\n" +
-                "[5] View History / Transactions\n" +
-                "[6] Exit Application\n");
-
-            Console.WriteLine("Please enter your choice (1-6): ");
-        }
-
         private void PrintColoredText(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
