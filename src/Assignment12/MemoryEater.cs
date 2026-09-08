@@ -14,14 +14,10 @@ internal class MemoryEater
     {
         while (true)
         {
-            // Added limit to the size of the list
-            if (this._memAlloc.Count > 100)
-            {
-                // Remove the first element if the there are more than 100 arrays.
-                this._memAlloc.RemoveAt(0);
-            }
-
             this._memAlloc.Add(new int[1000]);
+
+            // Assume memAlloc variable is used within the loop.
+            Thread.Sleep(10);
         }
     }
 }
