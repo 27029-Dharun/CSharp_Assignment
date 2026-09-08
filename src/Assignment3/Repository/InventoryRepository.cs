@@ -35,10 +35,7 @@ public class InventoryRepository : IInventoryRepository
         return this._inventories.ToList();
     }
 
-    /// <summary>
-    /// Gets the product names of all the product in the inventory.
-    /// </summary>
-    /// <returns> List of all the product names in the inventory. </returns>
+    /// <inheritdoc />
     public List<string> GetProductName()
     {
         return this._inventories.Select(product => product.Name ?? string.Empty).ToList();

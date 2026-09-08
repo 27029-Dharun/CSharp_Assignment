@@ -17,7 +17,7 @@ public interface IInventoryRepository
     /// <summary>
     /// Remove a product from the inventory.
     /// </summary>
-    /// <param name="product">Product that is deleted.</param>
+    /// <param name="product">Product to delete.</param>
     public void RemoveProduct(Product product);
 
     /// <summary>
