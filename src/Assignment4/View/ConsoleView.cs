@@ -131,7 +131,7 @@ namespace Assignment4.View
                 $"Enter the category of the transaction: ",
                 isEditMode,
                 TransactionValidator.IsValidCategory,
-                $"Please enter a valid category with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCharacter}.");
+                $"Please enter a valid category with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCategoryCharacter}.");
 
             return input;
         }
