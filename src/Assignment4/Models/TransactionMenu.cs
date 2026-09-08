@@ -1,7 +1,7 @@
-﻿namespace Assignment4.Models.Enums
+﻿namespace Assignment4.Models
 {
     /// <summary>
-    /// Specifies all the transaction menu operations
+    /// Specifies all the transaction menu operations.
     /// </summary>
     public enum TransactionMenu
     {

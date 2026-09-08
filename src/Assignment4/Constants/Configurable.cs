@@ -27,13 +27,13 @@
         public const int MaximumCharacter = 30;
 
         /// <summary>
-        /// Represents the maximum character for category.
-        /// </summary>
-        public const int MaximumCategoryCharacter = 15;
-
-        /// <summary>
         /// Represents the minimum amount that can be tracked.
         /// </summary>
         public const int MinimumAmount = 1;
+
+        /// <summary>
+        /// Represents the regular expression for the transaction ID.
+        /// </summary>
+        public const string IdPattern = @"^[IE]\d{3}$";
     }
 }

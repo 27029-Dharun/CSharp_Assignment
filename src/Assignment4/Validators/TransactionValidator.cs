@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using Assignment4.Constants;
 
-namespace Assignment4.Validation
+namespace Assignment4.Validators
 {
     /// <summary>
     /// Contains all the validator methods to validate the transaction data.
@@ -9,10 +10,10 @@ namespace Assignment4.Validation
     public static class TransactionValidator
     {
         /// <summary>
-        /// Validates the amount used in the transaction
+        /// Validates the amount used in the transaction.
         /// </summary>
-        /// <param name="input">Amount to validate</param>
-        /// <returns>A string containing the validation output; empty string if it is valid</returns>
+        /// <param name="input">Amount to validate.</param>
+        /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidAmount(string input)
         {
             if (!decimal.TryParse(input, out decimal amount))
@@ -29,10 +30,10 @@ namespace Assignment4.Validation
         }
 
         /// <summary>
-        /// Validates the date used in the transaction
+        /// Validates the date used in the transaction.
         /// </summary>
-        /// <param name="date">Date of the transaction</param>
-        /// <returns>A string containing the validation output; empty string if it is valid. </returns>
+        /// <param name="date">Date of the transaction.</param>
+        /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidDate(string date)
         {
             if (!DateTime.TryParseExact(date, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime validDate))
@@ -49,10 +50,10 @@ namespace Assignment4.Validation
         }
 
         /// <summary>
-        /// Validates the description of the transaction
+        /// Validates the description of the transaction.
         /// </summary>
-        /// <param name="name">Description of the transaction</param>
-        /// <returns>A string containing the validation output; empty string if it is valid</returns>
+        /// <param name="name">Description of the transaction.</param>
+        /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidDescription(string name)
         {
             if (name is null || name.Length < Configurable.MinimumCharacter || name.Length > Configurable.MaximumCharacter)
@@ -66,8 +67,8 @@ namespace Assignment4.Validation
         /// <summary>
         /// Validates the category of the transaction.
         /// </summary>
-        /// <param name="category"> The category of the transaction. </param>
-        /// <returns>A string containing the category of the product. </returns>
+        /// <param name="category"> The category of the transaction.</param>
+        /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidCategory(string category)
         {
             if (category is null || category.Length < Configurable.MinimumCharacter || category.Length > Configurable.MaximumCategoryCharacter)
@@ -84,6 +85,16 @@ namespace Assignment4.Validation
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Validates the id format entered by the user.
+        /// </summary>
+        /// <param name="id">The transaction ID entered by the user.</param>
+        /// <returns>True if valid; otherwise false.</returns>
+        public static bool IsValidId(string id)
+        {
+            return Regex.IsMatch(id, Configurable.IdPattern);
         }
     }
 }

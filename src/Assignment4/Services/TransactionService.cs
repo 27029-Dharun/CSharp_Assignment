@@ -1,13 +1,12 @@
 ﻿using Assignment4.DTOs;
 using Assignment4.Helper;
 using Assignment4.Models;
-using Assignment4.Models.Enums;
 using Assignment4.Repository;
 
 namespace Assignment4.Services
 {
     /// <summary>
-    /// Contains the business logic for transactions, perform validation and create transaction instances
+    /// Contains the business logic for transactions, perform validation and create transaction instances.
     /// </summary>
     public class TransactionService
     {
@@ -17,8 +16,8 @@ namespace Assignment4.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
-        /// <param name="idGenerator">Id Generator instance</param>
-        /// <param name="repository">repository instance</param>
+        /// <param name="idGenerator">ID Generator instance injected through dependency injection.</param>
+        /// <param name="repository">The repository instance injected through dependency injection.</param>
         public TransactionService(TransactionIdGenerator idGenerator, IRepository repository)
         {
             this._idGenerator = idGenerator;
@@ -28,7 +27,7 @@ namespace Assignment4.Services
         /// <summary>
         /// Creates a Transaction instance and returns it.
         /// </summary>
-        /// <param name="transaction">An instance of transaction DTO</param>
+        /// <param name="transaction">An instance of transaction DTO.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
             string id = this._idGenerator.GetNextId(transaction.Type);
@@ -37,9 +36,9 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Deletes the transaction by id
+        /// Deletes the transaction by id.
         /// </summary>
-        /// <param name="id">Unique id of the transaction to be deleted</param>
+        /// <param name="id">Unique id of the transaction to be deleted.</param>
         public void DeleteTransaction(string id)
         {
             this._repository.DeleteTransactionById(id);
@@ -50,7 +49,7 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
         /// <returns> True if the update process is done; otherwise false. </returns>
-        public bool UpdateTransaction(Transaction editedTransaction)
+        public bool EditTransaction(Transaction editedTransaction)
         {
             if (this._repository.Edit(editedTransaction))
             {
@@ -61,27 +60,27 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Get the expense from the repository
+        /// Get the expense from the repository.
         /// </summary>
-        /// <returns>returns a list of expenses</returns>
+        /// <returns>returns a list of expenses.</returns>
         public IReadOnlyList<Transaction> GetExpense()
         {
             return this._repository.GetExpense();
         }
 
         /// <summary>
-        /// Get the income from the repository
+        /// Get the income from the repository.
         /// </summary>
-        /// <returns>  list of incomes</returns>
+        /// <returns>  list of incomes.</returns>
         public IReadOnlyList<Transaction> GetIncome()
         {
             return this._repository.GetIncome();
         }
 
         /// <summary>
-        /// Gets all the transactions from the repository
+        /// Gets all the transactions from the repository.
         /// </summary>
-        /// <returns>List of transaction</returns>
+        /// <returns>List of transaction.</returns>
         public IReadOnlyList<Transaction> GetAllTransaction()
         {
             return this._repository.GetAll();
@@ -90,8 +89,8 @@ namespace Assignment4.Services
         /// <summary>
         /// Checks if the id is valid.
         /// </summary>
-        /// <param name="id">Id of the transaction to be validated</param>
-        /// <returns>boolean true if valid</returns>
+        /// <param name="id">Id of the transaction to be validated.</param>
+        /// <returns>boolean true if valid.</returns>
         public bool IsValidTransactionId(string id)
         {
             return this._repository.IsValidId(id);
@@ -108,18 +107,18 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Check if any transactions exists
+        /// Check if any transactions exists.
         /// </summary>
         /// <returns>true if any transaction exists; otherwise false. </returns>
-        public bool CheckTransactionsExist()
+        public bool HasTransactions()
         {
             return this._repository.HasAny();
         }
 
         /// <summary>
-        /// Generates the summary of the transaction
+        /// Generates the summary of the transaction.
         /// </summary>
-        /// <returns>Transaction summary instance that contains the summary data</returns>
+        /// <returns>Transaction summary instance that contains the summary data.</returns>
         public TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();

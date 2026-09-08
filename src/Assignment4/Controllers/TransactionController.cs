@@ -1,6 +1,5 @@
 ﻿using Assignment4.DTOs;
 using Assignment4.Models;
-using Assignment4.Models.Enums;
 using Assignment4.Services;
 using Assignment4.View;
 
@@ -17,9 +16,8 @@ namespace Assignment4.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
         /// </summary>
-        /// <param name="service">Instance of service</param>
-        /// <param name="view">Instance of view</param>
-        /// <param name="inputHandler">Instance of input handler</param>
+        /// <param name="service">The service instance injected through dependency injection.</param>
+        /// <param name="view">The view instance injected through dependency injection.</param>
         public TransactionController(TransactionService service, ConsoleView view)
         {
             this._service = service;
@@ -29,7 +27,7 @@ namespace Assignment4.Controllers
         /// <summary>
         /// Handles the menu returns from the application runner.
         /// </summary>
-        /// <param name="menu">Menu option selected from the user</param>
+        /// <param name="menu">Menu option selected from the user.</param>
         public void HandleMenu(TransactionMenu menu)
         {
             switch (menu)
@@ -62,25 +60,17 @@ namespace Assignment4.Controllers
         private void CreateTransaction()
         {
             // Creates the transaction DTO
-            TransactionDTO? transaction = this.GetCreateTransactionInput();
-            if (transaction is null)
-            {
-                this._view.PrintError("Transaction failed, please try again");
-                return;
-            }
+            TransactionDTO transaction = this.GetTransactionInput();
 
             this._service.CreateTransaction(transaction);
 
-            this._view.PrintSuccess("Transaction created successfully !!");
+            this._view.PrintSuccess("Transaction created successfully.");
             this.ViewAllTransaction();
         }
 
-        /// <summary>
-        /// Handles view all the transaction
-        /// </summary>
         private void ViewTransaction()
         {
-            if (!this._service.CheckTransactionsExist())
+            if (!this._service.HasTransactions())
             {
                 this._view.PrintInfo("No transactions to view");
                 return;
@@ -116,6 +106,7 @@ namespace Assignment4.Controllers
             if (!income.Any())
             {
                 this._view.PrintInfo("No income recorded");
+                return;
             }
 
             this._view.PrintTransactionTable(income);
@@ -127,6 +118,7 @@ namespace Assignment4.Controllers
             if (!expense.Any())
             {
                 this._view.PrintInfo("No expense recorded");
+                return;
             }
 
             this._view.PrintTransactionTable(expense);
@@ -134,7 +126,7 @@ namespace Assignment4.Controllers
 
         private void ViewSummary()
         {
-            if (!this._service.CheckTransactionsExist())
+            if (!this._service.HasTransactions())
             {
                 this._view.PrintInfo("No transactions available");
                 return;
@@ -148,7 +140,7 @@ namespace Assignment4.Controllers
 
         private void EditTransaction()
         {
-            if (!this._service.CheckTransactionsExist())
+            if (!this._service.HasTransactions())
             {
                 this._view.PrintInfo("No transactions to edit");
                 return;
@@ -167,20 +159,20 @@ namespace Assignment4.Controllers
             TransactionType type = transaction.Type;
             this.EditTransactionInputHandler(transaction);
 
-            if (!this._service.UpdateTransaction(transaction))
+            if (!this._service.EditTransaction(transaction))
             {
                 this._view.PrintError("Failed to update the transaction.");
                 return;
             }
 
             this._view.ClearConsole();
-            this._view.PrintSuccess($"{type} edited successfully !!\n");
+            this._view.PrintSuccess($"{type} edited successfully.\n");
             this.ViewAllTransaction();
         }
 
         private void DeleteTransaction()
         {
-            if (!this._service.CheckTransactionsExist())
+            if (!this._service.HasTransactions())
             {
                 this._view.PrintInfo("No transactions to delete");
                 return;
@@ -189,12 +181,12 @@ namespace Assignment4.Controllers
             string id = this.GetTransactionId();
             if (!this._service.IsValidTransactionId(id))
             {
-                this._view.PrintWarning("Invalid transaction id to delete");
+                this._view.PrintWarning("Invalid transaction ID to delete");
                 return;
             }
 
             this._service.DeleteTransaction(id);
-            this._view.PrintSuccess("Transaction deleted successfully !!");
+            this._view.PrintSuccess("Transaction deleted successfully.");
             this.ViewAllTransaction();
         }
 
@@ -202,34 +194,35 @@ namespace Assignment4.Controllers
         {
             IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
             this._view.PrintTransactionTable(transactions);
-            return this._view.GetString("Select the transaction by id: ");
+
+            return this._view.GetId();
         }
 
         /// <summary>
-        /// Gets the data for editing a transaction
+        /// Gets the data for editing a transaction.
         /// </summary>
-        /// <param name="transaction">A transaction instance</param>
+        /// <param name="transaction">A transaction instance.</param>
         private void EditTransactionInputHandler(Transaction transaction)
         {
-            string category = this._view.GetValidCategory($"Enter the category of {transaction.Type}: ");
+            string category = this._view.GetCategory();
             if (!string.IsNullOrWhiteSpace(category))
             {
                 transaction.Category = category;
             }
 
-            string amount = this._view.GetValidAmount("Enter the amount involved in the transaction: ", true);
+            string amount = this._view.GetAmount(true);
             if (!string.IsNullOrWhiteSpace(amount))
             {
                 transaction.Amount = decimal.Parse(amount);
             }
 
-            string date = this._view.GetValidDate(true);
+            string date = this._view.GetDate(true);
             if (!string.IsNullOrWhiteSpace(date))
             {
                 transaction.Date = DateTime.Parse(date);
             }
 
-            string description = this._view.GetValidDescription("Enter the description of the transaction: ", true);
+            string description = this._view.GetDescription(true);
             if (!string.IsNullOrWhiteSpace(description))
             {
                 transaction.Description = description;
@@ -239,14 +232,14 @@ namespace Assignment4.Controllers
         /// <summary>
         /// Gets the input from the user for creating a transaction.
         /// </summary>
-        /// <returns>Transaction data instance</returns>
-        private TransactionDTO? GetCreateTransactionInput()
+        /// <returns>Transaction data instance.</returns>
+        private TransactionDTO GetTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
-            string category = this._view.GetValidCategory($"Enter the category of {type}: ");
-            decimal amount = decimal.Parse(this._view.GetValidAmount("Enter the amount involved in the transaction: "));
-            DateTime date = DateTime.Parse(this._view.GetValidDate());
-            string description = this._view.GetValidDescription("Enter the description: ");
+            string category = this._view.GetCategory();
+            decimal amount = decimal.Parse(this._view.GetAmount());
+            DateTime date = DateTime.Parse(this._view.GetDate());
+            string description = this._view.GetDescription();
 
             // Creates the transaction DTO
             return new TransactionDTO(description, date, type, category, amount);

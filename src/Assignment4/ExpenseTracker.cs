@@ -1,5 +1,5 @@
 ﻿using Assignment4.Controllers;
-using Assignment4.Models.Enums;
+using Assignment4.Models;
 using Assignment4.View;
 
 namespace Assignment4
@@ -16,8 +16,8 @@ namespace Assignment4
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTracker"/> class.
         /// </summary>
-        /// <param name="view">An instance of view</param>
-        /// <param name="controller">An instance of controller</param>
+        /// <param name="view">An instance of view.</param>
+        /// <param name="controller">An instance of controller.</param>
         public ExpenseTracker(ConsoleView view, TransactionController controller)
         {
             this._view = view;
@@ -25,7 +25,7 @@ namespace Assignment4
         }
 
         /// <summary>
-        /// Loops and get menu option until the user exits
+        /// Loops and get menu option until the user exits.
         /// </summary>
         public void ExecuteExpenseTracker()
         {
@@ -63,7 +63,7 @@ namespace Assignment4
             this._view.DisplayMainMenu();
             int option = this._view.GetInteger("Select an option to proceed: ");
 
-            while (option > max)
+            while (option > max || option <= 0)
             {
                 this._view.ClearConsole();
                 this._view.PrintInfo($"Enter an input in range 1 - {max}");

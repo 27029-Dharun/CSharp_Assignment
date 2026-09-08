@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models.Enums
+﻿namespace Assignment4.Models
 {
     /// <summary>
     /// Specifies all the view options available.

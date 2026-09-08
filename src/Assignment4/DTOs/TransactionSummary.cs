@@ -1,15 +1,15 @@
 ﻿namespace Assignment4.DTOs
 {
     /// <summary>
-    /// DTO to transfer the summary data
+    /// DTO to transfer the summary data.
     /// </summary>
     public class TransactionSummary
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionSummary"/> class.
         /// </summary>
-        /// <param name="income">Total income recorded</param>
-        /// <param name="expense">Total expense recorded</param>
+        /// <param name="income">Total income recorded.</param>
+        /// <param name="expense">Total expense recorded.</param>
         public TransactionSummary(decimal income, decimal expense)
         {
             this.Income = income;
@@ -33,9 +33,9 @@
         public decimal Expense { get; }
 
         /// <summary>
-        /// calculates the balance of the user
+        /// calculates the balance of the user.
         /// </summary>
-        /// <returns>returns the balance</returns>
+        /// <returns>returns the balance.</returns>
         public decimal GetBalance() => this.Income - this.Expense;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models.Enums
+﻿namespace Assignment4.Models
 {
     /// <summary>
     /// Specifies that the transaction type.
