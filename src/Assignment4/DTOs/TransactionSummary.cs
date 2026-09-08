@@ -1,7 +1,7 @@
 ﻿namespace Assignment4.DTOs
 {
     /// <summary>
-    /// DTO to transfer the summary data
+    /// DTO to transfer the summary data.
     /// </summary>
     public class TransactionSummary
     {

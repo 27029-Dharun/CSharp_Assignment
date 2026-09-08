@@ -27,10 +27,10 @@ namespace Assignment4
                 JsonFileManager jsonFileManager = new JsonFileManager();
 
                 // Repository instance for add the transactions in the list.
-                IRepository repository = new PersistenceTransactionRepository("transactions.json", jsonFileManager);
+                IRepository repository = new PersistenceTransactionRepository("transactions.json", jsonFileManager, idGenerator);
 
                 // Service instance that contains business logic, performs validation, and create product instance.
-                TransactionService service = new TransactionService(idGenerator, repository);
+                TransactionService service = new TransactionService(repository);
 
                 // Controller instance that coordinates the view and service.
                 TransactionController controller = new TransactionController(service, view);
@@ -43,6 +43,8 @@ namespace Assignment4
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.ReadKey();
             }
         }
     }

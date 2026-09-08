@@ -1,45 +1,39 @@
 ﻿using Assignment4.DTOs;
-using Assignment4.Helper;
 using Assignment4.Models;
-using Assignment4.Models.Enums;
 using Assignment4.Repository;
 
 namespace Assignment4.Services
 {
     /// <summary>
-    /// Contains the business logic for transactions, perform validation and create transaction instances
+    /// Contains the business logic for transactions, perform validation and create transaction instances.
     /// </summary>
     public class TransactionService
     {
         private readonly IRepository _repository;
-        private readonly TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
-        /// <param name="idGenerator">Id Generator instance</param>
-        /// <param name="repository">repository instance</param>
-        public TransactionService(TransactionIdGenerator idGenerator, IRepository repository)
+        /// <param name="repository">The repository instance injected through dependency injection.</param>
+        public TransactionService(IRepository repository)
         {
-            this._idGenerator = idGenerator;
             this._repository = repository;
         }
 
         /// <summary>
         /// Creates a Transaction instance and returns it.
         /// </summary>
-        /// <param name="transaction">An instance of transaction DTO</param>
+        /// <param name="transaction">An instance of transaction DTO.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
-            string id = this._idGenerator.GetNextId(transaction.Type);
-            Transaction createdTransaction = new Transaction(id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            Transaction createdTransaction = new Transaction(transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
             this._repository.Add(createdTransaction);
         }
 
         /// <summary>
-        /// Deletes the transaction by id
+        /// Deletes the transaction by id.
         /// </summary>
-        /// <param name="id">Unique id of the transaction to be deleted</param>
+        /// <param name="id">Unique id of the transaction to be deleted.</param>
         public void DeleteTransaction(string id)
         {
             this._repository.DeleteTransactionById(id);
@@ -50,7 +44,7 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
         /// <returns> True if the update process is done; otherwise false. </returns>
-        public bool UpdateTransaction(Transaction editedTransaction)
+        public bool EditTransaction(Transaction editedTransaction)
         {
             if (this._repository.Edit(editedTransaction))
             {
@@ -61,27 +55,27 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Get the expense from the repository
+        /// Get the expense from the repository.
         /// </summary>
-        /// <returns>returns a list of expenses</returns>
+        /// <returns>returns a list of expenses.</returns>
         public IReadOnlyList<Transaction> GetExpense()
         {
             return this._repository.GetExpense();
         }
 
         /// <summary>
-        /// Get the income from the repository
+        /// Get the income from the repository.
         /// </summary>
-        /// <returns>  list of incomes</returns>
+        /// <returns>  list of incomes.</returns>
         public IReadOnlyList<Transaction> GetIncome()
         {
             return this._repository.GetIncome();
         }
 
         /// <summary>
-        /// Gets all the transactions from the repository
+        /// Gets all the transactions from the repository.
         /// </summary>
-        /// <returns>List of transaction</returns>
+        /// <returns>List of transaction.</returns>
         public IReadOnlyList<Transaction> GetAllTransaction()
         {
             return this._repository.GetAll();
@@ -90,8 +84,8 @@ namespace Assignment4.Services
         /// <summary>
         /// Checks if the id is valid.
         /// </summary>
-        /// <param name="id">Id of the transaction to be validated</param>
-        /// <returns>boolean true if valid</returns>
+        /// <param name="id">Id of the transaction to be validated.</param>
+        /// <returns>boolean true if valid.</returns>
         public bool IsValidTransactionId(string id)
         {
             return this._repository.IsValidId(id);
@@ -108,18 +102,18 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Check if any transactions exists
+        /// Check if any transactions exists.
         /// </summary>
         /// <returns>true if any transaction exists; otherwise false. </returns>
-        public bool CheckTransactionsExist()
+        public bool HasTransactions()
         {
             return this._repository.HasAny();
         }
 
         /// <summary>
-        /// Generates the summary of the transaction
+        /// Generates the summary of the transaction.
         /// </summary>
-        /// <returns>Transaction summary instance that contains the summary data</returns>
+        /// <returns>Transaction summary instance that contains the summary data.</returns>
         public TransactionSummary GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
@@ -170,7 +164,7 @@ namespace Assignment4.Services
         /// <param name="query">Query entered by the user</param>
         /// <param name="option">Option to search</param>
         /// <returns>A list containing the transactions that matches the query text</returns>
-        public IReadOnlyList<Transaction> GetSearchResult(string query, int option)
+        public IReadOnlyList<Transaction> GetSearchResult(string query, SearchTransactionOption option)
         {
             return this._repository.Search(query, option);
         }
@@ -180,10 +174,10 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="option"> Option to sort ascending or descending. </param>
         /// <returns> A list of income sorted based on user preference. </returns>
-        public IReadOnlyList<Transaction> GetSortedIncome(int option)
+        public IReadOnlyList<Transaction> GetSortedIncome(SortOption option)
         {
             // Ascending order
-            if (option == 1)
+            if (option == SortOption.Ascending)
             {
                 return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderBy(x => x.Amount).ToList();
             }
@@ -197,10 +191,10 @@ namespace Assignment4.Services
         /// </summary>
         /// <param name="option"> Option to sort ascending or descending. </param>
         /// <returns> A list of expense sorted based on user preference. </returns>
-        public IReadOnlyList<Transaction> GetSortedExpense(int option)
+        public IReadOnlyList<Transaction> GetSortedExpense(SortOption option)
         {
             // Ascending order
-            if (option == 1)
+            if (option == SortOption.Ascending)
             {
                 return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderBy(x => x.Amount).ToList();
             }

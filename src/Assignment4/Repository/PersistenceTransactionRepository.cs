@@ -1,29 +1,32 @@
-﻿using Assignment4.Models;
-using Assignment4.Models.Enums;
+﻿using Assignment4.Helper;
+using Assignment4.Models;
 
 namespace Assignment4.Repository
 {
     /// <summary>
-    /// Transactions are stored as list of Transaction
+    /// Transactions are stored as list of Transaction.
     /// </summary>
     public class PersistenceTransactionRepository : IRepository
     {
         private readonly List<Transaction> _transactions;
         private readonly JsonFileManager _jsonFileManager;
-        private readonly string _filePath;
+        private string _filePath;
+        private TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PersistenceTransactionRepository"/> class.
         /// </summary>
         /// <param name="path">Path where the file is to be saved</param>
         /// <param name="fileManager">File manager instance</param>
-        public PersistenceTransactionRepository(string path, JsonFileManager fileManager)
+        /// <param name="idGenerator">ID generator instance.</param>
+        public PersistenceTransactionRepository(string path, JsonFileManager fileManager, TransactionIdGenerator idGenerator)
         {
             this._filePath = path;
             this._jsonFileManager = fileManager;
+            this._idGenerator = idGenerator;
             if (!File.Exists(this._filePath))
             {
-                File.WriteAllText(this._filePath, string.Empty);
+                File.WriteAllText(this._filePath, "[]");
                 this._transactions = new List<Transaction>();
                 return;
             }
@@ -31,47 +34,33 @@ namespace Assignment4.Repository
             this._transactions = this._jsonFileManager.LoadAll(this._filePath);
         }
 
-        /// <summary>
-        /// Add a transaction to existing list
-        /// </summary>
-        /// <param name="transaction">A transaction object</param>
+        /// <inheritdoc/>
         public void Add(Transaction transaction)
         {
+            transaction.Id = this._idGenerator.GetNextId(transaction.Type);
             this._transactions.Add(transaction);
             this._jsonFileManager.WriteAll(this._filePath, this._transactions);
         }
 
-        /// <summary>
-        /// Fetch all the transaction from the repository
-        /// </summary>
-        /// <returns>transaction stored</returns>
+        /// <inheritdoc/>
         public IReadOnlyList<Transaction> GetAll()
         {
             return this._transactions.Select(this.Copy).ToList();
         }
 
-        /// <summary>
-        /// Get the expense from the repository
-        /// </summary>
-        /// <returns>returns a list of expenses</returns>
+        /// <inheritdoc/>
         public IReadOnlyList<Transaction> GetExpense()
         {
             return this._transactions.Where(x => x.Type == TransactionType.Expense).ToList();
         }
 
-        /// <summary>
-        /// Get the expense from the repository
-        /// </summary>
-        /// <returns>returns a list of expenses</returns>
+        /// <inheritdoc/>
         public IReadOnlyList<Transaction> GetIncome()
         {
             return this._transactions.Where(x => x.Type == TransactionType.Income).ToList();
         }
 
-        /// <summary>
-        /// deletes a transaction from the list
-        /// </summary>
-        /// <param name="id">Id of the transaction to be deleted</param>
+        /// <inheritdoc/>
         public void DeleteTransactionById(string id)
         {
             Transaction? transaction = this.GetById(id);
@@ -151,9 +140,9 @@ namespace Assignment4.Repository
         /// <param name="query">Query text entered by the user</param>
         /// <param name="option">Option to search by date and category. </param>
         /// <returns>A list containing the list that matched the query text</returns>
-        public IReadOnlyList<Transaction> Search(string query, int option)
+        public IReadOnlyList<Transaction> Search(string query, SearchTransactionOption option)
         {
-            if (option == 2)
+            if (option == SearchTransactionOption.Date)
             {
                 return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
             }
