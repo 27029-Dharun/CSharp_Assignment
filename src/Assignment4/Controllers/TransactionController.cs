@@ -76,7 +76,7 @@ namespace Assignment4.Controllers
                 return;
             }
 
-            ViewTransactionOption option = this._view.GetEnumValue<ViewTransactionOption>("\nEnter the option to view: ");
+            ViewTransactionOption option = this._view.GetEnumValue<ViewTransactionOption>("1. View all expense\n2. View all income\n3. View all transactions\nEnter the option to view: ");
 
             switch (option)
             {
@@ -235,7 +235,7 @@ namespace Assignment4.Controllers
         /// <returns>Transaction data instance.</returns>
         private TransactionDTO GetTransactionInput()
         {
-            TransactionType type = this._view.GetEnumValue<TransactionType>("Select the type of the transaction: ");
+            TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
             string category = this._view.GetCategory();
             decimal amount = decimal.Parse(this._view.GetAmount());
             DateTime date = DateTime.Parse(this._view.GetDate());

@@ -9,7 +9,7 @@
         /// <summary>
         /// Represents the maximum number of times the user can retry.
         /// </summary>
-        public const int Tries = 3;
+        public const int MaximumAttempts = 3;
 
         /// <summary>
         /// Represents the standard date format used for storing and displaying dates..

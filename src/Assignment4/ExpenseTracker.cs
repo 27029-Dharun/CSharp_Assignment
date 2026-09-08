@@ -61,17 +61,7 @@ namespace Assignment4
         private TransactionMenu GetMenuOption(int max)
         {
             this._view.DisplayMainMenu();
-            int option = this._view.GetInteger("Select an option to proceed: ");
-
-            while (option > max || option <= 0)
-            {
-                this._view.ClearConsole();
-                this._view.PrintInfo($"Enter an input in range 1 - {max}");
-                this._view.PrintInfo("1. Add expense or income\n2. Edit expense or income\n3. Delete income or expense\n4. View summary\n5. View transactions\n6. Exit\n");
-                option = this._view.GetInteger("Select an option to proceed: ");
-            }
-
-            return (TransactionMenu)option;
+            return this._view.GetEnumValue<TransactionMenu>("Select an option to proceed: ");
         }
     }
 }

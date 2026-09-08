@@ -8,7 +8,24 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
-        /// <param name="id">Id of the transaction.</param>
+        /// <param name="description">Description of the transaction.</param>
+        /// <param name="date">Date of the transaction.</param>
+        /// <param name="type">Type of the transaction.</param>
+        /// <param name="category">Category of the transaction.</param>
+        /// <param name="amount">Amount used in the transaction.</param>
+        public Transaction(string description, DateTime date, TransactionType type, string category, decimal amount)
+        {
+            this.Description = description;
+            this.Date = date;
+            this.Type = type;
+            this.Category = category;
+            this.Amount = amount;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Transaction"/> class.
+        /// </summary>
+        /// <param name="id">Unique identifier of the transaction.</param>
         /// <param name="description">Description of the transaction.</param>
         /// <param name="date">Date of the transaction.</param>
         /// <param name="type">Type of the transaction.</param>
@@ -25,12 +42,12 @@
         }
 
         /// <summary>
-        /// Gets the unique Id assigned to the transaction at creation time.
+        /// Gets or sets the unique Id assigned to the transaction at creation time.
         /// </summary>
         /// <value>
         /// Unique identifier of the transaction.
         /// </value>
-        public string Id { get; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the transaction.

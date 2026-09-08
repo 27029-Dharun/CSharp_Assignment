@@ -1,4 +1,5 @@
-﻿using Assignment4.Models;
+﻿using Assignment4.Helper;
+using Assignment4.Models;
 
 namespace Assignment4.Repository
 {
@@ -7,11 +8,22 @@ namespace Assignment4.Repository
     /// </summary>
     public class TransactionRepository : IRepository
     {
+        private readonly TransactionIdGenerator _idGenerator;
         private readonly List<Transaction> _transactions = new List<Transaction>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
+        /// </summary>
+        /// <param name="idGenerator">The instance of ID generator.</param>
+        public TransactionRepository(TransactionIdGenerator idGenerator)
+        {
+            this._idGenerator = idGenerator;
+        }
 
         /// <inheritdoc/>
         public void Add(Transaction transaction)
         {
+            transaction.Id = this._idGenerator.GetNextId(transaction.Type);
             this._transactions.Add(transaction);
         }
 

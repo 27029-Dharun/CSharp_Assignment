@@ -9,11 +9,7 @@ namespace Assignment4.View
     /// Contains the console operations that prints and gets input from user.
     /// </summary>
     public class ConsoleView
-    {/// <summary>
-     /// Prints the empty line.
-     /// </summary>
-        public void PrintEmptyLine() => Console.WriteLine();
-
+    {
         /// <summary>
         /// Prints the input string.
         /// </summary>
@@ -21,23 +17,6 @@ namespace Assignment4.View
         public void PrintInfo(string message)
         {
             Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Gets the Integer input.
-        /// </summary>
-        /// <param name="message">Message to be printed.</param>
-        /// <returns>int value that we got as input.</returns>
-        public int GetInteger(string message)
-        {
-            int input;
-            Console.Write(message);
-            while (!int.TryParse(Console.ReadLine(), out input))
-            {
-                Console.WriteLine("Please enter a integer");
-            }
-
-            return input;
         }
 
         /// <summary>
@@ -49,28 +28,17 @@ namespace Assignment4.View
         public T GetEnumValue<T>(string message)
            where T : struct, Enum
         {
-            int tries = Configurable.Tries;
-            Console.WriteLine($"\n{message}");
-            foreach (var value in Enum.GetValues<T>())
+            while (true)
             {
-                Console.WriteLine($"{Convert.ToInt32(value)}. {value}");
-            }
-
-            string input = Console.ReadLine() ?? string.Empty;
-            int integer;
-            while (!int.TryParse(input, out integer) || !Enum.IsDefined(typeof(T), integer))
-            {
-                if (tries == 1)
+                string input = this.GetString(message);
+                if (Enum.TryParse(input, out T result) && Enum.IsDefined(result))
                 {
-                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                    return result;
                 }
 
-                Console.WriteLine($"Tries left: {--tries}, Enter the valid integer");
-                Console.WriteLine($"{message}");
-                input = Console.ReadLine() ?? string.Empty;
+                Console.Clear();
+                Console.WriteLine("Enter a valid option");
             }
-
-            return (T)Enum.ToObject(typeof(T), integer);
         }
 
         /// <summary>
@@ -188,11 +156,23 @@ namespace Assignment4.View
         /// <param name="transactions">List of transactions.</param>
         public void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
-            var table = new ConsoleTable("Transaction Id", "Type", "Category", "Date", "Amount", "Description");
+            var table = new ConsoleTable(
+                "Transaction Id",
+                "Type",
+                "Category",
+                "Date",
+                "Amount",
+                "Description");
 
             foreach (Transaction transaction in transactions)
             {
-                table.AddRow(transaction.Id, transaction.Type, transaction.Category, transaction.Date.ToShortDateString(), transaction.Amount, transaction.Description);
+                table.AddRow(
+                    transaction.Id,
+                    transaction.Type,
+                    transaction.Category,
+                    transaction.Date.ToShortDateString(),
+                    transaction.Amount,
+                    transaction.Description);
             }
 
             table.Write();
@@ -235,9 +215,13 @@ namespace Assignment4.View
             Console.ResetColor();
         }
 
-        private string GetValidatedInput(string prompt, bool isEditMode, Func<string, bool> isValidField, string errorMessage)
+        private string GetValidatedInput(
+            string prompt,
+            bool isEditMode,
+            Func<string, bool> isValidField,
+            string errorMessage)
         {
-            int tries = Configurable.Tries;
+            int remainingAttempts = Configurable.MaximumAttempts;
             string input = this.GetString(prompt);
             if (isEditMode && string.IsNullOrWhiteSpace(input))
             {
@@ -246,13 +230,13 @@ namespace Assignment4.View
 
             while (!isValidField(input))
             {
-                if (tries == 1)
+                if (remainingAttempts == 1)
                 {
-                    throw new InvalidDataException("No attempt left, Please try again." + Environment.NewLine);
+                    throw new InvalidDataException("No attempt left, Please try again.\n");
                 }
 
                 Console.WriteLine(errorMessage);
-                Console.WriteLine($"Tries left: {--tries}\n");
+                Console.WriteLine($"Tries left: {--remainingAttempts}\n");
                 input = this.GetString(prompt);
             }
 

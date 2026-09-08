@@ -1,5 +1,4 @@
 ﻿using Assignment4.DTOs;
-using Assignment4.Helper;
 using Assignment4.Models;
 using Assignment4.Repository;
 
@@ -11,16 +10,13 @@ namespace Assignment4.Services
     public class TransactionService
     {
         private readonly IRepository _repository;
-        private readonly TransactionIdGenerator _idGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
-        /// <param name="idGenerator">ID Generator instance injected through dependency injection.</param>
         /// <param name="repository">The repository instance injected through dependency injection.</param>
-        public TransactionService(TransactionIdGenerator idGenerator, IRepository repository)
+        public TransactionService(IRepository repository)
         {
-            this._idGenerator = idGenerator;
             this._repository = repository;
         }
 
@@ -30,8 +26,7 @@ namespace Assignment4.Services
         /// <param name="transaction">An instance of transaction DTO.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
-            string id = this._idGenerator.GetNextId(transaction.Type);
-            Transaction createdTransaction = new Transaction(id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
+            Transaction createdTransaction = new Transaction(transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
             this._repository.Add(createdTransaction);
         }
 
