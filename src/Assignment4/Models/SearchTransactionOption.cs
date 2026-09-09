@@ -1,7 +1,7 @@
-﻿namespace Assignment4.Models;
+﻿namespace ExpenseTracker.Models;
 
 /// <summary>
-/// Contains all the search options
+/// Contains all the search options.
 /// </summary>
 public enum SearchTransactionOption
 {

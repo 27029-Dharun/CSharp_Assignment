@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Assignment4.Models;
+using ExpenseTracker.CustomException;
+using ExpenseTracker.Models;
 
-namespace Assignment4.Repository
+namespace ExpenseTracker.Repository
 {
     /// <summary>
     /// Contains the Write and load logics that writes and loads the file in json format.
@@ -24,10 +25,10 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
-        /// Writes all the transaction to the file
+        /// Writes all the transaction to the file.
         /// </summary>
-        /// <param name="filePath">The path of the file where the transaction are stored</param>
-        /// <param name="list">List of the transaction that are to be added</param>
+        /// <param name="filePath">The path of the file where the transaction are stored.</param>
+        /// <param name="list">List of the transaction that are to be added.</param>
         public void WriteAll(string filePath, List<Transaction> list)
         {
             string json = JsonSerializer.Serialize(list, this._options);
@@ -35,14 +36,26 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
-        /// Loads all the content and loads into the file
+        /// Loads all the content and loads into the file.
         /// </summary>
-        /// <param name="filePath">Path of the file from which the contents are loaded </param>
-        /// <returns>A list of transactions that are stored in the file</returns>
+        /// <param name="filePath">Path of the file from which the contents are loaded. </param>
+        /// <returns>A list of transactions that are stored in the file.</returns>
         public List<Transaction> LoadAll(string filePath)
         {
-            string text = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<List<Transaction>>(text, this._options) ?? new List<Transaction>();
+            try
+            {
+                string text = File.ReadAllText(filePath);
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return new List<Transaction>();
+                }
+
+                return JsonSerializer.Deserialize<List<Transaction>>(text, this._options) ?? new List<Transaction>();
+            }
+            catch (Exception)
+            {
+                throw new DataBaseException();
+            }
         }
     }
 }

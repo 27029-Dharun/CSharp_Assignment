@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using Assignment4.Constants;
+using ExpenseTracker.Constants;
 
-namespace Assignment4.Validators
+namespace ExpenseTracker.Validators
 {
     /// <summary>
     /// Contains all the validator methods to validate the transaction data.

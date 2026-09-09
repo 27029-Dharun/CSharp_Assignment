@@ -1,10 +1,11 @@
-﻿using Assignment4.Controllers;
-using Assignment4.Helper;
-using Assignment4.Repository;
-using Assignment4.Services;
-using Assignment4.View;
+﻿using ExpenseTracker.Controllers;
+using ExpenseTracker.CustomException;
+using ExpenseTracker.Helper;
+using ExpenseTracker.Repository;
+using ExpenseTracker.Services;
+using ExpenseTracker.View;
 
-namespace Assignment4
+namespace ExpenseTracker
 {
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.
@@ -27,7 +28,7 @@ namespace Assignment4
                 JsonFileManager jsonFileManager = new JsonFileManager();
 
                 // Repository instance for add the transactions in the list.
-                IRepository repository = new PersistenceTransactionRepository("transactions.json", jsonFileManager, idGenerator);
+                ITransactionRepository repository = new TransactionRepository("transactions.json", jsonFileManager, idGenerator);
 
                 // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(repository);
@@ -37,10 +38,16 @@ namespace Assignment4
 
                 controller.Run();
             }
-            catch (Exception ex)
+            catch (DataBaseException ex)
             {
                 Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+            finally
+            {
                 Console.ReadKey();
             }
         }

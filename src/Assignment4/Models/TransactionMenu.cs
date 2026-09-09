@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models
+﻿namespace ExpenseTracker.Models
 {
     /// <summary>
     /// Specifies all the transaction menu operations.

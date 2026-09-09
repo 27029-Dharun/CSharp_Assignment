@@ -11,8 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{C778E127-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acceptance", "acceptance", "{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment4", "src\Assignment4\Assignment4.csproj", "{FE73EA30-AF45-4BFF-BFA4-117BCBD0852A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker", "src\Assignment4\ExpenseTracker.csproj", "{FE73EA30-AF45-4BFF-BFA4-117BCBD0852A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment2", "src\Assignment2\Assignment2.csproj", "{D4AA2B9A-EE9B-42A2-8E4E-6B9E556918BA}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment1", "src\Assignment1\Assignment1.csproj", "{83CE69B4-70B6-4858-8875-072FC23A5ED7}"
 EndProject
 Global
@@ -46,5 +48,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		        SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
+		SolutionGuid = {E6B1B42D-59AD-40D9-ABD6-5CBFDEB7DA3C}
 	EndGlobalSection
 EndGlobal

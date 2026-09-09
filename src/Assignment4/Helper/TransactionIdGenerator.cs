@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using Assignment4.Models;
+using ExpenseTracker.Models;
 
-namespace Assignment4.Helper
+namespace ExpenseTracker.Helper
 {
     /// <summary>
     /// Generates the id for each transactions.
@@ -14,7 +14,7 @@ namespace Assignment4.Helper
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionIdGenerator"/> class.
         /// </summary>
-        /// <param name="path">Path of the file to  store the id</param>
+        /// <param name="path">Path of the file to  store the id.</param>
         public TransactionIdGenerator(string path)
         {
             this._filePath = path;
@@ -35,7 +35,7 @@ namespace Assignment4.Helper
         /// <summary>
         /// Gets the next id to be used as a identifier.
         /// </summary>
-        /// <param name="type">Type of the transaction</param>
+        /// <param name="type">Type of the transaction.</param>
         /// <returns> A unique identifier based on the type of expense. </returns>
         public string GetNextId(TransactionType type)
         {

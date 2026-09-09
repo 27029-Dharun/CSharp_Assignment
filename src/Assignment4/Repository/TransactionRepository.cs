@@ -1,12 +1,12 @@
-﻿using Assignment4.Helper;
-using Assignment4.Models;
+﻿using ExpenseTracker.Helper;
+using ExpenseTracker.Models;
 
-namespace Assignment4.Repository
+namespace ExpenseTracker.Repository
 {
     /// <summary>
     /// Transactions are stored as list of Transaction.
     /// </summary>
-    public class PersistenceTransactionRepository : IRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly List<Transaction> _transactions;
         private readonly JsonFileManager _jsonFileManager;
@@ -14,12 +14,12 @@ namespace Assignment4.Repository
         private TransactionIdGenerator _idGenerator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersistenceTransactionRepository"/> class.
+        /// Initializes a new instance of the <see cref="TransactionRepository"/> class.
         /// </summary>
-        /// <param name="path">Path where the file is to be saved</param>
-        /// <param name="fileManager">File manager instance</param>
+        /// <param name="path">Path where the file is to be saved.</param>
+        /// <param name="fileManager">File manager instance.</param>
         /// <param name="idGenerator">ID generator instance.</param>
-        public PersistenceTransactionRepository(string path, JsonFileManager fileManager, TransactionIdGenerator idGenerator)
+        public TransactionRepository(string path, JsonFileManager fileManager, TransactionIdGenerator idGenerator)
         {
             this._filePath = path;
             this._jsonFileManager = fileManager;
@@ -73,11 +73,7 @@ namespace Assignment4.Repository
             this._jsonFileManager.WriteAll(this._filePath, this._transactions);
         }
 
-        /// <summary>
-        /// Edit the transactions in the repository
-        /// </summary>
-        /// <param name="editedTransaction">Edit the transaction</param>
-        /// <returns>True if edited; otherwise false</returns>
+        /// <inheritdoc/>
         public bool Edit(Transaction editedTransaction)
         {
             Transaction? transaction = this.GetById(editedTransaction.Id);
@@ -94,11 +90,7 @@ namespace Assignment4.Repository
             return true;
         }
 
-        /// <summary>
-        /// Checks if the transaction id is valid.
-        /// </summary>
-        /// <param name="id">Id to find the transaction</param>
-        /// <returns>Transaction object</returns>
+        /// <inheritdoc/>
         public bool IsValidId(string id)
         {
             if (this._transactions.FirstOrDefault(x => id == x.Id) is not null)
@@ -109,20 +101,13 @@ namespace Assignment4.Repository
             return false;
         }
 
-        /// <summary>
-        /// Checks if any transactions exists.
-        /// </summary>
-        /// <returns>true if any transaction exists, false if it is empty</returns>
+        /// <inheritdoc/>
         public bool HasAny()
         {
             return this._transactions.Any();
         }
 
-        /// <summary>
-        /// Get the transaction copy
-        /// </summary>
-        /// <param name="id">Unique identifier of the transaction</param>
-        /// <returns>A transaction instance</returns>
+        /// <inheritdoc/>
         public Transaction? GetTransactionCopy(string id)
         {
             Transaction? transaction = this.GetById(id);
@@ -134,27 +119,31 @@ namespace Assignment4.Repository
             return this.Copy(transaction);
         }
 
-        /// <summary>
-        /// Search the transaction by date and category
-        /// </summary>
-        /// <param name="query">Query text entered by the user</param>
-        /// <param name="option">Option to search by date and category. </param>
-        /// <returns>A list containing the list that matched the query text</returns>
-        public IReadOnlyList<Transaction> Search(string query, SearchTransactionOption option)
+        /// <inheritdoc/>
+        public IReadOnlyList<Transaction> Search(Func<Transaction, bool> predicate)
         {
-            if (option == SearchTransactionOption.Date)
-            {
-                return this._transactions.Where(x => x.Date == DateTime.Parse(query)).ToList();
-            }
+            return this._transactions.Where(predicate).ToList();
+        }
 
-            return this._transactions.Where(x => x.Category.ToLower() == query.ToLower()).ToList();
+        /// <inheritdoc/>
+        public IReadOnlyList<Transaction> Sort(TransactionType type, SortOption option)
+        {
+            var filteredType = this._transactions.Where(t => t.Type == type);
+            if (option == SortOption.Ascending)
+            {
+                return this._transactions.OrderBy(x => x.Amount).ToList();
+            }
+            else
+            {
+                return this._transactions.OrderByDescending(x => x.Amount).ToList();
+            }
         }
 
         /// <summary>
-        /// Get the transaction with a Id
+        /// Get the transaction with a Id.
         /// </summary>
-        /// <param name="id">Id to find the transaction</param>
-        /// <returns>Transaction object</returns>
+        /// <param name="id">Id to find the transaction.</param>
+        /// <returns>Transaction object.</returns>
         private Transaction? GetById(string id)
         {
             return this._transactions.FirstOrDefault(x => id == x.Id);

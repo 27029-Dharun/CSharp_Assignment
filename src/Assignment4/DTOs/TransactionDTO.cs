@@ -1,6 +1,6 @@
-﻿using Assignment4.Models;
+﻿using ExpenseTracker.Models;
 
-namespace Assignment4.DTOs
+namespace ExpenseTracker.DTOs
 {
     /// <summary>
     /// Represents the data required to create/edit a transaction.

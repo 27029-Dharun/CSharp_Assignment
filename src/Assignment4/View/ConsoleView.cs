@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
-using Assignment4.Constants;
-using Assignment4.DTOs;
-using Assignment4.Models;
-using Assignment4.Validators;
 using ConsoleTables;
+using ExpenseTracker.Constants;
+using ExpenseTracker.DTOs;
+using ExpenseTracker.Models;
+using ExpenseTracker.Validators;
 
-namespace Assignment4.View
+namespace ExpenseTracker.View
 {
     /// <summary>
     /// Contains the console operations that prints and gets input from user.
@@ -22,13 +22,21 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Prints an empty line.
+        /// </summary>
+        public void PrintEmptyLine()
+        {
+            Console.WriteLine();
+        }
+
+        /// <summary>
         /// Displays the enum value and gets input from the user.
         /// </summary>
         /// <typeparam name="T">Type variable that should be struct.</typeparam>
         /// <param name="message">String to be printed.</param>
         /// <returns>returns a enum value entered by use.</returns>
         public T GetEnumValue<T>(string message)
-            where T : struct, Enum
+           where T : struct, Enum
         {
             while (true)
             {
@@ -45,7 +53,6 @@ namespace Assignment4.View
 
         /// <summary>
         /// Gets decimal input.
-        /// Gets the description for the transaction
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>decimal input.</returns>
@@ -56,7 +63,7 @@ namespace Assignment4.View
                 isEditMode,
                 TransactionValidator.IsValidDescription,
                 $"Please enter a valid description with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCharacter}.");
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+            return input;
         }
 
         /// <summary>
@@ -64,47 +71,43 @@ namespace Assignment4.View
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>decimal input.</returns>
-        public string GetAmount(bool isEditMode = false)
+        public decimal GetAmount(bool isEditMode = false)
         {
             string input = this.GetValidatedInput(
                 "Enter the amount involved in the transaction: ",
                 isEditMode,
                 TransactionValidator.IsValidAmount,
-                $"Invalid amount. Please enter a valid amount greater than or equal to {Configurable.MinimumAmount}.");
+                $"Invalid amount.Please enter a valid amount greater than {Configurable.MinimumAmount}.");
 
-            return input;
+            // Only returns a empty string in edit mode.
+            if (string.IsNullOrEmpty(input))
+            {
+                return Configurable.ExistingPriceValue;
+            }
+
+            return decimal.Parse(input);
         }
 
         /// <summary>
         /// Gets the Date from the user.
-        /// Gets a valid string category
-        /// </summary>
-        /// <param name="prompt">Message to be displayed</param>
-        /// <param name="optional">True if we want to perform edit operation</param>
-        /// <returns>A string containing the category</returns>
-        public string GetValidCategory(string prompt, bool optional = true)
-        {
-            string input = this.GetValidatedInput(
-                prompt,
-                optional,
-                TransactionValidator.IsValidCategory,
-                $"Invalid category, Category should only contain alphabets with minimum {Configurable.MinimumCharacter} and maximum {Configurable.MaximumCategoryCharacter}.");
-
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
-        }
-
-        /// <summary>
-        /// Gets the Date from the user
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>DateTime value entered by user.</returns>
-        public string GetDate(bool isEditMode = false)
+        public DateTime GetDate(bool isEditMode = false)
         {
-            return this.GetValidatedInput(
+            string input = this.GetValidatedInput(
                 $"Enter a date in format ({Configurable.DateFormat}): ",
                 isEditMode,
                 TransactionValidator.IsValidDate,
                 $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
+
+            // Only returns a empty string in edit mode.
+            if (string.IsNullOrEmpty(input))
+            {
+                return DateTime.Parse(Configurable.ExistingDate, CultureInfo.InvariantCulture, DateTimeStyles.None);
+            }
+
+            return DateTime.Parse(input, CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
 
         /// <summary>
@@ -175,12 +178,6 @@ namespace Assignment4.View
         /// <param name="transactions">List of transactions.</param>
         public void PrintTransactionTable(IReadOnlyList<Transaction> transactions)
         {
-            if (!transactions.Any())
-            {
-                Console.WriteLine("No transactions to display");
-                return;
-            }
-
             var table = new ConsoleTable(
                 "Transaction Id",
                 "Type",
@@ -204,6 +201,40 @@ namespace Assignment4.View
         }
 
         /// <summary>
+        /// Prints the summary of all the transactions with visualizations.
+        /// </summary>
+        /// <param name="summary">Summary instance that contains the summary of all the transactions.</param>
+        public void PrintSummary(TransactionSummary summary)
+        {
+            Console.WriteLine("\nIncome vs expense");
+            this.PrintBarChart(new Dictionary<string, decimal>()
+            {
+                { "Income", summary.Income },
+                { "Expense", summary.Expense },
+            });
+
+            if (summary.ExpenseCategoryTotals != null && summary.ExpenseCategoryTotals.Count > 0)
+            {
+                Console.WriteLine("\nCategory wise expense");
+                this.PrintBarChart(summary.ExpenseCategoryTotals);
+            }
+            else
+            {
+                this.PrintInfo("No expense recorded");
+            }
+
+            if (summary.IncomeCategoryTotals != null && summary.IncomeCategoryTotals.Count > 0)
+            {
+                Console.WriteLine("\nCategory wise income");
+                this.PrintBarChart(summary.IncomeCategoryTotals);
+            }
+            else
+            {
+                this.PrintInfo("No income recorded");
+            }
+        }
+
+        /// <summary>
         /// Waits for user to press a key and clears the console.
         /// </summary>
         public void PauseAndReturn()
@@ -214,34 +245,6 @@ namespace Assignment4.View
             // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
-        }
-
-        /// <summary>
-        /// Prints an empty line.
-        /// </summary>
-        public void PrintEmptyLine()
-        {
-            Console.WriteLine();
-        }
-
-        /// <summary>
-        /// Prints the summary of all the transactions with visualizations
-        /// </summary>
-        /// <param name="summary">Summary instance that contains the summary of all the transactions</param>
-        public void PrintSummary(TransactionSummary summary)
-        {
-            Console.WriteLine(Environment.NewLine + "Income vs expense");
-            this.PrintBarChart(new Dictionary<string, decimal>()
-            {
-                { "Income", summary.Income },
-                { "Expense", summary.Expense },
-            });
-
-            Console.WriteLine(Environment.NewLine + "Category wise expense");
-            this.PrintBarChart(summary.ExpenseCategoryTotals);
-
-            Console.WriteLine(Environment.NewLine + "Category wise income");
-            this.PrintBarChart(summary.IncomeCategoryTotals);
         }
 
         private void PrintBarChart(Dictionary<string, decimal> categoryTotals)

@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Constants
+﻿namespace ExpenseTracker.Constants
 {
     /// <summary>
     /// Contains all configurable constants used across the application.
@@ -42,8 +42,18 @@
         public const string IdPattern = @"^[IE]\d{3}$";
 
         /// <summary>
-        /// Represents the maximum length of the bar chart
+        /// Represents the maximum bar length.
         /// </summary>
-        public const int MaxBarLength = 40;
+        public const int MaxBarLength = 30;
+
+        /// <summary>
+        /// Represents the value to use the existing date when editing.
+        /// </summary>
+        public const string ExistingDate = "01/01/0001";
+
+        /// <summary>
+        /// Represents the value to use the existing price when editing.
+        /// </summary>
+        public const decimal ExistingPriceValue = -1;
     }
 }

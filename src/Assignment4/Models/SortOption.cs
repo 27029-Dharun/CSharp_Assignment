@@ -1,7 +1,7 @@
-﻿namespace Assignment4.Models
+﻿namespace ExpenseTracker.Models
 {
     /// <summary>
-    /// Contains the option to sort the transactions
+    /// Contains the option to sort the transactions.
     /// </summary>
     public enum SortOption
     {

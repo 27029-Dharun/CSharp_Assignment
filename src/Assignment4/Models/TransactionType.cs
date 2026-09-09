@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Models
+﻿namespace ExpenseTracker.Models
 {
     /// <summary>
     /// Specifies that the transaction type.

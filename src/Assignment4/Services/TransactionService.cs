@@ -1,29 +1,29 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
-using Assignment4.Repository;
+﻿using ExpenseTracker.DTOs;
+using ExpenseTracker.Models;
+using ExpenseTracker.Repository;
 
-namespace Assignment4.Services
+namespace ExpenseTracker.Services
 {
     /// <summary>
     /// Contains the business logic for transactions, perform validation and create transaction instances.
     /// </summary>
     public class TransactionService
     {
-        private readonly IRepository _repository;
+        private readonly ITransactionRepository _repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
         /// <param name="repository">The repository instance injected through dependency injection.</param>
-        public TransactionService(IRepository repository)
+        public TransactionService(ITransactionRepository repository)
         {
             this._repository = repository;
         }
 
         /// <summary>
-        /// Creates a Transaction instance and returns it.
+        /// Creates a Transaction and returns it.
         /// </summary>
-        /// <param name="transaction">An instance of transaction DTO.</param>
+        /// <param name="transaction">A <see cref="TransactionDTO"/> containing transaction details.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
             Transaction createdTransaction = new Transaction(
@@ -164,48 +164,43 @@ namespace Assignment4.Services
         }
 
         /// <summary>
-        /// Gets the matching transactions with matching query
-        /// </summary>
-        /// <param name="query">Query entered by the user</param>
-        /// <param name="option">Option to search</param>
-        /// <returns>A list containing the transactions that matches the query text</returns>
-        public IReadOnlyList<Transaction> GetSearchResult(string query, SearchTransactionOption option)
-        {
-            return this._repository.Search(query, option);
-        }
-
-        /// <summary>
         /// Gets the income in the sorted order based on the user input.
         /// </summary>
-        /// <param name="option"> Option to sort ascending or descending. </param>
-        /// <returns> A list of income sorted based on user preference. </returns>
+        /// <param name="option">The option to sort the income.</param>
+        /// <returns>The list of income in sorted order.</returns>
         public IReadOnlyList<Transaction> GetSortedIncome(SortOption option)
         {
-            // Ascending order
-            if (option == SortOption.Ascending)
-            {
-                return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderBy(x => x.Amount).ToList();
-            }
-
-            // Descending order
-            return this._repository.GetAll().Where(x => x.Type == TransactionType.Income).OrderByDescending(x => x.Amount).ToList();
+            return this._repository.Sort(TransactionType.Income, option);
         }
 
         /// <summary>
         /// Gets the expense in the sorted order based on the user input.
         /// </summary>
-        /// <param name="option"> Option to sort ascending or descending. </param>
-        /// <returns> A list of expense sorted based on user preference. </returns>
+        /// <param name="option">The option to sort the expense.</param>
+        /// <returns>The list of income in sorted order.</returns>
         public IReadOnlyList<Transaction> GetSortedExpense(SortOption option)
         {
-            // Ascending order
-            if (option == SortOption.Ascending)
-            {
-                return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderBy(x => x.Amount).ToList();
-            }
+            return this._repository.Sort(TransactionType.Expense, option);
+        }
 
-            // Descending order
-            return this._repository.GetAll().Where(x => x.Type == TransactionType.Expense).OrderByDescending(x => x.Amount).ToList();
+        /// <summary>
+        /// Gets the transactions with matching date.
+        /// </summary>
+        /// <param name="date">Date of the transaction to search.</param>
+        /// <returns>A list of transactions with matching date.</returns>
+        public IReadOnlyList<Transaction> SearchByDate(DateTime date)
+        {
+            return this._repository.Search(t => t.Date == date);
+        }
+
+        /// <summary>
+        /// Gets the transactions with matching category.
+        /// </summary>
+        /// <param name="category">Category of the transaction to search.</param>
+        /// <returns>A list of transactions with matching category.</returns>
+        public IReadOnlyList<Transaction> SearchByCategory(string category)
+        {
+            return this._repository.Search(t => t.Category == category);
         }
     }
 }

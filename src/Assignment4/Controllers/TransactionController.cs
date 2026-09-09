@@ -1,9 +1,10 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
-using Assignment4.Services;
-using Assignment4.View;
+﻿using ExpenseTracker.Constants;
+using ExpenseTracker.DTOs;
+using ExpenseTracker.Models;
+using ExpenseTracker.Services;
+using ExpenseTracker.View;
 
-namespace Assignment4.Controllers
+namespace ExpenseTracker.Controllers
 {
     /// <summary>
     /// Coordinates operations between the view and services.
@@ -52,15 +53,15 @@ namespace Assignment4.Controllers
 
                 try
                 {
-                    this.HandleMenu(option);
+                    this.ProcessMenuSelection(option);
                 }
                 catch (InvalidDataException ex)
                 {
-                    this._view.PrintInfo(ex.Message);
+                    this._view.PrintInfo($"{ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    this._view.PrintInfo(ex.Message);
+                    this._view.PrintInfo($"An unexpected error occurred: {ex.Message}");
                 }
 
                 this._view.PauseAndReturn();
@@ -71,7 +72,7 @@ namespace Assignment4.Controllers
         /// Handles the menu returns from the application runner.
         /// </summary>
         /// <param name="menu">Menu option selected from the user.</param>
-        public void HandleMenu(TransactionMenu menu)
+        private void ProcessMenuSelection(TransactionMenu menu)
         {
             switch (menu)
             {
@@ -263,16 +264,16 @@ namespace Assignment4.Controllers
                 transaction.Category = category;
             }
 
-            string amount = this._view.GetAmount(true);
-            if (!string.IsNullOrWhiteSpace(amount))
+            decimal amount = this._view.GetAmount(true);
+            if (amount != Configurable.ExistingPriceValue)
             {
-                transaction.Amount = decimal.Parse(amount);
+                transaction.Amount = amount;
             }
 
-            string date = this._view.GetDate(true);
-            if (!string.IsNullOrWhiteSpace(date))
+            DateTime date = this._view.GetDate(true);
+            if (date != DateTime.Parse(Configurable.ExistingDate))
             {
-                transaction.Date = DateTime.Parse(date);
+                transaction.Date = date;
             }
 
             string description = this._view.GetDescription(true);
@@ -307,24 +308,26 @@ namespace Assignment4.Controllers
             }
 
             SearchTransactionOption option = this._view.GetEnumValue<SearchTransactionOption>("1. Category\n2. Date\nSelect the field to search with: ");
-            string query;
+            IReadOnlyList<Transaction> filteredTransactions;
+
             if (option == SearchTransactionOption.Category)
             {
-                query = this._view.GetValidCategory($"Enter the category to search: ");
+                string category = this._view.GetCategory();
+                filteredTransactions = this._service.SearchByCategory(category);
             }
             else
             {
-                query = this._view.GetDate();
+                DateTime date = this._view.GetDate();
+                filteredTransactions = this._service.SearchByDate(date);
             }
 
-            IReadOnlyList<Transaction> filteredTransaction = this._service.GetSearchResult(query, option);
-            if (!filteredTransaction.Any())
+            if (!filteredTransactions.Any())
             {
                 this._view.PrintInfo("No matched transactions found");
                 return;
             }
 
-            this._view.PrintTransactionTable(filteredTransaction);
+            this._view.PrintTransactionTable(filteredTransactions);
         }
 
         /// <summary>
@@ -335,8 +338,8 @@ namespace Assignment4.Controllers
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
             string category = this._view.GetCategory();
-            decimal amount = decimal.Parse(this._view.GetAmount());
-            DateTime date = DateTime.Parse(this._view.GetDate());
+            decimal amount = this._view.GetAmount();
+            DateTime date = this._view.GetDate();
             string description = this._view.GetDescription();
 
             // Creates the transaction DTO

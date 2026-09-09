@@ -1,4 +1,4 @@
-﻿namespace Assignment4.DTOs
+﻿namespace ExpenseTracker.DTOs
 {
     /// <summary>
     /// DTO to transfer the summary data.
@@ -10,8 +10,8 @@
         /// </summary>
         /// <param name="income">Total income recorded.</param>
         /// <param name="expense">Total expense recorded.</param>
-        /// <param name="monthlyExpense">Total expense recorded in the current month.</param>
         /// <param name="monthlyIncome">Total income recorded in the current month.</param>
+        /// <param name="monthlyExpense">Total expense recorded in the current month.</param>
         /// <param name="incomeCategoryTotals">The sum of amount earned in each category.</param>
         /// <param name="expenseCategoryTotals">The sum of amount spent in each category.</param>
         public TransactionSummary(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> incomeCategoryTotals, Dictionary<string, decimal> expenseCategoryTotals)
@@ -57,21 +57,21 @@
         public decimal MonthlyExpense { get; }
 
         /// <summary>
-        /// Gets the total income from each category
+        /// Gets the total income from each category.
         /// </summary>
-        /// <value> Sum of amount earned in each category </value>
+        /// <value> Sum of amount earned in each category. </value>
         public Dictionary<string, decimal> IncomeCategoryTotals { get; }
 
         /// <summary>
-        /// Gets the total expense from each category
+        /// Gets the total expense from each category.
         /// </summary>
-        /// <value> Sum of amount spent in each category </value>
+        /// <value> Sum of amount spent in each category. </value>
         public Dictionary<string, decimal> ExpenseCategoryTotals { get; }
 
         /// <summary>
-        /// calculates the balance of the user
+        /// calculates the balance of the user.
         /// </summary>
-        /// <returns> The balance amount present</returns>
+        /// <returns> The balance amount present.</returns>
         public decimal GetBalance() => this.Income - this.Expense;
     }
 }
