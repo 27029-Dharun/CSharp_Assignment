@@ -17,7 +17,7 @@ This section focuses on identifying and analyzing a subtle memory retention beha
 
 ### Understanding about Memory Optimization
 
-- `MemoryOptimization1.cs` creates a List of integer array.
+- `MemoryOptimization.cs` creates a List of integer array.
 - The "MemoryOptimization1" instance is created within "using" statement.
 - The IDisposable interface is implemented in MemoryOptimization class and implemented the Dispose method
 - The Allocate method rises the memory usage to a certain level and when the threshold is reached it returns.
