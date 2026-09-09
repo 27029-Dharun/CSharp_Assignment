@@ -8,7 +8,7 @@ This section focuses on identifying and analyzing a subtle memory retention beha
 
 - MemoryEater.cs creates a List of integer array.
 - When the Allocate() method of MemoryEater.cs is called it increases the memory size for every 10 millisecond.
-- As the all the objects have reference, the Garbage Collector doesn't collect any data.
+- As the all the objects have reference, the Garbage Collector doesn't collect any object that is created.
 - So the memory usage significantly rises until OutOfMemoryException gets thrown and application gets crashed.
 
 #### Memory Usage Before Optimization
@@ -17,8 +17,8 @@ This section focuses on identifying and analyzing a subtle memory retention beha
 
 ### Understanding about Memory Optimization
 
-- In MemoryOptimization.cs creates a List of integer array.
-- The "MemoryOptimization" instance is created within "using" statement.
+- `MemoryOptimization1.cs` creates a List of integer array.
+- The "MemoryOptimization1" instance is created within "using" statement.
 - The IDisposable interface is implemented in MemoryOptimization class and implemented the Dispose method
 - The Allocate method rises the memory usage to a certain level and when the threshold is reached it returns.
 - Since the MemoryOptimization is enclosed within "using" statement, the Dispose method is automatically called.
