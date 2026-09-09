@@ -1,9 +1,9 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
-using Assignment4.Services;
-using Assignment4.View;
+﻿using ExpenseTracker.DTOs;
+using ExpenseTracker.Models;
+using ExpenseTracker.Services;
+using ExpenseTracker.View;
 
-namespace Assignment4.Controllers
+namespace ExpenseTracker.Controllers
 {
     /// <summary>
     /// Coordinates operations between the view and services.

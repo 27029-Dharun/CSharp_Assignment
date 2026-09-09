@@ -1,7 +1,7 @@
-﻿using Assignment4.Helper;
-using Assignment4.Models;
+﻿using ExpenseTracker.Helper;
+using ExpenseTracker.Models;
 
-namespace Assignment4.Repository
+namespace ExpenseTracker.Repository
 {
     /// <summary>
     /// Transactions are stored as list of Transaction.

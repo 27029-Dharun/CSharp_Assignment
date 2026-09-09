@@ -1,10 +1,10 @@
-﻿using Assignment4.Controllers;
-using Assignment4.Helper;
-using Assignment4.Repository;
-using Assignment4.Services;
-using Assignment4.View;
+﻿using ExpenseTracker.Controllers;
+using ExpenseTracker.Helper;
+using ExpenseTracker.Repository;
+using ExpenseTracker.Services;
+using ExpenseTracker.View;
 
-namespace Assignment4
+namespace ExpenseTracker
 {
     /// <summary>
     /// Application entry point and composition root. Wires up the dependencies once and hands control to the controller.

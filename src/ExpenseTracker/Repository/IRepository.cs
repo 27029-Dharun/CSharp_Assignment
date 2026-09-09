@@ -1,6 +1,6 @@
-﻿using Assignment4.Models;
+﻿using ExpenseTracker.Models;
 
-namespace Assignment4.Repository
+namespace ExpenseTracker.Repository
 {
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving transaction entities.

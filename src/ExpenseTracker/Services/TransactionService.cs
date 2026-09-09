@@ -1,8 +1,8 @@
-﻿using Assignment4.DTOs;
-using Assignment4.Models;
-using Assignment4.Repository;
+﻿using ExpenseTracker.DTOs;
+using ExpenseTracker.Models;
+using ExpenseTracker.Repository;
 
-namespace Assignment4.Services
+namespace ExpenseTracker.Services
 {
     /// <summary>
     /// Contains the business logic for transactions, perform validation and create transaction instances.

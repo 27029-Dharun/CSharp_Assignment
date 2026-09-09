@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Constants
+﻿namespace ExpenseTracker.Constants
 {
     /// <summary>
     /// Contains all configurable constants used across the application.

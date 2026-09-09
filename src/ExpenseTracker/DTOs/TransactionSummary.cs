@@ -1,4 +1,4 @@
-﻿namespace Assignment4.DTOs
+﻿namespace ExpenseTracker.DTOs
 {
     /// <summary>
     /// DTO to transfer the summary data.

@@ -1,9 +1,9 @@
-﻿using Assignment4.Constants;
-using Assignment4.Models;
-using Assignment4.Validators;
-using ConsoleTables;
+﻿using ConsoleTables;
+using ExpenseTracker.Constants;
+using ExpenseTracker.Models;
+using ExpenseTracker.Validators;
 
-namespace Assignment4.View
+namespace ExpenseTracker.View
 {
     /// <summary>
     /// Contains the console operations that prints and gets input from user.

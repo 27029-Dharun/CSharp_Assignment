@@ -1,6 +1,6 @@
-﻿using Assignment4.Models;
+﻿using ExpenseTracker.Models;
 
-namespace Assignment4.Helper;
+namespace ExpenseTracker.Helper;
 
 /// <summary>
 /// Generates the id for each transactions.
