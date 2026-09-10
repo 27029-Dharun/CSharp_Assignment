@@ -18,7 +18,7 @@ public class InventoryRepository : IInventoryRepository
     }
 
     /// <inheritdoc />
-    public Product GetProductById(int id)
+    public Product GetById(int id)
     {
         return this._inventories.FirstOrDefault(product => product.Id == id)
         ?? throw new KeyNotFoundException($"Product with ID {id} was not found.");
@@ -40,11 +40,5 @@ public class InventoryRepository : IInventoryRepository
     public List<string> GetProductName()
     {
         return this._inventories.Select(product => product.Name).ToList();
-    }
-
-    /// <inheritdoc />
-    bool IInventoryRepository.ValidateId(int id)
-    {
-        return this._inventories.Any(product => product.Id == id);
     }
 }

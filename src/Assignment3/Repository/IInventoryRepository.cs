@@ -25,7 +25,7 @@ public interface IInventoryRepository
     /// </summary>
     /// <param name="id">Unique identifier of the Product.</param>
     /// <returns>Product with matching ID.</returns>
-    public Product GetProductById(int id);
+    public Product GetById(int id);
 
     /// <summary>
     /// Adds a product to the inventory.
@@ -38,11 +38,4 @@ public interface IInventoryRepository
     /// </summary>
     /// <returns>List of all the product names in the inventory.</returns>
     public List<string> GetProductName();
-
-    /// <summary>
-    /// Validates the ID of the product.
-    /// </summary>
-    /// <param name="id">ID to be validated.</param>
-    /// <returns>True if ID is valid; otherwise, false.</returns>
-    public bool ValidateId(int id);
 }

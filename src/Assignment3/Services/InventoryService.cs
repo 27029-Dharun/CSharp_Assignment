@@ -44,7 +44,7 @@ public class InventoryService : IInventoryService
     /// <inheritdoc />
     public Product DeleteProductById(int id)
     {
-        Product product = this._inventoryRepository.GetProductById(id);
+        Product product = this._inventoryRepository.GetById(id);
 
         this._inventoryRepository.RemoveProduct(product);
         return product;
@@ -53,7 +53,7 @@ public class InventoryService : IInventoryService
     /// <inheritdoc />
     public Product EditProductById(int id, string name, decimal? price, int? quantity)
     {
-        Product product = this._inventoryRepository.GetProductById(id);
+        Product product = this._inventoryRepository.GetById(id);
 
         // If all the fields are Empty throws an Exception
         if (string.IsNullOrWhiteSpace(name) && price is null && quantity is null)
@@ -113,10 +113,10 @@ public class InventoryService : IInventoryService
     }
 
     /// <inheritdoc />
-    public bool ValidateProductId(int id)
+    public Product GetProductById(int id)
     {
         // Throws exception if the id is not present
-        return this._inventoryRepository.ValidateId(id);
+        return this._inventoryRepository.GetById(id);
     }
 
     /// <inheritdoc />

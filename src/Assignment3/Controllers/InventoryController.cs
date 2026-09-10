@@ -111,11 +111,7 @@ public class InventoryController
 
         int id = this.GetProductId("edit");
 
-        if (!this._service.ValidateProductId(id))
-        {
-            this._view.PrintInfo($"Entered product ID - {id} is not valid");
-            return;
-        }
+        this._service.GetProductById(id);
 
         this._view.DisplayEditInstruction();
 
