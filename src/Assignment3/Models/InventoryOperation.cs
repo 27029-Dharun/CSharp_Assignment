@@ -11,7 +11,7 @@ internal enum InventoryOperation
     Add = 1,
 
     /// <summary>
-    /// Represents an option to view all available product
+    /// Represents an option to view all available products.
     /// </summary>
     View = 2,
 

@@ -1,7 +1,7 @@
 ﻿namespace Assignment3.Constants;
 
 /// <summary>
-/// Constants messages to display.
+/// Contains messages displayed by the inventory application.
 /// </summary>
 public static class MessageConstants
 {
