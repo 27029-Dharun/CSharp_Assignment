@@ -9,21 +9,21 @@ namespace ExpenseTracker.Services
     /// </summary>
     public class TransactionService
     {
-        private readonly IRepository _repository;
+        private readonly ITransactionRepository _repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionService"/> class.
         /// </summary>
         /// <param name="repository">The repository instance injected through dependency injection.</param>
-        public TransactionService(IRepository repository)
+        public TransactionService(ITransactionRepository repository)
         {
             this._repository = repository;
         }
 
         /// <summary>
-        /// Creates a Transaction instance and returns it.
+        /// Creates a Transaction and returns it.
         /// </summary>
-        /// <param name="transaction">An instance of transaction DTO.</param>
+        /// <param name="transaction">A <see cref="TransactionDTO"/> containing transaction details.</param>
         public void CreateTransaction(TransactionDTO transaction)
         {
             Transaction createdTransaction = new Transaction(
@@ -131,7 +131,76 @@ namespace ExpenseTracker.Services
                 .Where(transaction => transaction.Type == TransactionType.Expense)
                 .Sum(transaction => transaction.Amount);
 
-            return new TransactionSummary(income, expense);
+            int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
+
+            IReadOnlyList<Transaction> currentMonthTransaction = transactions
+                .Where(transaction => transaction.Date.Month == currentMonth && transaction.Date.Year == currentYear)
+                .ToList();
+
+            decimal currentIncome = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .Sum(transaction => transaction.Amount);
+
+            decimal currentExpense = currentMonthTransaction
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .Sum(transaction => transaction.Amount);
+
+            Dictionary<string, decimal> categoryWiseExpense = transactions
+                .Where(transaction => transaction.Type == TransactionType.Expense)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(transaction => transaction.Amount));
+
+            Dictionary<string, decimal> categoryWiseIncome = transactions
+                .Where(transaction => transaction.Type == TransactionType.Income)
+                .GroupBy(transaction => transaction.Category)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Sum(transaction => transaction.Amount));
+
+            return new TransactionSummary(income, expense, currentIncome, currentExpense, categoryWiseIncome, categoryWiseExpense);
+        }
+
+        /// <summary>
+        /// Gets the income in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option">The option to sort the income.</param>
+        /// <returns>The list of income in sorted order.</returns>
+        public IReadOnlyList<Transaction> GetSortedIncome(SortOption option)
+        {
+            return this._repository.Sort(TransactionType.Income, option);
+        }
+
+        /// <summary>
+        /// Gets the expense in the sorted order based on the user input.
+        /// </summary>
+        /// <param name="option">The option to sort the expense.</param>
+        /// <returns>The list of income in sorted order.</returns>
+        public IReadOnlyList<Transaction> GetSortedExpense(SortOption option)
+        {
+            return this._repository.Sort(TransactionType.Expense, option);
+        }
+
+        /// <summary>
+        /// Gets the transactions with matching date.
+        /// </summary>
+        /// <param name="date">Date of the transaction to search.</param>
+        /// <returns>A list of transactions with matching date.</returns>
+        public IReadOnlyList<Transaction> SearchByDate(DateTime date)
+        {
+            return this._repository.Search(t => t.Date.Date == date.Date);
+        }
+
+        /// <summary>
+        /// Gets the transactions with matching category.
+        /// </summary>
+        /// <param name="category">Category of the transaction to search.</param>
+        /// <returns>A list of transactions with matching category.</returns>
+        public IReadOnlyList<Transaction> SearchByCategory(string category)
+        {
+            return this._repository.Search(t => t.Category == category);
         }
     }
 }
