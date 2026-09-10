@@ -190,7 +190,7 @@ namespace ExpenseTracker.Services
         /// <returns>A list of transactions with matching date.</returns>
         public IReadOnlyList<Transaction> SearchByDate(DateTime date)
         {
-            return this._repository.Search(t => t.Date == date);
+            return this._repository.Search(t => t.Date.Date == date.Date);
         }
 
         /// <summary>
