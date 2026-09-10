@@ -5,18 +5,20 @@ namespace Collections.Tasks;
 /// <summary>
 /// Contains the dictionary implementation that maps a student's name to their grade.
 /// </summary>
-public class DictionaryOperations
+public class DictionaryOperations<TKey, TValue>
 {
-    private readonly Dictionary<string, int> _studentList = new Dictionary<string, int>();
+    private readonly Dictionary<TKey, TValue> _studentList = new Dictionary<TKey, TValue>();
 
     /// <summary>
     /// Creates a dictionary with student name and grade
     /// </summary>
-    public void CreateStudentData()
+    /// <param name="names">Array containing the key of the students to add.</param>
+    /// <param name="values">Array containing the value of the student to add.</param>
+    public void CreateStudentData(TKey[] names, TValue[] values)
     {
         for (int i = 0; i < 5; i++)
         {
-            string studentName = ConsoleIO.GetName("Enter the name of the student: ");
+            TKey studentName = ConsoleIO.GetName("Enter the name of the student: ");
             if (this._studentList.ContainsKey(studentName))
             {
                 ConsoleIO.PrintInfo("Entered student already in the list");
@@ -24,7 +26,7 @@ public class DictionaryOperations
                 continue;
             }
 
-            int grade = ConsoleIO.GetInteger($"Enter the grade of the {studentName}: ");
+            TValue grade = ConsoleIO.GetInteger($"Enter the grade of the {studentName}: ");
 
             this._studentList.Add(studentName, grade);
         }

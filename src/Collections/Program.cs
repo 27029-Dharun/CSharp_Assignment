@@ -9,6 +9,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        Console.CancelKeyPress += (sender, e) => { e.Cancel };
         Controller controller = new Controller();
         controller.HandleTaskMenu();
     }

@@ -59,13 +59,21 @@ public class Controller
 
     private void HandleListOperations()
     {
-        ListOperations list = new ListOperations();
+        ListOperations<string> list = new ListOperations<string>();
         ConsoleIO.PrintHeader("List Task");
         ConsoleIO.PrintInfo("Adding books to list\n");
-        list.AddBooks();
+
+        string[] arr = new string[5];
+        for (int i = 0; i < 5; i++)
+        {
+            arr[i] = ConsoleIO.GetString("Enter a book name");
+        }
+
+        list.AddBooks(arr);
 
         ConsoleIO.PrintInfo("\nRemoving a book from list\n");
-        list.DeleteBook();
+        string nameToDelete = ConsoleIO.GetString("Enter a book name");
+        list.DeleteBook(nameToDelete);
 
         ConsoleIO.PrintInfo("\nDisplaying all the books\n");
         list.DisplayBooks();
@@ -73,11 +81,20 @@ public class Controller
 
     private void HandleStackOperations()
     {
-        StackOperations stack = new StackOperations();
+        StackOperations<char> stack = new StackOperations<char>();
         ConsoleIO.PrintHeader("Reversing a string\n");
-        ConsoleIO.PrintInfo($"Entered String: {stack.AddCharacter()}");
 
-        ConsoleIO.PrintInfo($"Reversed string : {stack.ReverseCharacter()}");
+        string input = ConsoleIO.GetName("Enter the name to reverse: ");
+        List<char> charArray = new List<char>();
+        foreach (char character in input)
+        {
+            charArray.Add(character);
+        }
+
+        stack.AddCharacter(charArray);
+        ConsoleIO.PrintInfo($"Entered String: {input}");
+
+        ConsoleIO.PrintInfo($"Reversed string : {string.Join(string.Empty, stack.ReverseCharacter())}");
     }
 
     private void HandleQueueOperations()

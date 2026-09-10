@@ -1,42 +1,37 @@
-﻿using System.Text;
-using Collections.IO;
-
-namespace Collections.Tasks;
+﻿namespace Collections.Tasks;
 
 /// <summary>
 /// Contains stack implementation to reverse a string.
 /// </summary>
-public class StackOperations
+/// <typeparam name="T">Type parameter</typeparam>
+public class StackOperations<T>
 {
-    private readonly Stack<char> _chars = new Stack<char>();
+    private readonly Stack<T> _chars = new Stack<T>();
 
     /// <summary>
     /// Gets a string input and load the characters in string into the stack.
     /// </summary>
-    /// <returns>A string entered by the user.</returns>
-    public string AddCharacter()
+    /// <param name="values">Type parameter</param>
+    public void AddCharacter(List<T> values)
     {
-        string input = ConsoleIO.GetName("Enter a string: ");
-        foreach (char character in input)
+        foreach (T character in values)
         {
             this._chars.Push(character);
         }
-
-        return input;
     }
 
     /// <summary>
     /// Pops all the characters and append to a new string.
     /// </summary>
     /// <returns>Reversed string input.</returns>
-    public string ReverseCharacter()
+    public List<T> ReverseCharacter()
     {
-        StringBuilder reversedString = new StringBuilder();
-        foreach (char character in this._chars)
+        List<T> result = new List<T>();
+        foreach (T character in this._chars)
         {
-            reversedString.Append(character);
+            result.Append(character);
         }
 
-        return reversedString.ToString();
+        return result;
     }
 }

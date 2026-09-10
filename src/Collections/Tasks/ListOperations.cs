@@ -5,18 +5,20 @@ namespace Collections.Tasks;
 /// <summary>
 /// Contains a list implementation
 /// </summary>
-public class ListOperations
+/// <typeparam name="T">Type parameter</typeparam>
+public class ListOperations<T>
 {
-    private readonly List<string> _list = new List<string>();
+    private readonly List<T> _list = new List<T>();
 
     /// <summary>
     /// Creates a list with book names.
     /// </summary>
-    public void AddBooks()
+    /// <param name="arr">Array containing the books name</param>
+    public void AddBooks(T[] arr)
     {
         for (int i = 0; i < 5; i++)
         {
-            this._list.Add(ConsoleIO.GetName("Enter the book name: "));
+            this._list.Add(arr[i]);
         }
 
         ConsoleIO.PrintInfo("Added five books name to the list\n");
@@ -25,10 +27,9 @@ public class ListOperations
     /// <summary>
     /// Deletes a book entered by the user.
     /// </summary>
-    public void DeleteBook()
+    /// <param name="bookName">Name of the book to delete.</param>
+    public void DeleteBook(T bookName)
     {
-        string bookName = ConsoleIO.GetString("Enter the book name to delete: ");
-
         if (this._list.Contains(bookName))
         {
             this._list.Remove(bookName);
@@ -45,9 +46,9 @@ public class ListOperations
     public void DisplayBooks()
     {
         ConsoleIO.PrintInfo("Books in the list are: ");
-        foreach (string bookName in this._list)
+        foreach (T bookName in this._list)
         {
-            ConsoleIO.PrintInfo(bookName);
+            ConsoleIO.PrintInfo($"{bookName}");
         }
     }
 }
