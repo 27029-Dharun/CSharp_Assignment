@@ -16,8 +16,10 @@ public class ListOperations
     {
         for (int i = 0; i < 5; i++)
         {
-            this._list.Add(ConsoleIO.GetString("Enter a book name: "));
+            this._list.Add(ConsoleIO.GetName("Enter the book name: "));
         }
+
+        ConsoleIO.PrintInfo("Added five books name to the list\n");
     }
 
     /// <summary>
@@ -30,7 +32,10 @@ public class ListOperations
         if (this._list.Contains(bookName))
         {
             this._list.Remove(bookName);
+            Console.WriteLine($"Removed {bookName} from the list");
         }
+
+        Console.WriteLine($"{bookName} not present in the list");
     }
 
     /// <summary>
@@ -38,7 +43,7 @@ public class ListOperations
     /// </summary>
     public void DisplayBooks()
     {
-        ConsoleIO.PrintInfo("Books the list are: ");
+        ConsoleIO.PrintInfo("Books in the list are: ");
         foreach (string bookName in this._list)
         {
             ConsoleIO.PrintInfo(bookName);

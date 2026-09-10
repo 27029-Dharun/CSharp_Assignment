@@ -13,21 +13,23 @@ public class StackOperations
     /// <summary>
     /// Gets a string input and load the characters in string into the stack.
     /// </summary>
-    public void AddCharacter()
+    /// <returns>A string entered by the user.</returns>
+    public string AddCharacter()
     {
-        string input = ConsoleIO.GetString("Enter a string: ");
+        string input = ConsoleIO.GetName("Enter a string: ");
         foreach (char character in input)
         {
             this._chars.Push(character);
         }
 
-        ConsoleIO.PrintInfo($"Entered String: {input}");
+        return input;
     }
 
     /// <summary>
     /// Pops all the characters and append to a new string.
     /// </summary>
-    public void RemoveCharacter()
+    /// <returns>Reversed string input.</returns>
+    public string ReverseCharacter()
     {
         StringBuilder reversedString = new StringBuilder();
         foreach (char character in this._chars)
@@ -35,6 +37,6 @@ public class StackOperations
             reversedString.Append(character);
         }
 
-        ConsoleIO.PrintInfo($"Reversed string: {reversedString}");
+        return reversedString.ToString();
     }
 }

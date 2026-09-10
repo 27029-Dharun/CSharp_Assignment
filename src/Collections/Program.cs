@@ -1,4 +1,6 @@
-﻿namespace Collections;
+﻿using Collections.Controllers;
+
+namespace Collections;
 
 /// <summary>
 /// Application entry point.
@@ -7,6 +9,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+
+        Controller controller = new Controller();
+        controller.HandleTaskMenu();
     }
 }
