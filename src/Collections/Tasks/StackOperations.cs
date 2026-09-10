@@ -1,9 +1,10 @@
-﻿using Collections.IO;
+﻿using System.Text;
+using Collections.IO;
 
 namespace Collections.Tasks;
 
 /// <summary>
-/// Contains stack implementation.
+/// Contains stack implementation to reverse a string.
 /// </summary>
 public class StackOperations
 {
@@ -19,6 +20,8 @@ public class StackOperations
         {
             this._chars.Push(character);
         }
+
+        ConsoleIO.PrintInfo($"Entered String: {input}");
     }
 
     /// <summary>
@@ -26,5 +29,12 @@ public class StackOperations
     /// </summary>
     public void RemoveCharacter()
     {
+        StringBuilder reversedString = new StringBuilder();
+        foreach (char character in this._chars)
+        {
+            reversedString.Append(character);
+        }
+
+        ConsoleIO.PrintInfo($"Reversed string: {reversedString}");
     }
 }
