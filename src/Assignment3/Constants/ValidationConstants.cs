@@ -1,14 +1,14 @@
 ﻿namespace Assignment3.Constants;
 
 /// <summary>
-/// Contains all the configurable variables.
+/// Contains validation thresholds used by the inventory application.
 /// </summary>
 public static class ValidationConstants
 {
     /// <summary>
     /// Represents the minimum price of the product.
     /// </summary>
-    public const decimal MinimumPrice = 1;
+    public const decimal MinimumPrice = 1m;
 
     /// <summary>
     /// Represents the minimum quantity of the product.

@@ -6,7 +6,7 @@
 internal enum InventoryOperation
 {
     /// <summary>
-    /// Represents an option to add a new product.
+    /// Represents an option to add a new products.
     /// </summary>
     Add = 1,
 
@@ -16,7 +16,7 @@ internal enum InventoryOperation
     View = 2,
 
     /// <summary>
-    /// Represents an option to update an existing products.
+    /// Represents an option to update an existing product.
     /// </summary>
     Update = 3,
 

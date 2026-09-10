@@ -86,14 +86,14 @@ public class ConsoleView
             "Enter the quantity of the product: ",
             isEditMode,
             InventoryValidator.IsValidQuantity,
-            "Quantity can't be negative");
+            "Quantity must be a valid integer and can't be negative");
 
-        if (isEditMode && string.IsNullOrWhiteSpace(input))
+        if (int.TryParse(input, out int quantity))
         {
-            return null;
+            return quantity;
         }
 
-        return int.Parse(input);
+        return null;
     }
 
     /// <summary>
@@ -107,14 +107,14 @@ public class ConsoleView
             "Enter the price of the product: ",
             isEditMode,
             InventoryValidator.IsValidPrice,
-            "Price must a valid positive integer.");
+            "Price must a valid positive number.");
 
-        if (isEditMode && string.IsNullOrWhiteSpace(input))
+        if (decimal.TryParse(input, out decimal price))
         {
-            return null;
+            return price;
         }
 
-        return decimal.Parse(input);
+        return null;
     }
 
     /// <summary>

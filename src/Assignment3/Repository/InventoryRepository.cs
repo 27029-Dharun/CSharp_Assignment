@@ -20,7 +20,8 @@ public class InventoryRepository : IInventoryRepository
     /// <inheritdoc />
     public Product GetProductById(int id)
     {
-        return this._inventories.FirstOrDefault(product => product.Id == id) ?? throw new KeyNotFoundException("Invalid id - Enter a valid product id");
+        return this._inventories.FirstOrDefault(product => product.Id == id)
+        ?? throw new KeyNotFoundException($"Product with ID {id} was not found.");
     }
 
     /// <inheritdoc />
@@ -38,6 +39,12 @@ public class InventoryRepository : IInventoryRepository
     /// <inheritdoc />
     public List<string> GetProductName()
     {
-        return this._inventories.Select(product => product.Name ?? string.Empty).ToList();
+        return this._inventories.Select(product => product.Name).ToList();
+    }
+
+    /// <inheritdoc />
+    bool IInventoryRepository.ValidateId(int id)
+    {
+        return this._inventories.Any(product => product.Id == id);
     }
 }

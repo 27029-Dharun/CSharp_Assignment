@@ -21,16 +21,16 @@ public interface IInventoryRepository
     public void RemoveProduct(Product product);
 
     /// <summary>
-    /// Gets the product by id from the repository.
+    /// Gets the product by id from the inventory.
     /// </summary>
     /// <param name="id">Unique identifier of the Product.</param>
     /// <returns>Product with matching ID.</returns>
     public Product GetProductById(int id);
 
     /// <summary>
-    /// Adds a product to the repository.
+    /// Adds a product to the inventory.
     /// </summary>
-    /// <param name="product">Adds a new product in the repository.</param>
+    /// <param name="product">Adds a new product to the inventory.</param>
     public void AddProduct(Product product);
 
     /// <summary>
@@ -38,4 +38,11 @@ public interface IInventoryRepository
     /// </summary>
     /// <returns>List of all the product names in the inventory.</returns>
     public List<string> GetProductName();
+
+    /// <summary>
+    /// Validates the ID of the product.
+    /// </summary>
+    /// <param name="id">ID to be validated.</param>
+    /// <returns>True if ID is valid; otherwise, false.</returns>
+    public bool ValidateId(int id);
 }

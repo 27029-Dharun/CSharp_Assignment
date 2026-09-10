@@ -27,7 +27,7 @@ public class InventoryService : IInventoryService
 
         if (!InventoryValidator.IsProductNameUnique(name, productNames))
         {
-            throw new ArgumentException("Invalid Name: Name should be unique");
+            throw new ArgumentException("Product name must be unique.", nameof(name));
         }
 
         Product product = new Product(name, price, quantity);
@@ -58,47 +58,44 @@ public class InventoryService : IInventoryService
         // If all the fields are Empty throws an Exception
         if (string.IsNullOrWhiteSpace(name) && price is null && quantity is null)
         {
-            throw new InvalidOperationException("\nNothing to Edit - invalid call given current state");
+            throw new InvalidOperationException("\nAt least one field must be provided to edit the product.");
         }
 
-        // If name is not empty the name is updated
         if (!string.IsNullOrWhiteSpace(name))
         {
             List<string> productNames = this._inventoryRepository.GetProductName();
             productNames.Remove(product.Name);
             if (!InventoryValidator.IsProductNameUnique(name, productNames))
             {
-                throw new ArgumentException("Duplicate name — an invalid argument.");
+                throw new ArgumentException("Product name must be unique.", nameof(name));
             }
 
             product.Name = name;
         }
 
-        // If the price is not null the price is edited
-        if (price != null)
+        if (price.HasValue)
         {
-            product.Price = (decimal)price;
+            product.Price = price.Value;
         }
 
-        // If the quantity is not null the quantity is edited
-        if (quantity != null)
+        if (quantity.HasValue)
         {
-            product.Quantity = (int)quantity;
+            product.Quantity = quantity.Value;
         }
 
         return product;
     }
 
     /// <inheritdoc />
-    public List<Product> SortProducts(SortOption option)
+    public IOrderedEnumerable<Product> SortProducts(SortOption option)
     {
-        List<Product> products = this._inventoryRepository.GetInventory().ToList();
+        var products = this._inventoryRepository.GetInventory();
 
         return option switch
         {
-            SortOption.Name => products.OrderBy(x => x.Name).ToList(),
-            SortOption.Price => products.OrderBy(x => x.Price).ToList(),
-            SortOption.Quantity => products.OrderBy(x => x.Quantity).ToList(),
+            SortOption.Name => products.OrderBy(x => x.Name),
+            SortOption.Price => products.OrderBy(x => x.Price),
+            SortOption.Quantity => products.OrderBy(x => x.Quantity),
             _ => throw new ArgumentOutOfRangeException(nameof(option), option, "Unsupported sort option"),
         };
     }
@@ -116,10 +113,10 @@ public class InventoryService : IInventoryService
     }
 
     /// <inheritdoc />
-    public void ValidateProductId(int id)
+    public bool ValidateProductId(int id)
     {
         // Throws exception if the id is not present
-        this._inventoryRepository.GetProductById(id);
+        return this._inventoryRepository.ValidateId(id);
     }
 
     /// <inheritdoc />

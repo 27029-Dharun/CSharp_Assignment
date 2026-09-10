@@ -68,13 +68,13 @@ public class InventoryController
     /// </summary>
     private void ViewProduct()
     {
-        List<Product> products = this._service.GetProducts();
-
         if (!this._service.HasProducts())
         {
-            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
+            this._view.PrintInfo(MessageConstants.EmptyInventoryMessage);
             return;
         }
+
+        List<Product> products = this._service.GetProducts();
 
         this._view.PrintInfo("Products in inventory");
         this._view.PrintInventory(products);
@@ -87,7 +87,7 @@ public class InventoryController
     {
         if (!this._service.HasProducts())
         {
-            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
+            this._view.PrintInfo(MessageConstants.EmptyInventoryMessage);
             return;
         }
 
@@ -105,12 +105,17 @@ public class InventoryController
     {
         if (!this._service.HasProducts())
         {
-            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
+            this._view.PrintInfo(MessageConstants.EmptyInventoryMessage);
             return;
         }
 
         int id = this.GetProductId("edit");
-        this._service.ValidateProductId(id);
+
+        if (!this._service.ValidateProductId(id))
+        {
+            this._view.PrintInfo($"Entered product ID - {id} is not valid");
+            return;
+        }
 
         this._view.DisplayEditInstruction();
 
@@ -131,7 +136,7 @@ public class InventoryController
     {
         if (!this._service.HasProducts())
         {
-            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
+            this._view.PrintInfo(MessageConstants.EmptyInventoryMessage);
             return;
         }
 
@@ -155,13 +160,12 @@ public class InventoryController
     {
         if (!this._service.HasProducts())
         {
-            this._view.PrintInfo(ConstantMessages.EmptyInventoryMessage);
+            this._view.PrintInfo(MessageConstants.EmptyInventoryMessage);
             return;
         }
 
-        SortOption option = this._view.GetEnumOption<SortOption>(ConstantMessages.SortOptionsPrompt);
-
-        List<Product> products = this._service.SortProducts(option);
+        SortOption option = this._view.GetEnumOption<SortOption>(MessageConstants.SortOptionsPrompt);
+        List<Product> products = this._service.SortProducts(option).ToList();
         this._view.PrintInventory(products);
     }
 
@@ -185,7 +189,7 @@ public class InventoryController
     /// <returns>Boolean indicating whether to continue the application loop.< /returns>
     private bool ProcessMenuSelection()
     {
-        InventoryOperation option = this._view.GetEnumOption<InventoryOperation>(ConstantMessages.MainMenuPrompt);
+        InventoryOperation option = this._view.GetEnumOption<InventoryOperation>(MessageConstants.MainMenuPrompt);
         switch (option)
         {
             case InventoryOperation.Add:

@@ -44,13 +44,14 @@ public interface IInventoryService
     /// </summary>
     /// <param name="option">Option to sort the products.</param>
     /// <returns>Sorted list of products in the inventory.</returns>
-    List<Product> SortProducts(SortOption option);
+    IOrderedEnumerable<Product> SortProducts(SortOption option);
 
     /// <summary>
     /// Checks the product existence in the inventory.
     /// </summary>
     /// <param name="id">ID of product to be validated.</param>
-    void ValidateProductId(int id);
+    /// <returns>True if ID is valid; otherwise, false.</returns>
+    bool ValidateProductId(int id);
 
     /// <summary>
     /// Search product by ID or name entered by the user.

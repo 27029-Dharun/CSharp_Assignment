@@ -44,7 +44,7 @@ public static class InventoryValidator
     /// <returns>True if name is valid; otherwise false. </returns>
     public static bool IsValidName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) && name.Length < ValidationConstants.MinimumNameLength)
+        if (string.IsNullOrWhiteSpace(name) || name.Length < ValidationConstants.MinimumNameLength)
         {
             return false;
         }
