@@ -21,7 +21,7 @@ public class DictionaryOperations
             {
                 ConsoleIO.PrintInfo("Entered student already in the list");
                 i--;
-                return;
+                continue;
             }
 
             int grade = ConsoleIO.GetInteger($"Enter the grade of the {studentName}: ");
@@ -40,11 +40,11 @@ public class DictionaryOperations
         if (this._studentList.ContainsKey(studentName))
         {
             this._studentList.Remove(studentName);
+            ConsoleIO.PrintInfo("Removed the student: " + studentName);
+            return;
         }
-        else
-        {
-            ConsoleIO.PrintInfo("Entered student not in the list.");
-        }
+
+        ConsoleIO.PrintInfo("Entered student not in the record.");
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class DictionaryOperations
     /// </summary>
     public void DisplayStudent()
     {
-        ConsoleIO.PrintHeader("Students in the dictionary");
+        ConsoleIO.PrintHeader("Students in the record");
 
         foreach (var student in this._studentList)
         {

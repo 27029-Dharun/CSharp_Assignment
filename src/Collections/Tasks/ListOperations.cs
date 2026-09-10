@@ -33,6 +33,7 @@ public class ListOperations
         {
             this._list.Remove(bookName);
             Console.WriteLine($"Removed {bookName} from the list");
+            return;
         }
 
         Console.WriteLine($"{bookName} not present in the list");

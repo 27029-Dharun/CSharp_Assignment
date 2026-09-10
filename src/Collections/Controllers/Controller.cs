@@ -61,13 +61,13 @@ public class Controller
     {
         ListOperations list = new ListOperations();
         ConsoleIO.PrintHeader("List Task");
-        ConsoleIO.PrintInfo("Adding books to list");
+        ConsoleIO.PrintInfo("Adding books to list\n");
         list.AddBooks();
 
-        ConsoleIO.PrintInfo("Removing a book from list");
+        ConsoleIO.PrintInfo("\nRemoving a book from list\n");
         list.DeleteBook();
 
-        ConsoleIO.PrintInfo("Displaying all the books");
+        ConsoleIO.PrintInfo("\nDisplaying all the books\n");
         list.DisplayBooks();
     }
 
@@ -87,10 +87,10 @@ public class Controller
         ConsoleIO.PrintInfo("Adding name to queue\n");
         queue.AddNames();
 
-        ConsoleIO.PrintInfo("Removing a book from queue\n");
+        ConsoleIO.PrintInfo("\nRemoving a book from queue\n");
         queue.RemoveName();
 
-        ConsoleIO.PrintInfo("Displaying all the books\n");
+        ConsoleIO.PrintInfo("\nDisplaying all the books\n");
         queue.DisplayNames();
     }
 
@@ -98,13 +98,13 @@ public class Controller
     {
         DictionaryOperations queue = new DictionaryOperations();
         ConsoleIO.PrintHeader("Students database");
-        ConsoleIO.PrintInfo("Adding data to dictionary\n");
+        ConsoleIO.PrintInfo("\nAdding data to dictionary\n");
         queue.CreateStudentData();
 
-        ConsoleIO.PrintInfo("Removing a name from dictionary\n");
+        ConsoleIO.PrintInfo("\nRemoving a student from dictionary\n");
         queue.DeleteStudent();
 
-        ConsoleIO.PrintInfo("Displaying all the students\n");
+        ConsoleIO.PrintInfo("\nDisplaying all the students\n");
         queue.DisplayStudent();
     }
 }

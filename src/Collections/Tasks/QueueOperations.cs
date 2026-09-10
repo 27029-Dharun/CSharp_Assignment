@@ -16,7 +16,7 @@ public class QueueOperations
     {
         for (int i = 0; i < 5; i++)
         {
-            this._queue.Enqueue(ConsoleIO.GetString("Enter a person's name: "));
+            this._queue.Enqueue(ConsoleIO.GetString("Enter the persons name: "));
         }
     }
 
