@@ -5,7 +5,10 @@ namespace Collections.Tasks;
 /// <summary>
 /// Contains the dictionary implementation that maps a student's name to their grade.
 /// </summary>
+/// <typeparam name="TKey">The data type of the student's identifier for the name.</typeparam>
+/// <typeparam name="TValue">The data type of the student's grade.</typeparam>
 public class DictionaryOperations<TKey, TValue>
+    where TKey : notnull
 {
     private readonly Dictionary<TKey, TValue> _studentList = new Dictionary<TKey, TValue>();
 
@@ -18,39 +21,25 @@ public class DictionaryOperations<TKey, TValue>
     {
         for (int i = 0; i < 5; i++)
         {
-            TKey studentName = ConsoleIO.GetName("Enter the name of the student: ");
-            if (this._studentList.ContainsKey(studentName))
-            {
-                ConsoleIO.PrintInfo("Entered student already in the list");
-                i--;
-                continue;
-            }
-
-            TValue grade = ConsoleIO.GetInteger($"Enter the grade of the {studentName}: ");
+            TKey studentName = names[i];
+            TValue grade = values[i];
 
             this._studentList.Add(studentName, grade);
         }
     }
 
     /// <summary>
-    /// Deletes a student from the dictionary.
+    /// Deletes a student from the record.
     /// </summary>
-    public void DeleteStudent()
+    /// <param name="studentName">The name of the student to remove.</param>
+    public void DeleteStudent(TKey studentName)
     {
-        string studentName = ConsoleIO.GetName("Enter the name of the student to delete: ");
-
-        if (this._studentList.ContainsKey(studentName))
-        {
-            this._studentList.Remove(studentName);
-            ConsoleIO.PrintInfo("Removed the student: " + studentName);
-            return;
-        }
-
-        ConsoleIO.PrintInfo("Entered student not in the record.");
+        this._studentList.Remove(studentName);
+        ConsoleIO.PrintInfo("Removed the student: " + studentName);
     }
 
     /// <summary>
-    /// Displays all the students in the dictionary along with the grade.
+    /// Displays all the students in the record along with the grade.
     /// </summary>
     public void DisplayStudent()
     {
@@ -60,5 +49,15 @@ public class DictionaryOperations<TKey, TValue>
         {
             ConsoleIO.PrintInfo($"{student.Key} - {student.Value}");
         }
+    }
+
+    /// <summary>
+    /// Checks if the key is present in the record.
+    /// </summary>
+    /// <param name="name">The name of the student to check.</param>
+    /// <returns>A boolean true if exists; otherwise false.</returns>
+    public bool ContainsKey(TKey name)
+    {
+        return this._studentList.ContainsKey(name);
     }
 }

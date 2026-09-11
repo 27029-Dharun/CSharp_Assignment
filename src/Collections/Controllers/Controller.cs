@@ -66,13 +66,13 @@ public class Controller
         string[] arr = new string[5];
         for (int i = 0; i < 5; i++)
         {
-            arr[i] = ConsoleIO.GetString("Enter a book name");
+            arr[i] = ConsoleIO.GetString("Enter book name: ");
         }
 
         list.AddBooks(arr);
 
         ConsoleIO.PrintInfo("\nRemoving a book from list\n");
-        string nameToDelete = ConsoleIO.GetString("Enter a book name");
+        string nameToDelete = ConsoleIO.GetString("Enter a book name to remove: ");
         list.DeleteBook(nameToDelete);
 
         ConsoleIO.PrintInfo("\nDisplaying all the books\n");
@@ -94,34 +94,66 @@ public class Controller
         stack.AddCharacter(charArray);
         ConsoleIO.PrintInfo($"Entered String: {input}");
 
-        ConsoleIO.PrintInfo($"Reversed string : {string.Join(string.Empty, stack.ReverseCharacter())}");
+        List<char> reversed = stack.ReverseCharacter();
+        ConsoleIO.PrintInfo($"Reversed string : {string.Join(string.Empty, reversed)}");
     }
 
     private void HandleQueueOperations()
     {
-        QueueOperations queue = new QueueOperations();
+        QueueOperations<string> queue = new QueueOperations<string>();
         ConsoleIO.PrintHeader("Queue Task");
         ConsoleIO.PrintInfo("Adding name to queue\n");
-        queue.AddNames();
 
-        ConsoleIO.PrintInfo("\nRemoving a book from queue\n");
-        queue.RemoveName();
+        string[] names = new string[5];
+        for (int i = 0; i < 5; i++)
+        {
+            names[i] = ConsoleIO.GetString("Enter the name: ");
+        }
 
-        ConsoleIO.PrintInfo("\nDisplaying all the books\n");
+        queue.AddNames(names);
+
+        ConsoleIO.PrintInfo("\nRemoving name from queue\n");
+        if (!queue.HasAny())
+        {
+            Console.WriteLine("Queue contains no entries.");
+        }
+
+        string removedName = queue.RemoveName();
+        Console.WriteLine($"Removed {removedName} from queue");
+
+        ConsoleIO.PrintInfo("\nDisplaying all the names\n");
         queue.DisplayNames();
     }
 
     private void HandleDictionaryOperations()
     {
-        DictionaryOperations queue = new DictionaryOperations();
+        DictionaryOperations<string, int> studentsRecord = new DictionaryOperations<string, int>();
         ConsoleIO.PrintHeader("Students database");
         ConsoleIO.PrintInfo("\nAdding data to dictionary\n");
-        queue.CreateStudentData();
+
+        string[] names = new string[5];
+        int[] grade = new int[5];
+        for (int i = 0; i < 5; i++)
+        {
+            names[i] = ConsoleIO.GetString("Enter the name of the student: ");
+
+            if (studentsRecord.ContainsKey(names[i]))
+            {
+                Console.WriteLine($"Name {names[i]} already exists.");
+                i--;
+                continue;
+            }
+
+            grade[i] = ConsoleIO.GetInteger($"Enter the grade of {names[i]}: ");
+        }
+
+        studentsRecord.CreateStudentData(names, grade);
 
         ConsoleIO.PrintInfo("\nRemoving a student from dictionary\n");
-        queue.DeleteStudent();
+        string studentName = ConsoleIO.GetString("Enter the name of the student: ");
+        studentsRecord.DeleteStudent(studentName);
 
         ConsoleIO.PrintInfo("\nDisplaying all the students\n");
-        queue.DisplayStudent();
+        studentsRecord.DisplayStudent();
     }
 }

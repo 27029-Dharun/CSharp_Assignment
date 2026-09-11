@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains stack implementation to reverse a string.
 /// </summary>
-/// <typeparam name="T">Type parameter</typeparam>
+/// <typeparam name="T">The datatype for storing </typeparam>
 public class StackOperations<T>
 {
     private readonly Stack<T> _chars = new Stack<T>();
@@ -29,7 +29,7 @@ public class StackOperations<T>
         List<T> result = new List<T>();
         foreach (T character in this._chars)
         {
-            result.Append(character);
+            result.Add(character);
         }
 
         return result;

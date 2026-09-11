@@ -115,6 +115,9 @@ public static class ConsoleIO
     {
         Console.WriteLine("Press any key to clear");
         Console.ReadKey();
+
+        // Erases the entire scroll back buffer history
+        Console.Write("\x1b[3J");
         Console.Clear();
     }
 }

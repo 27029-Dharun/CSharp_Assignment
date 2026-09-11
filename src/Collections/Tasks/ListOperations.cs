@@ -5,7 +5,7 @@ namespace Collections.Tasks;
 /// <summary>
 /// Contains a list implementation
 /// </summary>
-/// <typeparam name="T">Type parameter</typeparam>
+/// <typeparam name="T">The data type for the name of the book.</typeparam>
 public class ListOperations<T>
 {
     private readonly List<T> _list = new List<T>();
