@@ -16,7 +16,7 @@ public class QueueOperations<T>
     /// <param name="names">A array containing 5 persons name.</param>
     public void AddNames(T[] names)
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < names.Length; i++)
         {
             this._queue.Enqueue(names[i]);
         }

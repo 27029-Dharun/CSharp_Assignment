@@ -13,12 +13,12 @@ public class ListOperations<T>
     /// <summary>
     /// Creates a list with book names.
     /// </summary>
-    /// <param name="arr">Array containing the books name</param>
-    public void AddBooks(T[] arr)
+    /// <param name="names">Array containing the books name</param>
+    public void AddBooks(T[] names)
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < names.Length ; i++)
         {
-            this._list.Add(arr[i]);
+            this._list.Add(names[i]);
         }
 
         ConsoleIO.PrintInfo("Added five books name to the list\n");
