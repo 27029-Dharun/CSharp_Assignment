@@ -17,7 +17,8 @@ public class Controller
             "2. Stack (Reverse string)\n" +
             "3. Queue operation\n" +
             "4. Dictionary operation\n" +
-            "5. Exit\n" +
+            "5. Concrete type implementation" +
+            "6. Exit\n" +
             "Enter an option to continue: ";
 
         while (true)
@@ -42,6 +43,10 @@ public class Controller
 
                     case TaskOptions.Dictionary:
                         this.HandleDictionaryOperations();
+                        break;
+
+                    case TaskOptions.ConcreteTypes:
+                        this.HandleConcreteTypesOperations();
                         break;
 
                     case TaskOptions.Exit:
@@ -155,5 +160,21 @@ public class Controller
 
         ConsoleIO.PrintInfo("\nDisplaying all the students\n");
         studentsRecord.DisplayStudent();
+    }
+
+    private void HandleConcreteTypesOperations()
+    {
+        ConcreteTypes concreteTypes = new ConcreteTypes();
+
+        List<int> integerList = new () { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        int[] integerArray = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        Queue<int> integerQueue = new Queue<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+
+        Console.WriteLine($"Sum of element in list: {concreteTypes.SumOfElements(integerList)}");
+        Console.WriteLine($"Sum of element in array: {concreteTypes.SumOfElements(integerArray)}");
+        Console.WriteLine($"Sum of element in queue: {concreteTypes.SumOfElements(integerQueue)}");
+
+        IReadOnlyDictionary<string, int> dictionary = concreteTypes.GenerateDictionary();
+        concreteTypes.PrintDictionary(dictionary);
     }
 }

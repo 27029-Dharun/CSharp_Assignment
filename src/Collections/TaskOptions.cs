@@ -26,7 +26,12 @@ public enum TaskOptions
     Dictionary = 4,
 
     /// <summary>
+    /// Represent an option to perform concrete type operations.
+    /// </summary>
+    ConcreteTypes = 5,
+
+    /// <summary>
     /// Represents an option to exit the application.
     /// </summary>
-    Exit = 5,
+    Exit = 6,
 }

@@ -7,7 +7,7 @@ namespace Collections;
 /// </summary>
 internal class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.CancelKeyPress += (sender, e) => { e.Cancel = true; };
         Controller controller = new Controller();
