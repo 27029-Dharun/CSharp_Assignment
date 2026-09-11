@@ -1,6 +1,5 @@
 ﻿using Assignment9AdvancedLINQ.Models;
 using Assignment9AdvancedLINQ.Models.DTO;
-using Assignment9AdvancedLINQ.Models.Enums;
 using Assignment9AdvancedLINQ.Repository;
 using Assignment9AdvancedLINQ.Views;
 using ConsoleTables;
@@ -41,19 +40,20 @@ public class ComplexLinqQuery
     {
         List<Product> product = this._database.GetAllProduct();
 
-        List<(ProductCategory Category, string ExpensiveProduct, decimal ExpensiveProductPrice, int Count)> groupByCategory = product
-            .GroupBy(x => x.Category)
-            .Select(group =>
-            (
-                group.Key,
-                group.OrderByDescending(product => product.Price).First().ProductName,
-                group.Max(product => product.Price),
-                group.Count())).ToList();
+        var groupByCategory =
+            product
+                .GroupBy(product => product.Category)
+                .Select(group => new
+                {
+                    ProductCategory = group.Key,
+                    Count = group.Count(),
+                    MostExpensiveProduct = group.MaxBy(product => product.Price),
+                });
 
-        ConsoleTable table = new ConsoleTable("Category", "Expensive Product", "Expensive Product Price", "Count of Product");
+        ConsoleTable table = new ConsoleTable("Category", "Expensive Product", "Product Price", "Count of Product");
         foreach (var category in groupByCategory)
         {
-            table.AddRow(category.Category, category.ExpensiveProduct, category.ExpensiveProductPrice, category.Count);
+            table.AddRow(category.ProductCategory, category.MostExpensiveProduct?.ProductName, category.MostExpensiveProduct?.Price, category.Count);
         }
 
         table.Options.EnableCount = false;
@@ -68,18 +68,20 @@ public class ComplexLinqQuery
         List<Product> products = this._database.GetAllProduct();
         List<Supplier> suppliers = this._database.GetAllSuppliers();
 
-        List<ProductSupplierName> joined = products.Join(
-            suppliers,
-            product => product.Id,
-            supplier => supplier.ProductId,
-            (product, supplier) => new ProductSupplierName
-            {
-                ProductId = product.Id,
-                ProductName = product.ProductName,
-                ProductPrice = product.Price,
-                ProductCategory = product.Category,
-                SupplierName = supplier.SupplierName,
-            }).ToList();
+        List<ProductSupplierName> joined = products
+            .Join(
+                suppliers,
+                product => product.Id,
+                supplier => supplier.ProductId,
+                (product, supplier) => new ProductSupplierName
+                {
+                    ProductId = product.Id,
+                    ProductName = product.ProductName,
+                    ProductPrice = product.Price,
+                    ProductCategory = product.Category,
+                    SupplierName = supplier.SupplierName,
+                })
+            .ToList();
 
         ConsoleTable table = new ConsoleTable("Product Id", "Product Name", "Supplier Name", "Price", "Category");
         foreach (var product in joined)
