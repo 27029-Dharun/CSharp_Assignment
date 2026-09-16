@@ -1,5 +1,6 @@
 ﻿using FilesAndStreams.Task1;
 using FilesAndStreams.Task2;
+using FilesAndStreams.Task3;
 
 namespace FilesAndStreams;
 
@@ -15,9 +16,13 @@ internal class Program
 
         FileHandler fileHandler = new FileHandler(dataProcessor);
         AsyncFileHandler asyncFileHandler = new AsyncFileHandler(dataProcessor, asyncDataProcessor);
+        MemoryStreamWriter memoryStream = new MemoryStreamWriter();
+
         string menuOptions = "1. Synchronous file processing\n" +
             "2. Asynchronous file processing\n" +
-            "4. Exit\n" +
+            "3. Bug finding\n" +
+            "4. Logger\n" +
+            "5. Exit\n" +
             "Enter an option to proceed: \n";
 
         while (true)
@@ -35,17 +40,30 @@ internal class Program
                     break;
 
                 case 3:
+                    memoryStream.WriteAndReadFile();
                     break;
 
                 case 4:
-                    return;
+                    Logger().GetAwaiter().GetResult();
+                    break;
 
                 case 5:
+                    return;
+
+                default:
                     Console.WriteLine("Enter a valid option");
                     break;
             }
 
             ConsoleIO.PauseAndClear();
         }
+    }
+
+    private static async Task Logger()
+    {
+        await Task.WhenAll(
+        Task4.Logger.LogError("Database connection failed"),
+        Task4.Logger.LogError("Invalid user input"),
+        Task4.Logger.LogError("File not found"));
     }
 }
