@@ -1,31 +1,65 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace FilesAndStreams;
+namespace FilesAndStreams.Task1;
 
 /// <summary>
 /// Contains method to create and read large files.
 /// </summary>
 internal class FileDateProcessor
 {
+    private const string Path = "file.txt";
+
     /// <summary>
     /// Reads the file
     /// </summary>
     internal void Run()
     {
-        Console.WriteLine("Reading with FileStream");
-        long timeTakenWithFileStream = this.ReadWithFileStream("file.txt");
-        Console.WriteLine("Time taken to read with file stream: " + timeTakenWithFileStream);
+        string menuOptions = "1. Create a file with 1 GB\n" +
+            "2. Read the file\n" +
+            "3. Process file and write\n" +
+            "4. Exit\n" +
+            "Enter an option to proceed\n";
 
-        Console.WriteLine("Reading with Buffered Stream");
-        long timeTakenWithBufferedStream = this.ReadWithBufferedStream("file.txt");
-        Console.WriteLine("Time taken to read with buffered stream: " + timeTakenWithBufferedStream);
+        while (true)
+        {
+            int option = ConsoleIO.GetInteger(menuOptions);
 
-        Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster");
+            switch (option)
+            {
+                case 1:
+                    this.GenerateFile(Path, 1_00_00_00_000);
+                    break;
 
-        string data = this.ProcessData("file.txt");
+                case 2:
+                    Console.WriteLine("Reading with FileStream");
+                    long timeTakenWithFileStream = this.ReadWithFileStream(Path);
+                    Console.WriteLine("Time taken to read with file stream: " + timeTakenWithFileStream);
 
-        this.WriteProcessedString("data.txt", data);
+                    Console.WriteLine("Reading with Buffered Stream");
+                    long timeTakenWithBufferedStream = this.ReadWithBufferedStream(Path);
+                    Console.WriteLine("Time taken to read with buffered stream: " + timeTakenWithBufferedStream);
+
+                    Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster");
+
+                    break;
+
+                case 3:
+                    string data = this.ProcessData(Path);
+                    this.WriteProcessedString("data.txt", data);
+
+                    break;
+
+                case 4:
+                    return;
+
+                case 5:
+                    Console.WriteLine("Enter a valid option");
+                    break;
+            }
+
+            ConsoleIO.PauseAndClear();
+        }
     }
 
     private void WriteProcessedString(string path, string data)
@@ -141,7 +175,7 @@ internal class FileDateProcessor
 
                 stopwatch.Stop();
 
-                Console.WriteLine("The time taken to calculate : " + stopwatch.ElapsedMilliseconds);
+                Console.WriteLine("Time taken to process : " + stopwatch.ElapsedMilliseconds);
                 return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
             }
         }
@@ -149,15 +183,22 @@ internal class FileDateProcessor
 
     private void GenerateFile(string path, int numberOfValues)
     {
-        using StreamWriter writer = new StreamWriter(path);
-
-        Random random = new ();
-
-        for (int i = 0; i < numberOfValues; i++)
+        if (File.Exists(path))
         {
-            double value = (random.NextDouble() * 50) - 10;
+            Console.WriteLine("File Already exists");
+            return;
+        }
 
-            writer.WriteLine($"{DateTime.Now},{value.ToString()}");
+        using (StreamWriter writer = new StreamWriter(path))
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < numberOfValues; i++)
+            {
+                double value = random.NextDouble() * 50 - 10;
+
+                writer.WriteLine(value.ToString());
+            }
         }
     }
 }
