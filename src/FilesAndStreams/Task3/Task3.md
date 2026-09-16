@@ -7,13 +7,17 @@ To understand how to write data to a file, read data from a file, and identify u
 ## Identified Memory Issue
 
 The following code creates an unnecessary copy of the data:
+
+```C#
 byte[] writeBuffer = memoryStream.ToArray();
-ToArray() creates a new byte array containing all the data in the MemoryStream.
+```
+
+`ToArray()` creates a new byte array containing all the data in the MemoryStream.
 For large amounts of data, this requires additional memory.
 
 ## Modified Approach
 
-Instead of converting the entire MemoryStream into a new byte array, we can use CopyTo().
+Instead of converting the entire MemoryStream into a new byte array, we can use WriteTo().
 
 ### Modified Flow
 
@@ -29,21 +33,21 @@ File
 
 ## Example
 
+```C#
 using (MemoryStream memoryStream = new MemoryStream())
 {
     byte[] buffer = Encoding.ASCII.GetBytes(data);
     memoryStream.Write(buffer, 0, buffer.Length);
-    memoryStream.Position = 0;
-    using (FileStream fileStream = new FileStream(
-        path,
-        FileMode.Create,
-        FileAccess.Write))
+
+    // Write from MemoryStream to file
+    using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
     {
-        memoryStream.CopyTo(fileStream);
+        memoryStream.WriteTo(fileStream);
     }
 }
+```
 
-## Why CopyTo() Is Better
+## Why WriteTo() Is Better
 
 - Avoids creating a complete duplicate byte array.
 - Reduces unnecessary memory allocation.
@@ -53,4 +57,4 @@ using (MemoryStream memoryStream = new MemoryStream())
 ## Conclusion
 
 The main memory issue was the unnecessary copy created by ToArray().
-Using CopyTo() or writing directly to FileStream makes the program more memory-efficient.
+Using WriteTo() or writing directly to FileStream makes the program more memory-efficient.

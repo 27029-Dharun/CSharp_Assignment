@@ -24,8 +24,7 @@ internal class MemoryStreamWriter
             // Write from MemoryStream to file
             using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
-                byte[] writeBuffer = memoryStream.GetBuffer();
-                fileStream.Write(writeBuffer, 0, writeBuffer.Length);
+                memoryStream.WriteTo(fileStream);
             }
         }
 

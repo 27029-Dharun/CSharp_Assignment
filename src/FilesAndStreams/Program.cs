@@ -62,8 +62,8 @@ internal class Program
     private static async Task Logger()
     {
         await Task.WhenAll(
-        Task4.Logger.LogError("Database connection failed"),
-        Task4.Logger.LogError("Invalid user input"),
-        Task4.Logger.LogError("File not found"));
+            Task4.Logger.LogError("Database connection failed"),
+            Task4.Logger.LogError("Invalid user input"),
+            Task4.Logger.LogError("File not found"));
     }
 }
