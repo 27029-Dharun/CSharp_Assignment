@@ -25,8 +25,7 @@ internal static class ConsoleIO
     /// <exception cref="InvalidDataException">Thrown when the enter input is not a valid integer.</exception>
     internal static int GetInteger(string prompt)
     {
-        int attemptsLeft = 3;
-        while (attemptsLeft > 0)
+        while (true)
         {
             string input = GetString(prompt);
             if (int.TryParse(input, out int grade))
@@ -34,11 +33,9 @@ internal static class ConsoleIO
                 return grade;
             }
 
-            Console.WriteLine("Enter a valid integer, Attempt left: " + attemptsLeft);
-            attemptsLeft--;
+            Console.Clear();
+            Console.WriteLine("Enter a valid integer.");
         }
-
-        throw new InvalidDataException("No attempt left, Please try again.\n");
     }
 
     /// <summary>

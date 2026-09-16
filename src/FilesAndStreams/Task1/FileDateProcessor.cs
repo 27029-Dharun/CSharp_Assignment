@@ -8,61 +8,12 @@ namespace FilesAndStreams.Task1;
 /// </summary>
 internal class FileDateProcessor
 {
-    private const string Path = "file.txt";
-
     /// <summary>
-    /// Reads the file
+    /// Writes a text string to a file using an intermediate memory buffer.
     /// </summary>
-    internal void Run()
-    {
-        string menuOptions = "1. Create a file with 1 GB\n" +
-            "2. Read the file\n" +
-            "3. Process file and write\n" +
-            "4. Exit\n" +
-            "Enter an option to proceed\n";
-
-        while (true)
-        {
-            int option = ConsoleIO.GetInteger(menuOptions);
-
-            switch (option)
-            {
-                case 1:
-                    this.GenerateFile(Path, 1_00_00_00_000);
-                    break;
-
-                case 2:
-                    Console.WriteLine("Reading with FileStream");
-                    long timeTakenWithFileStream = this.ReadWithFileStream(Path);
-                    Console.WriteLine("Time taken to read with file stream: " + timeTakenWithFileStream);
-
-                    Console.WriteLine("Reading with Buffered Stream");
-                    long timeTakenWithBufferedStream = this.ReadWithBufferedStream(Path);
-                    Console.WriteLine("Time taken to read with buffered stream: " + timeTakenWithBufferedStream);
-
-                    Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster");
-
-                    break;
-
-                case 3:
-                    string data = this.ProcessData(Path);
-                    this.WriteProcessedString("data.txt", data);
-
-                    break;
-
-                case 4:
-                    return;
-
-                case 5:
-                    Console.WriteLine("Enter a valid option");
-                    break;
-            }
-
-            ConsoleIO.PauseAndClear();
-        }
-    }
-
-    private void WriteProcessedString(string path, string data)
+    /// <param name="path">The destination path of the file to create or overwrite.</param>
+    /// <param name="data">The text data to encode and write into the file.</param>
+    public void WriteProcessedString(string path, string data)
     {
         using (MemoryStream stream = new MemoryStream())
         {
@@ -77,8 +28,20 @@ internal class FileDateProcessor
         }
     }
 
-    private long ReadWithFileStream(string path)
+    /// <summary>
+    /// Reads a file using a file stream to track total byte metrics.
+    /// </summary>
+    /// <param name="path">The target file path to open and read.</param>
+    /// <returns>Time taken to read the file.</returns>
+    public long ReadWithFileStream(string path)
     {
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("File not found creating file ...");
+            this.GenerateFile(path, 6_00_00_000);
+            Console.WriteLine($"File {path} created.");
+        }
+
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
             byte[] buffer = new byte[4 * 1024];
@@ -98,11 +61,22 @@ internal class FileDateProcessor
         }
     }
 
-    private long ReadWithBufferedStream(string path)
+    /// <summary>
+    /// Reads a file using a buffered stream to track total byte metrics.
+    /// </summary>
+    /// <param name="path">The target file path to open and read.</param>
+    /// <returns>Time taken to read the file.</returns>
+    public long ReadWithBufferedStream(string path)
     {
+        if (!File.Exists(path))
+        {
+            this.GenerateFile(path, 6_00_00_000);
+        }
+
+        Console.WriteLine($"Reading file with buffered stream {path}");
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
-            using (BufferedStream bufferedStream = new BufferedStream(stream, 32 * 1024))
+            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
             {
                 byte[] buffer = new byte[4 * 1024];
                 int bytesRead;
@@ -122,15 +96,20 @@ internal class FileDateProcessor
         }
     }
 
-    private string ProcessData(string path)
+    /// <summary>
+    /// Process a text file containing numerical data to compute statistical temperature metrics.
+    /// </summary>
+    /// <param name="path">The target file path containing the dataset to process.</param>
+    /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
+    public string ProcessData(string path)
     {
-        Console.WriteLine("Calculating Maximum Temperature And Minimum Temperature");
+        Console.WriteLine($"Processing {path}");
 
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
-            using (StreamReader reader = new StreamReader(stream))
+            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
             {
-                char[] buffer = new char[4 * 1024];
+                byte[] buffer = new byte[4 * 1024];
                 int charsRead;
 
                 double maxTemperature = double.MinValue;
@@ -143,10 +122,9 @@ internal class FileDateProcessor
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                while ((charsRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                while ((charsRead = bufferedStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    // Append only the portion read
-                    string chunk = new string(buffer, 0, charsRead);
+                    string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
                     remainingText += chunk;
 
                     string[] data = remainingText.Split("\n");
@@ -175,30 +153,32 @@ internal class FileDateProcessor
 
                 stopwatch.Stop();
 
-                Console.WriteLine("Time taken to process : " + stopwatch.ElapsedMilliseconds);
+                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds}");
                 return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
             }
         }
     }
 
-    private void GenerateFile(string path, int numberOfValues)
+    /// <summary>
+    /// Generates a randomized temperature entries.
+    /// </summary>
+    /// <param name="path">The target file path where the mock data will be written.</param>
+    /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
+    public void GenerateFile(string path, int numberOfValues)
     {
-        if (File.Exists(path))
-        {
-            Console.WriteLine("File Already exists");
-            return;
-        }
-
+        Console.WriteLine($"Generating file {path} ...");
         using (StreamWriter writer = new StreamWriter(path))
         {
             Random random = new Random();
 
             for (int i = 0; i < numberOfValues; i++)
             {
-                double value = random.NextDouble() * 50 - 10;
+                double value = (random.NextDouble() * 50) - 10;
 
                 writer.WriteLine(value.ToString());
             }
         }
+
+        Console.WriteLine($"Generated file {path}.");
     }
 }

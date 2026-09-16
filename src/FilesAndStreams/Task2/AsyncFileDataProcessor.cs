@@ -8,164 +8,70 @@ namespace FilesAndStreams.Task2;
 /// </summary>
 internal class AsyncFileDataProcessor
 {
-    private const string _firstPath = "file1.txt";
-    private const string _secondPath = "file2.txt";
-    private const string _thirdPath = "file3.txt";
-
-    /// <summary>
-    /// Reads the file
-    /// </summary>
-    /// <returns>A task is returned</returns>
-    internal async Task Run()
-    {
-        string menuOptions = "1. Create 3 large file with 1 GB\n" +
-            "2. Read the file\n" +
-            "3. Process file and write\n" +
-            "4. Exit\n" +
-            "Enter an option to proceed: ";
-
-        while (true)
-        {
-            int option = ConsoleIO.GetInteger(menuOptions);
-
-            switch (option)
-            {
-                case 1:
-                    await this.GenerateAll();
-                    break;
-
-                case 2:
-                    await this.ReadAll();
-                    break;
-
-                case 3:
-                    string data = this.ProcessData(_firstPath);
-                    this.WriteProcessedString("data.txt", data);
-                    break;
-
-                case 4:
-                    return;
-
-                case 5:
-                    Console.WriteLine("Enter a valid option");
-                    break;
-            }
-
-            ConsoleIO.PauseAndClear();
-        }
-    }
-
-    private async Task ReadAll()
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-
-        Task firstFileRead = this.ReadWithFileStream(_firstPath);
-        Task secondFileRead = this.ReadWithFileStream(_secondPath);
-        Task thirdFileRead = this.ReadWithFileStream(_thirdPath);
-
-        await Task.WhenAll(firstFileRead, secondFileRead, thirdFileRead);
-        stopwatch.Stop();
-
-        Console.WriteLine("Time taken to read with file stream: " + stopwatch.ElapsedMilliseconds);
-
-        stopwatch.Restart();
-
-        Task firstFileReadBuffer = this.ReadWithBufferedStream(_firstPath);
-        Task secondFileReadBuffer = this.ReadWithBufferedStream(_secondPath);
-        Task thirdFileReadBuffer = this.ReadWithBufferedStream(_thirdPath);
-
-        await Task.WhenAll(firstFileReadBuffer, secondFileReadBuffer, thirdFileReadBuffer);
-        stopwatch.Stop();
-        Console.WriteLine("Time taken to read with buffered stream: " + stopwatch.ElapsedMilliseconds);
-    }
-
-    private async Task GenerateAll()
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        Task firstFile = this.GenerateFileAsync(_firstPath, 100_00_000);
-        Task secondFile = this.GenerateFileAsync(_secondPath, 100_00_000);
-        Task thirdFile = this.GenerateFileAsync(_thirdPath, 100_00_000);
-
-        await Task.WhenAll(firstFile, secondFile, thirdFile);
-        stopwatch.Stop();
-
-        Console.WriteLine("Time taken to create 3 file " + stopwatch.ElapsedMilliseconds);
-    }
-
-    private void WriteProcessedString(string path, string data)
+     /// <summary>
+     /// Asynchronously writes a text string to a file using an intermediate memory buffer.
+     /// </summary>
+     /// <param name="path">The destination path of the file to create or overwrite.</param>
+     /// <param name="data">The text data to encode and write into the file.</param>
+     /// <returns>A task that represents the asynchronous write and copy operations.</returns>
+    public async Task WriteProcessedString(string path, string data)
     {
         using (MemoryStream stream = new MemoryStream())
         {
             byte[] array = Encoding.UTF8.GetBytes(data);
-            stream.Write(array, 0, array.Length);
+            await stream.WriteAsync(array, 0, array.Length);
 
             // Reset the position after writing to read from beginning.
             stream.Position = 0;
 
             using FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(fileStream);
+            await stream.CopyToAsync(fileStream);
         }
     }
 
-    private async Task ReadWithFileStream(string path)
+    /// <summary>
+    /// Asynchronously reads a file using a buffered stream to track total byte metrics.
+    /// </summary>
+    /// <param name="path">The target file path to open and read.</param>
+    /// <returns>A task that represents the asynchronous reading process loop.</returns>
+    public async Task ReadWithBufferedStream(string path)
     {
-        Console.WriteLine($"Reading {path} with FileStream {DateTime.Now}");
-        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-        {
-            byte[] buffer = new byte[4 * 1024];
-            int bytesRead;
-            long totalBytesRead = 0;
-
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-            {
-                totalBytesRead += bytesRead;
-            }
-
-            stopwatch.Stop();
-
-            Console.WriteLine($"Reading {path} with FileStream {DateTime.Now} in {stopwatch.ElapsedMilliseconds} ms");
-        }
-    }
-
-    private async Task ReadWithBufferedStream(string path)
-    {
-        Console.WriteLine($"Reading {path} with buffered stream {DateTime.Now}");
+        Console.WriteLine($"Reading {path} with buffered stream");
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
-            using (BufferedStream bufferedStream = new BufferedStream(stream, 32 * 1024))
+            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
             {
                 byte[] buffer = new byte[4 * 1024];
                 int bytesRead;
-                long totalBytesRead = 0;
+                int totalBytes = 0;
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
                 while ((bytesRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
-                    totalBytesRead += bytesRead;
+                    totalBytes += bytesRead;
                 }
-
-                stopwatch.Stop();
-
-                Console.WriteLine($"Reading {path} with buffered stream {DateTime.Now} in {stopwatch.ElapsedMilliseconds} ms");
             }
         }
+
+        Console.WriteLine($"Completed reading {path}");
     }
 
-    private string ProcessData(string path)
+    /// <summary>
+    /// Asynchronously processes a text file containing numerical data to compute statistical temperature metrics.
+    /// </summary>
+    /// <param name="path">The target file path containing the dataset to process.</param>
+    /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
+    public async Task<string> ProcessDataAsync(string path)
     {
-        Console.WriteLine("Calculating Maximum Temperature And Minimum Temperature");
+        Console.WriteLine($"Started processing {path}");
 
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
-            using (StreamReader reader = new StreamReader(stream))
+            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
             {
-                char[] buffer = new char[4 * 1024];
+                byte[] buffer = new byte[4 * 1024];
                 int charsRead;
 
                 double maxTemperature = double.MinValue;
@@ -178,15 +84,14 @@ internal class AsyncFileDataProcessor
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                while ((charsRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                while ((charsRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
-                    // Append only the portion read
-                    string chunk = new string(buffer, 0, charsRead);
+                    string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
                     remainingText += chunk;
 
                     string[] data = remainingText.Split("\n");
 
-                    remainingText = data[data.Length - 1];
+                    remainingText = data[^1];
 
                     for (int i = 0; i < data.Length - 1; i++)
                     {
@@ -210,20 +115,20 @@ internal class AsyncFileDataProcessor
 
                 stopwatch.Stop();
 
-                Console.WriteLine("Time taken to process : " + stopwatch.ElapsedMilliseconds);
+                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds}");
                 return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
             }
         }
     }
 
-    private async Task GenerateFileAsync(string path, int numberOfValues)
+    /// <summary>
+    /// Asynchronously generates a randomized temperature entries.
+    /// </summary>
+    /// <param name="path">The target file path where the mock data will be written.</param>
+    /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
+    /// <returns>A task that represents the asynchronous file creation process.</returns>
+    public async Task GenerateFileAsync(string path, int numberOfValues)
     {
-        //if (File.Exists(path))
-        //{
-        //    Console.WriteLine($"File {path} already exists");
-        //    return;
-        //}
-
         Console.WriteLine($"Started creating {path}");
         using (StreamWriter writer = new StreamWriter(path))
         {
@@ -231,7 +136,7 @@ internal class AsyncFileDataProcessor
 
             for (int i = 0; i < numberOfValues; i++)
             {
-                double value = random.NextDouble() * 50 - 10;
+                double value = (random.NextDouble() * 50) - 10;
 
                 await writer.WriteLineAsync(value.ToString());
             }

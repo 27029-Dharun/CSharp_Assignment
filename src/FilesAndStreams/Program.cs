@@ -10,6 +10,11 @@ internal class Program
 {
     private static void Main()
     {
+        FileDateProcessor dataProcessor = new FileDateProcessor();
+        AsyncFileDataProcessor asyncDataProcessor = new AsyncFileDataProcessor();
+
+        FileHandler fileHandler = new FileHandler(dataProcessor);
+        AsyncFileHandler asyncFileHandler = new AsyncFileHandler(dataProcessor, asyncDataProcessor);
         string menuOptions = "1. Synchronous file processing\n" +
             "2. Asynchronous file processing\n" +
             "4. Exit\n" +
@@ -22,13 +27,11 @@ internal class Program
             switch (option)
             {
                 case 1:
-                    FileDateProcessor fileDateProcessor = new FileDateProcessor();
-                    fileDateProcessor.Run();
+                    fileHandler.Run();
                     break;
 
                 case 2:
-                    AsyncFileDataProcessor asyncFileDataProcessor = new AsyncFileDataProcessor();
-                    asyncFileDataProcessor.Run().GetAwaiter().GetResult();
+                    asyncFileHandler.Run().GetAwaiter().GetResult();
                     break;
 
                 case 3:
