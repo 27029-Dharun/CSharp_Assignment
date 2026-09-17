@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ExpenseTracker.CustomException;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Helper
@@ -54,13 +55,28 @@ namespace ExpenseTracker.Helper
 
         private Dictionary<TransactionType, int> GetLastIdFromFile()
         {
-            Dictionary<TransactionType, int>? dictionary = JsonSerializer.Deserialize<Dictionary<TransactionType, int>>(File.ReadAllText(this._filePath));
-            if (dictionary is null)
+            try
             {
-                return new Dictionary<TransactionType, int>();
-            }
+                string text = File.ReadAllText(this._filePath);
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return new Dictionary<TransactionType, int>
+                    {
+                        { TransactionType.Expense, 100 },
+                        { TransactionType.Income, 100 },
+                    };
+                }
 
-            return dictionary;
+                return JsonSerializer.Deserialize<Dictionary<TransactionType, int>>(text) ?? new Dictionary<TransactionType, int>
+                {
+                    { TransactionType.Expense, 100 },
+                    { TransactionType.Income, 100 },
+                };
+            }
+            catch (Exception)
+            {
+                throw new DataBaseException();
+            }
         }
     }
 }

@@ -41,13 +41,11 @@ namespace ExpenseTracker
             catch (DataBaseException ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An unexpected error occurred: {ex.Message}");
-            }
-            finally
-            {
                 Console.ReadKey();
             }
         }
