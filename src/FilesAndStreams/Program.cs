@@ -47,6 +47,7 @@ internal class Program
                 case 4:
                     Logger logger = new Logger();
                     logger.LogErrors().GetAwaiter().GetResult();
+                    logger.LogErrorsAtDifferentTask();
                     break;
 
                 case 5:

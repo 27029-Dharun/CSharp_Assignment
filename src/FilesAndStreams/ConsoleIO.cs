@@ -1,7 +1,7 @@
 ﻿namespace FilesAndStreams;
 
 /// <summary>
-/// Contains the view level operations
+/// Contains the view level operations.
 /// </summary>
 internal static class ConsoleIO
 {
@@ -20,7 +20,7 @@ internal static class ConsoleIO
     /// <summary>
     /// Gets the integer from the user with attempts.
     /// </summary>
-    /// <param name="prompt">The message to be display to get the integer</param>
+    /// <param name="prompt">The message to be display to get the integer.</param>
     /// <returns>A integer value enter by the user.</returns>
     /// <exception cref="InvalidDataException">Thrown when the enter input is not a valid integer.</exception>
     internal static int GetInteger(string prompt)
@@ -39,7 +39,7 @@ internal static class ConsoleIO
     }
 
     /// <summary>
-    /// Pause and clear the console after entering a key
+    /// Pause and clear the console after entering a key.
     /// </summary>
     internal static void PauseAndClear()
     {

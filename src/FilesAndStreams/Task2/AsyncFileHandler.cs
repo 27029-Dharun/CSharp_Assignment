@@ -4,7 +4,7 @@ using FilesAndStreams.Task1;
 namespace FilesAndStreams.Task2;
 
 /// <summary>
-/// Controls the flow of the application
+/// Controls the flow of the application.
 /// </summary>
 internal class AsyncFileHandler
 {
@@ -27,9 +27,9 @@ internal class AsyncFileHandler
     }
 
     /// <summary>
-    /// Reads the file
+    /// Reads the file.
     /// </summary>
-    /// <returns>A task is returned</returns>
+    /// <returns>A task is returned.</returns>
     internal async Task Run()
     {
         string menuOptions = "1. Create 3 large file with 1 GB\n" +

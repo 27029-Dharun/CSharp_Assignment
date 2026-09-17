@@ -3,12 +3,12 @@
 namespace FilesAndStreams.Task3;
 
 /// <summary>
-/// Contains the memory optimization
+/// Contains the memory optimization.
 /// </summary>
 internal class MemoryStreamWriter
 {
     /// <summary>
-    /// Writes in the file
+    /// Writes in the file.
     /// </summary>
     internal void WriteAndReadFile()
     {

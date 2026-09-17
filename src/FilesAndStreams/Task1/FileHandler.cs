@@ -11,14 +11,14 @@ internal class FileHandler
     /// <summary>
     /// Initializes a new instance of the <see cref="FileHandler"/> class.
     /// </summary>
-    /// <param name="dataProcessor">Instance of file data processor</param>
+    /// <param name="dataProcessor">Instance of file data processor.</param>
     internal FileHandler(FileDateProcessor dataProcessor)
     {
         this._dateProcessor = dataProcessor;
     }
 
     /// <summary>
-    /// Reads the file
+    /// Reads the file.
     /// </summary>
     internal void Run()
     {
