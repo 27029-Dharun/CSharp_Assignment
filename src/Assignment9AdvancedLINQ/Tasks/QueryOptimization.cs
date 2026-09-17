@@ -39,18 +39,30 @@ public class QueryOptimization
         ConsoleIO.PrintInfo("Books sorted in ascending order");
 
         DisplayProductNameAndPrice(booksSortedByPrice);
+        stopwatch.Stop();
+        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
 
         // Optimized version
         stopwatch.Restart();
-        List<Product> optimizedBooksSort = products
+
+        ConsoleTable table = new ConsoleTable("Product Name", "Price");
+
+        // Streaming foreach when you want to process query results immediately, avoid unnecessary memory usage, and ensure the query runs only once
+        // Project only the required variables
+        // Ensure filtering is done before sorting
+        foreach (var product in products
             .Where(product => product.Category == ProductCategory.Books)
-            .OrderBy(product => product.Price).ToList();
+            .OrderBy(product => product.Price)
+            .Select(product => new { product.ProductName, product.Price }))
+        {
+            table.AddRow(product.ProductName, product.Price);
+        }
 
-        DisplayProductNameAndPrice(optimizedBooksSort);
+        table.Options.EnableCount = false;
+        table.Write();
 
-        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
         stopwatch.Stop();
-        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
+        ConsoleIO.PrintInfo($"With streaming foreach method: {stopwatch.Elapsed.TotalMilliseconds}");
     }
 
     private static void DisplayProductNameAndPrice(IEnumerable<Product> booksSortedByPrice)
