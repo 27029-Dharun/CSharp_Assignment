@@ -1,7 +1,7 @@
 ﻿namespace Assignment9AdvancedLINQ.Models.Enums
 {
     /// <summary>
-    /// Specifies the options available to perform filter
+    /// Specifies the options available to perform filter.
     /// </summary>
     public enum FilterCondition
     {

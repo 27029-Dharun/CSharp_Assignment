@@ -1,7 +1,7 @@
 ﻿namespace Assignment9AdvancedLINQ.Models.Enums
 {
     /// <summary>
-    /// Specifies the order status that are available
+    /// Specifies the order status that are available.
     /// </summary>
     public enum OrderStatus
     {

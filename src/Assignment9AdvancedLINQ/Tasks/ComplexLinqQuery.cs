@@ -7,7 +7,7 @@ using ConsoleTables;
 namespace Assignment9AdvancedLINQ.Tasks;
 
 /// <summary>
-/// Contains task2
+/// Contains task2.
 /// </summary>
 public class ComplexLinqQuery
 {
@@ -16,14 +16,14 @@ public class ComplexLinqQuery
     /// <summary>
     /// Initializes a new instance of the <see cref="ComplexLinqQuery"/> class.
     /// </summary>
-    /// <param name="database">Instance of the database</param>
+    /// <param name="database">Instance of the database.</param>
     public ComplexLinqQuery(Database database)
     {
         this._database = database;
     }
 
     /// <summary>
-    /// Executes the linq queries
+    /// Executes the linq queries.
     /// </summary>
     public void ExecuteComplexLinqQueries()
     {
@@ -35,7 +35,7 @@ public class ComplexLinqQuery
     }
 
     /// <summary>
-    /// Gets the average price of the product
+    /// Gets the average price of the product.
     /// </summary>
     public void GroupByCategory()
     {

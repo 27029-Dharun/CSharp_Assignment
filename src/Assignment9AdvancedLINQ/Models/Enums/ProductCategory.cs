@@ -1,7 +1,7 @@
 ﻿namespace Assignment9AdvancedLINQ.Models.Enums
 {
     /// <summary>
-    /// Specifies the category of the product
+    /// Specifies the category of the product.
     /// </summary>
     public enum ProductCategory
     {

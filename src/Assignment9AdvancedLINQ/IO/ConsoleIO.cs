@@ -1,7 +1,7 @@
 ﻿namespace Assignment9AdvancedLINQ.Views
 {
     /// <summary>
-    /// Contains the view level operations
+    /// Contains the view level operations.
     /// </summary>
     public static class ConsoleIO
     {
@@ -18,11 +18,11 @@
         }
 
         /// <summary>
-        /// Displays the enum value and gets input from the user
+        /// Displays the enum value and gets input from the user.
         /// </summary>
-        /// <typeparam name="T">Type variable that should be struct</typeparam>
-        /// <param name="message">String to be printed</param>
-        /// <returns>returns a enum value entered by user</returns>
+        /// <typeparam name="T">Type variable that should be struct.</typeparam>
+        /// <param name="message">String to be printed.</param>
+        /// <returns>returns a enum value entered by user.</returns>
         public static T GetEnumValue<T>(string message)
            where T : struct, Enum
         {
@@ -51,7 +51,7 @@
         }
 
         /// <summary>
-        /// Clears the console messages
+        /// Clears the console messages.
         /// </summary>
         public static void ClearConsole()
         {
@@ -61,7 +61,7 @@
         }
 
         /// <summary>
-        /// Pause the console and clear
+        /// Pause the console and clear.
         /// </summary>
         public static void PauseAndClear()
         {
@@ -73,7 +73,7 @@
         /// <summary>
         /// Prints the message in the console.
         /// </summary>
-        /// <param name="message">The message to be printed</param>
+        /// <param name="message">The message to be printed.</param>
         public static void PrintInfo(string message)
         {
             Console.WriteLine($"{message}");
@@ -82,8 +82,8 @@
         /// <summary>
         /// Gets a valid integer from the user.
         /// </summary>
-        /// <param name="message">Message to be printed</param>
-        /// <returns>An integer value</returns>
+        /// <param name="message">Message to be printed.</param>
+        /// <returns>An integer value.</returns>
         public static int GetInteger(string message)
         {
             string input = GetString(message);

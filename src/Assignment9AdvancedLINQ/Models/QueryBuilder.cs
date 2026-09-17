@@ -6,7 +6,7 @@ namespace Assignment9AdvancedLINQ.Models;
 /// <summary>
 /// A fluent query builder class containing methods to dynamically build and execute LINQ queries.
 /// </summary>
-/// <typeparam name="T">Type parameter of elements in the collection</typeparam>
+/// <typeparam name="T">Type parameter of elements in the collection.</typeparam>
 public class QueryBuilder<T>
 {
     private IQueryable<T> _list;
@@ -14,7 +14,7 @@ public class QueryBuilder<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryBuilder{T}"/> class.
     /// </summary>
-    /// <param name="list">The initial data source of the collection</param>
+    /// <param name="list">The initial data source of the collection.</param>
     public QueryBuilder(IEnumerable<T> list)
     {
         this._list = list.AsQueryable();
@@ -35,7 +35,7 @@ public class QueryBuilder<T>
     /// Dynamically builds and applies a filter expression to the collection based on a specified condition and value.
     /// </summary>
     /// <typeparam name="TProperty">The data type of the property being evaluated.</typeparam>
-    /// <param name="property">A lambda expression resolving the member property to filter</param>
+    /// <param name="property">A lambda expression resolving the member property to filter.</param>
     /// <param name="condition">The comparison or string matching operator to evaluate.</param>
     /// <param name="value">The constant value compared against the resolved property.</param>
     /// <returns>The current <see cref="QueryBuilder{T}"/> instance for method chaining.</returns>

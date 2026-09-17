@@ -4,7 +4,7 @@ using Assignment9AdvancedLINQ.Models.Enums;
 namespace Assignment9AdvancedLINQ.Repository;
 
 /// <summary>
-/// Database containing all the data to perform linq operations
+/// Database containing all the data to perform linq operations.
 /// </summary>
 public class Database
 {
@@ -13,7 +13,7 @@ public class Database
     private readonly List<Supplier> _suppliers = new List<Supplier>();
 
     /// <summary>
-    /// Initialize all the data
+    /// Initialize all the data.
     /// </summary>
     public void InitializeData()
     {
@@ -41,7 +41,7 @@ public class Database
     }
 
     /// <summary>
-    /// Gets all the product available in the database
+    /// Gets all the product available in the database.
     /// </summary>
     /// <returns>A list of products available.</returns>
     public List<Product> GetAllProduct()
@@ -50,7 +50,7 @@ public class Database
     }
 
     /// <summary>
-    /// Gets all the supplier available in the database
+    /// Gets all the supplier available in the database.
     /// </summary>
     /// <returns>A list of suppliers available.</returns>
     public List<Supplier> GetAllSuppliers()

@@ -16,14 +16,14 @@ public class BasicLinqQuery
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicLinqQuery"/> class.
     /// </summary>
-    /// <param name="database">Instance of the database</param>
+    /// <param name="database">Instance of the database.</param>
     public BasicLinqQuery(Database database)
     {
         this._database = database;
     }
 
     /// <summary>
-    /// Gets the average price of the product
+    /// Gets the average price of the product.
     /// </summary>
     public void ProcessElectronicProducts()
     {

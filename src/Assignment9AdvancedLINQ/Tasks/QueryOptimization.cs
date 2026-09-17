@@ -8,7 +8,7 @@ using ConsoleTables;
 namespace Assignment9AdvancedLINQ.Tasks;
 
 /// <summary>
-/// Contains the task1
+/// Contains the task1.
 /// </summary>
 public class QueryOptimization
 {
@@ -17,14 +17,14 @@ public class QueryOptimization
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryOptimization"/> class.
     /// </summary>
-    /// <param name="database">Instance of the database</param>
+    /// <param name="database">Instance of the database.</param>
     public QueryOptimization(Database database)
     {
         this._database = database;
     }
 
     /// <summary>
-    /// Gets the average price of the product
+    /// Gets the average price of the product.
     /// </summary>
     public void GetBooksCategory()
     {

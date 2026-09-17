@@ -3,12 +3,12 @@
 namespace Assignment9AdvancedLINQ.Tasks;
 
 /// <summary>
-/// Contains the array operations
+/// Contains the array operations.
 /// </summary>
 public class ArrayOperations
 {
     /// <summary>
-    /// Handles the array operations
+    /// Handles the array operations.
     /// </summary>
     public void HandleArrayOperations()
     {

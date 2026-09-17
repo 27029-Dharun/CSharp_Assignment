@@ -1,7 +1,7 @@
 ﻿namespace Assignment9AdvancedLINQ.Models.Enums
 {
     /// <summary>
-    /// Specifies the menu options available
+    /// Specifies the menu options available.
     /// </summary>
     public enum MenuOption
     {

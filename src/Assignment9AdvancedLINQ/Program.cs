@@ -6,7 +6,7 @@ using Assignment9AdvancedLINQ.Views;
 namespace Assignment9AdvancedLINQ;
 
 /// <summary>
-/// Program class for starting the operation
+/// Program class for starting the operation.
 /// </summary>
 public class Program
 {
