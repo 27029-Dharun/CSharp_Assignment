@@ -28,14 +28,35 @@ public class QueryOptimization
     /// </summary>
     public void GetBooksCategory()
     {
-        List<Product> product = this._database.GetAllProduct();
+        List<Product> products = this._database.GetAllProduct();
+        var expandedProducts = new List<Product>(products.Count * 1000000000);
 
         Stopwatch stopwatch = Stopwatch.StartNew();
-        IEnumerable<Product> booksSortedByPrice = product
+
+        IEnumerable<Product> booksSortedByPrice = expandedProducts
             .Where(product => product.Category == ProductCategory.Books)
             .OrderBy(product => product.Price);
 
         ConsoleIO.PrintInfo("Books sorted in ascending order");
+
+        DisplayProductNameAndPrice(booksSortedByPrice);
+
+        stopwatch.Stop();
+        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
+
+        // Optimized version
+        stopwatch.Restart();
+        List<Product> optimizedBooksSort = expandedProducts
+            .Where(product => product.Category == ProductCategory.Books)
+            .OrderBy(product => product.Price).ToList();
+
+        DisplayProductNameAndPrice(optimizedBooksSort);
+
+        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
+    }
+
+    private static void DisplayProductNameAndPrice(IEnumerable<Product> booksSortedByPrice)
+    {
         ConsoleTable table = new ConsoleTable("Product Name", "Price");
         foreach (var book in booksSortedByPrice)
         {
@@ -44,39 +65,5 @@ public class QueryOptimization
 
         table.Options.EnableCount = false;
         table.Write();
-        stopwatch.Stop();
-        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
-
-        // Optimized version
-        stopwatch.Restart();
-        List<Product> optimizedBooksSort = product
-            .Where(product => product.Category == ProductCategory.Books)
-            .OrderBy(product => product.Price).ToList();
-
-        ConsoleTable table1 = new ConsoleTable("Product Name", "Price");
-        foreach (var book in booksSortedByPrice)
-        {
-            table1.AddRow(book.ProductName, book.Price);
-        }
-
-        table1.Write();
-        stopwatch.Stop();
-        ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
-
-        // reducing the column and use only the required column
-        List<(string Name, decimal Price)> sortBooks = product
-           .Where(product => product.Category == ProductCategory.Books)
-           .Select(product => (product.ProductName, product.Price))
-           .OrderBy(product => product.Price).ToList();
-
-        ConsoleTable list = new ConsoleTable("Product Name", "Price");
-        foreach (var book in sortBooks)
-        {
-            list.AddRow(book.Name, book.Price);
-        }
-
-        ConsoleIO.PrintInfo($"Selecting only the required parameter before ordering reduces the memory usage");
-        list.Options.EnableCount = false;
-        list.Write();
     }
 }
