@@ -29,11 +29,10 @@ public class QueryOptimization
     public void GetBooksCategory()
     {
         List<Product> products = this._database.GetAllProduct();
-        var expandedProducts = new List<Product>(products.Count * 1000000000);
 
         Stopwatch stopwatch = Stopwatch.StartNew();
 
-        IEnumerable<Product> booksSortedByPrice = expandedProducts
+        IEnumerable<Product> booksSortedByPrice = products
             .Where(product => product.Category == ProductCategory.Books)
             .OrderBy(product => product.Price);
 
@@ -41,18 +40,17 @@ public class QueryOptimization
 
         DisplayProductNameAndPrice(booksSortedByPrice);
 
-        stopwatch.Stop();
-        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
-
         // Optimized version
         stopwatch.Restart();
-        List<Product> optimizedBooksSort = expandedProducts
+        List<Product> optimizedBooksSort = products
             .Where(product => product.Category == ProductCategory.Books)
             .OrderBy(product => product.Price).ToList();
 
         DisplayProductNameAndPrice(optimizedBooksSort);
 
         ConsoleIO.PrintInfo($"After materialization: {stopwatch.Elapsed.TotalMilliseconds}");
+        stopwatch.Stop();
+        ConsoleIO.PrintInfo($"Timer before optimization: {stopwatch.Elapsed.TotalMilliseconds}");
     }
 
     private static void DisplayProductNameAndPrice(IEnumerable<Product> booksSortedByPrice)
