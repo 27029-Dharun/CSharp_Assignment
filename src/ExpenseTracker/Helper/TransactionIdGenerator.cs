@@ -67,7 +67,11 @@ namespace ExpenseTracker.Helper
                     };
                 }
 
-                return JsonSerializer.Deserialize<Dictionary<TransactionType, int>>(text) ?? throw new DataBaseException("The file is corrupted, couldn't phrase the content.");
+                return JsonSerializer.Deserialize<Dictionary<TransactionType, int>>(text) ?? new Dictionary<TransactionType, int>
+                {
+                    { TransactionType.Expense, 100 },
+                    { TransactionType.Income, 100 },
+                };
             }
             catch (Exception)
             {

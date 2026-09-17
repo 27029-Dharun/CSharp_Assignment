@@ -50,7 +50,7 @@ namespace ExpenseTracker.Repository
                     return new List<Transaction>();
                 }
 
-                return JsonSerializer.Deserialize<List<Transaction>>(text, this._options) ?? throw new DataBaseException("The file is corrupted");
+                return JsonSerializer.Deserialize<List<Transaction>>(text, this._options) ?? new List<Transaction>();
             }
             catch (Exception)
             {
