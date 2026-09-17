@@ -3,7 +3,7 @@
 /// <summary>
 /// Logger file
 /// </summary>
-public static class Logger
+internal class Logger
 {
     private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
     private static readonly string _logFilePath = "log.txt";
@@ -13,10 +13,10 @@ public static class Logger
     /// </summary>
     /// <param name="errorMessage">The message to be logged</param>
     /// <returns>A task</returns>
-    public static async Task LogError(string errorMessage)
+    internal async Task LogError(string errorMessage)
     {
         string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {errorMessage}\n";
-
+        Console.WriteLine("Logging error ...");
         await _semaphore.WaitAsync();
         try
         {
@@ -26,5 +26,19 @@ public static class Logger
         {
             _semaphore.Release();
         }
+
+        Console.WriteLine("Completed logging.");
+    }
+
+    /// <summary>
+    /// Logs error from different user at a time.
+    /// </summary>
+    /// <returns>A asynchronous task that writes into logger file.</returns>
+    internal async Task LogErrors()
+    {
+        await Task.WhenAll(
+             this.LogError("Database connection failed"),
+             this.LogError("Invalid user input"),
+             this.LogError("File not found"));
     }
 }

@@ -8,13 +8,13 @@ namespace FilesAndStreams.Task2;
 /// </summary>
 internal class AsyncFileDataProcessor
 {
-     /// <summary>
-     /// Asynchronously writes a text string to a file using an intermediate memory buffer.
-     /// </summary>
-     /// <param name="path">The destination path of the file to create or overwrite.</param>
-     /// <param name="data">The text data to encode and write into the file.</param>
-     /// <returns>A task that represents the asynchronous write and copy operations.</returns>
-    public async Task WriteProcessedString(string path, string data)
+    /// <summary>
+    /// Asynchronously writes a text string to a file using an intermediate memory buffer.
+    /// </summary>
+    /// <param name="path">The destination path of the file to create or overwrite.</param>
+    /// <param name="data">The text data to encode and write into the file.</param>
+    /// <returns>A task that represents the asynchronous write and copy operations.</returns>
+    internal async Task WriteProcessedString(string path, string data)
     {
         using (MemoryStream stream = new MemoryStream())
         {
@@ -34,7 +34,7 @@ internal class AsyncFileDataProcessor
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
     /// <returns>A task that represents the asynchronous reading process loop.</returns>
-    public async Task ReadWithBufferedStream(string path)
+    internal async Task ReadWithBufferedStream(string path)
     {
         Console.WriteLine($"Reading {path} with buffered stream");
         using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -63,7 +63,7 @@ internal class AsyncFileDataProcessor
     /// </summary>
     /// <param name="path">The target file path containing the dataset to process.</param>
     /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
-    public async Task<string> ProcessDataAsync(string path)
+    internal async Task<string> ProcessDataAsync(string path)
     {
         Console.WriteLine($"Started processing {path}");
 
@@ -127,7 +127,7 @@ internal class AsyncFileDataProcessor
     /// <param name="path">The target file path where the mock data will be written.</param>
     /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
     /// <returns>A task that represents the asynchronous file creation process.</returns>
-    public async Task GenerateFileAsync(string path, int numberOfValues)
+    internal async Task GenerateFileAsync(string path, int numberOfValues)
     {
         Console.WriteLine($"Started creating {path}");
         using (StreamWriter writer = new StreamWriter(path))

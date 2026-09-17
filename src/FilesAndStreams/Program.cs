@@ -1,6 +1,7 @@
 ﻿using FilesAndStreams.Task1;
 using FilesAndStreams.Task2;
 using FilesAndStreams.Task3;
+using FilesAndStreams.Task4;
 
 namespace FilesAndStreams;
 
@@ -44,7 +45,8 @@ internal class Program
                     break;
 
                 case 4:
-                    Logger().GetAwaiter().GetResult();
+                    Logger logger = new Logger();
+                    logger.LogErrors().GetAwaiter().GetResult();
                     break;
 
                 case 5:
@@ -57,13 +59,5 @@ internal class Program
 
             ConsoleIO.PauseAndClear();
         }
-    }
-
-    private static async Task Logger()
-    {
-        await Task.WhenAll(
-            Task4.Logger.LogError("Database connection failed"),
-            Task4.Logger.LogError("Invalid user input"),
-            Task4.Logger.LogError("File not found"));
     }
 }

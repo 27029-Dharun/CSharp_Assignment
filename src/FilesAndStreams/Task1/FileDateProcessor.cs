@@ -13,7 +13,7 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="path">The destination path of the file to create or overwrite.</param>
     /// <param name="data">The text data to encode and write into the file.</param>
-    public void WriteProcessedString(string path, string data)
+    internal void WriteProcessedString(string path, string data)
     {
         using (MemoryStream stream = new MemoryStream())
         {
@@ -33,7 +33,7 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
     /// <returns>Time taken to read the file.</returns>
-    public long ReadWithFileStream(string path)
+    internal long ReadWithFileStream(string path)
     {
         if (!File.Exists(path))
         {
@@ -66,7 +66,7 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
     /// <returns>Time taken to read the file.</returns>
-    public long ReadWithBufferedStream(string path)
+    internal long ReadWithBufferedStream(string path)
     {
         if (!File.Exists(path))
         {
@@ -101,7 +101,7 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="path">The target file path containing the dataset to process.</param>
     /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
-    public string ProcessData(string path)
+    internal string ProcessData(string path)
     {
         Console.WriteLine($"Processing {path}");
 
@@ -164,7 +164,7 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="path">The target file path where the mock data will be written.</param>
     /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
-    public void GenerateFile(string path, int numberOfValues)
+    internal void GenerateFile(string path, int numberOfValues)
     {
         Console.WriteLine($"Generating file {path} ...");
         using (StreamWriter writer = new StreamWriter(path))

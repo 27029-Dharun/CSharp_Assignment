@@ -20,7 +20,7 @@ internal class AsyncFileHandler
     /// </summary>
     /// <param name="dataProcessor">Instance of synchronous data processor.</param>
     /// <param name="asyncDataProcessor">Instance of asynchronous data processor.</param>
-    public AsyncFileHandler(FileDateProcessor dataProcessor, AsyncFileDataProcessor asyncDataProcessor)
+    internal AsyncFileHandler(FileDateProcessor dataProcessor, AsyncFileDataProcessor asyncDataProcessor)
     {
         this._fileProcessor = dataProcessor;
         this._asyncFileProcessor = asyncDataProcessor;
