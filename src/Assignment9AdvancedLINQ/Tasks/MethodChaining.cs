@@ -28,23 +28,34 @@ namespace Assignment9AdvancedLINQ.Tasks
         /// </summary>
         public void HandleMethodChaining()
         {
+            // Get all the product
             List<Product> products = this._database.GetAllProduct();
             List<Supplier> suppliers = this._database.GetAllSuppliers();
+
+            // Initialize query builder.
             QueryBuilder<Product> queryBuilder = new QueryBuilder<Product>(products);
-            List<ProductSupplierName> result = queryBuilder
-                .Filter(p => p.Price > 500)
-                .SortBy(p => p.Price)
-                .Join(suppliers, x => x.Id, s => s.ProductId, (product, supplier) => new ProductSupplierName
-                {
-                    ProductId = product.Id,
-                    ProductName = product.ProductName,
-                    ProductPrice = product.Price,
-                    ProductCategory = product.Category,
-                    SupplierName = supplier.SupplierName,
-                }).Execute();
+
+            // Find products more than 500.
+            List<ProductSupplierName> expensiveProductsWithSuppliers = queryBuilder
+                .Filter(product => product.Price > 500)
+                .SortBy(product => product.Price)
+                .Join(
+                    suppliers,
+                    product => product.Id,
+                    supplier => supplier.ProductId,
+                    (product, supplier) =>
+                    new ProductSupplierName
+                    {
+                        ProductId = product.Id,
+                        ProductName = product.ProductName,
+                        ProductPrice = product.Price,
+                        ProductCategory = product.Category,
+                        SupplierName = supplier.SupplierName,
+                    })
+                .Execute();
 
             ConsoleTable table = new ConsoleTable("Product Id", "Supplier Name", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in result)
+            foreach (var productItem in expensiveProductsWithSuppliers)
             {
                 table.AddRow(productItem.ProductId, productItem.SupplierName, productItem.ProductName, productItem.ProductPrice, productItem.ProductCategory);
             }
@@ -52,59 +63,59 @@ namespace Assignment9AdvancedLINQ.Tasks
             table.Options.EnableCount = false;
             table.Write();
 
-            // Product price less than or equal to 1000
+            // Product with price less than or equal to 1000
             ConsoleIO.PrintInfo("Product price less than or equal to 1000");
-            List<Product> productLessThan1000 = new QueryBuilder<Product>(products)
-                .Filter(p => p.Price, FilterCondition.LessThanOrEqualTo, 1000)
+            List<Product> affordableProducts = new QueryBuilder<Product>(products)
+                .Filter(product => product.Price, FilterCondition.LessThanOrEqualTo, 1000)
                 .Execute();
 
-            ConsoleTable productLessThan1000Table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productLessThan1000)
+            ConsoleTable affordableProductTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in affordableProducts)
             {
-                productLessThan1000Table.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+                affordableProductTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
             }
 
-            productLessThan1000Table.Options.EnableCount = false;
-            productLessThan1000Table.Write();
+            affordableProductTable.Options.EnableCount = false;
+            affordableProductTable.Write();
 
-            // Product price more than or equal to 1000
+            // Product with price more than or equal to 1000
             ConsoleIO.PrintInfo("Product price more than or equal to 1000");
-            List<Product> productGreaterThan1000 = new QueryBuilder<Product>(products)
-                .Filter(p => p.Price, FilterCondition.GreaterThanOrEqualTo, 1000)
+            List<Product> expensiveProducts = new QueryBuilder<Product>(products)
+                .Filter(product => product.Price, FilterCondition.GreaterThanOrEqualTo, 1000)
                 .Execute();
 
-            ConsoleTable productGreaterThan1000Table = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productGreaterThan1000)
+            ConsoleTable expensiveProductsTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in expensiveProducts)
             {
-                productGreaterThan1000Table.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+                expensiveProductsTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
             }
 
-            productGreaterThan1000Table.Options.EnableCount = false;
-            productGreaterThan1000Table.Write();
+            expensiveProductsTable.Options.EnableCount = false;
+            expensiveProductsTable.Write();
 
             // Product starting with letter L
             ConsoleIO.PrintInfo("Product starting with letter L");
-            List<Product> productStartingWithL = new QueryBuilder<Product>(products)
+            List<Product> productsStartingWithL = new QueryBuilder<Product>(products)
                 .Filter(p => p.ProductName, FilterCondition.StartsWith, "L")
                 .Execute();
 
-            ConsoleTable productStartingWithLTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productStartingWithL)
+            ConsoleTable productsStartingWithLTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in productsStartingWithL)
             {
-                productStartingWithLTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+                productsStartingWithLTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
             }
 
-            productStartingWithLTable.Options.EnableCount = false;
-            productStartingWithLTable.Write();
+            productsStartingWithLTable.Options.EnableCount = false;
+            productsStartingWithLTable.Write();
 
             // Product ending with letter t
             ConsoleIO.PrintInfo("Product ending with letter t");
-            List<Product> productEndingWithT = new QueryBuilder<Product>(products)
+            List<Product> productsEndingWithT = new QueryBuilder<Product>(products)
                 .Filter(p => p.ProductName, FilterCondition.EndsWith, "t")
                 .Execute();
 
             ConsoleTable productEndingWithTTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productEndingWithT)
+            foreach (var productItem in productsEndingWithT)
             {
                 productEndingWithTTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
             }
@@ -114,12 +125,12 @@ namespace Assignment9AdvancedLINQ.Tasks
 
             // Product containing "lap"
             ConsoleIO.PrintInfo("Product containing lap");
-            List<Product> productContaining = new QueryBuilder<Product>(products)
+            List<Product> productContainingLap = new QueryBuilder<Product>(products)
                 .Filter(p => p.ProductName, FilterCondition.Contains, "Lap")
                 .Execute();
 
             ConsoleTable productContainingTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productContaining)
+            foreach (var productItem in productContainingLap)
             {
                 productContainingTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
             }

@@ -25,28 +25,32 @@ public class BasicLinqQuery
     /// <summary>
     /// Gets the average price of the product
     /// </summary>
-    public void GetAveragePrice()
+    public void ProcessElectronicProducts()
     {
-        List<Product> product = this._database.GetAllProduct();
+        // Gets all the products.
+        List<Product> products = this._database.GetAllProduct();
 
-        IEnumerable<(string ProductName, decimal Price)> electronicsProduct =
-            product
+        // Filter the electronics product with price more than 500.
+        IEnumerable<(string ProductName, decimal Price)> filteredElectronics =
+            products
                 .Where(product => product.Category == ProductCategory.Electronics && product.Price > 500)
                 .Select(product => (product.ProductName, product.Price));
 
-        List<(string ProductName, decimal Price)> electronicsByPriceDescending = electronicsProduct.OrderByDescending(product => product.Price).ToList();
+        // Order the product in descending order.
+        List<(string ProductName, decimal Price)> sortedElectronics = filteredElectronics.OrderByDescending(product => product.Price).ToList();
 
         ConsoleIO.PrintInfo($"Electronics product greater than 500:");
         ConsoleTable table = new ConsoleTable("Product Name", "Price");
-        foreach (var electronics in electronicsByPriceDescending)
+        foreach (var product in sortedElectronics)
         {
-            table.AddRow(electronics.ProductName, electronics.Price);
+            table.AddRow(product.ProductName, product.Price);
         }
 
         table.Options.EnableCount = false;
         table.Write();
 
-        decimal averagePrice = electronicsProduct.Average(product => product.Price);
+        // Find and print average price of the product.
+        decimal averagePrice = filteredElectronics.Average(product => product.Price);
         ConsoleIO.PrintInfo($"The average price of the product: {averagePrice}");
     }
 }

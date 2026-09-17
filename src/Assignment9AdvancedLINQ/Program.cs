@@ -34,11 +34,11 @@ public class Program
                 switch (option)
                 {
                     case MenuOption.Task1:
-                        basicLinqQuery.GetAveragePrice();
+                        basicLinqQuery.ProcessElectronicProducts();
                         break;
 
                     case MenuOption.Task2:
-                        complexLinqQuery.ComplexLinqQueries();
+                        complexLinqQuery.ExecuteComplexLinqQueries();
                         break;
 
                     case MenuOption.Task3:
