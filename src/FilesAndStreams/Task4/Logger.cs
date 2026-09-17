@@ -5,8 +5,8 @@
 /// </summary>
 public static class Logger
 {
-    private static readonly object _lock = new object();
-    private static string _logFilePath = "log.txt";
+    private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+    private static readonly string _logFilePath = "log.txt";
 
     /// <summary>
     /// Logs the error details in the file.
@@ -15,11 +15,16 @@ public static class Logger
     /// <returns>A task</returns>
     public static async Task LogError(string errorMessage)
     {
-        string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {errorMessage}{Environment.NewLine}";
+        string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {errorMessage}\n";
 
-        lock (_lock)
+        await _semaphore.WaitAsync();
+        try
         {
-            File.AppendAllTextAsync(_logFilePath, logMessage);
+            await File.AppendAllTextAsync(_logFilePath, logMessage);
+        }
+        finally
+        {
+            _semaphore.Release();
         }
     }
 }
