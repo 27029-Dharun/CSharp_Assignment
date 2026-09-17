@@ -57,15 +57,7 @@ namespace Assignment9AdvancedLINQ.Tasks
             List<Product> productContainingLap = new QueryBuilder<Product>(products)
                 .Filter(p => p.ProductName, FilterCondition.Contains, "Lap")
                 .Execute();
-
-            ConsoleTable productContainingTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productContainingLap)
-            {
-                productContainingTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
-            }
-
-            productContainingTable.Options.EnableCount = false;
-            productContainingTable.Write();
+            this.DisplayProducts(productContainingLap);
         }
 
         private void DisplayProductEndingWithT(List<Product> products)
@@ -75,14 +67,7 @@ namespace Assignment9AdvancedLINQ.Tasks
                 .Filter(p => p.ProductName, FilterCondition.EndsWith, "t")
                 .Execute();
 
-            ConsoleTable productEndingWithTTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productsEndingWithT)
-            {
-                productEndingWithTTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
-            }
-
-            productEndingWithTTable.Options.EnableCount = false;
-            productEndingWithTTable.Write();
+            this.DisplayProducts(productsEndingWithT);
         }
 
         private void DisplayProductStartingWithL(List<Product> products)
@@ -92,14 +77,7 @@ namespace Assignment9AdvancedLINQ.Tasks
                 .Filter(p => p.ProductName, FilterCondition.StartsWith, "L")
                 .Execute();
 
-            ConsoleTable productsStartingWithLTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in productsStartingWithL)
-            {
-                productsStartingWithLTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
-            }
-
-            productsStartingWithLTable.Options.EnableCount = false;
-            productsStartingWithLTable.Write();
+            this.DisplayProducts(productsStartingWithL);
         }
 
         private void DisplayExpensiveProducts(List<Product> products)
@@ -109,14 +87,7 @@ namespace Assignment9AdvancedLINQ.Tasks
                 .Filter(product => product.Price, FilterCondition.GreaterThanOrEqualTo, 1000)
                 .Execute();
 
-            ConsoleTable expensiveProductsTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in expensiveProducts)
-            {
-                expensiveProductsTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
-            }
-
-            expensiveProductsTable.Options.EnableCount = false;
-            expensiveProductsTable.Write();
+            this.DisplayProducts(expensiveProducts);
         }
 
         private void DisplayAffordableProducts(List<Product> products)
@@ -126,14 +97,7 @@ namespace Assignment9AdvancedLINQ.Tasks
                 .Filter(product => product.Price, FilterCondition.LessThanOrEqualTo, 1000)
                 .Execute();
 
-            ConsoleTable affordableProductTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
-            foreach (var productItem in affordableProducts)
-            {
-                affordableProductTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
-            }
-
-            affordableProductTable.Options.EnableCount = false;
-            affordableProductTable.Write();
+            this.DisplayProducts(affordableProducts);
         }
 
         private void DisplayExpensiveProductsWithSupplier(List<Product> products, List<Supplier> suppliers)
@@ -168,6 +132,18 @@ namespace Assignment9AdvancedLINQ.Tasks
 
             table.Options.EnableCount = false;
             table.Write();
+        }
+
+        private void DisplayProducts(IEnumerable<Product> productContainingLap)
+        {
+            ConsoleTable productContainingTable = new ConsoleTable("Product Id", "Product Name", "Product Price", "Product Category");
+            foreach (var productItem in productContainingLap)
+            {
+                productContainingTable.AddRow(productItem.Id, productItem.ProductName, productItem.Price, productItem.Category);
+            }
+
+            productContainingTable.Options.EnableCount = false;
+            productContainingTable.Write();
         }
     }
 }
