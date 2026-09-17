@@ -81,7 +81,7 @@ internal class AsyncFileHandler
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Time taken to process 3 file synchronously: {stopwatch.ElapsedMilliseconds}\n");
+        Console.WriteLine($"Time taken to process 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
         stopwatch.Restart();
 
@@ -91,7 +91,7 @@ internal class AsyncFileHandler
 
         await Task.WhenAll(firstFileProcess, secondFileProcess, thirdFileProcess);
         stopwatch.Stop();
-        Console.WriteLine($"Time taken to process 3 file asynchronously: {stopwatch.ElapsedMilliseconds}\n");
+        Console.WriteLine($"Time taken to process 3 file asynchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
         Console.WriteLine("Writing 3 file synchronously");
 
@@ -103,7 +103,7 @@ internal class AsyncFileHandler
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Time taken to write 3 file synchronously: {stopwatch.ElapsedMilliseconds}\n");
+        Console.WriteLine($"Time taken to write 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
         stopwatch.Restart();
 
@@ -113,7 +113,7 @@ internal class AsyncFileHandler
 
         await Task.WhenAll(firstFile, secondFile, thirdFile);
         stopwatch.Stop();
-        Console.WriteLine("Time taken to write 3 file asynchronously: " + stopwatch.ElapsedMilliseconds);
+        Console.WriteLine($"Time taken to write 3 file asynchronously: {stopwatch.ElapsedMilliseconds} ms");
     }
 
     private async Task ReadAll()
@@ -129,7 +129,7 @@ internal class AsyncFileHandler
 
         stopwatch.Stop();
 
-        Console.WriteLine($"Time taken to read 3 file synchronously: {stopwatch.ElapsedMilliseconds}\n");
+        Console.WriteLine($"Time taken to read 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
         stopwatch.Restart();
 
@@ -139,7 +139,7 @@ internal class AsyncFileHandler
 
         await Task.WhenAll(firstFileReadBuffer, secondFileReadBuffer, thirdFileReadBuffer);
         stopwatch.Stop();
-        Console.WriteLine("Time taken to read file asynchronously: " + stopwatch.ElapsedMilliseconds);
+        Console.WriteLine($"Time taken to read file asynchronously: {stopwatch.ElapsedMilliseconds} ms");
     }
 
     private async Task GenerateAll()
@@ -154,7 +154,7 @@ internal class AsyncFileHandler
 
         stopwatch.Stop();
 
-        Console.WriteLine("Time taken to create 3 file synchronously: " + stopwatch.ElapsedMilliseconds);
+        Console.WriteLine($"Time taken to create 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms");
         Console.WriteLine("Generating file asynchronously");
 
         stopwatch.Restart();
@@ -165,6 +165,6 @@ internal class AsyncFileHandler
         await Task.WhenAll(firstFile, secondFile, thirdFile);
         stopwatch.Stop();
 
-        Console.WriteLine("Time taken to create 3 file " + stopwatch.ElapsedMilliseconds);
+        Console.WriteLine($"Time taken to create 3 file {stopwatch.ElapsedMilliseconds} ms");
     }
 }

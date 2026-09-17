@@ -115,7 +115,7 @@ internal class AsyncFileDataProcessor
 
                 stopwatch.Stop();
 
-                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds}");
+                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds} ms");
                 return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
             }
         }
