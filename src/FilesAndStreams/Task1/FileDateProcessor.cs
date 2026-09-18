@@ -127,13 +127,15 @@ internal class FileDateProcessor
                     string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
                     remainingText += chunk;
 
-                    string[] data = remainingText.Split("\n");
+                    string[] entry = remainingText.Split("\n");
 
-                    remainingText = data[data.Length - 1];
+                    remainingText = entry[entry.Length - 1];
 
-                    for (int i = 0; i < data.Length - 1; i++)
+                    for (int i = 0; i < entry.Length - 1; i++)
                     {
-                        if (double.TryParse(data[i], out double value))
+                        string[] data = entry[i].Split(",");
+
+                        if (double.TryParse(data[2], out double value))
                         {
                             if (value > maxTemperature)
                             {
@@ -173,8 +175,8 @@ internal class FileDateProcessor
 
             for (int i = 0; i < numberOfValues; i++)
             {
-                double value = (random.NextDouble() * 50) - 10;
-                writer.Write(string.Concat(Enumerable.Repeat($"{value}\n", 6)));
+                double value = (random.NextDouble() * 30) + 10;
+                writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
             }
         }
 

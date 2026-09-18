@@ -89,13 +89,14 @@ internal class AsyncFileDataProcessor
                     string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
                     remainingText += chunk;
 
-                    string[] data = remainingText.Split("\n");
+                    string[] entry = remainingText.Split("\n");
 
-                    remainingText = data[^1];
+                    remainingText = entry[^1];
 
-                    for (int i = 0; i < data.Length - 1; i++)
+                    for (int i = 0; i < entry.Length - 1; i++)
                     {
-                        if (double.TryParse(data[i], out double value))
+                        string[] data = entry[i].Split(",");
+                        if (double.TryParse(data[2], out double value))
                         {
                             if (value > maxTemperature)
                             {
@@ -135,13 +136,15 @@ internal class AsyncFileDataProcessor
         {
             using (StreamWriter writer = new StreamWriter(stream))
             {
-                Random random = new Random();
+                Random random = Random.Shared;
 
                 for (int i = 0; i < numberOfLines; i++)
                 {
                     double value = (random.NextDouble() * 30) + 10;
-                    await writer.WriteAsync($"{DateTime.Now},Coimbatore,{value}\n");
+                    writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
                 }
+
+                await writer.FlushAsync();
             }
         }
 

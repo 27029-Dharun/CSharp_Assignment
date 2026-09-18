@@ -12,7 +12,7 @@ internal class MemoryStreamWriter
     /// </summary>
     internal void WriteAndReadFile()
     {
-        string path = "file.txt";
+        string path = "fileWriter.txt";
         string data = "This is some test data";
 
         // Writing to file using MemoryStream

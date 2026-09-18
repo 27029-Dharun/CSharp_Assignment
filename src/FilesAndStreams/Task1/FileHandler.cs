@@ -37,13 +37,13 @@ internal class FileHandler
                 case 1:
                     Console.WriteLine("Reading with FileStream");
                     long timeTakenWithFileStream = this._dateProcessor.ReadWithFileStream(_path);
-                    Console.WriteLine($"Time taken to read with file stream: {timeTakenWithFileStream}");
+                    Console.WriteLine($"Time taken to read with file stream: {timeTakenWithFileStream}\n");
 
                     Console.WriteLine("Reading with Buffered Stream");
                     long timeTakenWithBufferedStream = this._dateProcessor.ReadWithBufferedStream(_path);
-                    Console.WriteLine($"Time taken to read with buffered stream: {timeTakenWithBufferedStream}");
+                    Console.WriteLine($"Time taken to read with buffered stream: {timeTakenWithBufferedStream}\n");
 
-                    Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster");
+                    Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster\n");
                     break;
 
                 case 2:
