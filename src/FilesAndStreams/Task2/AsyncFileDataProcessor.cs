@@ -125,20 +125,23 @@ internal class AsyncFileDataProcessor
     /// Asynchronously generates a randomized temperature entries.
     /// </summary>
     /// <param name="path">The target file path where the mock data will be written.</param>
-    /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
+    /// <param name="numberOfLines">The total count of randomized entries to generate.</param>
     /// <returns>A task that represents the asynchronous file creation process.</returns>
-    internal async Task GenerateFileAsync(string path, int numberOfValues)
+    internal async Task GenerateFileAsync(string path, int numberOfLines)
     {
         Console.WriteLine($"Started creating {path}");
-        using (StreamWriter writer = new StreamWriter(path))
+
+        using (FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
         {
-            Random random = new Random();
-
-            for (int i = 0; i < numberOfValues; i++)
+            using (StreamWriter writer = new StreamWriter(stream))
             {
-                double value = (random.NextDouble() * 50) - 10;
+                Random random = new Random();
 
-                await writer.WriteLineAsync(value.ToString());
+                for (int i = 0; i < numberOfLines; i++)
+                {
+                    double value = (random.NextDouble() * 30) + 10;
+                    await writer.WriteAsync($"{DateTime.Now},Coimbatore,{value}\n");
+                }
             }
         }
 

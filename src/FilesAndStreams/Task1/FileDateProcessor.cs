@@ -174,13 +174,7 @@ internal class FileDateProcessor
             for (int i = 0; i < numberOfValues; i++)
             {
                 double value = (random.NextDouble() * 50) - 10;
-
-                writer.WriteLine(value.ToString());
-                writer.WriteLine(value.ToString());
-                writer.WriteLine(value.ToString());
-                writer.WriteLine(value.ToString());
-                writer.WriteLine(value.ToString());
-                writer.WriteLine(value.ToString());
+                writer.Write(string.Concat(Enumerable.Repeat($"{value}\n", 6)));
             }
         }
 
