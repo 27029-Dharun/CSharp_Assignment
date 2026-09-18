@@ -36,23 +36,29 @@ internal class AsyncFileDataProcessor
     /// <returns>A task that represents the asynchronous reading process loop.</returns>
     internal async Task ReadWithBufferedStream(string path)
     {
-        Console.WriteLine($"Reading {path} with buffered stream");
-        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+        Console.WriteLine($"Reading {path} with optimized stream");
+
+        int bufferSize = 1024 * 1024; // 1 MB
+
+        using (FileStream stream = new FileStream(
+            path,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize))
         {
-            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
+            byte[] buffer = new byte[bufferSize];
+            long totalBytes = 0;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            int bytesRead;
+            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
             {
-                byte[] buffer = new byte[4 * 1024];
-                int bytesRead;
-                int totalBytes = 0;
-
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                while ((bytesRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                {
-                    totalBytes += bytesRead;
-                }
+                totalBytes += bytesRead;
             }
+
+            stopwatch.Stop();
         }
 
         Console.WriteLine($"Completed reading {path}");

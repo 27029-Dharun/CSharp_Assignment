@@ -83,6 +83,7 @@ internal class AsyncFileHandler
 
         Console.WriteLine($"Time taken to process 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
+        Console.WriteLine("Processing file synchronously");
         stopwatch.Restart();
 
         Task<string> firstFileProcess = this._asyncFileProcessor.ProcessDataAsync(_firstPath);
@@ -131,6 +132,7 @@ internal class AsyncFileHandler
 
         Console.WriteLine($"Time taken to read 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
 
+        Console.WriteLine("Read file asynchronously");
         stopwatch.Restart();
 
         Task firstFileReadBuffer = this._asyncFileProcessor.ReadWithBufferedStream(_firstPath);
@@ -155,6 +157,7 @@ internal class AsyncFileHandler
         stopwatch.Stop();
 
         Console.WriteLine($"Time taken to create 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
+
         Console.WriteLine("Generating file asynchronously");
 
         stopwatch.Restart();
