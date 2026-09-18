@@ -73,9 +73,9 @@ namespace ExpenseTracker.Helper
                     { TransactionType.Income, 100 },
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new DataBaseException();
+                throw new DataBaseException("Failed to load the data - Try again", ex);
             }
         }
     }

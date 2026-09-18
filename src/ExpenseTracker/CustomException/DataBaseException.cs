@@ -8,8 +8,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DataBaseException"/> class.
         /// </summary>
-        public DataBaseException()
-            : base("Failed to load the data - Try again")
+        /// <param name="message">The error message to be displayed.</param>
+        public DataBaseException(string message)
+            : base(message)
         {
         }
 
@@ -17,8 +18,9 @@
         /// Initializes a new instance of the <see cref="DataBaseException"/> class.
         /// </summary>
         /// <param name="message">The error message to be displayed.</param>
-        public DataBaseException(string message)
-            : base(message)
+        /// <param name="ex">Inner exception thrown.</param>
+        public DataBaseException(string message, Exception ex)
+            : base(message, ex)
         {
         }
     }

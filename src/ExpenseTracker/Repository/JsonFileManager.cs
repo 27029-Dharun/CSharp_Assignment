@@ -52,9 +52,9 @@ namespace ExpenseTracker.Repository
 
                 return JsonSerializer.Deserialize<List<Transaction>>(text, this._options) ?? new List<Transaction>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new DataBaseException();
+                throw new DataBaseException("Failed to load the data - Try again", ex);
             }
         }
     }
