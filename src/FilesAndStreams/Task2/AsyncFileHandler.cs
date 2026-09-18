@@ -148,9 +148,9 @@ internal class AsyncFileHandler
 
         Console.WriteLine("Generating file synchronously");
         stopwatch.Start();
-        this._fileProcessor.GenerateFile(_firstPath, 6_00_00_000);
-        this._fileProcessor.GenerateFile(_secondPath, 6_00_00_000);
-        this._fileProcessor.GenerateFile(_thirdPath, 6_00_00_000);
+        this._fileProcessor.GenerateFile(_firstPath, 1_00_00_000);
+        this._fileProcessor.GenerateFile(_secondPath, 1_00_00_000);
+        this._fileProcessor.GenerateFile(_thirdPath, 1_00_00_000);
 
         stopwatch.Stop();
 
@@ -158,9 +158,9 @@ internal class AsyncFileHandler
         Console.WriteLine("Generating file asynchronously");
 
         stopwatch.Restart();
-        Task firstFile = this._asyncFileProcessor.GenerateFileAsync(_firstPath, 6_00_00_000);
-        Task secondFile = this._asyncFileProcessor.GenerateFileAsync(_secondPath, 6_00_00_000);
-        Task thirdFile = this._asyncFileProcessor.GenerateFileAsync(_thirdPath, 6_00_00_000);
+        Task firstFile = this._asyncFileProcessor.GenerateFileAsync(_firstPath, 1_00_00_000);
+        Task secondFile = this._asyncFileProcessor.GenerateFileAsync(_secondPath, 1_00_00_000);
+        Task thirdFile = this._asyncFileProcessor.GenerateFileAsync(_thirdPath, 1_00_00_000);
 
         await Task.WhenAll(firstFile, secondFile, thirdFile);
         stopwatch.Stop();

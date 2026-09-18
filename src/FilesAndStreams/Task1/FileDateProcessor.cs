@@ -38,7 +38,7 @@ internal class FileDateProcessor
         if (!File.Exists(path))
         {
             Console.WriteLine("File not found creating file ...");
-            this.GenerateFile(path, 6_00_00_000);
+            this.GenerateFile(path, 1_00_00_000);
             Console.WriteLine($"File {path} created.");
         }
 
@@ -70,7 +70,7 @@ internal class FileDateProcessor
     {
         if (!File.Exists(path))
         {
-            this.GenerateFile(path, 6_00_00_000);
+            this.GenerateFile(path, 1_00_00_000);
         }
 
         Console.WriteLine($"Reading file with buffered stream {path}");
@@ -175,6 +175,11 @@ internal class FileDateProcessor
             {
                 double value = (random.NextDouble() * 50) - 10;
 
+                writer.WriteLine(value.ToString());
+                writer.WriteLine(value.ToString());
+                writer.WriteLine(value.ToString());
+                writer.WriteLine(value.ToString());
+                writer.WriteLine(value.ToString());
                 writer.WriteLine(value.ToString());
             }
         }
