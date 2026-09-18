@@ -54,7 +54,7 @@ namespace ExpenseTracker.Repository
             }
             catch (Exception ex)
             {
-                throw new DataBaseException("Failed to load the data - Try again", ex);
+                throw new DataBaseException("Failed to load the transaction history - Please try again", ex);
             }
         }
     }
