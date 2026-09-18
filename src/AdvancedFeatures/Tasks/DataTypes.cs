@@ -1,7 +1,7 @@
 ﻿namespace AdvancedFeatures.Tasks;
 
 /// <summary>
-/// Contains the usage of var and dynamic keywords
+/// Contains the usage of var and dynamic keywords.
 /// </summary>
 internal class DataTypes
 {

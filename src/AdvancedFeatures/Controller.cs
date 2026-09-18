@@ -1,4 +1,6 @@
-﻿using AdvancedFeatures.Tasks;
+﻿using AdvancedFeatures.Models;
+using AdvancedFeatures.Tasks;
+using Collections.IO;
 
 namespace AdvancedFeatures;
 
@@ -8,10 +10,70 @@ namespace AdvancedFeatures;
 internal class Controller
 {
     /// <summary>
+    /// Start the execution flow.
+    /// </summary>
+    internal void Run()
+    {
+        string menuOptionPrompt = "Advanced C# Features" +
+            "Task 1\n" +
+            "Task 2\n" +
+            "Task 3\n" +
+            "Task 4\n" +
+            "Task 5\n" +
+            "Task 6\n" +
+            "Task 7\n" +
+            "Exit\n" +
+            "Enter an task to perform: ";
+
+        MenuOption userChoice;
+        do
+        {
+            userChoice = ConsoleIO.GetEnumOption<MenuOption>(menuOptionPrompt);
+            switch (userChoice)
+            {
+                case MenuOption.Task1:
+                    this.HandleTask1();
+                    break;
+
+                case MenuOption.Task2:
+                    this.HandleTask2();
+                    break;
+
+                case MenuOption.Task3:
+                    this.HandleTask3();
+                    break;
+
+                case MenuOption.Task4:
+                    this.HandleTask4();
+                    break;
+
+                case MenuOption.Task5:
+                    this.HandleTask5();
+                    break;
+
+                case MenuOption.Task6:
+                    this.HandleTask6();
+                    break;
+
+                case MenuOption.Task7:
+                    this.HandleTask7();
+                    break;
+
+                case MenuOption.Exit:
+                    break;
+            }
+
+            ConsoleIO.PauseAndClear();
+        }
+        while (userChoice != MenuOption.Exit);
+    }
+
+    /// <summary>
     /// Handles the events and delegates concept.
     /// </summary>
-    internal void HandleEventsAndDelegate()
+    internal void HandleTask1()
     {
+        ConsoleIO.PrintHeader("Task 1 - Events and delegates");
         Notifier notifier = new Notifier();
         notifier.OnAction += this.DisplayMessage;
         notifier.OnAction += this.NotifyUser;
@@ -19,33 +81,158 @@ internal class Controller
     }
 
     /// <summary>
-    /// Handles var and delegates
+    /// Handles var and delegates.
     /// </summary>
-    internal void HandleVarAndDynamic()
+    internal void HandleTask2()
     {
+        ConsoleIO.PrintHeader("Task 2 - Var And dynamic keyword");
         DataTypes dataTypes = new DataTypes();
-
         dataTypes.VarAndDelegateDemonstration();
     }
 
     /// <summary>
     /// Handles sort array operation.
     /// </summary>
-    internal void HandleSort()
+    internal void HandleTask3()
     {
+        ConsoleIO.PrintHeader("Task 3 - Anonymous Method");
         AnonymousMethod anonymousMethod = new AnonymousMethod();
         anonymousMethod.SortArray();
+    }
+
+    /// <summary>
+    /// Handles list manipulation.
+    /// </summary>
+    internal void HandleTask4()
+    {
+        ConsoleIO.PrintHeader("Task 4 - Events and delegates");
+        ConsoleIO.PrintHeader("Lambda Expression");
+        LambdaExpressions lambdaExpressions = new LambdaExpressions();
+        lambdaExpressions.ManipulateList();
+    }
+
+    /// <summary>
+    /// Handles sorting operation.
+    /// </summary>
+    internal void HandleTask5()
+    {
+        ConsoleIO.PrintHeader("Task 5 - Events and delegates");
+        ConsoleIO.PrintHeader("Sorting with delegates");
+        SortingWithDelegates sorting = new SortingWithDelegates();
+
+        List<Product> products = new List<Product>
+        {
+            new Product("Apple", "Fruit", 200m),
+            new Product("Laptop", "Electronics", 52000m),
+            new Product("Chair", "Furniture", 8500m),
+            new Product("Coffee Maker", "Appliances", 5500m),
+            new Product("Notebook", "Stationery", 50m),
+            new Product("T-shirt", "Clothing", 500m),
+        };
+
+        ConsoleIO.PrintInfo("\nSorting by name of the products\n");
+        sorting.SortProducts(products, sorting.SortByName);
+
+        ConsoleIO.PrintInfo("\nSorting by category of the products\n");
+        sorting.SortProducts(products, sorting.SortByCategory);
+
+        ConsoleIO.PrintInfo("\nSorting by price of the products\n");
+        sorting.SortProducts(products, sorting.SortByPrice);
+    }
+
+    /// <summary>
+    /// Handles record task
+    /// </summary>
+    internal void HandleTask6()
+    {
+        ConsoleIO.PrintHeader("Task 6 - Record");
+
+        // Creating record instance.
+        Book book1 = new Book("The Alchemist", "Paulo Coelho", "978-0061122415");
+        Book book2 = new Book("Clean Code", "Robert C. Martin", "978-0132350884");
+
+        // Records support positional syntax, allows to define properties and constructors concisely in a single line
+        ConsoleIO.PrintInfo($"Checking value equality for record: {book1.author == book2.author}");
+
+        // Can't modify the record because by default all the properties are get-init.
+        // book1.Title = " ";
+        Book updatedBook = book1 with { title = "The Pilgrimage" };
+
+        // Print both to show immutability
+        ConsoleIO.PrintInfo("Original Book:");
+        this.DisplayBook(book1);
+
+        ConsoleIO.PrintInfo("\nUpdated Book:");
+        this.DisplayBook(updatedBook);
+    }
+
+    /// <summary>
+    /// Creates shape and calculates their area
+    /// </summary>
+    internal void HandleTask7()
+    {
+        ConsoleIO.PrintHeader("Task 7 - Calculate Shape Area");
+        List<Shape> shapes = new List<Shape>
+        {
+            new Circle("Red", 12),
+            new Rectangle("Red", 12, 3),
+            new Triangle("Green", 12, 5),
+        };
+
+        foreach (var shape in shapes)
+        {
+            this.DisplayShapeDetails(shape);
+        }
+    }
+
+    private void DisplayShapeDetails(Shape shape)
+    {
+        switch (shape)
+        {
+            case Circle c:
+
+                ConsoleIO.PrintInfo("Shape: Circle");
+                ConsoleIO.PrintInfo("Color: " + c.Color);
+                ConsoleIO.PrintInfo("Radius: " + c.Radius);
+                ConsoleIO.PrintInfo("Area: " + c.CalculateArea());
+                break;
+
+            case Rectangle r:
+                ConsoleIO.PrintInfo("Shape: Rectangle");
+                ConsoleIO.PrintInfo("Color: " + r.Color);
+                ConsoleIO.PrintInfo("Length: " + r.Length);
+                ConsoleIO.PrintInfo("Width: " + r.Width);
+                ConsoleIO.PrintInfo("Area: " + r.CalculateArea());
+                break;
+
+            case Triangle t:
+                ConsoleIO.PrintInfo("Shape: Rectangle");
+                ConsoleIO.PrintInfo("Color: " + t.Color);
+                ConsoleIO.PrintInfo("Height: " + t.Height);
+                ConsoleIO.PrintInfo("Width: " + t.Base);
+                ConsoleIO.PrintInfo("Area: " + t.CalculateArea());
+                break;
+        }
+    }
+
+    private void DisplayBook(Book book1)
+    {
+        var (title, author, isbn) = book1;
+
+        ConsoleIO.PrintInfo($"Title: {title}");
+        ConsoleIO.PrintInfo($"Author: {author}");
+        ConsoleIO.PrintInfo($"ISBN: {isbn}");
     }
 
     /// <summary>
     /// Display the greeting message to the user.
     /// </summary>
     /// <param name="userName">The name of the user.</param>
-    internal void DisplayMessage(string userName) => Console.WriteLine($"Hello, {userName}");
+    private void DisplayMessage(string userName) => ConsoleIO.PrintInfo($"Hello, {userName}");
 
     /// <summary>
     /// Display the notification to the user.
     /// </summary>
     /// <param name="userName">The name of the user.</param>
-    internal void NotifyUser(string userName) => Console.WriteLine($"Notified {userName}");
+    private void NotifyUser(string userName) => ConsoleIO.PrintInfo($"Notified {userName}");
 }

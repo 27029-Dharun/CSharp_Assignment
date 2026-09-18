@@ -5,13 +5,10 @@
     /// </summary>
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             Controller controller = new Controller();
-            //controller.HandleEventsAndDelegate();
-            controller.HandleSort();
-            //controller.HandleVarAndDynamic();
-            Console.ReadKey();
+            controller.Run();
         }
     }
 }
