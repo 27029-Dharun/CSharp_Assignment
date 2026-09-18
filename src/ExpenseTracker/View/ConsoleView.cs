@@ -1,5 +1,7 @@
-﻿using ConsoleTables;
+﻿using System.Globalization;
+using ConsoleTables;
 using ExpenseTracker.Constants;
+using ExpenseTracker.DTOs;
 using ExpenseTracker.Models;
 using ExpenseTracker.Validators;
 
@@ -17,6 +19,14 @@ namespace ExpenseTracker.View
         public void PrintInfo(string message)
         {
             Console.WriteLine(message);
+        }
+
+        /// <summary>
+        /// Prints an empty line.
+        /// </summary>
+        public void PrintEmptyLine()
+        {
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -61,7 +71,7 @@ namespace ExpenseTracker.View
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>decimal input.</returns>
-        public string GetAmount(bool isEditMode = false)
+        public decimal GetAmount(bool isEditMode = false)
         {
             string input = this.GetValidatedInput(
                 "Enter the amount involved in the transaction: ",
@@ -69,7 +79,13 @@ namespace ExpenseTracker.View
                 TransactionValidator.IsValidAmount,
                 $"Invalid amount.Please enter a valid amount greater than {Configurable.MinimumAmount}.");
 
-            return input;
+            // Only returns a empty string in edit mode.
+            if (string.IsNullOrEmpty(input))
+            {
+                return Configurable.ExistingPriceValue;
+            }
+
+            return decimal.Parse(input);
         }
 
         /// <summary>
@@ -77,7 +93,7 @@ namespace ExpenseTracker.View
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>DateTime value entered by user.</returns>
-        public string GetDate(bool isEditMode = false)
+        public DateTime GetDate(bool isEditMode = false)
         {
             string input = this.GetValidatedInput(
                 $"Enter a date in format ({Configurable.DateFormat}): ",
@@ -85,7 +101,13 @@ namespace ExpenseTracker.View
                 TransactionValidator.IsValidDate,
                 $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
 
-            return input;
+            // Only returns a empty string in edit mode.
+            if (string.IsNullOrEmpty(input))
+            {
+                return DateTime.Parse(Configurable.ExistingDate, CultureInfo.InvariantCulture, DateTimeStyles.None);
+            }
+
+            return DateTime.Parse(input, CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
 
         /// <summary>
@@ -179,6 +201,40 @@ namespace ExpenseTracker.View
         }
 
         /// <summary>
+        /// Prints the summary of all the transactions with visualizations.
+        /// </summary>
+        /// <param name="summary">Summary instance that contains the summary of all the transactions.</param>
+        public void PrintSummary(TransactionSummary summary)
+        {
+            Console.WriteLine("\nIncome vs expense");
+            this.PrintBarChart(new Dictionary<string, decimal>()
+            {
+                { "Income", summary.Income },
+                { "Expense", summary.Expense },
+            });
+
+            if (summary.ExpenseCategoryTotals != null && summary.ExpenseCategoryTotals.Count > 0)
+            {
+                Console.WriteLine("\nCategory wise expense");
+                this.PrintBarChart(summary.ExpenseCategoryTotals);
+            }
+            else
+            {
+                this.PrintInfo("No expense recorded");
+            }
+
+            if (summary.IncomeCategoryTotals != null && summary.IncomeCategoryTotals.Count > 0)
+            {
+                Console.WriteLine("\nCategory wise income");
+                this.PrintBarChart(summary.IncomeCategoryTotals);
+            }
+            else
+            {
+                this.PrintInfo("No income recorded");
+            }
+        }
+
+        /// <summary>
         /// Waits for user to press a key and clears the console.
         /// </summary>
         public void PauseAndReturn()
@@ -189,6 +245,24 @@ namespace ExpenseTracker.View
             // Erases the entire scroll back buffer history
             Console.Write("\x1b[3J");
             Console.Clear();
+        }
+
+        private void PrintBarChart(Dictionary<string, decimal> categoryTotals)
+        {
+            decimal maxValue = categoryTotals.Values.Max();
+            int maxPad = categoryTotals.Keys.Max(key => key.Length);
+            int maxBarLength = Configurable.MaxBarLength;
+
+            foreach (var item in categoryTotals)
+            {
+                int barLength = (int)(item.Value * maxBarLength / maxValue) + 1;
+
+                Console.Write($"{item.Key,-10} ");
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.Write($" {new string(' ', barLength)}");
+                Console.ResetColor();
+                Console.WriteLine($" {item.Value}\n");
+            }
         }
 
         private void PrintColoredText(string message, ConsoleColor color)

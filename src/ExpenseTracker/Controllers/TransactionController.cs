@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.DTOs;
+﻿using ExpenseTracker.Constants;
+using ExpenseTracker.DTOs;
 using ExpenseTracker.Models;
 using ExpenseTracker.Services;
 using ExpenseTracker.View;
@@ -19,8 +20,10 @@ namespace ExpenseTracker.Controllers
                 "[3] Delete Transaction\n" +
                 "[4] View Financial Summary\n" +
                 "[5] View History / Transactions\n" +
-                "[6] Exit Application\n\n" +
-                "Please enter your choice (1-6): ";
+                "[6] Search Transaction\n" +
+                "[7] Sort Transaction\n" +
+                "[8] Exit Application\n\n" +
+                "Please enter your choice (1-8): ";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
@@ -43,18 +46,22 @@ namespace ExpenseTracker.Controllers
             {
                 option = this._view.GetEnumValue<TransactionMenu>(this._menuMessage);
                 this._view.ClearConsole();
+                if (option == TransactionMenu.Exit)
+                {
+                    return;
+                }
 
                 try
                 {
-                    this.HandleMenu(option);
+                    this.ProcessMenuSelection(option);
                 }
                 catch (InvalidDataException ex)
                 {
-                    this._view.PrintInfo(ex.Message);
+                    this._view.PrintInfo($"{ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    this._view.PrintInfo(ex.Message);
+                    this._view.PrintInfo($"An unexpected error occurred: {ex.Message}");
                 }
 
                 this._view.PauseAndReturn();
@@ -65,7 +72,7 @@ namespace ExpenseTracker.Controllers
         /// Handles the menu returns from the application runner.
         /// </summary>
         /// <param name="menu">Menu option selected from the user.</param>
-        public void HandleMenu(TransactionMenu menu)
+        private void ProcessMenuSelection(TransactionMenu menu)
         {
             switch (menu)
             {
@@ -89,8 +96,13 @@ namespace ExpenseTracker.Controllers
                     this.ViewTransaction();
                     break;
 
-                case TransactionMenu.Exit:
-                    return;
+                case TransactionMenu.SearchTransaction:
+                    this.SearchTransaction();
+                    break;
+
+                case TransactionMenu.SortTransaction:
+                    this.SortTransactionByAmount();
+                    break;
             }
         }
 
@@ -173,6 +185,11 @@ namespace ExpenseTracker.Controllers
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+            this._view.PrintEmptyLine();
+            this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
+            this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
+
+            this._view.PrintSummary(summary);
         }
 
         private void EditTransaction()
@@ -247,16 +264,16 @@ namespace ExpenseTracker.Controllers
                 transaction.Category = category;
             }
 
-            string amount = this._view.GetAmount(true);
-            if (!string.IsNullOrWhiteSpace(amount))
+            decimal amount = this._view.GetAmount(true);
+            if (amount != Configurable.ExistingPriceValue)
             {
-                transaction.Amount = decimal.Parse(amount);
+                transaction.Amount = amount;
             }
 
-            string date = this._view.GetDate(true);
-            if (!string.IsNullOrWhiteSpace(date))
+            DateTime date = this._view.GetDate(true);
+            if (date != DateTime.Parse(Configurable.ExistingDate))
             {
-                transaction.Date = DateTime.Parse(date);
+                transaction.Date = date;
             }
 
             string description = this._view.GetDescription(true);
@@ -264,6 +281,53 @@ namespace ExpenseTracker.Controllers
             {
                 transaction.Description = description;
             }
+        }
+
+        private void SortTransactionByAmount()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to sort.");
+                return;
+            }
+
+            SortOption option = this._view.GetEnumValue<SortOption>("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to search.");
+                return;
+            }
+
+            SearchTransactionOption option = this._view.GetEnumValue<SearchTransactionOption>("1. Category\n2. Date\nSelect the field to search with: ");
+            IReadOnlyList<Transaction> filteredTransactions;
+
+            if (option == SearchTransactionOption.Category)
+            {
+                string category = this._view.GetCategory();
+                filteredTransactions = this._service.SearchByCategory(category);
+            }
+            else
+            {
+                DateTime date = this._view.GetDate();
+                filteredTransactions = this._service.SearchByDate(date);
+            }
+
+            if (!filteredTransactions.Any())
+            {
+                this._view.PrintInfo("No matched transactions found");
+                return;
+            }
+
+            this._view.PrintTransactionTable(filteredTransactions);
         }
 
         /// <summary>
@@ -274,8 +338,8 @@ namespace ExpenseTracker.Controllers
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
             string category = this._view.GetCategory();
-            decimal amount = decimal.Parse(this._view.GetAmount());
-            DateTime date = DateTime.Parse(this._view.GetDate());
+            decimal amount = this._view.GetAmount();
+            DateTime date = this._view.GetDate();
             string description = this._view.GetDescription();
 
             // Creates the transaction DTO

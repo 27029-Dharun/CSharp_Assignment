@@ -5,7 +5,7 @@ namespace ExpenseTracker.Repository
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving transaction entities.
     /// </summary>
-    public interface IRepository
+    public interface ITransactionRepository
     {
         /// <summary>
         /// Add a transaction to existing list.
@@ -36,32 +36,47 @@ namespace ExpenseTracker.Repository
         /// </summary>
         /// <param name="editedTransaction">The edited transaction.</param>
         /// <returns>True if edited; otherwise false.</returns>
-        public bool Edit(Transaction editedTransaction);
+        bool Edit(Transaction editedTransaction);
 
         /// <summary>
         /// Fetches all the expense from the repository.
         /// </summary>
         /// <returns>Returns the transactions that are expenses.</returns>
-        public IReadOnlyList<Transaction> GetExpense();
+        IReadOnlyList<Transaction> GetExpense();
 
         /// <summary>
         /// Fetches all the income from the repository.
         /// </summary>
         /// <returns>Returns the transactions that are income.</returns>
-        public IReadOnlyList<Transaction> GetIncome();
+        IReadOnlyList<Transaction> GetIncome();
 
         /// <summary>
         /// Gets the transaction copy by id.
         /// </summary>
         /// <param name="id">ID of the transaction.</param>
         /// <returns>A new transaction copy with same ID.</returns>
-        public Transaction? GetTransactionCopy(string id);
+        Transaction? GetTransactionCopy(string id);
 
         /// <summary>
         /// Returns if the id is valid or not.
         /// </summary>
         /// <param name="id">ID of the transaction.</param>
         /// <returns>True if the ID is valid; otherwise false.</returns>
-        public bool IsValidId(string id);
+        bool IsValidId(string id);
+
+        /// <summary>
+        /// Search the transaction by date and category.
+        /// </summary>
+        /// <param name="value">A predicate condition to search.</param>
+        /// <returns>A list containing the list that matched the query text.</returns>
+        IReadOnlyList<Transaction> Search(Func<Transaction, bool> value);
+
+        /// <summary>
+        /// Sorts the transaction by type.
+        /// </summary>
+        /// <param name="type">The type of the transactions to sort.</param>
+        /// <param name="option">Option to sort the transaction.</param>
+        /// <returns>A sorted order of the transaction.</returns>
+        IReadOnlyList<Transaction> Sort(TransactionType type, SortOption option);
     }
 }
