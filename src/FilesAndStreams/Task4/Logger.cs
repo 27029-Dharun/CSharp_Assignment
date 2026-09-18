@@ -48,11 +48,11 @@ internal class Logger
             Directory.CreateDirectory("Logs");
         }
 
-        string filePath = Path.Combine("Logs", $"{userId}Log.txt");
+        string filePath = Path.Combine("Logs", $"User{userId}Log.txt");
 
         string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {errorMessage}\n";
         Console.WriteLine("Logging error ...");
-        using (FileStream stream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write))
+        using (FileStream stream = new FileStream(filePath, FileMode.Append, FileAccess.Write))
         {
             byte[] buffer = Encoding.UTF8.GetBytes(logMessage);
             stream.Write(buffer, 0, buffer.Length);
@@ -64,13 +64,13 @@ internal class Logger
     /// <summary>
     /// Logs error from different user at a time.
     /// </summary>
-    /// <returns>A asynchronous task that writes into logger file.</returns>
-    internal async Task LogErrors()
+    internal void LogErrors()
     {
-        await Task.WhenAll(
-             this.LogError("Database connection failed"),
-             this.LogError("Invalid user input"),
-             this.LogError("File not found"));
+        Console.WriteLine("Writing log in same file for all users");
+        Parallel.For(0, 20, i =>
+        {
+            Task.Run(() => this.LogError("Database connection failed"));
+        });
     }
 
     /// <summary>
@@ -78,9 +78,10 @@ internal class Logger
     /// </summary>
     internal void LogErrorsAtDifferentTask()
     {
-        for (int i = 0; i < 15; i++)
+        Console.WriteLine("Writing log in different file for each users");
+        Parallel.For(0, 20, i =>
         {
-            this.LogErrorForEachUser("Database connection failed", $"{i}");
-        }
+            Task.Run(() => this.LogErrorForEachUser("Database connection failed", $"{i}"));
+        });
     }
 }
