@@ -1,0 +1,36 @@
+﻿namespace Assignment2.Models.EmployeeHierarchy
+{
+    /// <summary>
+    /// Represents a manager and contain bonus calculation logic.
+    /// </summary>
+    internal class Manager : Employee
+    {
+        private const decimal ManagerBonusRate = 0.15M;
+        private const string _position = "Manager";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Manager"/> class.
+        /// </summary>
+        /// <param name="name">Name of the manager.</param>
+        /// <param name="salary">Salary of the manager.</param>
+        internal Manager(string name, decimal salary)
+            : base(name, salary)
+        {
+        }
+
+        /// <summary>
+        /// Calculates the bonus for the manager.
+        /// </summary>
+        /// <returns>A decimal bonus value of the manager.</returns>
+        internal override decimal CalculateBonus()
+        {
+            return this.Salary * ManagerBonusRate;
+        }
+
+        /// <summary>
+        /// Creates a string with the details of the employee.
+        /// </summary>
+        /// <returns>A string with the name and salary of Employee.</returns>
+        internal override string PrintDetails() => $"Name: {this.Name}\nPosition: {_position}\nSalary: {this.Salary}\nBonus: {this.CalculateBonus()}\n";
+    }
+}

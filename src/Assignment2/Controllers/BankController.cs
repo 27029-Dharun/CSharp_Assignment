@@ -1,0 +1,162 @@
+﻿using Assignment2.Models.BankingSystem;
+using Assignment2.Models.Enums;
+using Assignment2.Services;
+using Assignment2.Views;
+
+namespace Assignment2.Controllers
+{
+    /// <summary>
+    /// Manages banking system, connect view and shape service.
+    /// </summary>
+    internal class BankController
+    {
+        private readonly BankService _bankService;
+        private readonly ConsoleView _view;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BankController"/> class.
+        /// </summary>
+        /// <param name="view">Instance of the view</param>
+        /// <param name="bankService">Instance of bank service.</param>
+        internal BankController(ConsoleView view, BankService bankService)
+        {
+            this._view = view;
+            this._bankService = bankService;
+        }
+
+        /// <summary>
+        /// Serves as entry point of the banking system.
+        /// Starts the execution flow for the banking system.
+        /// </summary>
+        internal void BankOperations()
+        {
+            BankOperation option;
+            while (true)
+            {
+                option = this._view.GetEnumOption<BankOperation>("Select Option to continue\n1. Create Bank Account\n2. LogIn to an existing Account\n3. Back\n");
+                this._view.ClearConsole();
+                switch (option)
+                {
+                    case BankOperation.Add:
+                        this.CreateNewAccount();
+                        break;
+
+                    case BankOperation.LogIn:
+                        this.LogIn();
+                        break;
+
+                    case BankOperation.Back:
+                        return;
+
+                    default:
+                        this._view.PrintInfo("Enter a valid input in range 1-3");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Prompts user for data and creates a bank account.
+        /// </summary>
+        private void CreateNewAccount()
+        {
+            this._view.DisplayNote();
+            string name = this._view.GetName("Enter your Name: ");
+            AccountType type = this._view.GetEnumOption<AccountType>("\nSelect Your Account Type\n1. Saving Account\n2. Checkings Account\n");
+            decimal initialAmount = this._view.GetAmount("\nEnter Initial Amount to create a account: ");
+            if (type == AccountType.SavingsAccount)
+            {
+                this._view.PrintInfo(this._bankService.CreateSavingsAccount(name, initialAmount));
+            }
+            else if (type == AccountType.CheckingsAccount)
+            {
+                this._view.PrintInfo(this._bankService.CreateCheckingAccount(name, initialAmount));
+            }
+            else
+            {
+                this._view.PrintInfo("Invalid type of account.");
+            }
+        }
+
+        /// <summary>
+        /// Login into user account using account number.
+        /// </summary>
+        private void LogIn()
+        {
+            string accountNumber = this._view.GetAccountNumber("Enter the account number to LogIn: ");
+
+            if (!this._bankService.LoginToAccount(accountNumber))
+            {
+                this._view.PrintInfo("Invalid Account number, Login failed");
+                return;
+            }
+
+            this._view.PrintInfo("Hello, " + this._bankService.GetName(accountNumber));
+            LogInOperation option;
+            while (true)
+            {
+                option = this._view.GetEnumOption<LogInOperation>("Select the operation to continue\n1. Check Balance\n2. Withdraw Amount\n3. Deposit Amount\n4. Log Out\n");
+                this._view.ClearConsole();
+                switch (option)
+                {
+                    case LogInOperation.CheckBalance:
+                        this.DisplayBalance(accountNumber);
+                        break;
+
+                    case LogInOperation.Withdraw:
+                        this.WithdrawAmount(accountNumber);
+                        break;
+
+                    case LogInOperation.Deposit:
+                        this.DepositAmount(accountNumber);
+                        break;
+
+                    case LogInOperation.Logout:
+                        return;
+
+                    default:
+                        this._view.PrintInfo("The number should be in range 1-4");
+                        break;
+                }
+
+                this._view.PauseAndReturn();
+            }
+        }
+
+        /// <summary>
+        /// Performs deposit operation.
+        /// </summary>
+        /// <param name="accountNumber">Account number of the account.</param>
+        private void DepositAmount(string accountNumber)
+        {
+            decimal depositAmount = this._view.GetAmount("Enter amount to deposit: ");
+            this._view.PrintInfo(this._bankService.DepositAmount(accountNumber, depositAmount));
+        }
+
+        /// <summary>
+        /// Performs withdraw operation.
+        /// </summary>
+        /// <param name="accountNumber">Account number of the account.</param>
+        private void WithdrawAmount(string accountNumber)
+        {
+            decimal withdrawAmount = this._view.GetAmount("Enter amount to withdraw: ");
+            this._view.PrintInfo(this._bankService.WithdrawAmount(accountNumber, withdrawAmount));
+        }
+
+        /// <summary>
+        /// Displays bank account balance.
+        /// </summary>
+        /// <param name="accountNumber">Account number.</param>
+        private void DisplayBalance(string accountNumber)
+        {
+            BankAccount? account = this._bankService.GetAccountByAccountNumber(accountNumber);
+            if (account is null)
+            {
+                this._view.PrintInfo("Account not Found");
+                return;
+            }
+
+            this._view.PrintBalance(account);
+        }
+    }
+}
