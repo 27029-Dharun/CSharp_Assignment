@@ -3,14 +3,14 @@
 /// <summary>
 /// Contains the view level operations
 /// </summary>
-public static class ConsoleIO
+internal static class ConsoleIO
 {
     /// <summary>
     /// Displays the message and gets the input from the user.
     /// </summary>
     /// <param name="message">Message to be printed.</param>
     /// <returns>A string value entered by the user.</returns>
-    public static string GetString(string message)
+    internal static string GetString(string message)
     {
         Console.Write(message);
 
@@ -24,7 +24,7 @@ public static class ConsoleIO
     /// <typeparam name="T">Generics type parameter which accepts all Enum type.</typeparam>
     /// <param name="prompt">Prompt displayed to the user.</param>
     /// <returns>The enum type to parse and validate.</returns>
-    public static T GetEnumOption<T>(string prompt)
+    internal static T GetEnumOption<T>(string prompt)
         where T : struct, Enum
     {
         while (true)
@@ -44,7 +44,7 @@ public static class ConsoleIO
     /// Prints the a center aligned text in the console.
     /// </summary>
     /// <param name="message">Message to be printed</param>
-    public static void PrintHeader(string message)
+    internal static void PrintHeader(string message)
     {
         int width = Console.WindowWidth;
         int padding = Math.Max((width - message.Length) / 2, 0);
@@ -58,7 +58,7 @@ public static class ConsoleIO
     /// Prints the message in the console.
     /// </summary>
     /// <param name="message">The message to be printed</param>
-    public static void PrintInfo(string message)
+    internal static void PrintInfo(string message)
     {
         Console.WriteLine($"{message}");
     }
@@ -66,7 +66,7 @@ public static class ConsoleIO
     /// <summary>
     /// Pause and clear the console after entering a key
     /// </summary>
-    public static void PauseAndClear()
+    internal static void PauseAndClear()
     {
         Console.WriteLine("Press any key to clear");
         Console.ReadKey();

@@ -11,7 +11,7 @@ internal class Product
     /// <param name="name">The name of the product.</param>
     /// <param name="category">The category of the product.</param>
     /// <param name="price">The price of the product.</param>
-    public Product(string name, string category, decimal price)
+    internal Product(string name, string category, decimal price)
     {
         this.Name = name;
         this.Category = category;

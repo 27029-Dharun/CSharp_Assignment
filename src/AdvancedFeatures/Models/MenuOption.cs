@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains the menu options.
 /// </summary>
-public enum MenuOption
+internal enum MenuOption
 {
     /// <summary>
     /// Specifies task 1.
