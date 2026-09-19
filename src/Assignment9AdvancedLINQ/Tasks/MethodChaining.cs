@@ -55,7 +55,7 @@ namespace Assignment9AdvancedLINQ.Tasks
         {
             ConsoleIO.PrintInfo("Product containing Lap");
             List<Product> productContainingLap = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, FilterCondition.Contains, "Lap")
+                .Filter(product => product.ProductName, FilterCondition.Contains, "Lap")
                 .Execute();
             this.DisplayProducts(productContainingLap);
         }
@@ -64,7 +64,7 @@ namespace Assignment9AdvancedLINQ.Tasks
         {
             ConsoleIO.PrintInfo("Product ending with letter t");
             List<Product> productsEndingWithT = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, FilterCondition.EndsWith, "t")
+                .Filter(product => product.ProductName, FilterCondition.EndsWith, "t")
                 .Execute();
 
             this.DisplayProducts(productsEndingWithT);
@@ -74,7 +74,7 @@ namespace Assignment9AdvancedLINQ.Tasks
         {
             ConsoleIO.PrintInfo("Product starting with letter L");
             List<Product> productsStartingWithL = new QueryBuilder<Product>(products)
-                .Filter(p => p.ProductName, FilterCondition.StartsWith, "L")
+                .Filter(product => product.ProductName, FilterCondition.StartsWith, "L")
                 .Execute();
 
             this.DisplayProducts(productsStartingWithL);
