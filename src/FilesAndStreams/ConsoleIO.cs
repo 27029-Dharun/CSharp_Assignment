@@ -28,9 +28,9 @@ internal static class ConsoleIO
         while (true)
         {
             string input = GetString(prompt);
-            if (int.TryParse(input, out int grade))
+            if (int.TryParse(input, out int interger))
             {
-                return grade;
+                return interger;
             }
 
             Console.Clear();

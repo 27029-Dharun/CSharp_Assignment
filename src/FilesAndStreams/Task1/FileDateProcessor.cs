@@ -8,7 +8,6 @@ namespace FilesAndStreams.Task1;
 /// </summary>
 internal class FileDateProcessor
 {
-
     /// <summary>
     /// Generates a randomized temperature entries.
     /// </summary>

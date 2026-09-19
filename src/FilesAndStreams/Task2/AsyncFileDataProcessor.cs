@@ -9,6 +9,35 @@ namespace FilesAndStreams.Task2;
 internal class AsyncFileDataProcessor
 {
     /// <summary>
+    /// Asynchronously generates a randomized temperature entries.
+    /// </summary>
+    /// <param name="path">The target file path where the mock data will be written.</param>
+    /// <param name="numberOfLines">The total count of randomized entries to generate.</param>
+    /// <returns>A task that represents the asynchronous file creation process.</returns>
+    internal async Task GenerateFileAsync(string path, int numberOfLines)
+    {
+        Console.WriteLine($"Started creating {path}");
+
+        using (FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
+        {
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                Random random = Random.Shared;
+
+                for (int i = 0; i < numberOfLines; i++)
+                {
+                    double value = (random.NextDouble() * 30) + 10;
+                    writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
+                }
+
+                await writer.FlushAsync();
+            }
+        }
+
+        Console.WriteLine($"{path} file created.");
+    }
+
+    /// <summary>
     /// Asynchronously reads a file using a buffered stream to track total byte metrics.
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
@@ -41,35 +70,6 @@ internal class AsyncFileDataProcessor
         }
 
         Console.WriteLine($"Completed reading {path}");
-    }
-
-    /// <summary>
-    /// Asynchronously generates a randomized temperature entries.
-    /// </summary>
-    /// <param name="path">The target file path where the mock data will be written.</param>
-    /// <param name="numberOfLines">The total count of randomized entries to generate.</param>
-    /// <returns>A task that represents the asynchronous file creation process.</returns>
-    internal async Task GenerateFileAsync(string path, int numberOfLines)
-    {
-        Console.WriteLine($"Started creating {path}");
-
-        using (FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
-        {
-            using (StreamWriter writer = new StreamWriter(stream))
-            {
-                Random random = Random.Shared;
-
-                for (int i = 0; i < numberOfLines; i++)
-                {
-                    double value = (random.NextDouble() * 30) + 10;
-                    writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
-                }
-
-                await writer.FlushAsync();
-            }
-        }
-
-        Console.WriteLine($"{path} file created.");
     }
 
     /// <summary>
