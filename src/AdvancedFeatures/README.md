@@ -122,11 +122,11 @@ This task demonstrates the use of **Type Pattern Matching** inside a `switch` st
 
 ```csharp
 if (shape is Circle) { 
-    Circle c = (Circle)shape;
+    Circle circle = (Circle)shape;
 }
 ```
 
-With modern C# Type Pattern Matching (`case Circle c:`), the compiler performs a **two-in-one check**. It verifies if the `shape` variable is a `Circle`. If true, it safely unboxes it and casts it directly into a local variable named **`c`** which is instantly ready for use within that `case` scope block.
+With modern C# Type Pattern Matching (`case Circle circle:`), the compiler performs a **two-in-one check**. It verifies if the `shape` variable is a `Circle`. If true, it safely unboxes it and casts it directly into a local variable named **`circle`** which is instantly ready for use within that `case` scope block.
 
 ```csharp
 
