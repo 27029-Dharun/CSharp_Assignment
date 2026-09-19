@@ -177,10 +177,10 @@ internal class Controller
         Book duplicateOfBook2 = new Book("Clean Code", "Robert C. Martin", "978-0132350884");
 
         // Records support positional syntax, allows to define properties and constructors concisely in a single line
-        ConsoleIO.PrintInfo($"Checking value equality for record with different property: {book1 == book2}");
+        ConsoleIO.PrintInfo($"Checking value equality for record with different property value: {book1 == book2}");
         ConsoleIO.PrintInfo($"Checking equality for record with `.Equals()`: {book1.Equals(book2)}\n");
 
-        ConsoleIO.PrintInfo($"Checking value equality for record with different property: {duplicateOfBook2 == book2}");
+        ConsoleIO.PrintInfo($"Checking value equality for record with same property value: {duplicateOfBook2 == book2}");
         ConsoleIO.PrintInfo($"Checking equality for record with `.Equals()`: {duplicateOfBook2.Equals(book2)}\n");
 
         // Can't modify the record because by default all the properties are get-init.
