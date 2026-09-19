@@ -1,4 +1,4 @@
-﻿namespace Collections.IO;
+﻿namespace AdvancedFeatures.IO;
 
 /// <summary>
 /// Contains the view level operations
@@ -13,6 +13,7 @@ public static class ConsoleIO
     public static string GetString(string message)
     {
         Console.Write(message);
+
         string input = (Console.ReadLine() ?? string.Empty).Trim();
         return input;
     }
