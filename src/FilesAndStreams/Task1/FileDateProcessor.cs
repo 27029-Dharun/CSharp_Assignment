@@ -8,24 +8,27 @@ namespace FilesAndStreams.Task1;
 /// </summary>
 internal class FileDateProcessor
 {
+
     /// <summary>
-    /// Writes a text string to a file using an intermediate memory buffer.
+    /// Generates a randomized temperature entries.
     /// </summary>
-    /// <param name="path">The destination path of the file to create or overwrite.</param>
-    /// <param name="data">The text data to encode and write into the file.</param>
-    internal void WriteProcessedString(string path, string data)
+    /// <param name="path">The target file path where the mock data will be written.</param>
+    /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
+    internal void GenerateFile(string path, int numberOfValues)
     {
-        using (MemoryStream stream = new MemoryStream())
+        Console.WriteLine($"Generating file {path} ...");
+        using (StreamWriter writer = new StreamWriter(path))
         {
-            byte[] array = Encoding.UTF8.GetBytes(data);
-            stream.Write(array, 0, array.Length);
+            Random random = new Random();
 
-            // Reset the position after writing.
-            stream.Position = 0;
-
-            using FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(fileStream);
+            for (int i = 0; i < numberOfValues; i++)
+            {
+                double value = (random.NextDouble() * 30) + 10;
+                writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
+            }
         }
+
+        Console.WriteLine($"Generated file {path}.");
     }
 
     /// <summary>
@@ -97,89 +100,106 @@ internal class FileDateProcessor
     }
 
     /// <summary>
-    /// Process a text file containing numerical data to compute statistical temperature metrics.
+    /// Process the data from the file synchronously.
     /// </summary>
-    /// <param name="path">The target file path containing the dataset to process.</param>
-    /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
-    internal string ProcessData(string path)
+    /// <param name="inputPath">The input path of the file.</param>
+    /// <param name="outputPath">The path to store the processed file.</param>
+    internal void ProcessAndWrite(string inputPath, string outputPath)
     {
-        Console.WriteLine($"Processing {path}");
+        Console.WriteLine($"Started processing {inputPath}");
 
-        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+        using (FileStream stream = new FileStream(inputPath, FileMode.Open, FileAccess.Read))
+        using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
         {
-            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
+            byte[] buffer = new byte[4 * 1024];
+            int charsRead;
+
+            double maxTemperature = double.MinValue;
+            double minTemperature = double.MaxValue;
+            int count = 0;
+            double sum = 0;
+            string remainingText = string.Empty;
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            while ((charsRead = bufferedStream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                byte[] buffer = new byte[4 * 1024];
-                int charsRead;
+                string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
+                remainingText += chunk;
 
-                double maxTemperature = double.MinValue;
-                double minTemperature = double.MaxValue;
+                string[] entry = remainingText.Split("\n");
+                remainingText = entry[^1];
 
-                int count = 0;
-                double sum = 0;
-
-                string remainingText = string.Empty;
-
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                while ((charsRead = bufferedStream.Read(buffer, 0, buffer.Length)) > 0)
+                for (int i = 0; i < entry.Length - 1; i++)
                 {
-                    string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
-                    remainingText += chunk;
+                    string[] data = entry[i].Split(",");
 
-                    string[] entry = remainingText.Split("\n");
-
-                    remainingText = entry[entry.Length - 1];
-
-                    for (int i = 0; i < entry.Length - 1; i++)
+                    if (data.Length > 2 && double.TryParse(data[2], out double value))
                     {
-                        string[] data = entry[i].Split(",");
-
-                        if (double.TryParse(data[2], out double value))
+                        if (value > maxTemperature)
                         {
-                            if (value > maxTemperature)
-                            {
-                                maxTemperature = value;
-                            }
-
-                            if (value < minTemperature)
-                            {
-                                minTemperature = value;
-                            }
-
-                            sum += value;
-                            count++;
+                            maxTemperature = value;
                         }
+
+                        if (value < minTemperature)
+                        {
+                            minTemperature = value;
+                        }
+
+                        sum += value;
+                        count++;
                     }
                 }
-
-                stopwatch.Stop();
-
-                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds} ms");
-                return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
             }
+
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken to process {inputPath}: {stopwatch.ElapsedMilliseconds} ms");
+
+            string report = this.CalculateStatistics(minTemperature, maxTemperature, sum, count);
+
+            this.WriteProcessedData(outputPath, report);
         }
     }
 
     /// <summary>
-    /// Generates a randomized temperature entries.
+    /// Computes statistical metrics from numerical temperature inputs.
     /// </summary>
-    /// <param name="path">The target file path where the mock data will be written.</param>
-    /// <param name="numberOfValues">The total count of randomized entries to generate.</param>
-    internal void GenerateFile(string path, int numberOfValues)
+    private string CalculateStatistics(double min, double max, double sum, int count)
     {
-        Console.WriteLine($"Generating file {path} ...");
-        using (StreamWriter writer = new StreamWriter(path))
+        if (count == 0)
         {
-            Random random = new Random();
-
-            for (int i = 0; i < numberOfValues; i++)
-            {
-                double value = (random.NextDouble() * 30) + 10;
-                writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
-            }
+            return "No valid numerical data found to process.\n";
         }
 
-        Console.WriteLine($"Generated file {path}.");
+        double average = sum / count;
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"Minimum Temperature: {min}");
+        sb.AppendLine($"Maximum Temperature: {max}");
+        sb.AppendLine($"Average Temperature: {average}");
+
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Writes the processed string data to a target file path using an intermediate MemoryStream.
+    /// </summary>
+    private void WriteProcessedData(string targetPath, string content)
+    {
+        byte[] dataToWrite = Encoding.UTF8.GetBytes(content);
+
+        using (MemoryStream memStream = new MemoryStream())
+        {
+            memStream.Write(dataToWrite, 0, dataToWrite.Length);
+
+            // Reset position to read from the beginning of the memory stream
+            memStream.Position = 0;
+
+            // Stream the buffered data into the actual file destination
+            using (FileStream fileStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
+            {
+                memStream.CopyTo(fileStream);
+            }
+        }
     }
 }

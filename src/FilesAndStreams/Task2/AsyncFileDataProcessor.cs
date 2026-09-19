@@ -9,27 +9,6 @@ namespace FilesAndStreams.Task2;
 internal class AsyncFileDataProcessor
 {
     /// <summary>
-    /// Asynchronously writes a text string to a file using an intermediate memory buffer.
-    /// </summary>
-    /// <param name="path">The destination path of the file to create or overwrite.</param>
-    /// <param name="data">The text data to encode and write into the file.</param>
-    /// <returns>A task that represents the asynchronous write and copy operations.</returns>
-    internal async Task WriteProcessedString(string path, string data)
-    {
-        using (MemoryStream stream = new MemoryStream())
-        {
-            byte[] array = Encoding.UTF8.GetBytes(data);
-            await stream.WriteAsync(array, 0, array.Length);
-
-            // Reset the position after writing to read from beginning.
-            stream.Position = 0;
-
-            using FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            await stream.CopyToAsync(fileStream);
-        }
-    }
-
-    /// <summary>
     /// Asynchronously reads a file using a buffered stream to track total byte metrics.
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
@@ -65,70 +44,6 @@ internal class AsyncFileDataProcessor
     }
 
     /// <summary>
-    /// Asynchronously processes a text file containing numerical data to compute statistical temperature metrics.
-    /// </summary>
-    /// <param name="path">The target file path containing the dataset to process.</param>
-    /// <returns>A task that represents the asynchronous operation, containing summary of the minimum, maximum, and average temperatures.</returns>
-    internal async Task<string> ProcessDataAsync(string path)
-    {
-        Console.WriteLine($"Started processing {path}");
-
-        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-        {
-            using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
-            {
-                byte[] buffer = new byte[4 * 1024];
-                int charsRead;
-
-                double maxTemperature = double.MinValue;
-                double minTemperature = double.MaxValue;
-
-                int count = 0;
-                double sum = 0;
-
-                string remainingText = string.Empty;
-
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                while ((charsRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                {
-                    string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
-                    remainingText += chunk;
-
-                    string[] entry = remainingText.Split("\n");
-
-                    remainingText = entry[^1];
-
-                    for (int i = 0; i < entry.Length - 1; i++)
-                    {
-                        string[] data = entry[i].Split(",");
-                        if (double.TryParse(data[2], out double value))
-                        {
-                            if (value > maxTemperature)
-                            {
-                                maxTemperature = value;
-                            }
-
-                            if (value < minTemperature)
-                            {
-                                minTemperature = value;
-                            }
-
-                            sum += value;
-                            count++;
-                        }
-                    }
-                }
-
-                stopwatch.Stop();
-
-                Console.WriteLine($"Time taken to process {path}: {stopwatch.ElapsedMilliseconds} ms");
-                return $"Minimum Temperature: {minTemperature}\nMaximum Temperature: {maxTemperature}\nAverage Temperature: {sum / count}\n";
-            }
-        }
-    }
-
-    /// <summary>
     /// Asynchronously generates a randomized temperature entries.
     /// </summary>
     /// <param name="path">The target file path where the mock data will be written.</param>
@@ -155,5 +70,110 @@ internal class AsyncFileDataProcessor
         }
 
         Console.WriteLine($"{path} file created.");
+    }
+
+    /// <summary>
+    /// Process the data from the file asynchronously.
+    /// </summary>
+    /// <param name="inputPath">The input path of the file.</param>
+    /// <param name="outputPath">The path to store the processed file.</param>
+    /// <returns>A task that represents the asynchronous processing of data from the file.</returns>
+    internal async Task ProcessAndWriteAsync(string inputPath, string outputPath)
+    {
+        Console.WriteLine($"Started processing {inputPath}");
+
+        using (FileStream stream = new FileStream(inputPath, FileMode.Open, FileAccess.Read))
+        using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
+        {
+            byte[] buffer = new byte[4 * 1024];
+            int charsRead;
+
+            double maxTemperature = double.MinValue;
+            double minTemperature = double.MaxValue;
+            int count = 0;
+            double sum = 0;
+            string remainingText = string.Empty;
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            while ((charsRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
+                remainingText += chunk;
+
+                string[] entry = remainingText.Split("\n");
+                remainingText = entry[^1];
+
+                for (int i = 0; i < entry.Length - 1; i++)
+                {
+                    string[] data = entry[i].Split(",");
+
+                    if (data.Length > 2 && double.TryParse(data[2], out double value))
+                    {
+                        if (value > maxTemperature)
+                        {
+                            maxTemperature = value;
+                        }
+
+                        if (value < minTemperature)
+                        {
+                            minTemperature = value;
+                        }
+
+                        sum += value;
+                        count++;
+                    }
+                }
+            }
+
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken to process {inputPath}: {stopwatch.ElapsedMilliseconds} ms");
+
+            string report = this.CalculateStatistics(minTemperature, maxTemperature, sum, count);
+
+            await this.WriteProcessedDataAsync(outputPath, report);
+        }
+    }
+
+    /// <summary>
+    /// Computes statistical metrics from numerical temperature inputs.
+    /// </summary>
+    private string CalculateStatistics(double min, double max, double sum, int count)
+    {
+        if (count == 0)
+        {
+            return "No valid numerical data found to process.\n";
+        }
+
+        double average = sum / count;
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"Minimum Temperature: {min}");
+        sb.AppendLine($"Maximum Temperature: {max}");
+        sb.AppendLine($"Average Temperature: {average}");
+
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Writes the processed string data to a target file path using an intermediate MemoryStream.
+    /// </summary>
+    private async Task WriteProcessedDataAsync(string targetPath, string content)
+    {
+        byte[] dataToWrite = Encoding.UTF8.GetBytes(content);
+
+        using (MemoryStream memStream = new MemoryStream())
+        {
+            await memStream.WriteAsync(dataToWrite, 0, dataToWrite.Length);
+
+            // Reset position to read from the beginning of the memory stream
+            memStream.Position = 0;
+
+            // Stream the buffered data into the actual file destination
+            using (FileStream fileStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
+            {
+                await memStream.CopyToAsync(fileStream);
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ internal class FileHandler
         string menuOptions =
             "1. Read the file\n" +
             "2. Process file and write\n" +
-            "3. Exit\n" +
+            "3. Back\n" +
             "Enter an option to proceed\n";
 
         while (true)
@@ -47,9 +47,7 @@ internal class FileHandler
                     break;
 
                 case 2:
-                    string data = this._dateProcessor.ProcessData(_path);
-                    this._dateProcessor.WriteProcessedString("data.txt", data);
-
+                    this._dateProcessor.ProcessAndWrite(_path, "data.txt");
                     break;
 
                 case 3:
