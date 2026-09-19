@@ -1,6 +1,6 @@
-﻿using Assignment10.Views;
+﻿using Calculator.Views;
 
-namespace Assignment10
+namespace Calculator
 {
     /// <summary>
     /// Program class which acts as the start of the program and calls the respective tasks.

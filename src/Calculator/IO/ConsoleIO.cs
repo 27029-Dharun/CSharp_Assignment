@@ -1,4 +1,4 @@
-﻿namespace Assignment10.IO
+﻿namespace Calculator.IO
 {
     /// <summary>
     /// Contains the view level operations

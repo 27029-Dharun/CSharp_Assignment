@@ -1,8 +1,8 @@
-﻿using Assignment10.Enums;
-using Assignment10.Views;
+﻿using Calculator.Enums;
+using Calculator.Views;
 using Utilities;
 
-namespace Assignment10;
+namespace Calculator;
 
 /// <summary>
 /// Basic calculator application.

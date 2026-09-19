@@ -1,4 +1,4 @@
-﻿namespace Assignment10.Enums
+﻿namespace Calculator.Enums
 {
     /// <summary>
     /// Specifies all the operations that can be performed

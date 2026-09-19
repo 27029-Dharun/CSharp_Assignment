@@ -1,7 +1,7 @@
-﻿using Assignment10.Enums;
-using Assignment10.IO;
+﻿using Calculator.Enums;
+using Calculator.IO;
 
-namespace Assignment10.Views;
+namespace Calculator.Views;
 
 /// <summary>
 /// Contains the console operations that prints and gets input from user
