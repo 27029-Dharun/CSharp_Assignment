@@ -1,7 +1,6 @@
-﻿using Assignment10;
-using Assignment10.Views;
+﻿using Assignment10.Views;
 
-namespace Assignments
+namespace Assignment10
 {
     /// <summary>
     /// Program class which acts as the start of the program and calls the respective tasks.

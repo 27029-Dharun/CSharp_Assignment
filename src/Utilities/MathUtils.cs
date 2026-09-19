@@ -1,4 +1,4 @@
-﻿namespace Assignment10.Utilities;
+﻿namespace Utilities;
 
 /// <summary>
 /// Contains the math utilities to perform operations like addition, subtraction, multiplication, division.
@@ -13,7 +13,7 @@ public static class MathUtils
     /// <returns>A integer value containing the sum of two integer.</returns>
     public static int Add(int firstNumber, int secondNumber)
     {
-        return firstNumber + secondNumber;
+        return checked(firstNumber + secondNumber);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public static class MathUtils
     /// <returns>A integer value containing the difference of two integer.</returns>
     public static int Subtract(int firstNumber, int secondNumber)
     {
-        return firstNumber - secondNumber;
+        return checked(firstNumber - secondNumber);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static class MathUtils
     /// <returns>A integer value containing the multiplication result.</returns>
     public static int Multiply(int firstNumber, int secondNumber)
     {
-        return firstNumber * secondNumber;
+        return checked(firstNumber * secondNumber);
     }
 
     /// <summary>
@@ -46,11 +46,6 @@ public static class MathUtils
     /// <returns>A integer value containing the quotient.</returns>
     public static double Divide(int firstNumber, int secondNumber)
     {
-        if (secondNumber == 0)
-        {
-            throw new DivideByZeroException("Invalid Argument - Divisor can't be zero");
-        }
-
         return (double)firstNumber / secondNumber;
     }
 }

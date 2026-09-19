@@ -1,6 +1,6 @@
 ﻿using Assignment10.Enums;
-using Assignment10.Utilities;
 using Assignment10.Views;
+using Utilities;
 
 namespace Assignment10;
 
@@ -58,7 +58,7 @@ public class BasicCalculator
             {
                 this._view.Print(e.Message);
             }
-            catch (DivideByZeroException e)
+            catch (ArithmeticException e)
             {
                 this._view.Print(e.Message);
             }
