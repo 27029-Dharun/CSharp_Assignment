@@ -1,4 +1,5 @@
 ﻿using AdvancedFeatures.Models;
+using Collections.IO;
 
 namespace AdvancedFeatures.Tasks;
 
@@ -24,12 +25,12 @@ internal class SortingWithDelegates
     {
         products.Sort((first, second) => sort(first, second));
 
-        Console.WriteLine("Sorted list of products");
-
         foreach (var product in products)
         {
-            Console.WriteLine($"{product.Name}, {product.Category}, {product.Price}");
+            ConsoleIO.PrintInfo($"{product.Name}, {product.Category}, {product.Price}");
         }
+
+        Console.WriteLine();
     }
 
     /// <summary>

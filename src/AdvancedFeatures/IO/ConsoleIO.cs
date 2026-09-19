@@ -50,6 +50,7 @@ public static class ConsoleIO
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine(new string(' ', padding) + message);
         Console.ResetColor();
+        Console.WriteLine();
     }
 
     /// <summary>
@@ -59,53 +60,6 @@ public static class ConsoleIO
     public static void PrintInfo(string message)
     {
         Console.WriteLine($"{message}");
-    }
-
-    /// <summary>
-    /// Gets the integer from the user with attempts.
-    /// </summary>
-    /// <param name="prompt">The message to be display to get the integer</param>
-    /// <returns>A integer value enter by the user.</returns>
-    /// <exception cref="InvalidDataException">Thrown when the enter input is not a valid integer.</exception>
-    public static int GetInteger(string prompt)
-    {
-        int attemptsLeft = 3;
-        while (attemptsLeft > 0)
-        {
-            string input = GetString(prompt);
-            if (int.TryParse(input, out int grade))
-            {
-                return grade;
-            }
-
-            Console.WriteLine("Enter a valid integer, Attempt left: " + attemptsLeft);
-            attemptsLeft--;
-        }
-
-        throw new InvalidDataException("No attempt left, Please try again.\n");
-    }
-
-    /// <summary>
-    /// Gets the string input from the user with attempts.
-    /// </summary>
-    /// <param name="prompt">The message to be display to get the integer</param>
-    /// <returns>A integer value enter by the user.</returns>
-    /// <exception cref="InvalidDataException">Thrown when the enter input is not a valid integer.</exception>
-    public static string GetName(string prompt)
-    {
-        int attemptsLeft = 3;
-        while (attemptsLeft > 0)
-        {
-            string input = GetString(prompt);
-            if (!string.IsNullOrWhiteSpace(input))
-            {
-                return input;
-            }
-
-            attemptsLeft--;
-        }
-
-        throw new InvalidDataException("No attempt left, Please try again.\n");
     }
 
     /// <summary>

@@ -14,15 +14,15 @@ internal class Controller
     /// </summary>
     internal void Run()
     {
-        string menuOptionPrompt = "Advanced C# Features" +
-            "Task 1\n" +
-            "Task 2\n" +
-            "Task 3\n" +
-            "Task 4\n" +
-            "Task 5\n" +
-            "Task 6\n" +
-            "Task 7\n" +
-            "Exit\n" +
+        string menuOptionPrompt = "Advanced C# Features\n" +
+            "[1] Task 1 - Events and delegates\n" +
+            "[2] Task 2 - Use of dynamic and var keyword\n" +
+            "[3] Task 3 - Anonymous Methods\n" +
+            "[4] Task 4 - Lambda Expressions\n" +
+            "[5] Task 5 - Delegates for Sorting\n" +
+            "[6] Task 6 - Implementing and Manipulating Records\n" +
+            "[7] Task 7 - Advanced Pattern Matching\n" +
+            "[8] Exit\n" +
             "Enter an task to perform: ";
 
         MenuOption userChoice;
@@ -69,7 +69,7 @@ internal class Controller
     }
 
     /// <summary>
-    /// Handles the events and delegates concept.
+    /// Demonstrates the events and delegates concept.
     /// </summary>
     internal void HandleTask1()
     {
@@ -81,17 +81,17 @@ internal class Controller
     }
 
     /// <summary>
-    /// Handles var and delegates.
+    /// Demonstrates var and delegates.
     /// </summary>
     internal void HandleTask2()
     {
         ConsoleIO.PrintHeader("Task 2 - Var And dynamic keyword");
-        DataTypes dataTypes = new DataTypes();
+        VarAndDynamic dataTypes = new VarAndDynamic();
         dataTypes.VarAndDelegateDemonstration();
     }
 
     /// <summary>
-    /// Handles sort array operation.
+    /// Demonstrates sort array operation.
     /// </summary>
     internal void HandleTask3()
     {
@@ -101,22 +101,21 @@ internal class Controller
     }
 
     /// <summary>
-    /// Handles list manipulation.
+    /// Demonstrates list manipulation.
     /// </summary>
     internal void HandleTask4()
     {
-        ConsoleIO.PrintHeader("Task 4 - Events and delegates");
-        ConsoleIO.PrintHeader("Lambda Expression");
+        ConsoleIO.PrintHeader("Task 4 - Lambda Expression");
         LambdaExpressions lambdaExpressions = new LambdaExpressions();
         lambdaExpressions.ManipulateList();
     }
 
     /// <summary>
-    /// Handles sorting operation.
+    /// Demonstrates sorting operation.
     /// </summary>
     internal void HandleTask5()
     {
-        ConsoleIO.PrintHeader("Task 5 - Events and delegates");
+        ConsoleIO.PrintHeader("Task 5 - Sorting with delegates");
         ConsoleIO.PrintHeader("Sorting with delegates");
         SortingWithDelegates sorting = new SortingWithDelegates();
 
@@ -141,7 +140,7 @@ internal class Controller
     }
 
     /// <summary>
-    /// Handles record task
+    /// Demonstrates record task
     /// </summary>
     internal void HandleTask6()
     {
@@ -153,6 +152,7 @@ internal class Controller
 
         // Records support positional syntax, allows to define properties and constructors concisely in a single line
         ConsoleIO.PrintInfo($"Checking value equality for record: {book1.author == book2.author}");
+        ConsoleIO.PrintInfo($"Checking value equality for record: {book1.author.Equals(book2.author)}");
 
         // Can't modify the record because by default all the properties are get-init.
         // book1.Title = " ";
@@ -189,28 +189,28 @@ internal class Controller
     {
         switch (shape)
         {
-            case Circle c:
+            case Circle circle:
 
-                ConsoleIO.PrintInfo("Shape: Circle");
-                ConsoleIO.PrintInfo("Color: " + c.Color);
-                ConsoleIO.PrintInfo("Radius: " + c.Radius);
-                ConsoleIO.PrintInfo("Area: " + c.CalculateArea());
+                ConsoleIO.PrintInfo("\nShape: Circle");
+                ConsoleIO.PrintInfo($"Color: {circle.Color}");
+                ConsoleIO.PrintInfo($"Radius: {circle.Radius}");
+                ConsoleIO.PrintInfo($"Area: {circle.CalculateArea()}\n");
                 break;
 
             case Rectangle r:
-                ConsoleIO.PrintInfo("Shape: Rectangle");
-                ConsoleIO.PrintInfo("Color: " + r.Color);
-                ConsoleIO.PrintInfo("Length: " + r.Length);
-                ConsoleIO.PrintInfo("Width: " + r.Width);
-                ConsoleIO.PrintInfo("Area: " + r.CalculateArea());
+                ConsoleIO.PrintInfo("\nShape: Rectangle");
+                ConsoleIO.PrintInfo($"Color: {r.Color}");
+                ConsoleIO.PrintInfo($"Length: {r.Length}");
+                ConsoleIO.PrintInfo($"Width: {r.Width}");
+                ConsoleIO.PrintInfo($"Area: {r.CalculateArea()}\n");
                 break;
 
             case Triangle t:
-                ConsoleIO.PrintInfo("Shape: Rectangle");
-                ConsoleIO.PrintInfo("Color: " + t.Color);
-                ConsoleIO.PrintInfo("Height: " + t.Height);
-                ConsoleIO.PrintInfo("Width: " + t.Base);
-                ConsoleIO.PrintInfo("Area: " + t.CalculateArea());
+                ConsoleIO.PrintInfo("\nShape: Rectangle");
+                ConsoleIO.PrintInfo($"Color: {t.Color}");
+                ConsoleIO.PrintInfo($"Height: {t.Height}");
+                ConsoleIO.PrintInfo($"Width: {t.Base}");
+                ConsoleIO.PrintInfo($"Area: {t.CalculateArea()}\n");
                 break;
         }
     }
