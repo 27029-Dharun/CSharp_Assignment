@@ -86,8 +86,33 @@ internal class Controller
     internal void HandleTask2()
     {
         ConsoleIO.PrintHeader("Task 2 - Var And dynamic keyword");
-        VarAndDynamic dataTypes = new VarAndDynamic();
-        dataTypes.VarAndDelegateDemonstration();
+
+        // should assign during declaration.
+        var input = 10;
+
+        // Uncomment to change type (but then 'var' must be replaced with 'object')
+        // input = "Dharun";
+        // This won't compile with 'var' because type is fixed at compile time
+        ConsoleIO.PrintInfo($"Initial value of the variable {input}, type : {input.GetType()}");
+
+        ConsoleIO.PrintInfo("\nShould assign the value for var during declaration");
+        ConsoleIO.PrintInfo("The type can't be changed because the type is fixed at the compile time.\n");
+
+        // Can assign after declaration
+        dynamic dynamicVariable;
+
+        dynamicVariable = 10;
+        ConsoleIO.PrintInfo($"Initial value of the dynamic variable {dynamicVariable}, type: {dynamicVariable.GetType()}");
+
+        // Can change the datatype of the variable
+        dynamicVariable = "ABC";
+        ConsoleIO.PrintInfo($"The value of the dynamic variable is changed to {dynamicVariable}, type: {dynamicVariable.GetType()}");
+
+        dynamicVariable = 10.0d;
+        ConsoleIO.PrintInfo($"The value of the dynamic variable is changed to {dynamicVariable}, type: {dynamicVariable.GetType()}");
+
+        ConsoleIO.PrintInfo("\nNo need to assign the value for dynamic during declaration");
+        ConsoleIO.PrintInfo("The type can be changed because the type is fixed at the run time.\n");
     }
 
     /// <summary>
@@ -149,10 +174,14 @@ internal class Controller
         // Creating record instance.
         Book book1 = new Book("The Alchemist", "Paulo Coelho", "978-0061122415");
         Book book2 = new Book("Clean Code", "Robert C. Martin", "978-0132350884");
+        Book duplicateOfBook2 = new Book("Clean Code", "Robert C. Martin", "978-0132350884");
 
         // Records support positional syntax, allows to define properties and constructors concisely in a single line
-        ConsoleIO.PrintInfo($"Checking value equality for record: {book1.author == book2.author}");
-        ConsoleIO.PrintInfo($"Checking value equality for record: {book1.author.Equals(book2.author)}");
+        ConsoleIO.PrintInfo($"Checking value equality for record with different property: {book1 == book2}");
+        ConsoleIO.PrintInfo($"Checking equality for record with `.Equals()`: {book1.Equals(book2)}\n");
+
+        ConsoleIO.PrintInfo($"Checking value equality for record with different property: {duplicateOfBook2 == book2}");
+        ConsoleIO.PrintInfo($"Checking equality for record with `.Equals()`: {duplicateOfBook2.Equals(book2)}\n");
 
         // Can't modify the record because by default all the properties are get-init.
         // book1.Title = " ";
@@ -197,20 +226,20 @@ internal class Controller
                 ConsoleIO.PrintInfo($"Area: {circle.CalculateArea()}\n");
                 break;
 
-            case Rectangle r:
+            case Rectangle rectangle:
                 ConsoleIO.PrintInfo("\nShape: Rectangle");
-                ConsoleIO.PrintInfo($"Color: {r.Color}");
-                ConsoleIO.PrintInfo($"Length: {r.Length}");
-                ConsoleIO.PrintInfo($"Width: {r.Width}");
-                ConsoleIO.PrintInfo($"Area: {r.CalculateArea()}\n");
+                ConsoleIO.PrintInfo($"Color: {rectangle.Color}");
+                ConsoleIO.PrintInfo($"Length: {rectangle.Length}");
+                ConsoleIO.PrintInfo($"Width: {rectangle.Width}");
+                ConsoleIO.PrintInfo($"Area: {rectangle.CalculateArea()}\n");
                 break;
 
-            case Triangle t:
+            case Triangle triangle:
                 ConsoleIO.PrintInfo("\nShape: Rectangle");
-                ConsoleIO.PrintInfo($"Color: {t.Color}");
-                ConsoleIO.PrintInfo($"Height: {t.Height}");
-                ConsoleIO.PrintInfo($"Width: {t.Base}");
-                ConsoleIO.PrintInfo($"Area: {t.CalculateArea()}\n");
+                ConsoleIO.PrintInfo($"Color: {triangle.Color}");
+                ConsoleIO.PrintInfo($"Height: {triangle.Height}");
+                ConsoleIO.PrintInfo($"Width: {triangle.Base}");
+                ConsoleIO.PrintInfo($"Area: {triangle.CalculateArea()}\n");
                 break;
         }
     }
