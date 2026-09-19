@@ -18,7 +18,6 @@ internal class Logger
     internal async Task LogError(string errorMessage)
     {
         string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {errorMessage}\n";
-        Console.WriteLine("Logging error ...");
         await _semaphore.WaitAsync();
         try
         {
@@ -32,8 +31,6 @@ internal class Logger
         {
             _semaphore.Release();
         }
-
-        Console.WriteLine("Completed logging.");
     }
 
     /// <summary>
@@ -51,37 +48,48 @@ internal class Logger
         string filePath = Path.Combine("Logs", $"User{userId}Log.txt");
 
         string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {errorMessage}\n";
-        Console.WriteLine("Logging error ...");
+
         using (FileStream stream = new FileStream(filePath, FileMode.Append, FileAccess.Write))
         {
             byte[] buffer = Encoding.UTF8.GetBytes(logMessage);
             stream.Write(buffer, 0, buffer.Length);
         }
-
-        Console.WriteLine("Completed logging.");
     }
 
     /// <summary>
     /// Logs error from different user at a time.
     /// </summary>
-    internal void LogErrors()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    internal async Task LogErrorsAtSameFile()
     {
         Console.WriteLine("Writing log in same file for all users");
-        Parallel.For(0, 20, i =>
+        Task[] tasks = new Task[100];
+
+        for (int i = 0; i < 100; i++)
         {
-            Task.Run(() => this.LogError("Database connection failed"));
-        });
+            tasks[i] = this.LogError("Database connection failed");
+        }
+
+        await Task.WhenAll(tasks);
+        Console.WriteLine("Completed all logs in same file.");
     }
 
     /// <summary>
     /// Logs error from different user at a time in separate file.
     /// </summary>
-    internal void LogErrorsAtDifferentTask()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    internal async Task LogErrorsAtDifferentFile()
     {
         Console.WriteLine("Writing log in different file for each users");
-        Parallel.For(0, 20, i =>
+        Task[] tasks = new Task[100];
+
+        for (int i = 0; i < 100; i++)
         {
-            Task.Run(() => this.LogErrorForEachUser("Database connection failed", $"{i}"));
-        });
+            int userId = i;
+            tasks[i] = Task.Run(() => this.LogErrorForEachUser("Database connection failed", $"{userId}"));
+        }
+
+        await Task.WhenAll(tasks);
+        Console.WriteLine("Completed all logs in different file.");
     }
 }

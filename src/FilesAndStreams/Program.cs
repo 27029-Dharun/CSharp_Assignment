@@ -1,4 +1,5 @@
-﻿using FilesAndStreams.Task1;
+﻿using System.Diagnostics;
+using FilesAndStreams.Task1;
 using FilesAndStreams.Task2;
 using FilesAndStreams.Task3;
 using FilesAndStreams.Task4;
@@ -46,8 +47,17 @@ internal class Program
 
                 case 4:
                     Logger logger = new Logger();
-                    logger.LogErrors();
-                    logger.LogErrorsAtDifferentTask();
+                    Stopwatch stopwatch = new Stopwatch();
+
+                    stopwatch.Start();
+                    logger.LogErrorsAtSameFile().GetAwaiter().GetResult();
+                    stopwatch.Stop();
+                    Console.WriteLine($"Time taken to print all the log in same file: {stopwatch.ElapsedMilliseconds} ms");
+
+                    stopwatch.Restart();
+                    logger.LogErrorsAtDifferentFile().GetAwaiter().GetResult();
+                    stopwatch.Stop();
+                    Console.WriteLine($"Time taken to print all the log in different file for each user: {stopwatch.ElapsedMilliseconds} ms");
                     break;
 
                 case 5:
