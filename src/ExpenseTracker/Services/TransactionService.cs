@@ -200,7 +200,7 @@ namespace ExpenseTracker.Services
         /// <returns>A list of transactions with matching category.</returns>
         public IReadOnlyList<Transaction> SearchByCategory(string category)
         {
-            return this._repository.Search(t => t.Category == category);
+            return this._repository.Search(t => string.Equals(t.Category, category, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

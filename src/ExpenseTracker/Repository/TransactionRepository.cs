@@ -131,11 +131,11 @@ namespace ExpenseTracker.Repository
             var filteredType = this._transactions.Where(t => t.Type == type);
             if (option == SortOption.Ascending)
             {
-                return this._transactions.OrderBy(x => x.Amount).ToList();
+                return filteredType.OrderBy(x => x.Amount).ToList();
             }
             else
             {
-                return this._transactions.OrderByDescending(x => x.Amount).ToList();
+                return filteredType.OrderByDescending(x => x.Amount).ToList();
             }
         }
 

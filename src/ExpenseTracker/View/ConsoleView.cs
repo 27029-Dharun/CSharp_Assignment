@@ -101,13 +101,15 @@ namespace ExpenseTracker.View
                 TransactionValidator.IsValidDate,
                 $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
 
+            DateTime.TryParseExact(input, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime validDate);
+
             // Only returns a empty string in edit mode.
             if (string.IsNullOrEmpty(input))
             {
-                return DateTime.Parse(Configurable.ExistingDate, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                return validDate;
             }
 
-            return DateTime.Parse(input, CultureInfo.InvariantCulture, DateTimeStyles.None);
+            return validDate;
         }
 
         /// <summary>
