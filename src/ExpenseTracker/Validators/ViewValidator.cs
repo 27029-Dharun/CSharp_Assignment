@@ -7,7 +7,7 @@ namespace ExpenseTracker.Validators
     /// <summary>
     /// Contains all the validator methods to validate the transaction data.
     /// </summary>
-    public static class TransactionValidator
+    public static class ViewValidator
     {
         /// <summary>
         /// Validates the amount used in the transaction.
@@ -16,17 +16,7 @@ namespace ExpenseTracker.Validators
         /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidAmount(string input)
         {
-            if (!decimal.TryParse(input, out decimal amount))
-            {
-                return false;
-            }
-
-            if (amount < Configurable.MinimumAmount)
-            {
-                return false;
-            }
-
-            return true;
+            return decimal.TryParse(input, out _);
         }
 
         /// <summary>
@@ -36,17 +26,7 @@ namespace ExpenseTracker.Validators
         /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidDate(string date)
         {
-            if (!DateTime.TryParseExact(date, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime validDate))
-            {
-                return false;
-            }
-
-            if (validDate > DateTime.Today)
-            {
-                return false;
-            }
-
-            return true;
+            return DateTime.TryParseExact(date, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
 
         /// <summary>
@@ -56,12 +36,7 @@ namespace ExpenseTracker.Validators
         /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidDescription(string name)
         {
-            if (name is null || name.Length < Configurable.MinimumCharacter || name.Length > Configurable.MaximumCharacter)
-            {
-                return false;
-            }
-
-            return true;
+            return !string.IsNullOrWhiteSpace(name);
         }
 
         /// <summary>
@@ -71,7 +46,7 @@ namespace ExpenseTracker.Validators
         /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidCategory(string category)
         {
-            if (category is null || category.Length < Configurable.MinimumCharacter || category.Length > Configurable.MaximumCategoryCharacter)
+            if (string.IsNullOrWhiteSpace(category))
             {
                 return false;
             }

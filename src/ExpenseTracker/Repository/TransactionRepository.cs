@@ -91,13 +91,10 @@ namespace ExpenseTracker.Repository
         }
 
         /// <inheritdoc/>
-        public Transaction? GetTransactionCopy(string id)
+        public Transaction GetTransactionCopy(string id)
         {
-            Transaction? transaction = this.GetById(id);
-            if (transaction is null)
-            {
-                return null;
-            }
+            Transaction? transaction = this.GetById(id)
+                ?? throw new KeyNotFoundException($"Transaction with {id} was not found.");
 
             return new Transaction(transaction.Id, transaction.Description, transaction.Date, transaction.Type, transaction.Category, transaction.Amount);
         }

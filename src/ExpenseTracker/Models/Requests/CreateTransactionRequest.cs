@@ -1,9 +1,7 @@
-﻿using ExpenseTracker.Models;
-
-namespace ExpenseTracker.Models.Requests
+﻿namespace ExpenseTracker.Models.Requests
 {
     /// <summary>
-    /// Represents the data required to create/edit a transaction.
+    /// Represents the data required to create a transaction.
     /// </summary>
     public class CreateTransactionRequest
     {

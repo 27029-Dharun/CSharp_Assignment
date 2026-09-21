@@ -55,7 +55,7 @@ namespace ExpenseTracker.Repository
         /// </summary>
         /// <param name="id">ID of the transaction.</param>
         /// <returns>A new transaction copy with same ID.</returns>
-        public Transaction? GetTransactionCopy(string id);
+        public Transaction GetTransactionCopy(string id);
 
         /// <summary>
         /// Returns if the id is valid or not.
