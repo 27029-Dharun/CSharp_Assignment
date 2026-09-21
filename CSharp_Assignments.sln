@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -12,6 +11,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acceptance", "acceptance", "{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment3", "src\Assignment3\Assignment3.csproj", "{56D2B927-C049-49A3-8109-07AB62591F08}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment2", "src\Assignment2\Assignment2.csproj", "{D4AA2B9A-EE9B-42A2-8E4E-6B9E556918BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment1", "src\Assignment1\Assignment1.csproj", "{83CE69B4-70B6-4858-8875-072FC23A5ED7}"
@@ -53,7 +53,6 @@ Global
 		{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
 		SolutionGuid = {E6B1B42D-59AD-40D9-ABD6-5CBFDEB7DA3C}
 	EndGlobalSection
 EndGlobal
