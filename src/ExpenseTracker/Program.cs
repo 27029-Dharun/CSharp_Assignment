@@ -19,21 +19,11 @@ namespace ExpenseTracker
         {
             try
             {
-                // View instance for performing the console operations.
                 ConsoleView view = new ConsoleView();
-
-                // Transaction id generator instance
                 TransactionIdGenerator idGenerator = new TransactionIdGenerator("transactionId.json");
-
                 JsonFileManager jsonFileManager = new JsonFileManager();
-
-                // Repository instance for add the transactions in the list.
                 ITransactionRepository repository = new TransactionRepository("transactions.json", jsonFileManager, idGenerator);
-
-                // Service instance that contains business logic, performs validation, and create product instance.
                 TransactionService service = new TransactionService(repository);
-
-                // Controller instance that coordinates the view and service.
                 TransactionController controller = new TransactionController(service, view);
 
                 controller.Run();

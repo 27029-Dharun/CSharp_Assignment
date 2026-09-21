@@ -1,21 +1,21 @@
 ﻿using ExpenseTracker.Models;
 
-namespace ExpenseTracker.DTOs
+namespace ExpenseTracker.Models.Requests
 {
     /// <summary>
     /// Represents the data required to create/edit a transaction.
     /// </summary>
-    public class TransactionDTO
+    public class CreateTransactionRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionDTO"/> class.
+        /// Initializes a new instance of the <see cref="CreateTransactionRequest"/> class.
         /// </summary>
         /// <param name="description">Description of the transaction.</param>
         /// <param name="date">Date of the transaction.</param>
         /// <param name="type">Type of the transaction.</param>
         /// <param name="category">Category of the transaction.</param>
         /// <param name="amount">Amount used in the transaction.</param>
-        public TransactionDTO(string description, DateTime date, TransactionType type, string category, decimal amount)
+        public CreateTransactionRequest(string description, DateTime date, TransactionType type, string category, decimal amount)
         {
             this.Description = description;
             this.Date = date;

@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using ConsoleTables;
 using ExpenseTracker.Constants;
-using ExpenseTracker.DTOs;
 using ExpenseTracker.Models;
+using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Validators;
 
 namespace ExpenseTracker.View
@@ -22,11 +22,23 @@ namespace ExpenseTracker.View
         }
 
         /// <summary>
-        /// Prints an empty line.
+        /// Gets the main menu option from the user.
         /// </summary>
-        public void PrintEmptyLine()
+        /// <returns>The menu option entered by the user.</returns>
+        public TransactionMenu GetMainMenuOption()
         {
-            Console.WriteLine();
+            string menuMessage = "       FINANCE TRACKER - MAIN MENU       \n" +
+                   "[1] Add Transaction (Income/Expense)\n" +
+                   "[2] Edit Transaction\n" +
+                   "[3] Delete Transaction\n" +
+                   "[4] View Financial Summary\n" +
+                   "[5] View History / Transactions\n" +
+                   "[6] Search Transactions\n" +
+                   "[7] Sort Transactions\n" +
+                   "[8] Exit Application\n\n" +
+                   "Please enter your choice (1-6): ";
+
+            return this.GetEnumValue<TransactionMenu>(menuMessage);
         }
 
         /// <summary>
@@ -115,13 +127,12 @@ namespace ExpenseTracker.View
         /// <summary>
         /// Gets a valid string category.
         /// </summary>
-        /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>A string containing the category.</returns>
-        public string GetCategory(bool isEditMode = true)
+        public string GetCategory()
         {
             string input = this.GetValidatedInput(
                 $"Enter the category of the transaction: ",
-                isEditMode,
+                false,
                 TransactionValidator.IsValidCategory,
                 $"Please enter a valid category with more than {Configurable.MinimumCharacter} characters and less than {Configurable.MaximumCategoryCharacter}.");
 
@@ -206,7 +217,7 @@ namespace ExpenseTracker.View
         /// Prints the summary of all the transactions with visualizations.
         /// </summary>
         /// <param name="summary">Summary instance that contains the summary of all the transactions.</param>
-        public void PrintSummary(TransactionSummary summary)
+        public void PrintSummary(TransactionSummaryResponse summary)
         {
             Console.WriteLine("\nIncome vs expense");
             this.PrintBarChart(new Dictionary<string, decimal>()
@@ -244,9 +255,7 @@ namespace ExpenseTracker.View
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
 
-            // Erases the entire scroll back buffer history
-            Console.Write("\x1b[3J");
-            Console.Clear();
+            this.ClearConsole();
         }
 
         private void PrintBarChart(Dictionary<string, decimal> categoryTotals)

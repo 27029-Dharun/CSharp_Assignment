@@ -4,7 +4,7 @@ using ExpenseTracker.Models;
 namespace ExpenseTracker.Repository
 {
     /// <summary>
-    /// Transactions are stored as list of Transaction.
+    /// Provides operations for storing and retrieving transaction data.
     /// </summary>
     public class TransactionRepository : ITransactionRepository
     {

@@ -5,7 +5,7 @@ using ExpenseTracker.Models;
 namespace ExpenseTracker.Helper
 {
     /// <summary>
-    /// Generates the id for each transactions.
+    /// Generates the unique ID for a transaction.
     /// </summary>
     public class TransactionIdGenerator
     {
@@ -43,8 +43,10 @@ namespace ExpenseTracker.Helper
             string prefix = type == TransactionType.Expense ? "E" : "I";
 
             int id = this._transactionId[type]++;
+
             this.WriteFile();
-            return prefix + id;
+
+            return $"{prefix}{id}";
         }
 
         private void WriteFile()

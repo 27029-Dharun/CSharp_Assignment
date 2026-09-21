@@ -71,7 +71,7 @@ namespace ExpenseTracker.Validators
         /// <returns>True if valid; otherwise false.</returns>
         public static bool IsValidCategory(string category)
         {
-            if (category is null || category.Length < Configurable.MinimumCharacter || category.Length > Configurable.MaximumCategoryCharacter)
+            if (string.IsNullOrWhiteSpace(category) || category.Length < Configurable.MinimumCharacter || category.Length > Configurable.MaximumCategoryCharacter)
             {
                 return false;
             }

@@ -1,6 +1,7 @@
 ﻿using ExpenseTracker.Constants;
-using ExpenseTracker.DTOs;
 using ExpenseTracker.Models;
+using ExpenseTracker.Models.Requests;
+using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Services;
 using ExpenseTracker.View;
 
@@ -13,17 +14,6 @@ namespace ExpenseTracker.Controllers
     {
         private readonly TransactionService _service;
         private readonly ConsoleView _view;
-
-        private readonly string _menuMessage = "       FINANCE TRACKER - MAIN MENU       \n" +
-                "[1] Add Transaction (Income/Expense)\n" +
-                "[2] Edit Transaction\n" +
-                "[3] Delete Transaction\n" +
-                "[4] View Financial Summary\n" +
-                "[5] View History / Transactions\n" +
-                "[6] Search Transaction\n" +
-                "[7] Sort Transaction\n" +
-                "[8] Exit Application\n\n" +
-                "Please enter your choice (1-8): ";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransactionController"/> class.
@@ -41,10 +31,9 @@ namespace ExpenseTracker.Controllers
         /// </summary>
         public void Run()
         {
-            TransactionMenu option = default;
-            while (option != TransactionMenu.Exit)
+            while (true)
             {
-                option = this._view.GetEnumValue<TransactionMenu>(this._menuMessage);
+                TransactionMenu option = this._view.GetMainMenuOption();
                 this._view.ClearConsole();
                 if (option == TransactionMenu.Exit)
                 {
@@ -53,7 +42,12 @@ namespace ExpenseTracker.Controllers
 
                 try
                 {
-                    this.ProcessMenuSelection(option);
+                    bool isRunning = this.HandleMenu(option);
+
+                    if (!isRunning)
+                    {
+                        return;
+                    }
                 }
                 catch (InvalidDataException ex)
                 {
@@ -72,7 +66,8 @@ namespace ExpenseTracker.Controllers
         /// Handles the menu returns from the application runner.
         /// </summary>
         /// <param name="menu">Menu option selected from the user.</param>
-        private void ProcessMenuSelection(TransactionMenu menu)
+        /// <returns>A boolean true if the user want to continue; false, otherwise.</returns>
+        public bool HandleMenu(TransactionMenu menu)
         {
             switch (menu)
             {
@@ -93,7 +88,7 @@ namespace ExpenseTracker.Controllers
                     break;
 
                 case TransactionMenu.ViewTransaction:
-                    this.ViewTransaction();
+                    this.ViewTransactions();
                     break;
 
                 case TransactionMenu.SearchTransaction:
@@ -103,13 +98,17 @@ namespace ExpenseTracker.Controllers
                 case TransactionMenu.SortTransaction:
                     this.SortTransactionByAmount();
                     break;
+
+                case TransactionMenu.Exit:
+                    return false;
             }
+
+            return true;
         }
 
         private void CreateTransaction()
         {
-            // Creates the transaction DTO
-            TransactionDTO transaction = this.GetTransactionInput();
+            CreateTransactionRequest transaction = this.GetTransactionInput();
 
             this._service.CreateTransaction(transaction);
 
@@ -117,7 +116,7 @@ namespace ExpenseTracker.Controllers
             this.ViewAllTransaction();
         }
 
-        private void ViewTransaction()
+        private void ViewTransactions()
         {
             if (!this._service.HasTransactions())
             {
@@ -181,11 +180,12 @@ namespace ExpenseTracker.Controllers
                 return;
             }
 
-            TransactionSummary summary = this._service.GenerateSummary();
+            TransactionSummaryResponse summary = this._service.GenerateSummary();
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
-            this._view.PrintEmptyLine();
+
+            Console.WriteLine();
             this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
             this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
 
@@ -334,7 +334,7 @@ namespace ExpenseTracker.Controllers
         /// Gets the input from the user for creating a transaction.
         /// </summary>
         /// <returns>Transaction data instance.</returns>
-        private TransactionDTO GetTransactionInput()
+        private CreateTransactionRequest GetTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
             string category = this._view.GetCategory();
@@ -343,7 +343,7 @@ namespace ExpenseTracker.Controllers
             string description = this._view.GetDescription();
 
             // Creates the transaction DTO
-            return new TransactionDTO(description, date, type, category, amount);
+            return new CreateTransactionRequest(description, date, type, category, amount);
         }
     }
 }

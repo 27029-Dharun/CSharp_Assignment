@@ -1,20 +1,20 @@
-﻿namespace ExpenseTracker.DTOs
+﻿namespace ExpenseTracker.Models.Responses
 {
     /// <summary>
     /// DTO to transfer the summary data.
     /// </summary>
-    public class TransactionSummary
+    public class TransactionSummaryResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionSummary"/> class.
+        /// Initializes a new instance of the <see cref="TransactionSummaryResponse"/> class.
         /// </summary>
         /// <param name="income">Total income recorded.</param>
         /// <param name="expense">Total expense recorded.</param>
-        /// <param name="monthlyIncome">Total income recorded in the current month.</param>
-        /// <param name="monthlyExpense">Total expense recorded in the current month.</param>
-        /// <param name="incomeCategoryTotals">The sum of amount earned in each category.</param>
-        /// <param name="expenseCategoryTotals">The sum of amount spent in each category.</param>
-        public TransactionSummary(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> incomeCategoryTotals, Dictionary<string, decimal> expenseCategoryTotals)
+        /// <param name="monthlyIncome">Income recorded in the current month.</param>
+        /// <param name="monthlyExpense">Expense recorded in the current month.</param>
+        /// <param name="incomeCategoryTotals">Category wise total income recorded.</param>
+        /// <param name="expenseCategoryTotals">Category wise total expense recorded.</param>
+        public TransactionSummaryResponse(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> expenseCategoryTotals, Dictionary<string, decimal> incomeCategoryTotals)
         {
             this.Income = income;
             this.Expense = expense;
