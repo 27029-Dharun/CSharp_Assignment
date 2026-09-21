@@ -3,23 +3,15 @@
 namespace ExpenseTracker.Helper;
 
 /// <summary>
-/// Generates the id for each transactions.
+/// Generates the unique ID for a transaction.
 /// </summary>
 public class TransactionIdGenerator
 {
-    private readonly Dictionary<TransactionType, int> _transactionId;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TransactionIdGenerator"/> class.
-    /// </summary>
-    public TransactionIdGenerator()
-    {
-        this._transactionId = new Dictionary<TransactionType, int>
+    private readonly Dictionary<TransactionType, int> _nextIds = new Dictionary<TransactionType, int>
         {
             { TransactionType.Expense, 100 },
             { TransactionType.Income, 100 },
         };
-    }
 
     /// <summary>
     /// Gets the next id to be used as a identifier.
@@ -30,7 +22,8 @@ public class TransactionIdGenerator
     {
         string prefix = type == TransactionType.Expense ? "E" : "I";
 
-        int id = this._transactionId[type]++;
-        return prefix + id;
+        int id = this._nextIds[type]++;
+
+        return $"{prefix}{id}";
     }
 }

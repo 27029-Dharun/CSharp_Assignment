@@ -1,16 +1,16 @@
-﻿namespace ExpenseTracker.DTOs
+﻿namespace ExpenseTracker.Models.Responses
 {
     /// <summary>
     /// DTO to transfer the summary data.
     /// </summary>
-    public class TransactionSummary
+    public class TransactionSummaryResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionSummary"/> class.
+        /// Initializes a new instance of the <see cref="TransactionSummaryResponse"/> class.
         /// </summary>
         /// <param name="income">Total income recorded.</param>
         /// <param name="expense">Total expense recorded.</param>
-        public TransactionSummary(decimal income, decimal expense)
+        public TransactionSummaryResponse(decimal income, decimal expense)
         {
             this.Income = income;
             this.Expense = expense;

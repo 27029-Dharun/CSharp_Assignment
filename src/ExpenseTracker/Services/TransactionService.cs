@@ -1,5 +1,6 @@
-﻿using ExpenseTracker.DTOs;
-using ExpenseTracker.Models;
+﻿using ExpenseTracker.Models;
+using ExpenseTracker.Models.Requests;
+using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Repository;
 
 namespace ExpenseTracker.Services
@@ -24,7 +25,7 @@ namespace ExpenseTracker.Services
         /// Creates a Transaction instance and returns it.
         /// </summary>
         /// <param name="transaction">An instance of transaction DTO.</param>
-        public void CreateTransaction(TransactionDTO transaction)
+        public void CreateTransaction(CreateTransactionRequest transaction)
         {
             Transaction createdTransaction = new Transaction(
                 transaction.Description,
@@ -119,7 +120,7 @@ namespace ExpenseTracker.Services
         /// Generates the summary of the transaction.
         /// </summary>
         /// <returns>Transaction summary instance that contains the summary data.</returns>
-        public TransactionSummary GenerateSummary()
+        public TransactionSummaryResponse GenerateSummary()
         {
             IReadOnlyList<Transaction> transactions = this._repository.GetAll();
 
@@ -131,7 +132,7 @@ namespace ExpenseTracker.Services
                 .Where(transaction => transaction.Type == TransactionType.Expense)
                 .Sum(transaction => transaction.Amount);
 
-            return new TransactionSummary(income, expense);
+            return new TransactionSummaryResponse(income, expense);
         }
     }
 }

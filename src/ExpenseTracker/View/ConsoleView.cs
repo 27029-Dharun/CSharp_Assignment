@@ -1,4 +1,5 @@
-﻿using ConsoleTables;
+﻿using System.Globalization;
+using ConsoleTables;
 using ExpenseTracker.Constants;
 using ExpenseTracker.Models;
 using ExpenseTracker.Validators;
@@ -17,6 +18,24 @@ namespace ExpenseTracker.View
         public void PrintInfo(string message)
         {
             Console.WriteLine(message);
+        }
+
+        /// <summary>
+        /// Gets the main menu option from the user.
+        /// </summary>
+        /// <returns>The menu option entered by the user.</returns>
+        public TransactionMenu GetMainMenuOption()
+        {
+            string menuMessage = "       FINANCE TRACKER - MAIN MENU       \n" +
+                   "[1] Add Transaction (Income/Expense)\n" +
+                   "[2] Edit Transaction\n" +
+                   "[3] Delete Transaction\n" +
+                   "[4] View Financial Summary\n" +
+                   "[5] View History / Transactions\n" +
+                   "[6] Exit Application\n\n" +
+                   "Please enter your choice (1-6): ";
+
+            return this.GetEnumValue<TransactionMenu>(menuMessage);
         }
 
         /// <summary>
@@ -61,7 +80,7 @@ namespace ExpenseTracker.View
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>decimal input.</returns>
-        public string GetAmount(bool isEditMode = false)
+        public decimal GetAmount(bool isEditMode = false)
         {
             string input = this.GetValidatedInput(
                 "Enter the amount involved in the transaction: ",
@@ -69,7 +88,13 @@ namespace ExpenseTracker.View
                 TransactionValidator.IsValidAmount,
                 $"Invalid amount.Please enter a valid amount greater than {Configurable.MinimumAmount}.");
 
-            return input;
+            // Only returns a empty string in edit mode.
+            if (string.IsNullOrEmpty(input))
+            {
+                return Configurable.ExistingPriceValue;
+            }
+
+            return decimal.Parse(input);
         }
 
         /// <summary>
@@ -77,7 +102,7 @@ namespace ExpenseTracker.View
         /// </summary>
         /// <param name="isEditMode">True if we want to perform edit operation.</param>
         /// <returns>DateTime value entered by user.</returns>
-        public string GetDate(bool isEditMode = false)
+        public DateTime GetDate(bool isEditMode = false)
         {
             string input = this.GetValidatedInput(
                 $"Enter a date in format ({Configurable.DateFormat}): ",
@@ -85,7 +110,14 @@ namespace ExpenseTracker.View
                 TransactionValidator.IsValidDate,
                 $"Invalid date. Please enter a date in format {Configurable.DateFormat}.\nCan't add transaction for future date.");
 
-            return input;
+            DateTime.TryParseExact(input, Configurable.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime validDate);
+
+            if (string.IsNullOrEmpty(input))
+            {
+                return validDate;
+            }
+
+            return validDate;
         }
 
         /// <summary>
@@ -186,9 +218,7 @@ namespace ExpenseTracker.View
             Console.WriteLine("Press any key to return to main menu");
             Console.ReadKey();
 
-            // Erases the entire scroll back buffer history
-            Console.Write("\x1b[3J");
-            Console.Clear();
+            this.ClearConsole();
         }
 
         private void PrintColoredText(string message, ConsoleColor color)
