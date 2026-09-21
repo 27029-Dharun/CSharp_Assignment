@@ -91,30 +91,10 @@ namespace ExpenseTracker.Repository
         }
 
         /// <inheritdoc/>
-        public bool IsValidId(string id)
+        public Transaction GetTransactionCopy(string id)
         {
-            if (this._transactions.FirstOrDefault(x => id == x.Id) is not null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public bool HasAny()
-        {
-            return this._transactions.Any();
-        }
-
-        /// <inheritdoc/>
-        public Transaction? GetTransactionCopy(string id)
-        {
-            Transaction? transaction = this.GetById(id);
-            if (transaction is null)
-            {
-                return null;
-            }
+            Transaction? transaction = this.GetById(id)
+                ?? throw new KeyNotFoundException($"Transaction with {id} was not found.");
 
             return this.Copy(transaction);
         }
@@ -137,6 +117,25 @@ namespace ExpenseTracker.Repository
             {
                 return filteredType.OrderByDescending(x => x.Amount).ToList();
             }
+        }
+
+        /// <summary>
+        /// Checks if any transactions exists.
+        /// </summary>
+        /// <returns>A boolean true it any transactions exists; otherwise, false.</returns>
+        public bool HasAny()
+        {
+            return this._transactions.Any();
+        }
+
+        /// <summary>
+        /// Checks if the transaction id is valid
+        /// </summary>
+        /// <param name="id">ID of the transaction to be validated.</param>
+        /// <returns>A boolean true if the transaction exists; otherwise, false.</returns>
+        public bool IsValidId(string id)
+        {
+            return this._transactions.Any(transaction => transaction.Id == id);
         }
 
         /// <summary>

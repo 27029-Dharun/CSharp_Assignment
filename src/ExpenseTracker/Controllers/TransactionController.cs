@@ -1,5 +1,4 @@
-﻿using ExpenseTracker.Constants;
-using ExpenseTracker.Models;
+﻿using ExpenseTracker.Models;
 using ExpenseTracker.Models.Requests;
 using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Services;
@@ -53,9 +52,14 @@ namespace ExpenseTracker.Controllers
                 {
                     this._view.PrintInfo($"{ex.Message}");
                 }
+                catch (ArgumentException ex)
+                {
+                    this._view.PrintWarning(ex.Message);
+                }
                 catch (Exception ex)
                 {
                     this._view.PrintInfo($"An unexpected error occurred: {ex.Message}");
+                    this._view.PrintWarning(ex.Message);
                 }
 
                 this._view.PauseAndReturn();
@@ -200,27 +204,18 @@ namespace ExpenseTracker.Controllers
                 return;
             }
 
-            // Gets id of the transaction to edit
             string id = this.GetTransactionId();
 
-            Transaction? transaction = this._service.GetTransactionById(id);
-            if (transaction is null)
-            {
-                this._view.PrintWarning("Enter a valid transaction id.");
-                return;
-            }
+            EditTransactionRequest transaction = this.GetEditTransactionInput();
 
-            TransactionType type = transaction.Type;
-            this.EditTransactionInputHandler(transaction);
-
-            if (!this._service.EditTransaction(transaction))
+            if (!this._service.EditTransaction(transaction, id))
             {
                 this._view.PrintError("Failed to update the transaction.");
                 return;
             }
 
             this._view.ClearConsole();
-            this._view.PrintSuccess($"{type} edited successfully.\n");
+            this._view.PrintSuccess($"Transaction edited successfully.\n");
             this.ViewAllTransaction();
         }
 
@@ -240,6 +235,8 @@ namespace ExpenseTracker.Controllers
             }
 
             this._service.DeleteTransaction(id);
+
+            this._view.ClearConsole();
             this._view.PrintSuccess("Transaction deleted successfully.");
             this.ViewAllTransaction();
         }
@@ -250,37 +247,6 @@ namespace ExpenseTracker.Controllers
             this._view.PrintTransactionTable(transactions);
 
             return this._view.GetId();
-        }
-
-        /// <summary>
-        /// Gets the data for editing a transaction.
-        /// </summary>
-        /// <param name="transaction">A transaction instance.</param>
-        private void EditTransactionInputHandler(Transaction transaction)
-        {
-            string category = this._view.GetCategory();
-            if (!string.IsNullOrWhiteSpace(category))
-            {
-                transaction.Category = category;
-            }
-
-            decimal amount = this._view.GetAmount(true);
-            if (amount != Configurable.ExistingPriceValue)
-            {
-                transaction.Amount = amount;
-            }
-
-            DateTime date = this._view.GetDate(true);
-            if (date != DateTime.Parse(Configurable.ExistingDate))
-            {
-                transaction.Date = date;
-            }
-
-            string description = this._view.GetDescription(true);
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                transaction.Description = description;
-            }
         }
 
         private void SortTransactionByAmount()
@@ -344,6 +310,17 @@ namespace ExpenseTracker.Controllers
 
             // Creates the transaction DTO
             return new CreateTransactionRequest(description, date, type, category, amount);
+        }
+
+        private EditTransactionRequest GetEditTransactionInput()
+        {
+            string category = this._view.GetCategory(true);
+            decimal amount = this._view.GetAmount(true);
+            DateTime date = this._view.GetDate(true);
+            string description = this._view.GetDescription(true);
+
+            // Creates the transaction DTO
+            return new EditTransactionRequest(description, date, category, amount);
         }
     }
 }

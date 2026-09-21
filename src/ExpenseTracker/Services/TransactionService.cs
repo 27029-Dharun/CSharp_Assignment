@@ -1,7 +1,9 @@
-﻿using ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants;
+using ExpenseTracker.Models;
 using ExpenseTracker.Models.Requests;
 using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Repository;
+using ExpenseTracker.Validators;
 
 namespace ExpenseTracker.Services
 {
@@ -27,12 +29,33 @@ namespace ExpenseTracker.Services
         /// <param name="transaction">An instance of transaction DTO.</param>
         public void CreateTransaction(CreateTransactionRequest transaction)
         {
+            if (!ServiceValidator.IsValidAmount(transaction.Amount))
+            {
+                throw new ArgumentException("Amount must be a positive number");
+            }
+
+            if (!ServiceValidator.IsValidDescription(transaction.Description))
+            {
+                throw new ArgumentException($"Description should contain atleast {Configurable.MinimumCharacter} characters.");
+            }
+
+            if (!ServiceValidator.IsValidCategory(transaction.Category))
+            {
+                throw new ArgumentException($"Category should contain atleast {Configurable.MinimumCharacter} characters.");
+            }
+
+            if (!ServiceValidator.IsValidDate(transaction.Date))
+            {
+                throw new ArgumentException("Can't record transaction with future date.");
+            }
+
             Transaction createdTransaction = new Transaction(
                 transaction.Description,
                 transaction.Date,
                 transaction.Type,
                 transaction.Category,
                 transaction.Amount);
+
             this._repository.Add(createdTransaction);
         }
 
@@ -48,11 +71,34 @@ namespace ExpenseTracker.Services
         /// <summary>
         /// Update the existing transaction.
         /// </summary>
-        /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction. </param>
-        /// <returns> True if the update process is done; otherwise false. </returns>
-        public bool EditTransaction(Transaction editedTransaction)
+        /// <param name="editedTransaction"> Transaction to be updated in the place of existing transaction.</param>
+        /// <param name="id">ID of the transaction to edit.</param>
+        /// <returns> True if the update process is done; otherwise false.</returns>
+        public bool EditTransaction(EditTransactionRequest editedTransaction, string id)
         {
-            if (this._repository.Edit(editedTransaction))
+            Transaction transaction = this.UpdateExistingTransaction(editedTransaction, id);
+
+            if (!ServiceValidator.IsValidAmount(transaction.Amount))
+            {
+                throw new ArgumentException("Amount must be a positive number");
+            }
+
+            if (!ServiceValidator.IsValidDescription(transaction.Description))
+            {
+                throw new ArgumentException($"Description should contain atleast {Configurable.MinimumCharacter} characters.");
+            }
+
+            if (!ServiceValidator.IsValidCategory(transaction.Category))
+            {
+                throw new ArgumentException($"Category should contain atleast {Configurable.MinimumCharacter} characters.");
+            }
+
+            if (!ServiceValidator.IsValidDate(transaction.Date))
+            {
+                throw new ArgumentException("Can't record transaction with future date.");
+            }
+
+            if (this._repository.Edit(transaction))
             {
                 return true;
             }
@@ -95,16 +141,6 @@ namespace ExpenseTracker.Services
         public bool IsValidTransactionId(string id)
         {
             return this._repository.IsValidId(id);
-        }
-
-        /// <summary>
-        /// Gets the transaction by id.
-        /// </summary>
-        /// <param name="id">Id of the transaction. </param>
-        /// <returns> Transaction Instance if it is present; otherwise null. </returns>
-        public Transaction? GetTransactionById(string id)
-        {
-            return this._repository.GetTransactionCopy(id);
         }
 
         /// <summary>
@@ -202,6 +238,33 @@ namespace ExpenseTracker.Services
         public IReadOnlyList<Transaction> SearchByCategory(string category)
         {
             return this._repository.Search(t => string.Equals(t.Category, category, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private Transaction UpdateExistingTransaction(EditTransactionRequest editedTransaction, string id)
+        {
+            Transaction transaction = this._repository.GetTransactionCopy(id);
+
+            if (!string.IsNullOrWhiteSpace(editedTransaction.Category))
+            {
+                transaction.Category = editedTransaction.Category;
+            }
+
+            if (editedTransaction.Amount != Configurable.ExistingPriceValue)
+            {
+                transaction.Amount = editedTransaction.Amount;
+            }
+
+            if (editedTransaction.Date != DateTime.Parse(Configurable.ExistingDate))
+            {
+                transaction.Date = editedTransaction.Date;
+            }
+
+            if (!string.IsNullOrWhiteSpace(editedTransaction.Description))
+            {
+                transaction.Description = editedTransaction.Description;
+            }
+
+            return transaction;
         }
     }
 }
