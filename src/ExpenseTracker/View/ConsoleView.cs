@@ -36,7 +36,7 @@ public class ConsoleView
                "[6] Search Transactions\n" +
                "[7] Sort Transactions\n" +
                "[8] Exit Application\n\n" +
-               "Please enter your choice (1-6): ";
+               "Please enter your choice (1-8): ";
 
         return this.GetEnumValue<TransactionMenu>(menuMessage);
     }
