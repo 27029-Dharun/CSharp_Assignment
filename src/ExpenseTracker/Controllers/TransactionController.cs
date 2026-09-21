@@ -50,7 +50,7 @@ namespace ExpenseTracker.Controllers
                 }
                 catch (InvalidDataException ex)
                 {
-                    this._view.PrintInfo($"{ex.Message}");
+                    this._view.PrintWarning($"{ex.Message}");
                 }
                 catch (ArgumentException ex)
                 {
@@ -58,8 +58,7 @@ namespace ExpenseTracker.Controllers
                 }
                 catch (Exception ex)
                 {
-                    this._view.PrintInfo($"An unexpected error occurred: {ex.Message}");
-                    this._view.PrintWarning(ex.Message);
+                    this._view.PrintWarning($"An unexpected error occurred: {ex.Message}");
                 }
 
                 this._view.PauseAndReturn();
