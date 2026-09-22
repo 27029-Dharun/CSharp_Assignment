@@ -1,18 +1,18 @@
 ﻿namespace AdvancedFeatures.Tasks;
 
 /// <summary>
-/// Contains the notifier logics.
+/// Provides functionality for notifying subscribers.
 /// </summary>
 internal class Notifier
 {
     /// <summary>
-    /// Notify delegate.
+    /// Represents the method signature for notification handlers.
     /// </summary>
     /// <param name="message">The message to be printed.</param>
     internal delegate void Notify(string message);
 
     /// <summary>
-    /// A event
+    /// Occurs when an action is executed and notifies all subscribed handlers.
     /// </summary>
     internal event Notify? OnAction;
 

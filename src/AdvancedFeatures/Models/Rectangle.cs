@@ -36,6 +36,6 @@ internal class Rectangle : Shape
     /// <returns>The calculated area as a double.</returns>
     internal override double CalculateArea()
     {
-        return Math.PI * this.Length * this.Width;
+        return this.Length * this.Width;
     }
 }
