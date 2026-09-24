@@ -17,7 +17,7 @@ public class Controller
             "2. Stack (Reverse string)\n" +
             "3. Queue operation\n" +
             "4. Dictionary operation\n" +
-            "5. Concrete type implementation" +
+            "5. Concrete type implementation\n" +
             "6. Exit\n" +
             "Enter an option to continue: ";
 
@@ -140,15 +140,16 @@ public class Controller
         int[] grade = new int[5];
         for (int i = 0; i < 5; i++)
         {
-            names[i] = ConsoleIO.GetString("Enter the name of the student: ");
+            string name = ConsoleIO.GetString("Enter the name of the student: ");
 
-            if (studentsRecord.ContainsKey(names[i]))
+            if (names.Contains(name))
             {
-                Console.WriteLine($"Name {names[i]} already exists.");
+                Console.WriteLine($"Name {name} already exists. Enter another name");
                 i--;
                 continue;
             }
 
+            names[i] = name;
             grade[i] = ConsoleIO.GetInteger($"Enter the grade of {names[i]}: ");
         }
 
