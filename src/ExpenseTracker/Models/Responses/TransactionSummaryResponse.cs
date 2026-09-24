@@ -10,10 +10,18 @@
         /// </summary>
         /// <param name="income">Total income recorded.</param>
         /// <param name="expense">Total expense recorded.</param>
-        public TransactionSummaryResponse(decimal income, decimal expense)
+        /// <param name="monthlyIncome">Income recorded in the current month.</param>
+        /// <param name="monthlyExpense">Expense recorded in the current month.</param>
+        /// <param name="incomeCategoryTotals">Category wise total income recorded.</param>
+        /// <param name="expenseCategoryTotals">Category wise total expense recorded.</param>
+        public TransactionSummaryResponse(decimal income, decimal expense, decimal monthlyIncome, decimal monthlyExpense, Dictionary<string, decimal> expenseCategoryTotals, Dictionary<string, decimal> incomeCategoryTotals)
         {
             this.Income = income;
             this.Expense = expense;
+            this.MonthlyIncome = monthlyIncome;
+            this.MonthlyExpense = monthlyExpense;
+            this.ExpenseCategoryTotals = expenseCategoryTotals;
+            this.IncomeCategoryTotals = incomeCategoryTotals;
         }
 
         /// <summary>
@@ -33,9 +41,37 @@
         public decimal Expense { get; }
 
         /// <summary>
+        /// Gets monthly income recorded.
+        /// </summary>
+        /// <value>
+        /// Monthly income recorded.
+        /// </value>
+        public decimal MonthlyIncome { get; }
+
+        /// <summary>
+        /// Gets monthly expense recorded.
+        /// </summary>
+        /// <value>
+        /// Monthly expense recorded.
+        /// </value>
+        public decimal MonthlyExpense { get; }
+
+        /// <summary>
+        /// Gets the total income from each category.
+        /// </summary>
+        /// <value> Sum of amount earned in each category. </value>
+        public Dictionary<string, decimal> IncomeCategoryTotals { get; }
+
+        /// <summary>
+        /// Gets the total expense from each category.
+        /// </summary>
+        /// <value> Sum of amount spent in each category. </value>
+        public Dictionary<string, decimal> ExpenseCategoryTotals { get; }
+
+        /// <summary>
         /// calculates the balance of the user.
         /// </summary>
-        /// <returns>returns the balance.</returns>
+        /// <returns> The balance amount present.</returns>
         public decimal GetBalance() => this.Income - this.Expense;
     }
 }

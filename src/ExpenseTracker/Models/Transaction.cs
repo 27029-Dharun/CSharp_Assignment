@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models
+﻿using System.Text.Json.Serialization;
+
+namespace ExpenseTracker.Models
 {
     /// <summary>
     /// Represents a transaction in the system.
@@ -8,13 +10,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
+        /// <param name="id">Unique identifier of the transaction.</param>
         /// <param name="description">Description of the transaction.</param>
         /// <param name="date">Date of the transaction.</param>
         /// <param name="type">Type of the transaction.</param>
         /// <param name="category">Category of the transaction.</param>
         /// <param name="amount">Amount used in the transaction.</param>
-        public Transaction(string description, DateTime date, TransactionType type, string category, decimal amount)
+        [JsonConstructor]
+        public Transaction(string id, string description, DateTime date, TransactionType type, string category, decimal amount)
         {
+            this.Id = id;
             this.Description = description;
             this.Date = date;
             this.Type = type;
@@ -25,15 +30,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
-        /// <param name="id">Unique identifier of the transaction.</param>
         /// <param name="description">Description of the transaction.</param>
         /// <param name="date">Date of the transaction.</param>
         /// <param name="type">Type of the transaction.</param>
         /// <param name="category">Category of the transaction.</param>
         /// <param name="amount">Amount used in the transaction.</param>
-        public Transaction(string id, string description, DateTime date, TransactionType type, string category, decimal amount)
+        public Transaction(string description, DateTime date, TransactionType type, string category, decimal amount)
         {
-            this.Id = id;
             this.Description = description;
             this.Date = date;
             this.Type = type;

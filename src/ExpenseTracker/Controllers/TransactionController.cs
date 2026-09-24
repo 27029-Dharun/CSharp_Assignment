@@ -34,6 +34,10 @@ namespace ExpenseTracker.Controllers
             {
                 TransactionMenu option = this._view.GetMainMenuOption();
                 this._view.ClearConsole();
+                if (option == TransactionMenu.Exit)
+                {
+                    return;
+                }
 
                 try
                 {
@@ -46,7 +50,7 @@ namespace ExpenseTracker.Controllers
                 }
                 catch (InvalidDataException ex)
                 {
-                    this._view.PrintWarning(ex.Message);
+                    this._view.PrintWarning($"{ex.Message}");
                 }
                 catch (ArgumentException ex)
                 {
@@ -54,7 +58,7 @@ namespace ExpenseTracker.Controllers
                 }
                 catch (Exception ex)
                 {
-                    this._view.PrintWarning(ex.Message);
+                    this._view.PrintWarning($"An unexpected error occurred: {ex.Message}");
                 }
 
                 this._view.PauseAndReturn();
@@ -88,6 +92,14 @@ namespace ExpenseTracker.Controllers
 
                 case TransactionMenu.ViewTransaction:
                     this.ViewTransactions();
+                    break;
+
+                case TransactionMenu.SearchTransaction:
+                    this.SearchTransaction();
+                    break;
+
+                case TransactionMenu.SortTransaction:
+                    this.SortTransactionByAmount();
                     break;
 
                 case TransactionMenu.Exit:
@@ -175,6 +187,12 @@ namespace ExpenseTracker.Controllers
             this._view.PrintInfo($"Total income: {summary.Income}");
             this._view.PrintInfo($"Total expense: {summary.Expense}");
             this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+
+            Console.WriteLine();
+            this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
+            this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
+
+            this._view.PrintSummary(summary);
         }
 
         private void EditTransaction()
@@ -230,6 +248,57 @@ namespace ExpenseTracker.Controllers
             return this._view.GetId();
         }
 
+        private void SortTransactionByAmount()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to sort.");
+                return;
+            }
+
+            SortOption option = this._view.GetEnumValue<SortOption>("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to search.");
+                return;
+            }
+
+            SearchTransactionOption option = this._view.GetEnumValue<SearchTransactionOption>("1. Category\n2. Date\nSelect the field to search with: ");
+            IReadOnlyList<Transaction> filteredTransactions;
+
+            if (option == SearchTransactionOption.Category)
+            {
+                string category = this._view.GetCategory();
+                filteredTransactions = this._service.SearchByCategory(category);
+            }
+            else
+            {
+                DateTime date = this._view.GetDate();
+                filteredTransactions = this._service.SearchByDate(date);
+            }
+
+            if (!filteredTransactions.Any())
+            {
+                this._view.PrintInfo("No matched transactions found");
+                return;
+            }
+
+            this._view.PrintTransactionTable(filteredTransactions);
+        }
+
+        /// <summary>
+        /// Gets the input from the user for creating a transaction.
+        /// </summary>
+        /// <returns>Transaction data instance.</returns>
         private CreateTransactionRequest GetTransactionInput()
         {
             TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
