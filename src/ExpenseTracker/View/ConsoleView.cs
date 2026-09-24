@@ -2,6 +2,7 @@
 using ConsoleTables;
 using ExpenseTracker.Constants;
 using ExpenseTracker.Models;
+using ExpenseTracker.Models.Responses;
 using ExpenseTracker.Validators;
 
 namespace ExpenseTracker.View;
@@ -31,9 +32,11 @@ public class ConsoleView
                "[2] Edit Transaction\n" +
                "[3] Delete Transaction\n" +
                "[4] View Financial Summary\n" +
-               "[5] View Transactions\n" +
-               "[6] Exit Application\n\n" +
-               "Please enter your choice (1-6): ";
+               "[5] View History / Transactions\n" +
+               "[6] Search Transactions\n" +
+               "[7] Sort Transactions\n" +
+               "[8] Exit Application\n\n" +
+               "Please enter your choice (1-8): ";
 
         return this.GetEnumValue<TransactionMenu>(menuMessage);
     }
@@ -211,6 +214,40 @@ public class ConsoleView
     }
 
     /// <summary>
+    /// Prints the summary of all the transactions with visualizations.
+    /// </summary>
+    /// <param name="summary">Summary instance that contains the summary of all the transactions.</param>
+    public void PrintSummary(TransactionSummaryResponse summary)
+    {
+        Console.WriteLine("\nIncome vs expense");
+        this.PrintBarChart(new Dictionary<string, decimal>()
+            {
+                { "Income", summary.Income },
+                { "Expense", summary.Expense },
+            });
+
+        if (summary.ExpenseCategoryTotals != null && summary.ExpenseCategoryTotals.Count > 0)
+        {
+            Console.WriteLine("\nCategory wise expense");
+            this.PrintBarChart(summary.ExpenseCategoryTotals);
+        }
+        else
+        {
+            this.PrintInfo("No expense recorded");
+        }
+
+        if (summary.IncomeCategoryTotals != null && summary.IncomeCategoryTotals.Count > 0)
+        {
+            Console.WriteLine("\nCategory wise income");
+            this.PrintBarChart(summary.IncomeCategoryTotals);
+        }
+        else
+        {
+            this.PrintInfo("No income recorded");
+        }
+    }
+
+    /// <summary>
     /// Waits for user to press a key and clears the console.
     /// </summary>
     public void PauseAndReturn()
@@ -219,6 +256,24 @@ public class ConsoleView
         Console.ReadKey();
 
         this.ClearConsole();
+    }
+
+    private void PrintBarChart(Dictionary<string, decimal> categoryTotals)
+    {
+        decimal maxValue = categoryTotals.Values.Max();
+        int maxPad = categoryTotals.Keys.Max(key => key.Length);
+        int maxBarLength = Configurable.MaxBarLength;
+
+        foreach (var item in categoryTotals)
+        {
+            int barLength = (int)(item.Value * maxBarLength / maxValue) + 1;
+
+            Console.Write($"{item.Key,-10} ");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Write($" {new string(' ', barLength)}");
+            Console.ResetColor();
+            Console.WriteLine($" {item.Value}\n");
+        }
     }
 
     private void PrintColoredText(string message, ConsoleColor color)
