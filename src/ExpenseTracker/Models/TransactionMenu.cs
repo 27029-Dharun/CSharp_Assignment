@@ -31,8 +31,18 @@
         ViewTransaction = 5,
 
         /// <summary>
+        /// Represents an option to search all the transactions by date and category.
+        /// </summary>
+        SearchTransaction = 6,
+
+        /// <summary>
+        /// Represents an option to sort all the transactions by amount.
+        /// </summary>
+        SortTransaction = 7,
+
+        /// <summary>
         /// Represents an option to exit from the application.
         /// </summary>
-        Exit = 6,
+        Exit = 8,
     }
 }

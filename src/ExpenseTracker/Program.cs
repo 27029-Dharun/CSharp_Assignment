@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Controllers;
+using ExpenseTracker.CustomException;
 using ExpenseTracker.Helper;
 using ExpenseTracker.Repository;
 using ExpenseTracker.Services;
@@ -19,16 +20,23 @@ namespace ExpenseTracker
             try
             {
                 ConsoleView view = new ConsoleView();
-                TransactionIdGenerator idGenerator = new TransactionIdGenerator();
-                IRepository repository = new TransactionRepository(idGenerator);
+                TransactionIdGenerator idGenerator = new TransactionIdGenerator("transactionId.json");
+                JsonFileManager jsonFileManager = new JsonFileManager();
+                ITransactionRepository repository = new TransactionRepository("transactions.json", jsonFileManager, idGenerator);
                 TransactionService service = new TransactionService(repository);
                 TransactionController controller = new TransactionController(service, view);
 
                 controller.Run();
             }
-            catch (Exception ex)
+            catch (DataBaseException ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                Console.ReadKey();
             }
         }
     }
