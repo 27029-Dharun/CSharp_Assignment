@@ -1,0 +1,325 @@
+﻿using ExpenseTracker.Models;
+using ExpenseTracker.Models.Requests;
+using ExpenseTracker.Models.Responses;
+using ExpenseTracker.Services;
+using ExpenseTracker.View;
+
+namespace ExpenseTracker.Controllers
+{
+    /// <summary>
+    /// Coordinates operations between the view and services.
+    /// </summary>
+    public class TransactionController
+    {
+        private readonly TransactionService _service;
+        private readonly ConsoleView _view;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionController"/> class.
+        /// </summary>
+        /// <param name="service">The service instance injected through dependency injection.</param>
+        /// <param name="view">The view instance injected through dependency injection.</param>
+        public TransactionController(TransactionService service, ConsoleView view)
+        {
+            this._service = service;
+            this._view = view;
+        }
+
+        /// <summary>
+        /// Loops and get menu option until the user exits.
+        /// </summary>
+        public void Run()
+        {
+            while (true)
+            {
+                TransactionMenu option = this._view.GetMainMenuOption();
+                this._view.ClearConsole();
+                if (option == TransactionMenu.Exit)
+                {
+                    return;
+                }
+
+                try
+                {
+                    bool isRunning = this.HandleMenu(option);
+
+                    if (!isRunning)
+                    {
+                        return;
+                    }
+                }
+                catch (InvalidDataException ex)
+                {
+                    this._view.PrintWarning($"{ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    this._view.PrintWarning(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    this._view.PrintWarning($"An unexpected error occurred: {ex.Message}");
+                }
+
+                this._view.PauseAndReturn();
+            }
+        }
+
+        /// <summary>
+        /// Handles the menu returns from the application runner.
+        /// </summary>
+        /// <param name="menu">Menu option selected from the user.</param>
+        /// <returns>A boolean true if the user want to continue; false, otherwise.</returns>
+        public bool HandleMenu(TransactionMenu menu)
+        {
+            switch (menu)
+            {
+                case TransactionMenu.AddTransaction:
+                    this.CreateTransaction();
+                    break;
+
+                case TransactionMenu.EditTransaction:
+                    this.EditTransaction();
+                    break;
+
+                case TransactionMenu.DeleteTransaction:
+                    this.DeleteTransaction();
+                    break;
+
+                case TransactionMenu.ViewSummary:
+                    this.ViewSummary();
+                    break;
+
+                case TransactionMenu.ViewTransaction:
+                    this.ViewTransactions();
+                    break;
+
+                case TransactionMenu.SearchTransaction:
+                    this.SearchTransaction();
+                    break;
+
+                case TransactionMenu.SortTransaction:
+                    this.SortTransactionByAmount();
+                    break;
+
+                case TransactionMenu.Exit:
+                    return false;
+            }
+
+            return true;
+        }
+
+        private void CreateTransaction()
+        {
+            CreateTransactionRequest transaction = this.GetTransactionInput();
+
+            this._service.CreateTransaction(transaction);
+
+            this._view.PrintSuccess("Transaction created successfully.");
+            this.ViewAllTransaction();
+        }
+
+        private void ViewTransactions()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to view");
+                return;
+            }
+
+            ViewTransactionOption option = this._view.GetEnumValue<ViewTransactionOption>("1. View all expense\n2. View all income\n3. View all transactions\nEnter the option to view: ");
+
+            switch (option)
+            {
+                case ViewTransactionOption.Expense:
+                    this.ViewExpense();
+                    break;
+
+                case ViewTransactionOption.Income:
+                    this.ViewIncome();
+                    break;
+
+                case ViewTransactionOption.All:
+                    this.ViewAllTransaction();
+                    break;
+            }
+        }
+
+        private void ViewAllTransaction()
+        {
+            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
+            this._view.PrintTransactionTable(transactions);
+        }
+
+        private void ViewIncome()
+        {
+            IReadOnlyList<Transaction> income = this._service.GetIncome();
+            if (!income.Any())
+            {
+                this._view.PrintInfo("No income recorded");
+                return;
+            }
+
+            this._view.PrintTransactionTable(income);
+        }
+
+        private void ViewExpense()
+        {
+            IReadOnlyList<Transaction> expense = this._service.GetExpense();
+            if (!expense.Any())
+            {
+                this._view.PrintInfo("No expense recorded");
+                return;
+            }
+
+            this._view.PrintTransactionTable(expense);
+        }
+
+        private void ViewSummary()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions available");
+                return;
+            }
+
+            TransactionSummaryResponse summary = this._service.GenerateSummary();
+            this._view.PrintInfo($"Total income: {summary.Income}");
+            this._view.PrintInfo($"Total expense: {summary.Expense}");
+            this._view.PrintInfo($"Balance amount: {summary.GetBalance()}");
+
+            Console.WriteLine();
+            this._view.PrintInfo($"Monthly income: {summary.MonthlyIncome}");
+            this._view.PrintInfo($"Monthly expense: {summary.MonthlyExpense}");
+
+            this._view.PrintSummary(summary);
+        }
+
+        private void EditTransaction()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to edit");
+                return;
+            }
+
+            string id = this.GetTransactionId();
+
+            EditTransactionRequest transaction = this.GetEditTransactionInput();
+
+            if (!this._service.EditTransaction(transaction, id))
+            {
+                this._view.PrintError("Failed to update the transaction.");
+                return;
+            }
+
+            this._view.ClearConsole();
+            this._view.PrintSuccess($"Transaction edited successfully.\n");
+            this.ViewAllTransaction();
+        }
+
+        private void DeleteTransaction()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to delete");
+                return;
+            }
+
+            string id = this.GetTransactionId();
+            if (!this._service.IsValidTransactionId(id))
+            {
+                this._view.PrintWarning("Invalid transaction ID to delete");
+                return;
+            }
+
+            this._service.DeleteTransaction(id);
+
+            this._view.ClearConsole();
+            this._view.PrintSuccess("Transaction deleted successfully.");
+            this.ViewAllTransaction();
+        }
+
+        private string GetTransactionId()
+        {
+            IReadOnlyList<Transaction> transactions = this._service.GetAllTransaction();
+            this._view.PrintTransactionTable(transactions);
+
+            return this._view.GetId();
+        }
+
+        private void SortTransactionByAmount()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to sort.");
+                return;
+            }
+
+            SortOption option = this._view.GetEnumValue<SortOption>("Sort amount by\n1. Ascending\n2. Descending\nSelect one of the above option: ");
+
+            IReadOnlyList<Transaction> filteredIncome = this._service.GetSortedIncome(option);
+            IReadOnlyList<Transaction> filteredExpense = this._service.GetSortedExpense(option);
+            this._view.PrintTransactionTable(filteredIncome);
+            this._view.PrintTransactionTable(filteredExpense);
+        }
+
+        private void SearchTransaction()
+        {
+            if (!this._service.HasTransactions())
+            {
+                this._view.PrintInfo("No transactions to search.");
+                return;
+            }
+
+            SearchTransactionOption option = this._view.GetEnumValue<SearchTransactionOption>("1. Category\n2. Date\nSelect the field to search with: ");
+            IReadOnlyList<Transaction> filteredTransactions;
+
+            if (option == SearchTransactionOption.Category)
+            {
+                string category = this._view.GetCategory();
+                filteredTransactions = this._service.SearchByCategory(category);
+            }
+            else
+            {
+                DateTime date = this._view.GetDate();
+                filteredTransactions = this._service.SearchByDate(date);
+            }
+
+            if (!filteredTransactions.Any())
+            {
+                this._view.PrintInfo("No matched transactions found");
+                return;
+            }
+
+            this._view.PrintTransactionTable(filteredTransactions);
+        }
+
+        /// <summary>
+        /// Gets the input from the user for creating a transaction.
+        /// </summary>
+        /// <returns>Transaction data instance.</returns>
+        private CreateTransactionRequest GetTransactionInput()
+        {
+            TransactionType type = this._view.GetEnumValue<TransactionType>("1. Expense\n2. Income\nSelect the type of the transaction: ");
+            string category = this._view.GetCategory();
+            decimal amount = this._view.GetAmount();
+            DateTime date = this._view.GetDate();
+            string description = this._view.GetDescription();
+
+            // Creates the transaction DTO
+            return new CreateTransactionRequest(description, date, type, category, amount);
+        }
+
+        private EditTransactionRequest GetEditTransactionInput()
+        {
+            string category = this._view.GetCategory(true);
+            decimal amount = this._view.GetAmount(true);
+            DateTime date = this._view.GetDate(true);
+            string description = this._view.GetDescription(true);
+
+            // Creates the transaction DTO
+            return new EditTransactionRequest(description, date, category, amount);
+        }
+    }
+}
