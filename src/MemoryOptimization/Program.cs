@@ -25,10 +25,8 @@ internal class Program
                         break;
 
                     case 2:
-                        using (MemoryOptimization1 optimizedMemoryUsage1 = new MemoryOptimization1())
-                        {
-                            optimizedMemoryUsage1.Allocate();
-                        }
+                        MemoryOptimization optimizedMemoryUsage1 = new MemoryOptimization();
+                        optimizedMemoryUsage1.Allocate();
 
                         break;
 

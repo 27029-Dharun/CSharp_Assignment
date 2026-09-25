@@ -18,14 +18,41 @@ This section focuses on identifying and analyzing a subtle memory retention beha
 ### Understanding about Memory Optimization
 
 - `MemoryOptimization.cs` creates a List of integer array.
-- The "MemoryOptimization1" instance is created within "using" statement.
-- The IDisposable interface is implemented in MemoryOptimization class and implemented the Dispose method
+- The "MemoryOptimization" instance is created within switch statement.
 - The Allocate method rises the memory usage to a certain level and when the threshold is reached it returns.
-- Since the MemoryOptimization is enclosed within "using" statement, the Dispose method is automatically called.
-- As the List is a managed resource, the memory resource cannot be Disposed.
-- Instead the list is dereferenced and forced Garbage Collector to collect the unreferenced objects.
+- Only the function's execution is completed the list becomes unreachable the GC will collect the List object automatically.
+- Array with more than 21249 elements will become a large object.
+- Using large objects should be avoided, as the memory in large object heap will not be collected.
 
 #### Memory Usage After Optimization
 
 ![Image1](./Images/Task2_Optimization1.png)
 ![Image1](./Images/Task2_Optimization2.png)
+
+## ArrayPool
+
+- It provides a way to reuse arrays instead of creating new ones repeatedly, reducing GC pressure.
+
+### Key Concepts
+
+- **Pooling:** Instead of allocating a new array every time, ArrayPool maintains a pool of arrays and reuses them.
+- **Renting:** Rent an array of a certain minimum length from the pool.
+- **Returning:** After use, we should return the array to the pool.
+
+## Example
+
+```c#
+        // Get the shared instance of ArrayPool for int arrays
+        ArrayPool<int> pool = ArrayPool<int>.Shared;
+
+        // Rent an array of at least size 10
+        int[] rentedArray = pool.Rent(10);
+
+        for (int i = 0; i < 10; i++)
+        {
+            rentedArray[i] = i * i;
+        }
+
+        pool.Return(rentedArray);
+
+```
