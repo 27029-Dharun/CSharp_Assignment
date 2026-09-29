@@ -62,6 +62,10 @@ public class BasicCalculator
             {
                 this._view.Print(e.Message);
             }
+            catch (Exception e)
+            {
+                this._view.Print(e.Message);
+            }
 
             this._view.PauseAndClear();
         }
@@ -73,6 +77,6 @@ public class BasicCalculator
         int firstNumber = this._view.GetNumber("Enter the first number: ");
         int secondNumber = this._view.GetNumber("Enter the second number: ");
 
-        this._view.Print($"The result for {option} on {firstNumber} & {secondNumber} is {calculate(firstNumber, secondNumber)}");
+        this._view.Print($"\nThe result for {option} on {firstNumber} & {secondNumber} is {calculate(firstNumber, secondNumber)}\n");
     }
 }

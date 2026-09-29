@@ -61,7 +61,15 @@ Developers share code libraries globally by deploying them directly into the GAC
 * Stores the actual value of the variable in the memory.
 * It stores the value in stack.
 * When assigned to a new variable, the underlying value is copied completely. Most primitive data types in C# operate as value types.
-* **ex:** int, float, struct
+
+#### Value types include
+
+* struct
+* enum
+* built-in numeric types
+* bool
+* char
+* decimal
 
 #### Reference types
 
@@ -69,7 +77,33 @@ Developers share code libraries globally by deploying them directly into the GAC
 * It stores the value in heap and the heaps reference is stored in the stack memory.
 * When assigned to a new variable, the reference of the variable is copied to the new variable. So changing the new variable also changes the value of the old variable.
 
-* **ex:** class, interface
+#### Reference types include
+
+* class
+* interface
+* delegate
+* array
+* string
+* object
+* record class
+
+```C#
+int a = 10;
+int b = a;
+
+b = 20;
+```
+
+a remains 10.
+
+```C#
+Person person1 = new Person();
+Person person2 = person1;
+
+person2.Name = "John";
+```
+
+Both references point to the same object, so person1.Name is also "John".
 
 ### 6. Describe the concept of garbage collection on .NET and its advantages
 
@@ -77,7 +111,8 @@ The memory in heap is managed by the garbage collector.It performs operation lik
 **Triggers of GC**
 
 * When Garbage collector is called explicitly.
-* When the memory occupied by the object surpasses the given threshold.
+* When the runtime determines that a collection is appropriate, including when allocations on the managed heap exceed dynamically determined thresholds
+* Under memory pressure
 
 It used Mark and sweep algorithm to find the unreferenced object.
 Garbage collector used the Generation of Object concept and separates object into three generations.
@@ -86,6 +121,8 @@ Garbage collector used the Generation of Object concept and separates object int
 * **Generation 1:** Contains medium-lived objects that survived their initial GC cleaning cycle.
 * **Generation 2:** Contains long-lived objects that survived multiple consecutive GC cycles.
 
+.NET uses a generational garbage collector, with Gen 0, Gen 1, and Gen 2. It identifies all the reachable objects during collection and reclaims memory from objects that are no longer reachable; it can also compact the heap.
+
 ### 7. What is the purpose of the Globalization and Localization features in .NET?
 
 #### Globalization
@@ -93,10 +130,24 @@ Garbage collector used the Generation of Object concept and separates object int
 * Adapts software to handle regional variations in calendar styles, date formats, number layouts, and currency formats.
 * Achieved by writing formatting logic utilizing the native `System.Globalization` library namespace.
 
+Examples:
+
+25/09/2026  
+09/25/2026
+
+₹1,000.00  
+$1,000.00
+
 #### Localization
 
 * The actual process of adapting a globalized application to support specific target cultures and target languages.
 * Accomplished by converting and translating text resource files into executable code, giving developers deep customization over local user experiences.
+
+Examples:
+
+English → "Save"  
+
+French → "Enregistrer"
 
 ### 8. Explain the role of the Common Intermediate Language (CIL) and Just-In-Time (JIT) compilation in the .NET framework
 
@@ -110,6 +161,6 @@ Garbage collector used the Generation of Object concept and separates object int
 #### Just-In-Time (JIT) Compiler
 
 * The CLR uses a specialized compiler called the **JIT Compiler** to translate CIL instructions into native machine code during execution.
-* A piece of code it converted to machine level code right before it got executed for the first time.
+* JIT compiles methods to native code as they are needed during execution.
 * The entire code is not compiled to machine level code only the code that are used are compiled.
 * Modern runtimes also support AOT compilation, which translates CIL into machine code before execution to achieve near-instant application startup times.

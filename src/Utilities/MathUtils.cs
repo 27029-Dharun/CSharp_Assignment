@@ -46,6 +46,11 @@ public static class MathUtils
     /// <returns>A integer value containing the quotient.</returns>
     public static double Divide(int firstNumber, int secondNumber)
     {
+        if (secondNumber == 0)
+        {
+            throw new DivideByZeroException();
+        }
+
         return (double)firstNumber / secondNumber;
     }
 }

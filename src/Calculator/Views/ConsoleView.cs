@@ -15,13 +15,17 @@ public class ConsoleView
     /// <returns>A integer value entered by the user.</returns>
     public int GetNumber(string prompt)
     {
-        string input = ConsoleIO.GetString(prompt);
-        if (!int.TryParse(input, out int integer))
+        while (true)
         {
-            throw new FormatException("Please enter a valid integer." + Environment.NewLine);
-        }
+            string input = ConsoleIO.GetString(prompt);
 
-        return integer;
+            if (int.TryParse(input, out int number))
+            {
+                return number;
+            }
+
+            ConsoleIO.PrintInfo("Please enter a valid integer.");
+        }
     }
 
     /// <summary>
