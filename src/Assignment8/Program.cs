@@ -14,7 +14,7 @@ internal class Program
     internal static void Main()
     {
         AppDomain domain = AppDomain.CurrentDomain;
-        domain.UnhandledException += DomainUnhandledException;
+        domain.UnhandledException += OnUnhandledException;
 
         ConsoleView view = new ConsoleView();
         Controller controller = new Controller(view);
@@ -22,11 +22,11 @@ internal class Program
         controller.HandleMenu();
     }
 
-    private static void DomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         Console.WriteLine("\nGlobal exception handled");
         Console.WriteLine(e.IsTerminating);
         Exception ex = (Exception)e.ExceptionObject;
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
     }
 }

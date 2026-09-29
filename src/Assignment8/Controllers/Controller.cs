@@ -26,10 +26,10 @@ namespace Assignment8.Controllers
         {
             while (true)
             {
-                int option = this._view.GetMenuOption();
-                this._view.ClearConsole();
                 try
                 {
+                    int option = this._view.GetMenuOption();
+                    this._view.ClearConsole();
                     switch (option)
                     {
                         case 1:
@@ -56,7 +56,7 @@ namespace Assignment8.Controllers
                             return;
 
                         default:
-                            this._view.PrintInfo("Enter a valid option in range 1 - 5.");
+                            this._view.PrintInfo("Enter a valid option in range 1 - 6.");
                             break;
                     }
                 }
@@ -65,6 +65,10 @@ namespace Assignment8.Controllers
                     this._view.PrintWarning("Exception thrown in the catch block caught in the handle menu.");
                     this._view.PrintInfo("Inner exception message");
                     this._view.PrintWarning(e.InnerException?.Message ?? string.Empty);
+                }
+                catch (InvalidUserInputException)
+                {
+                    this._view.PrintWarning("Enter a valid user input.");
                 }
 
                 this._view.PauseAndReturn();
@@ -119,10 +123,7 @@ namespace Assignment8.Controllers
             try
             {
                 this._view.PrintInfo("The elements in the array");
-                for (int i = 0; i < array.Length - 1; i++)
-                {
-                    this._view.Print($"{array[i]},");
-                }
+                this._view.PrintInfo(string.Join(",", array));
 
                 this._view.PrintInfo($"{array[array.Length - 1]}");
 
