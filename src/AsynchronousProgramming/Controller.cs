@@ -52,6 +52,8 @@ internal class Controller
                     break;
 
                 case 5:
+                    DeadlockDebugger deadlockDebugger = new DeadlockDebugger();
+                    await deadlockDebugger.DeadlockMethod();
                     break;
 
                 case 6:
