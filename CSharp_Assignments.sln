@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment9AdvancedLINQ", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker", "src\ExpenseTracker\ExpenseTracker.csproj", "{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsynchronousProgramming", "src\AsynchronousProgramming\AsynchronousProgramming.csproj", "{5B9C50DE-7919-4A35-AA92-4776CF79E5A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B9C50DE-7919-4A35-AA92-4776CF79E5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B9C50DE-7919-4A35-AA92-4776CF79E5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B9C50DE-7919-4A35-AA92-4776CF79E5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B9C50DE-7919-4A35-AA92-4776CF79E5A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,9 +79,10 @@ Global
 		{010CCA1F-DB51-2D32-D5F5-B248B413390F} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{9B1B0E24-11EA-48D4-8DDA-7E18F3B3F15A} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
+		{5B9C50DE-7919-4A35-AA92-4776CF79E5A9} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EE65E8FE-C3F4-42A4-82CA-49741C56DB69}
 		        SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
+		SolutionGuid = {EE65E8FE-C3F4-42A4-82CA-49741C56DB69}
 	EndGlobalSection
 EndGlobal
