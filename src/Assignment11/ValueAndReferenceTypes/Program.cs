@@ -1,4 +1,4 @@
-﻿namespace ValueAndReferenceTypes;
+﻿namespace GarbageCollection;
 
 /// <summary>
 /// Program class which acts as the entry point of the application.

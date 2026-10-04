@@ -1,4 +1,4 @@
-﻿namespace ValueAndReferenceTypes
+﻿namespace GarbageCollection
 {
     /// <summary>
     /// Represents a person.

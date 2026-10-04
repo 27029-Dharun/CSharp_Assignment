@@ -1,56 +1,53 @@
-﻿using System.Diagnostics;
-using ValueAndReferenceTypes;
-
-namespace GarbageCollection;
+﻿namespace GarbageCollection;
 
 /// <summary>
 /// Program class which acts as the entry point of the application.
 /// </summary>
 internal class Program
 {
-    private static List<Person>? _person = new List<Person>();
-
     /// <summary>
     /// Application entry point.
     /// </summary>
     public static void Main()
     {
-        Process currentProcess = new Process();
         Console.WriteLine("======= Garbage Collection =======\n" +
-                $"Total memory before creating all objects: {GetMemoryInKB(currentProcess)} KB");
+                $"Managed heap estimate before allocation: {GetManagedMemoryInBytes()} bytes");
 
-        CreateObjects();
+        List<Person> persons = CreateObjects();
 
-        Console.WriteLine($"Total memory after creating all objects: {GetMemoryInKB(currentProcess)} KB");
+        Console.WriteLine($"Total memory after creating all objects: {GetManagedMemoryInBytes()} KB");
 
         // Force garbage collection (even though objects are still referenced)
         GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(object still referred): {GetMemoryInKB(currentProcess)} KB");
+        Console.WriteLine($"Total memory after triggering garbage collector(object still referred): {GetManagedMemoryInBytes()} KB");
 
         // Made the list null now all the objects created are unreachable.
-        _person = null;
+        persons = null;
 
         // Force garbage collection again (now objects can be collected)
         GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(objects unreachable): {GetMemoryInKB(currentProcess)} KB");
+        Console.WriteLine($"Total memory after triggering garbage collector(objects unreachable): {GetManagedMemoryInBytes()} KB");
 
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }
 
-    private static long GetMemoryInKB(Process currentProcess)
+    private static long GetManagedMemoryInBytes()
     {
-        currentProcess.Refresh();
         long memory = GC.GetTotalMemory(false);
         return memory / 1024;
     }
 
-    private static void CreateObjects(int objectCount = 10_00_000)
+    private static List<Person> CreateObjects(int objectCount = 1_000_000)
     {
+        List<Person> persons = new List<Person>();
+
         for (int i = 0; i < objectCount; i++)
         {
             Person person = new Person();
-            _person?.Add(person);
+            persons.Add(person);
         }
+
+        return persons;
     }
 }

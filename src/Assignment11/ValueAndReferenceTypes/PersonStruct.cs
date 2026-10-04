@@ -1,4 +1,4 @@
-﻿namespace ValueAndReferenceTypes;
+﻿namespace GarbageCollection;
 
 /// <summary>
 /// Value type
