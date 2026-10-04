@@ -12,6 +12,8 @@ internal class ErrorHandling
     public async void VoidMethod()
     {
         Console.WriteLine("Async void method");
+
+        await Task.Delay(1);
         throw new Exception();
     }
 
@@ -23,6 +25,8 @@ internal class ErrorHandling
     public async Task TaskMethod()
     {
         Console.WriteLine("Async task method");
+
+        await Task.Delay(1);
         throw new Exception();
     }
 }

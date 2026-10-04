@@ -17,7 +17,7 @@ internal class DeadlockDebugger
     }
 
     /// <summary>
-    /// Results an result after one second.
+    /// Performs a asynchronous operation that completes after one second.
     /// </summary>
     /// <returns>A task containing the string result of the asynchronous operation.</returns>
     public async Task<string> SomeAsyncOperation()

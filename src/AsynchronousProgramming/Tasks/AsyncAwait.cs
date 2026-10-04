@@ -8,16 +8,12 @@ internal class AsyncAwait
     /// <summary>
     /// Fetches th content from the url.
     /// </summary>
-    /// <returns>A asynchronous task contenting the string content in the url.</returns>
+    /// <returns>A asynchronous operation, that download content from the url.</returns>
     public async Task<string> DownloadContentAsync()
     {
         using HttpClient client = new HttpClient();
 
-        Console.WriteLine($"Thread Id before calling await: {Thread.CurrentThread.ManagedThreadId}");
-
-        string content = await client.GetStringAsync("https://www.example.com").ConfigureAwait(false);
-
-        Console.WriteLine($"Thread Id after calling await: {Thread.CurrentThread.ManagedThreadId}");
+        string content = await client.GetStringAsync("https://www.example.com");
 
         return content;
     }

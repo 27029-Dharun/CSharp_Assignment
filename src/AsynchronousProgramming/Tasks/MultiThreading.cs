@@ -28,7 +28,7 @@ public class MultiThreading
         calculateSum.Join();
         calculateCount.Join();
 
-        Console.WriteLine("Average value: " + (this._sum / this._count));
+        Console.WriteLine("Average value: " + ((double)this._sum / this._count));
     }
 
     private void CalculateSum()

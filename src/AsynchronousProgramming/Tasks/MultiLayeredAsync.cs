@@ -38,8 +38,14 @@ internal class MultiLayeredAsync
     {
         await Task.Run(() =>
         {
-            Thread.Sleep(1000);
+            long result = 0;
+
+            for (int i = 0; i < 10_000; i++)
+            {
+                result += i;
+            }
         });
+
         return 100;
     }
 }

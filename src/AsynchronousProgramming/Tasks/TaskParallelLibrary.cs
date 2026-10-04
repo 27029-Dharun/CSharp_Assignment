@@ -10,47 +10,60 @@ internal class TaskParallelLibrary
     /// <summary>
     /// Squares the element in the library.
     /// </summary>
-    public void Run()
+    public void CalculateSquare()
     {
-        int[] integerArray = new int[10000];
+        int[] integerArray = new int[10_000];
+        int[] result = new int[10_000];
 
         for (int i = 0; i < integerArray.Length; i++)
         {
             integerArray[i] = i + 1;
         }
 
-        long time = this.SequentialSquaring(integerArray);
+        long timeForSequentialSquaring = this.SequentialSquaring(integerArray, result);
 
-        long timeForParallel = this.ParallelSquaring(integerArray);
+        foreach (var value in result)
+        {
+            Console.WriteLine(value);
+        }
 
-        Console.WriteLine($"Time taken for sequential squaring: {time} ms");
-        Console.WriteLine($"Time taken for parallel squaring: {timeForParallel} ms");
+        long timeForParallelSquaring = this.ParallelSquaring(integerArray, result);
+
+        foreach (var value in result)
+        {
+            Console.WriteLine(value);
+        }
+
+        Console.WriteLine($"Time taken for sequential squaring: {timeForSequentialSquaring} ms");
+        Console.WriteLine($"Time taken for parallel squaring: {timeForParallelSquaring} ms");
     }
 
-    private long SequentialSquaring(int[] integerArray)
+    private long SequentialSquaring(int[] integerArray, int[] result)
     {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
+        int i = 0;
+
         foreach (var integer in integerArray)
         {
-            int res = integer * integer;
-            Console.WriteLine(res);
+            result[i++] = integer * integer;
         }
 
         stopwatch.Stop();
         return stopwatch.ElapsedMilliseconds;
     }
 
-    private long ParallelSquaring(int[] integerArray)
+    private long ParallelSquaring(int[] integerArray, int[] result)
     {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        Parallel.ForEach(integerArray, (i) =>
+        int i = 0;
+
+        Parallel.ForEach(integerArray, (value) =>
         {
-            i = i * i;
-            Console.WriteLine(i);
+            result[i] = value * value;
         });
 
         stopwatch.Stop();

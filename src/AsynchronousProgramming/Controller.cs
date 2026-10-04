@@ -25,74 +25,85 @@ internal class Controller
 
         while (true)
         {
-            int option = ConsoleIO.GetInteger(menuMessage);
-
-            switch (option)
+            try
             {
-                case 1:
-                    AsyncAwait httpClient = new AsyncAwait();
-                    string content = await httpClient.DownloadContentAsync();
-                    Console.WriteLine(content);
-                    break;
+                int option = ConsoleIO.GetInteger(menuMessage);
 
-                case 2:
-                    TaskParallelLibrary taskParallelLibrary = new TaskParallelLibrary();
-                    taskParallelLibrary.Run();
-                    break;
+                switch (option)
+                {
+                    case 1:
+                        AsyncAwait httpClient = new AsyncAwait();
+                        string content = await httpClient.DownloadContentAsync();
+                        Console.WriteLine(content);
+                        break;
 
-                case 3:
-                    MultiThreading multiThreading = new MultiThreading();
-                    multiThreading.CalculateAverage();
-                    break;
+                    case 2:
+                        TaskParallelLibrary taskParallelLibrary = new TaskParallelLibrary();
+                        taskParallelLibrary.CalculateSquare();
+                        break;
 
-                case 4:
-                    MultiLayeredAsync multiLayeredAsync = new MultiLayeredAsync();
-                    Task<int> task = multiLayeredAsync.MethodC();
-                    Console.WriteLine("Number of key-value pairs: " + task.Result);
-                    break;
+                    case 3:
+                        MultiThreading multiThreading = new MultiThreading();
+                        multiThreading.CalculateAverage();
+                        break;
 
-                case 5:
-                    DeadlockDebugger deadlockDebugger = new DeadlockDebugger();
-                    await deadlockDebugger.DeadlockMethod();
-                    break;
+                    case 4:
+                        MultiLayeredAsync multiLayeredAsync = new MultiLayeredAsync();
+                        int result = await multiLayeredAsync.MethodC();
+                        Console.WriteLine("Number of key-value pairs: " + result);
+                        break;
 
-                case 6:
-                    ConfigureAwait configureAwait = new ConfigureAwait();
-                    await configureAwait.Run();
-                    break;
+                    case 5:
+                        DeadlockDebugger deadlockDebugger = new DeadlockDebugger();
+                        await deadlockDebugger.DeadlockMethod();
+                        break;
 
-                case 7:
-                    ErrorHandling errorHandling = new ErrorHandling();
+                    case 6:
+                        ConfigureAwait configureAwait = new ConfigureAwait();
+                        await configureAwait.Run();
+                        break;
 
-                    try
-                    {
-                        await errorHandling.TaskMethod();
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Exception is handled");
-                    }
+                    case 7:
+                        await Task7();
+                        break;
 
-                    try
-                    {
-                        errorHandling.VoidMethod();
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Exception is unhandled");
-                    }
+                    case 8:
+                        return;
 
-                    break;
+                    default:
+                        Console.WriteLine("Enter a valid option");
+                        break;
+                }
 
-                case 8:
-                    return;
-
-                default:
-                    Console.WriteLine("Enter a valid option");
-                    break;
+                ConsoleIO.PauseAndClear();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+    }
 
-            ConsoleIO.PauseAndClear();
+    private static async Task Task7()
+    {
+        ErrorHandling errorHandling = new ErrorHandling();
+
+        try
+        {
+            await errorHandling.TaskMethod();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Exception is handled");
+        }
+
+        try
+        {
+            errorHandling.VoidMethod();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Exception is unhandled");
         }
     }
 }
