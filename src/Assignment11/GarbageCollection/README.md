@@ -30,3 +30,18 @@ It collects all the unreachable objects from the heap.
 
 - The Garbage collector requires CPU resources and can temporarily suspend the applicatoin threads while the runtime identifies and reclaims unreachable objects.
 - Garbage collection is automatic and necessay, but object creation and unnecessary manual collections can reduce the performance of the application.
+
+### Memory Management
+
+- In this assignment we are using the GC.GetTotalMemory(false) this only returns the managed heap memory usage. So it reflects the effects of the `GC.Collect()` directly without using refresh.
+- And this managed heap memory is different from the process memory(the total physical memory of the OS that is assigned to the application).
+
+### Profiling Observation
+
+- Creating 1,000,000 `Person` objects increased the object count by about 1,000,000, and the managed heap grew sharply, from about 500 KB to about 40000 KB.
+- During allocation, the GC ran several times automatically (the GC markers in the graph). Because the objects were still referenced by the list, they were moved to higher generations instead of being removed.
+- After removing the references (`people.Clear()`) and calling `GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true)`, the object count dropped back to about 8000 KB.
+- The Process Memory graph did not fall as sharply as the managed heap. This is because process memory includes the runtime, native allocations and memory the GC keeps reserved instead of returning it to the OS.
+- The explicit collection was a blocking, so it paused the application and should be avoided in production code.
+
+![alt text](image.png)

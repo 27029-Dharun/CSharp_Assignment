@@ -13,27 +13,27 @@ internal class Program
     public static void Main()
     {
         Console.WriteLine("======= Garbage Collection =======\n" +
-                $"Managed heap estimate before allocation: {GetManagedMemory()} bytes");
+                $"Managed heap estimate before allocation: {GetManagedMemoryInBytes()} bytes");
 
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
         List<Person> people = CreateObjects();
-        Console.WriteLine($"Managed heap estimate after creating all objects: {GetManagedMemory()} bytes");
+        Console.WriteLine($"Managed heap estimate after creating all objects: {GetManagedMemoryInBytes()} bytes");
 
         people.Clear();
 
-        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
-        Console.WriteLine($"Managed heap estimate after triggering garbage collector: {GetManagedMemory()} bytes");
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+        Console.WriteLine($"Managed heap estimate after triggering garbage collector: {GetManagedMemoryInBytes()} bytes");
 
         stopwatch.Stop();
 
-        Console.WriteLine($"The time taken to create objects and perform garbage collection task: {stopwatch.ElapsedMilliseconds}ms\n" +
+        Console.WriteLine($"The time taken to create objects and perform garbage collection: {stopwatch.ElapsedMilliseconds}ms\n" +
             $"Press any key to exit");
         Console.ReadKey();
     }
 
-    private static long GetManagedMemory()
+    private static long GetManagedMemoryInBytes()
     {
         long memory = GC.GetTotalMemory(false);
         return memory;
