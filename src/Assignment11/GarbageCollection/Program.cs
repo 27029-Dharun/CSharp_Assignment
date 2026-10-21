@@ -1,4 +1,6 @@
-﻿namespace GarbageCollection;
+﻿using System.Diagnostics;
+
+namespace GarbageCollection;
 
 /// <summary>
 /// Program class which acts as the entry point of the application.
@@ -11,43 +13,42 @@ internal class Program
     public static void Main()
     {
         Console.WriteLine("======= Garbage Collection =======\n" +
-                $"Managed heap estimate before allocation: {GetManagedMemoryInBytes()} bytes");
+                $"Managed heap estimate before allocation: {GetManagedMemory()} bytes");
 
-        List<Person> persons = CreateObjects();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
-        Console.WriteLine($"Total memory after creating all objects: {GetManagedMemoryInBytes()} KB");
+        List<Person> people = CreateObjects();
+        Console.WriteLine($"Managed heap estimate after creating all objects: {GetManagedMemory()} bytes");
 
-        // Force garbage collection (even though objects are still referenced)
-        GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(object still referred): {GetManagedMemoryInBytes()} KB");
+        people.Clear();
 
-        // Made the list null now all the objects created are unreachable.
-        persons = null;
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+        Console.WriteLine($"Managed heap estimate after triggering garbage collector: {GetManagedMemory()} bytes");
 
-        // Force garbage collection again (now objects can be collected)
-        GC.Collect();
-        Console.WriteLine($"Total memory after triggering garbage collector(objects unreachable): {GetManagedMemoryInBytes()} KB");
+        stopwatch.Stop();
 
-        Console.WriteLine("Press any key to exit");
+        Console.WriteLine($"The time taken to create objects and perform garbage collection task: {stopwatch.ElapsedMilliseconds}ms\n" +
+            $"Press any key to exit");
         Console.ReadKey();
     }
 
-    private static long GetManagedMemoryInBytes()
+    private static long GetManagedMemory()
     {
         long memory = GC.GetTotalMemory(false);
-        return memory / 1024;
+        return memory;
     }
 
     private static List<Person> CreateObjects(int objectCount = 1_000_000)
     {
-        List<Person> persons = new List<Person>();
+        List<Person> people = new List<Person>();
 
         for (int i = 0; i < objectCount; i++)
         {
             Person person = new Person();
-            persons.Add(person);
+            people.Add(person);
         }
 
-        return persons;
+        return people;
     }
 }
