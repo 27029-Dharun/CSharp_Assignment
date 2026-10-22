@@ -29,7 +29,6 @@ internal class Program
         stopwatch.Stop();
 
         Console.WriteLine($"The time taken to create objects and perform garbage collection: {stopwatch.ElapsedMilliseconds}ms\n");
-        Console.ReadKey();
     }
 
     private static long GetManagedMemoryInBytes()

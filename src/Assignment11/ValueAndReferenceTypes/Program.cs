@@ -58,8 +58,6 @@ public class Program
         Console.WriteLine("Boxing is the process of converting a value type into an object type.\n+" +
             "When boxing occurred the value type is been wrapped in an object in the heap.\n" +
             "Unboxing is the process of extracting the value type from a previously boxed object. It requires an explicit cast.\n");
-
-        Console.ReadKey();
     }
 
     private static decimal CalculateUsingLocalVariables()

@@ -31,7 +31,5 @@ public class Program
         {
             Console.WriteLine(ex.Message);
         }
-
-        Console.ReadKey();
     }
 }
