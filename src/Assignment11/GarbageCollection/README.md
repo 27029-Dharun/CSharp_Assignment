@@ -44,4 +44,4 @@ It collects all the unreachable objects from the heap.
 - The Process Memory graph did not fall as sharply as the managed heap. This is because process memory includes the runtime, native allocations and memory the GC keeps reserved instead of returning it to the OS.
 - The explicit collection was a blocking, so it paused the application and should be avoided in production code.
 
-![alt text](image.png)
+![Profiling Observation](./images/image.png)

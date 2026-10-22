@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains logic to read a file with dispose method.
 /// </summary>
-internal class FileReader : IDisposable
+internal sealed class FileReader : IDisposable
 {
     private readonly StreamReader _streamReader;
 
@@ -22,20 +22,12 @@ internal class FileReader : IDisposable
     /// <returns>A line from the file that is to be read.</returns>
     public string ReadFile()
     {
-        string content = string.Empty;
-        string? line;
-        while ((line = this._streamReader.ReadLine()) != null)
-        {
-            content += line + Environment.NewLine;
-        }
-
-        return content;
+        return this._streamReader.ReadToEnd();
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
         this._streamReader.Dispose();
-        GC.SuppressFinalize(this);
     }
 }

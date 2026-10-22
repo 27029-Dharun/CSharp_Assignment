@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains logic to write a file with disposable methods.
 /// </summary>
-public class FileWriter : IDisposable
+public sealed class FileWriter : IDisposable
 {
     private readonly StreamWriter _streamWriter;
 
@@ -13,13 +13,6 @@ public class FileWriter : IDisposable
     /// <param name="path">The path of the file to be written</param>
     public FileWriter(string path)
     {
-        if (!File.Exists(path))
-        {
-            using (File.Create(path))
-            {
-            }
-        }
-
         this._streamWriter = new StreamWriter(path);
     }
 
@@ -36,6 +29,5 @@ public class FileWriter : IDisposable
     public void Dispose()
     {
         this._streamWriter.Dispose();
-        GC.SuppressFinalize(this);
     }
 }
