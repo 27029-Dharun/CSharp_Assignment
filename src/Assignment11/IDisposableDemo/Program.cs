@@ -32,7 +32,6 @@ public class Program
             Console.WriteLine(ex.Message);
         }
 
-        Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }
 }

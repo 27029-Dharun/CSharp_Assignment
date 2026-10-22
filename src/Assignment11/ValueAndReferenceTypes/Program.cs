@@ -24,58 +24,61 @@ public class Program
         };
 
         Console.WriteLine("======= Value And Reference type =======\n\n" +
-            $"The value of value type variable before incrementing: {personStruct.Age}\n" +
-            $"The value of reference type variable before incrementing: {person.Age}\n");
+            $"The value of value type variable before incrementing: {personStruct.Age}.\n" +
+            $"The value of reference type variable before incrementing: {person.Age}.\n");
 
         Increment(person, personStruct);
-        Console.WriteLine($"The value of value type variable after incrementing: {personStruct.Age}\n" +
-            $"The value of reference type variable after incrementing: {person.Age}\n");
+        Console.WriteLine($"The value of value type variable after incrementing: {personStruct.Age}.\n" +
+            $"The value of reference type variable after incrementing: {person.Age}.\n");
 
         // Task 2
         Console.WriteLine("======= Working with the Stack and the Heap =======\n\n" +
-            "Creating memory for reference type\n");
-        long startMemory = GC.GetAllocatedBytesForCurrentThread();
+            "Creating memory for reference type\n" +
+            $"Managed memory before creating array is {GC.GetTotalMemory(false)} bytes.");
 
-        CreateArray();
+        int[] array = CreateArray();
 
-        long endMemory = GC.GetAllocatedBytesForCurrentThread();
-        Console.WriteLine($"Heap memory is increased by {endMemory - startMemory} bytes - for creating a reference type\n");
+        Console.WriteLine($"Managed memory after creating array is {GC.GetTotalMemory(false)} bytes.\n");
 
         // Creating value type variables are performing calculations.
-        Console.WriteLine("Calculation with large number of local variables\n");
+        Console.WriteLine("Calculation with large number of local variables.\n");
 
-        GC.Collect();
-        startMemory = GC.GetAllocatedBytesForCurrentThread();
+        decimal result = CalculateUsingLocalVariables();
 
-        CalculateUsingLocalVariables();
+        Console.WriteLine($"The result of the calculation is {result}\n" +
+            $"The memory usage after the calculation of local variables: {GC.GetTotalMemory(false)} bytes.");
 
-        endMemory = GC.GetAllocatedBytesForCurrentThread();
+        // Boxing
+        int a = 10;
+        object obj = a;
 
-        Console.WriteLine($"Heap memory increased {endMemory - startMemory} bytes - for creating a value type\n" +
-            "The heap memory is not increased because the variables are stored in the stack\n");
+        // Unboxing
+        int number = (int)obj;
 
-        Console.WriteLine("Press any key to exit");
+        Console.WriteLine("Boxing is the process of converting a value type into an object type.\n+" +
+            "When boxing occurred the value type is been wrapped in an object in the heap.\n" +
+            "Unboxing is the process of extracting the value type from a previously boxed object. It requires an explicit cast.\n");
+
         Console.ReadKey();
     }
 
     private static decimal CalculateUsingLocalVariables()
     {
-        decimal number1 = 10;
-        decimal number2 = 20;
-        decimal number3 = 30;
-        decimal number4 = 40;
-        decimal number5 = 50;
-        decimal number6 = 60;
-        decimal number7 = 70;
+        Span<decimal> numbers = stackalloc decimal[]
+        {
+            10, 20, 30, 40, 50, 60, 70,
+        };
 
-        return number1 + number2 + number3 + number4 + number5 + number6 + number7;
+        decimal total = 0;
+        foreach (decimal number in numbers)
+        {
+            total += number;
+        }
+
+        return total;
     }
 
-    private static void CreateArray()
-    {
-        // create a array with all values as zero.
-        int[] array = new int[1_00_000];
-    }
+    private static int[] CreateArray() => new int[100_000];
 
     private static void Increment(Person person, PersonStruct personStruct)
     {

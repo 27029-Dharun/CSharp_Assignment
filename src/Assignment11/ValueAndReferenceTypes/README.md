@@ -24,8 +24,7 @@
 
 ## Working with the Stack and the Heap
 
-When the memory for a reference type is created the memory of heap got increased.
+![Reference Type](./images/image.png)
 
-![Reference Type](images/MemoryAllocationReferenceType.png)
-
-Value type variable are stored in the stack.
+1. Creating the array adds 389 KB(memory increase from snapshot 1 & 2) of memory in the heap.
+2. Creating the value type doesn't grow the heap. The increase in the managed memory is due to the boxed value and the string interploation.

@@ -28,8 +28,7 @@ internal class Program
 
         stopwatch.Stop();
 
-        Console.WriteLine($"The time taken to create objects and perform garbage collection: {stopwatch.ElapsedMilliseconds}ms\n" +
-            $"Press any key to exit");
+        Console.WriteLine($"The time taken to create objects and perform garbage collection: {stopwatch.ElapsedMilliseconds}ms\n");
         Console.ReadKey();
     }
 
