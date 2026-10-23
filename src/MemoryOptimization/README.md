@@ -9,28 +9,31 @@ This section focuses on identifying and analyzing a subtle memory retention beha
 - MemoryEater.cs creates a List of integer array.
 - When the Allocate() method of MemoryEater.cs is called it increases the memory size for every 10 millisecond.
 - As the all the objects have reference, the Garbage Collector doesn't collect any object that is created.
-- So the memory usage significantly rises until OutOfMemoryException gets thrown and application gets crashed.
+- So the memory usage significantly rises(observed from the diagnostic report) until OutOfMemoryException gets thrown and application gets crashed.
 
 #### Memory Usage Before Optimization
 
-![Image1](./Images/Task1_Diagnosing.png)
+![Memory usage before optimization](./Images/Task1Diagnosing.png)
 
-### Understanding about Memory Optimization
+### Memory Optimization techniques
 
-- `MemoryOptimization.cs` creates a List of integer array.
-- The "MemoryOptimization" instance is created within switch statement.
-- The Allocate method rises the memory usage to a certain level and when the threshold is reached it returns.
-- Only the function's execution is completed the list becomes unreachable the GC will collect the List object automatically.
+- `MemoryOptimization.cs` doesn't need a List of integer array.
+- Instead of creating a new array each time and gets added to the `_memAlloc` array we can uase the same array and modify the array and use it when required.
+- We don't need the List<int[]> to maintain the previous array because we are not using those old arrays again.
+- If we are using a different array each time we can we concepts like array pooling to use memory effeciently.
+
+### Size of the array
+
 - Array with more than 21249 elements will become a large object.
 - Using large objects should be avoided, as the memory in large object heap will not be collected.
 
 #### Memory Usage After Optimization
 
-![Image1](./Images/Task2_Optimization1.png)
-![Image1](./Images/Task2_Optimization2.png)
+![Memory usage after optimization](./Images/Task2Optimization.png)
 
 ## ArrayPool
 
+- They are commonly used in performance-sensitive applications when temporary buffers are created frequently
 - It provides a way to reuse arrays instead of creating new ones repeatedly, reducing GC pressure.
 
 ### Key Concepts

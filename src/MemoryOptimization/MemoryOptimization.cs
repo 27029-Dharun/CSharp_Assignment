@@ -5,28 +5,23 @@
 /// </summary>
 internal class MemoryOptimization
 {
+    private const int ArraySize = 1000;
+    private const int DefaultIteration = 10_000;
+
     /// <summary>
     /// Allocates memory and adds it to a list
     /// </summary>
     /// <param name="maxIteration">Maximum iterations</param>
-    public void Allocate(int maxIteration = 10_00_000)
+    public void Allocate(int maxIteration = DefaultIteration)
     {
-        // Should declare the array in the correct place, the list is only accessed within the method so better to keep it inside the method.
-        List<int[]> memAlloc = new List<int[]>();
+        int[] buffer = new int[ArraySize];
 
         // Should not use infinite loop to repeatedly allocate memory.
-        while (maxIteration >= 0)
+        for (int i = 0; i < maxIteration; i++)
         {
-            // Added limit to the size of the list.
-            if (memAlloc.Count > 1_00_000)
-            {
-                return;
-            }
+            buffer.AsSpan().Fill(i);
 
-            // Array with more than 21249 elements will become a large object.
-            // Using large objects should be avoided, as the memory in large object heap will not be collected.
-            memAlloc.Add(new int[1000]);
-            maxIteration--;
+            Thread.Sleep(100);
         }
     }
 }
