@@ -6,7 +6,7 @@
 internal class MemoryOptimization
 {
     private const int ArraySize = 1000;
-    private const int DefaultIteration = 10_000;
+    private const int DefaultIteration = 3_000;
 
     /// <summary>
     /// Allocates memory and adds it to a list
@@ -21,7 +21,7 @@ internal class MemoryOptimization
         {
             buffer.AsSpan().Fill(i);
 
-            Thread.Sleep(100);
+            Thread.Sleep(10);
         }
     }
 }

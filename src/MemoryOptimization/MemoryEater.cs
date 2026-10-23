@@ -5,6 +5,7 @@
 /// </summary>
 internal class MemoryEater
 {
+    private const int MaxIteration = 3_000;
     private List<int[]> _memAlloc = new List<int[]>();
 
     /// <summary>
@@ -12,7 +13,7 @@ internal class MemoryEater
     /// </summary>
     public void Allocate()
     {
-        while (true)
+        for (int i = 0; i < MaxIteration; i++)
         {
             this._memAlloc.Add(new int[1000]);
 
