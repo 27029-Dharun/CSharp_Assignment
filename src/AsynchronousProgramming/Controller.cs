@@ -8,6 +8,7 @@ namespace AsynchronousProgramming;
 internal class Controller
 {
     private readonly HttpClient _httpClient = new HttpClient();
+
     /// <summary>
     /// Controls the flow between the different tasks.
     /// </summary>
