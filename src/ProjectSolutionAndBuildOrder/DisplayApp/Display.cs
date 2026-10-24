@@ -24,4 +24,14 @@ public static class Display
     {
         Console.WriteLine($"{a} {op} {b} = {result}", ConsoleColor.Green);
     }
+
+    /// <summary>
+    /// Displays the result of converting km into miles
+    /// </summary>
+    /// <param name="km">The distance in kilometer.</param>
+    /// <param name="miles">The distance in miles.</param>
+    public static void DisplayDistanceInMiles(double km, double miles)
+    {
+        Console.WriteLine($"{km} km is {miles} miles");
+    }
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityApp", "UtilityApp\Ut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreetingsApp", "GreetingsApp\GreetingsApp.csproj", "{5ECFDCB6-185D-48CB-9D4D-33EEF615AEBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectE", "ProjectE\ProjectE.csproj", "{95D2A188-CD3E-4864-9739-E941DCE6BBD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5ECFDCB6-185D-48CB-9D4D-33EEF615AEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ECFDCB6-185D-48CB-9D4D-33EEF615AEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ECFDCB6-185D-48CB-9D4D-33EEF615AEBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95D2A188-CD3E-4864-9739-E941DCE6BBD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D2A188-CD3E-4864-9739-E941DCE6BBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D2A188-CD3E-4864-9739-E941DCE6BBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D2A188-CD3E-4864-9739-E941DCE6BBD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
