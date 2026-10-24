@@ -12,16 +12,12 @@ public static class ConsoleHelper
     public static void DisplayHeader(string title)
     {
         int width = Console.WindowWidth;
-        int padding = (width - title.Length) / 2;
+        int padding = Math.Max((width - title.Length) / 2, 0);
+
         Console.Write(new string(' ', padding));
         DisplayColoredText(title, ConsoleColor.Blue);
     }
 
-    /// <summary>
-    /// Prints the colored text.
-    /// </summary>
-    /// <param name="text">The text to be printed.</param>
-    /// <param name="color">Color to be printed.</param>
     private static void DisplayColoredText(string text, ConsoleColor color)
     {
         Console.ForegroundColor = color;

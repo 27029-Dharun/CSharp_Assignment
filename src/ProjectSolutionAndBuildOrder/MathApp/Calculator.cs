@@ -35,5 +35,14 @@ public static class Calculator
     /// <param name="a">The first number.</param>
     /// <param name="b">The second number.</param>
     /// <returns>The quotient <paramref name="a"/> divided by <paramref name="b"/>.</returns>
-    public static double Divide(double a, double b) => a / b;
+    /// <exception cref="DivideByZeroException">Thrown when the divisor is 0.</exception>
+    public static double Divide(double a, double b)
+    {
+        if (b == 0)
+        {
+            throw new DivideByZeroException();
+        }
+
+        return a / b;
+    }
 }

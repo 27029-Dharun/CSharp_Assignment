@@ -3,7 +3,7 @@
 namespace DisplayApp;
 
 /// <summary>
-/// Contains the display methods for the calculator app/.
+/// Contains the display methods for the calculator app.
 /// </summary>
 public static class Display
 {
@@ -22,7 +22,7 @@ public static class Display
     /// <param name="result">The result of the arithmetic operation.</param>
     public static void DisplayResult(string op, double a, double b, double result)
     {
-        Console.WriteLine($"{a} {op} {b} = {result}", ConsoleColor.Green);
+        Console.WriteLine($"{a} {op} {b} = {result}");
     }
 
     /// <summary>
