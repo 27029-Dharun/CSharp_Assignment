@@ -12,7 +12,7 @@ public static class ConsoleHelper
     public static void DisplayHeader(string title)
     {
         int width = Console.WindowWidth;
-        int padding = width - title.Length;
+        int padding = (width - title.Length) / 2;
         Console.Write(new string(' ', padding));
         DisplayColoredText(title, ConsoleColor.Blue);
     }
