@@ -29,9 +29,7 @@ internal class TaskParallelLibrary
 
     private long SequentialSquaring(int[] integers)
     {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-
+        Stopwatch stopwatch = Stopwatch.StartNew();
         foreach (var value in integers)
         {
             Console.WriteLine($"{value}^2 = {value * value}");
@@ -43,8 +41,7 @@ internal class TaskParallelLibrary
 
     private long ParallelSquaring(int[] integers)
     {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
+        Stopwatch stopwatch = Stopwatch.StartNew();
 
         Parallel.ForEach(integers, (value) =>
         {

@@ -7,6 +7,7 @@ namespace AsynchronousProgramming;
 /// </summary>
 internal class Controller
 {
+    private readonly HttpClient _httpClient = new HttpClient();
     /// <summary>
     /// Controls the flow between the different tasks.
     /// </summary>
@@ -32,7 +33,7 @@ internal class Controller
                 switch (option)
                 {
                     case 1:
-                        AsyncAwait httpClient = new AsyncAwait();
+                        AsyncAwait httpClient = new AsyncAwait(this._httpClient);
                         string content = await httpClient.DownloadContentAsync();
                         Console.WriteLine(content);
                         break;
@@ -48,7 +49,7 @@ internal class Controller
                         break;
 
                     case 4:
-                        MultiLayeredAsync multiLayeredAsync = new MultiLayeredAsync();
+                        MultiLayeredAsync multiLayeredAsync = new MultiLayeredAsync(this._httpClient);
                         int result = await multiLayeredAsync.MethodC();
                         Console.WriteLine("Number of key-value pairs: " + result);
                         break;

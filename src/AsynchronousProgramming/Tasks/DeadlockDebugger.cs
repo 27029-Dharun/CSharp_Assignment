@@ -20,7 +20,7 @@ internal class DeadlockDebugger
     /// Performs a asynchronous operation that completes after one second.
     /// </summary>
     /// <returns>A task containing the string result of the asynchronous operation.</returns>
-    public async Task<string> SomeAsyncOperation()
+    private async Task<string> SomeAsyncOperation()
     {
         await Task.Delay(1000);
 

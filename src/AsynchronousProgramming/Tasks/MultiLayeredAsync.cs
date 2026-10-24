@@ -7,6 +7,17 @@ namespace AsynchronousProgramming.Tasks;
 /// </summary>
 internal class MultiLayeredAsync
 {
+    private readonly HttpClient _httpClient;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MultiLayeredAsync"/> class.
+    /// </summary>
+    /// <param name="client">Client object</param>
+    public MultiLayeredAsync(HttpClient client)
+    {
+        this._httpClient = client;
+    }
+
     /// <summary>
     /// Gets the length of the key value pair.
     /// </summary>
@@ -24,28 +35,23 @@ internal class MultiLayeredAsync
 
     private async Task<string> MethodB()
     {
-        int sequence = await this.MethodA();
+        long value = await Task.Run(() => this.MethodA());
 
-        string url = $"https://jsonplaceholder.typicode.com/todos/{sequence}";
+        int todoId = (int)(value % 100) + 1;
+        string url = $"https://jsonplaceholder.typicode.com/todos/{todoId}";
 
-        using HttpClient httpClient = new HttpClient();
-
-        string response = await httpClient.GetStringAsync(url);
-        return response;
+        return await this._httpClient.GetStringAsync(url);
     }
 
-    private async Task<int> MethodA()
+    private long MethodA()
     {
-        await Task.Run(() =>
+        long result = 0;
+
+        for (int i = 0; i < 10_000; i++)
         {
-            long result = 0;
+            result += i;
+        }
 
-            for (int i = 0; i < 10_000; i++)
-            {
-                result += i;
-            }
-        });
-
-        return 100;
+        return result;
     }
 }
