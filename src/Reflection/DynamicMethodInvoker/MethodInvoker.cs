@@ -14,7 +14,7 @@ internal class MethodInvoker
     {
         Calculator calculator = new Calculator();
 
-        Console.Write($"Enter method name: ");
+        Console.Write($"Enter method name(Add/Subtract/Multiplication/Division): ");
         string? methodName = Console.ReadLine();
 
         if (methodName != null)

@@ -13,9 +13,14 @@ internal class PluginLoader
     /// </summary>
     public void Load()
     {
-        string path = "IGreetingsPlugin.dll";
+        string path = Path.Combine(AppContext.BaseDirectory, "GreetingsPlugin.dll");
 
-        Assembly assembly = Assembly.Load(Path.GetFullPath(path));
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("File Not Found");
+        }
+
+        Assembly assembly = Assembly.LoadFrom(path);
         foreach (Type type in assembly.GetTypes())
         {
             if (type != null && type.IsClass && !type.IsAbstract && typeof(IGreetings).IsAssignableFrom(type))
@@ -24,5 +29,7 @@ internal class PluginLoader
                 plugin?.Greet();
             }
         }
+
+        ConsoleIO.ClearConsole();
     }
 }
