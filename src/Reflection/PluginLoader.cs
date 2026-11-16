@@ -13,13 +13,7 @@ internal class PluginLoader
     /// </summary>
     public void Load()
     {
-        Console.Write($"Enter Plugin DLL path: ");
-        string? path = Console.ReadLine();
-        if (!File.Exists(path))
-        {
-            Console.WriteLine($"Plugin file not found");
-            return;
-        }
+        string path = "IGreetingsPlugin.dll";
 
         Assembly assembly = Assembly.Load(Path.GetFullPath(path));
         foreach (Type type in assembly.GetTypes())

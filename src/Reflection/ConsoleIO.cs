@@ -32,7 +32,11 @@ public static class ConsoleIO
     /// </summary>
     public static void ClearConsole()
     {
+        Console.WriteLine("Enter a key to return to main menu");
         Console.ReadKey();
+
+        // Erases the entire scroll back buffer history
+        Console.Write("\x1b[3J");
         Console.Clear();
     }
 }

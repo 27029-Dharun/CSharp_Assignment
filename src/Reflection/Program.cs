@@ -25,7 +25,7 @@ internal class Program
 4. Dynamic Type Builder
 5. Plugin Loader
 6. Serialization API
-[E]xit
+7. Exit
 Enter Choice: ";
             Console.Write(mainMenu);
             _ = int.TryParse(Console.ReadLine(), out int userChoice);
