@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GreetingsPlugin.cs\GreetingsPlugin.csproj" />
     <ProjectReference Include="..\IGreetingsPlugin.cs\IGreetingsPlugin.csproj" />
   </ItemGroup>
 

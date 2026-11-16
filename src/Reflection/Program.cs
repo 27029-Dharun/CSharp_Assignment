@@ -10,7 +10,7 @@ internal class Program
     private static void Main()
     {
         AssemblyInception assemblyInception = new AssemblyInception();
-        DynamicInspector dynamicInspector = new DynamicInspector();
+        DynamicObjectInspector dynamicInspector = new DynamicObjectInspector();
         MethodInvoker methodInvoker = new MethodInvoker();
         DynamicTypeBuilder dynamicTypeBuilder = new DynamicTypeBuilder();
         PluginLoader pluginLoader = new PluginLoader();
@@ -24,7 +24,7 @@ internal class Program
 3. Method Invoker
 4. Dynamic Type Builder
 5. Plugin Loader
-6. Serialization API
+6. Serialization
 7. Exit
 Enter Choice: ";
             Console.Write(mainMenu);
@@ -36,7 +36,7 @@ Enter Choice: ";
                     assemblyInception.DisplayAssemblyData();
                     break;
                 case 2:
-                    dynamicInspector.Build();
+                    dynamicInspector.PerformInspection();
                     break;
                 case 3:
                     methodInvoker.GetDetails();

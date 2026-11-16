@@ -26,7 +26,7 @@ public class Calculator
     /// </summary>
     public void Multiplication()
     {
-        Console.WriteLine($"Addition: {10 * 20}");
+        Console.WriteLine($"Multiplication: {10 * 20}");
     }
 
     /// <summary>
@@ -34,6 +34,6 @@ public class Calculator
     /// </summary>
     public void Division()
     {
-        Console.WriteLine($"Addition: {10 / 20}");
+        Console.WriteLine($"Division: {10 / 20}");
     }
 }
