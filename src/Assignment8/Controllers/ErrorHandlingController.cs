@@ -144,7 +144,7 @@ internal class ErrorHandlingController
         }
         catch (IndexOutOfRangeException)
         {
-            StackFrame[] stackFrames = new StackTrace().GetFrames();
+            StackFrame[] stackFrames = new StackTrace(true).GetFrames();
 
             this._view.PrintInfo($"Caught in the catch block of Task 5\n" +
                 $"\nStack trace provides a historical record of the function calls that led to the exception.\n");

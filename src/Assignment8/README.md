@@ -41,6 +41,12 @@
 
 - Catches the `IndexOutOfRangeException` thrown by `Task4()` and prints its stack trace.
 
+Stack trace:  
+
+Assignment8.Controllers.ErrorHandlingController.RunExceptionHandler [File: C:\Projects\CSharp_Assignment\src\Assignment8\Controllers\ErrorHandlingController.cs, Line: 143]
+Assignment8.Controllers.ErrorHandlingController.HandleMenu [File: C:\Projects\CSharp_Assignment\src\Assignment8\Controllers\ErrorHandlingController.cs, Line: 58]
+Assignment8.Program.Main [File: C:\Projects\CSharp_Assignment\src\Assignment8\Program.cs, Line: 24]
+
 ### How to read the stack trace
 
 - Frames are listed from the most recent call to the oldest.
