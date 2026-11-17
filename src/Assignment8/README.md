@@ -1,12 +1,12 @@
 # Assignment 8 - Error Handling
 
-- This assignment implements the error handling techniques to manage exception.
-- It implements various strategies like try, catch and finally blocks, interpretion of exception stack trace, custom exceptions and global unhandled exception handling.
+- This assignment implements error handling techniques to manage exceptions.
+- It demonstrates try, catch and finally blocks, interpretation of exception stack traces, custom exceptions and global unhandled exception handling.
 
 ## Menu Options
 
 1. Task 1 - Divide by zero
-2. Task 2 - Index out of bound
+2. Task 2 - Index out of range
 3. Task 3 - Custom exception
 4. Task 4 - Global exception handling
 5. Task 5 - View stack trace
@@ -14,32 +14,36 @@
 
 ## Task 1 - Divide by zero
 
-- Implements `DivisionByZeroException`.
-- The try block attempts to divide a number by zero and the catch block catches the exception and displays corresponding error message.
-- The finally block is executed not matter try or catch block execute.
+- Implements `DivideByZeroException`.
+- The try block attempts to divide an integer by zero. The catch block catches the exception and displays the corresponding error message.
+- The finally block executes whether or not an exception is thrown.
 
-## Task 2 - Index out of bound
+## Task 2 - Index out of range
 
-- Implements `IndexOutOfRangeException.`
-- The user is asked to enter a lookup index to search.
-- If the index is not within the maximum length of the array an exception is thrown.
+- Implements `IndexOutOfRangeException` and `ArgumentOutOfRangeException`.
+- The program accesses an element of an integer array using an index that is outside the array bounds. The user is not asked for the index.
+- The inner try/catch catches the `IndexOutOfRangeException` and throws a new `ArgumentOutOfRangeException` with a custom message, keeping the original exception as its inner exception.
+- The outer try/catch catches the `ArgumentOutOfRangeException` and prints its message, followed by the inner exception message as the root cause.
 
 ## Task 3 - Custom exception
 
-- Implements `InvalidUserInputException`.
-- A custom exception that throws an exception when the user enters an invalid input.
-- When the user fails to enter a valid input the exception is thrown.
+- Implements the custom `InvalidUserInputException`.
+- The user is asked to enter an array index. If the input is not an integer or is outside the array range, `InvalidUserInputException` is thrown.
+- The exception is caught and its message is displayed.
 
 ## Task 4 - Global exception handling
 
-- Throws an unhandled exception which is caught globally using the AppDomain's UnhandledException event.
-- It implements the method that throws the `InvalidUserInputException` but does not handle it.
+- Throws an `IndexOutOfRangeException` that is deliberately not handled.
+- The unhandled exception is caught globally by the `AppDomain.UnhandledException` event handler, which is subscribed at the start of `Main`.
+- The handler writes a message to `Console.Error` and calls `Environment.Exit(1)`, so the application ends with exit code 1.
 
 ## Task 5 - View stack trace
 
-- Catches the exception thrown by task 4 and print the stack trace
+- Catches the `IndexOutOfRangeException` thrown by `Task4()` and prints its stack trace.
 
-Stack Trace:
+### How to read the stack trace
 
-- at Assignment8.Controllers.Controller.Task4() in C:\Projects\CSharp_Assignment\src\Assignment8\Controllers\Controller.cs:line 150
-- at Assignment8.Controllers.Controller.Task5() in C:\Projects\CSharp_Assignment\src\Assignment8\Controllers\Controller.cs:line 158
+- Frames are listed from the most recent call to the oldest.
+- The top frame identifies where the exception was thrown: `Task4()`, at the line shown.
+- The trace covers the path from the throw point up to the frame that catches the exception, and no further. Here `Task5()` catches it, so `Task5()` is the last frame listed. `HandleMenu()` and `Main()` are not listed.
+- If the exception were unhandled, as in Task 4, the trace would continue up through `HandleMenu()` and `Main()`, because nothing stops it earlier.

@@ -3,24 +3,34 @@
 /// <summary>
 /// Exception thrown when user input is invalid.
 /// </summary>
-internal class InvalidUserInputException : Exception
+public sealed class InvalidUserInputException : Exception
 {
+    private const string DefaultExceptionMessage = "Input provided is invalid, please enter a valid input";
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class.
-    /// With a default error message.
+    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class with a default error message.
     /// </summary>
-    internal InvalidUserInputException()
-        : base("Input provided is invalid, please enter a valid input")
+    public InvalidUserInputException()
+        : base(DefaultExceptionMessage)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class.
-    /// With a custom error message.
+    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class with a specified error message.
     /// </summary>
-    /// <param name="message"> Custom error message. </param>
-    internal InvalidUserInputException(string message)
+    /// <param name="message">The message that describes the error.</param>
+    public InvalidUserInputException(string message)
         : base(message)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class with a specified error message and a inner exception.
+    /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    /// <param name="innerException">The inner exception.</param>
+    public InvalidUserInputException(string message, Exception innerException)
+        : base(message, innerException)
     {
     }
 }

@@ -8,25 +8,31 @@ namespace Assignment8;
 /// </summary>
 internal class Program
 {
+    static Program()
+    {
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+    }
+
     /// <summary>
     /// Execution of flow begins from here.
     /// </summary>
     internal static void Main()
     {
-        AppDomain domain = AppDomain.CurrentDomain;
-        domain.UnhandledException += OnUnhandledException;
-
         ConsoleView view = new ConsoleView();
-        Controller controller = new Controller(view);
+        ErrorHandlingController controller = new ErrorHandlingController(view);
 
         controller.HandleMenu();
     }
 
     private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
-        Console.WriteLine("\nGlobal exception handled");
-        Console.WriteLine(e.IsTerminating);
-        Exception ex = (Exception)e.ExceptionObject;
-        Console.WriteLine(ex.ToString());
+        Console.WriteLine("A fatal error occurred and the application is closing.");
+
+        if (e.ExceptionObject is Exception ex)
+        {
+            Console.Error.WriteLine(ex.ToString());
+        }
+
+        Environment.Exit(1);
     }
 }

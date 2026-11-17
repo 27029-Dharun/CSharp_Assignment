@@ -8,30 +8,6 @@ namespace Assignment8.View;
 internal class ConsoleView
 {
     /// <summary>
-    /// Displays the text in the color requested by the user and resets the color.
-    /// </summary>
-    /// <param name="message">Message to be printed by the user.</param>
-    /// <param name="color">Color of the text</param>
-    internal void PrintColoredText(string message, ConsoleColor color)
-    {
-        Console.ForegroundColor = color;
-        Console.WriteLine(message);
-        Console.ResetColor();
-    }
-
-    /// <summary>
-    /// Gets a string input from the user.
-    /// </summary>
-    /// <param name="prompt">Prompt to be displayed to the user.</param>
-    /// <returns>A non null string value entered by the user.</returns>
-    internal string GetString(string prompt)
-    {
-        Console.Write(prompt);
-        string input = (Console.ReadLine() ?? string.Empty).Trim();
-        return input;
-    }
-
-    /// <summary>
     /// Displays message to the user.
     /// </summary>
     /// <param name="message">Prompt to be displayed to the user.</param>
@@ -58,10 +34,9 @@ internal class ConsoleView
     internal int GetInteger(string prompt)
     {
         string input = this.GetString(prompt);
-        int value;
-        if (!int.TryParse(input, out value))
+        if (!int.TryParse(input, out int value))
         {
-            throw new InvalidUserInputException("Enter a valid integer");
+            throw new InvalidUserInputException($"{input} is not a valid integer.");
         }
 
         return value;
@@ -103,11 +78,26 @@ internal class ConsoleView
     }
 
     /// <summary>
-    /// Displays message to the user in the same line.
+    /// Displays the text in the color requested by the user and resets the color.
     /// </summary>
-    /// <param name="message">Prompt to be displayed to the user.</param>
-    internal void Print(string message)
+    /// <param name="message">Message to be printed by the user.</param>
+    /// <param name="color">Color of the text</param>
+    private void PrintColoredText(string message, ConsoleColor color)
     {
-        Console.Write(message);
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
+    /// <summary>
+    /// Gets a string input from the user.
+    /// </summary>
+    /// <param name="prompt">Prompt to be displayed to the user.</param>
+    /// <returns>A non null string value entered by the user.</returns>
+    private string GetString(string prompt)
+    {
+        Console.Write(prompt);
+        string input = (Console.ReadLine() ?? string.Empty).Trim();
+        return input;
     }
 }
