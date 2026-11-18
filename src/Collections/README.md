@@ -49,4 +49,4 @@ The task also implements a `PrintDictionary` function to iterate through the dic
 
 This task helped me understand how `IReadOnlyDictionary<TKey, TValue>` can be used to expose dictionary data without allowing modifications through the read-only reference. It also reinforced the importance of controlling data access and separating reading operations from modification operations.
 
-![Comparison of read-only collection types in C#](./Images/ReadonlyTypes.png)
+![Comparison of read-only collection types in C#](./Images/ComparisonOfReadOnlyCollection.png)

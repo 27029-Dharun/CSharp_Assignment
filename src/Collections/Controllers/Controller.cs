@@ -130,9 +130,9 @@ public class Controller
         }
 
         ConsoleIO.PrintInfo("\nRemoving name from queue\n");
-        if (people.HasAny())
+
+        if (people.TryDequeue(out string? removedName))
         {
-            string removedName = people.Dequeue();
             ConsoleIO.PrintInfo($"Removed {removedName} from queue\n");
 
             ConsoleIO.PrintInfo("\nDisplaying all the names\n");

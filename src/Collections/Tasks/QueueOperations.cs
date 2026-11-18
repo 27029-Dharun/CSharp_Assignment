@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains queue operations.
 /// </summary>
-/// <typeparam name="T">The data type for storing the name</typeparam>
+/// <typeparam name="T">The data type for storing the entry</typeparam>
 public class QueueOperations<T>
 {
     private readonly Queue<T> _queue;
@@ -24,29 +24,26 @@ public class QueueOperations<T>
     public Queue<T> Entry => this._queue;
 
     /// <summary>
-    /// Adds the name of the person to the queue.
+    /// Adds the entry of the person to the queue.
     /// </summary>
-    /// <param name="name">The name of the person to add to the queue.</param>
-    public void Enqueue(T name)
+    /// <param name="entry">The entry of the person to add to the queue.</param>
+    public void Enqueue(T entry)
     {
-        this._queue.Enqueue(name);
+        this._queue.Enqueue(entry);
     }
 
     /// <summary>
-    /// Remove the name of the person from the queue.
+    /// Remove the entry of the person from the queue.
     /// </summary>
-    /// <returns>The name removed from the function</returns>
-    public T Dequeue()
+    /// <param name="removedEntry">The name of the entry removed from the queue.</param>
+    /// <returns>The entry removed from the function</returns>
+    public bool TryDequeue(out T? removedEntry)
     {
-        return this._queue.Dequeue();
-    }
+        if (this._queue.TryDequeue(out removedEntry))
+        {
+            return true;
+        }
 
-    /// <summary>
-    /// Checks if the queue has any elements.
-    /// </summary>
-    /// <returns>A boolean true if it has any entries; otherwise false.</returns>
-    public bool HasAny()
-    {
-        return this._queue.Count > 0;
+        return false;
     }
 }
