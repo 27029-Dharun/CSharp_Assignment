@@ -1,6 +1,4 @@
-﻿using Collections.IO;
-
-namespace Collections.Tasks;
+﻿namespace Collections.Tasks;
 
 /// <summary>
 /// Contains the dictionary implementation that maps a student's name to their grade.
@@ -10,54 +8,41 @@ namespace Collections.Tasks;
 public class DictionaryOperations<TKey, TValue>
     where TKey : notnull
 {
-    private readonly Dictionary<TKey, TValue> _studentList = new Dictionary<TKey, TValue>();
+    private readonly Dictionary<TKey, TValue> _entries;
 
     /// <summary>
-    /// Creates a dictionary with student name and grade
+    /// Initializes a new instance of the <see cref="DictionaryOperations{TKey, TValue}"/> class.
     /// </summary>
-    /// <param name="names">Array containing the key of the students to add.</param>
-    /// <param name="values">Array containing the value of the student to add.</param>
-    public void CreateStudentData(TKey[] names, TValue[] values)
+    /// <param name="length">The length of the dictionary.</param>
+    public DictionaryOperations(int length)
     {
-        for (int i = 0; i < 5; i++)
-        {
-            TKey studentName = names[i];
-            TValue grade = values[i];
+        this._entries = new Dictionary<TKey, TValue>(length);
+    }
 
-            this._studentList.Add(studentName, grade);
-        }
+    /// <summary>
+    /// Gets a read-only view of all student records.
+    /// </summary>
+    /// <value>The Entries of the dictionary.</value>
+    public IReadOnlyDictionary<TKey, TValue> Entries => this._entries;
+
+    /// <summary>
+    /// Adds the student data to the dictionary.
+    /// </summary>
+    /// <param name="name">Name of the student.</param>
+    /// <param name="value">Grade of the student.</param>
+    /// <returns>A boolean true if the entry is added, otherwise false.</returns>
+    public bool TryAdd(TKey name, TValue value)
+    {
+        return this._entries.TryAdd(name, value);
     }
 
     /// <summary>
     /// Deletes a student from the record.
     /// </summary>
     /// <param name="studentName">The name of the student to remove.</param>
-    public void DeleteStudent(TKey studentName)
+    /// <returns>A boolean true if removed, otherwise false.</returns>
+    public bool Remove(TKey studentName)
     {
-        this._studentList.Remove(studentName);
-        ConsoleIO.PrintInfo("Removed the student: " + studentName);
-    }
-
-    /// <summary>
-    /// Displays all the students in the record along with the grade.
-    /// </summary>
-    public void DisplayStudent()
-    {
-        ConsoleIO.PrintHeader("Students in the record");
-
-        foreach (var student in this._studentList)
-        {
-            ConsoleIO.PrintInfo($"{student.Key} - {student.Value}");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the key is present in the record.
-    /// </summary>
-    /// <param name="name">The name of the student to check.</param>
-    /// <returns>A boolean true if exists; otherwise false.</returns>
-    public bool ContainsKey(TKey name)
-    {
-        return this._studentList.ContainsKey(name);
+        return this._entries.Remove(studentName);
     }
 }

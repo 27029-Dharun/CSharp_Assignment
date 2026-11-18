@@ -1,7 +1,7 @@
 ﻿namespace Collections;
 
 /// <summary>
-/// Task options available
+/// Task options available in the main menu.
 /// </summary>
 public enum TaskOptions
 {
@@ -26,9 +26,9 @@ public enum TaskOptions
     Dictionary = 4,
 
     /// <summary>
-    /// Represent an option to perform concrete type operations.
+    /// Represent an option to demonstrate IEnumerable and IReadOnlyDictionary abstractions.
     /// </summary>
-    ConcreteTypes = 5,
+    CollectionAbstractions = 5,
 
     /// <summary>
     /// Represents an option to exit the application.

@@ -1,4 +1,4 @@
-# Understanding and Practicing Collections and Generics in C #
+# Understanding and Practicing Collections and Generics in C#
 
 ## Task 1-4
 
@@ -26,9 +26,9 @@ QueueOperations<string> people = new QueueOperations<string>();
 DictionaryOperation<string, int> students = new DictionaryOperation<string, int>();
 ```
 
-## Understanding `IEnumerable<T>`, Concrete Types, and `ReadOnlyDictionary`
+## Understanding `IEnumerable<T>`, Concrete Types, and `IReadOnlyDictionary`
 
-This task focuses on understanding `IEnumerable<T>`, concrete collection types, and `ReadOnlyDictionary<TKey, TValue>` in C#.
+This task focuses on understanding `IEnumerable<T>`, concrete collection types, and `IReadOnlyDictionary<TKey, TValue>` in C#.
 
 ### Understanding `IEnumerable<T>`
 
@@ -41,12 +41,12 @@ Using `IEnumerable<int>` allows the method to work with different collection typ
 - `Queue<int>`
 - Other collections that implement `IEnumerable<int>`
 
-### Understanding `ReadOnlyDictionary<TKey, TValue>`
+### Understanding `IReadOnlyDictionary<TKey, TValue>`
 
-A `Dictionary<string, int>` is created to store student names and their grades. The dictionary is then used to create a `ReadOnlyDictionary<string, int>`, which is passed to methods that only need to read and display the data.
+A `Dictionary<string, int>` is created to store student names and their grades. The dictionary is then used to create a `IReadOnlyDictionary<string, int>`, which is passed to methods that only need to read and display the data.
 
 The task also implements a `PrintDictionary` function to iterate through the dictionary and display each student's name and grade.
 
-This task helped me understand how `ReadOnlyDictionary<TKey, TValue>` can be used to expose dictionary data without allowing modifications through the read-only reference. It also reinforced the importance of controlling data access and separating reading operations from modification operations.
+This task helped me understand how `IReadOnlyDictionary<TKey, TValue>` can be used to expose dictionary data without allowing modifications through the read-only reference. It also reinforced the importance of controlling data access and separating reading operations from modification operations.
 
-![alt text](./Images/ReadonlyTypes.png)
+![Comparison of read-only collection types in C#](./Images/ReadonlyTypes.png)

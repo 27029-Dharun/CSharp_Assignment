@@ -8,6 +8,8 @@ namespace Collections.Controllers;
 /// </summary>
 public class Controller
 {
+    private const int EntryCount = 5;
+
     /// <summary>
     /// Handles task menu and executes the task.
     /// </summary>
@@ -45,7 +47,7 @@ public class Controller
                         this.HandleDictionaryOperations();
                         break;
 
-                    case TaskOptions.ConcreteTypes:
+                    case TaskOptions.CollectionAbstractions:
                         this.HandleConcreteTypesOperations();
                         break;
 
@@ -64,118 +66,146 @@ public class Controller
 
     private void HandleListOperations()
     {
-        ListOperations<string> list = new ListOperations<string>();
+        ListOperations<string> books = new ListOperations<string>(EntryCount);
         ConsoleIO.PrintHeader("List Task");
         ConsoleIO.PrintInfo("Adding books to list\n");
 
-        string[] arr = new string[5];
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < EntryCount; i++)
         {
-            arr[i] = ConsoleIO.GetString("Enter book name: ");
+            string book = ConsoleIO.GetString("Enter book name: ");
+            books.Add(book);
         }
 
-        list.AddBooks(arr);
+        ConsoleIO.PrintInfo("\nChecking a book from list\n");
+        string bookToSearch = ConsoleIO.GetString("Enter a book name to remove: ");
+        if (books.Contains(bookToSearch))
+        {
+            ConsoleIO.PrintInfo($"The {bookToSearch} is present in the list.");
+        }
+        else
+        {
+            ConsoleIO.PrintInfo($"The {bookToSearch} is not present in the list.");
+        }
 
         ConsoleIO.PrintInfo("\nRemoving a book from list\n");
-        string nameToDelete = ConsoleIO.GetString("Enter a book name to remove: ");
-        list.DeleteBook(nameToDelete);
+        string bookToRemove = ConsoleIO.GetString("Enter a book name to remove: ");
+
+        if (books.Remove(bookToRemove))
+        {
+            ConsoleIO.PrintInfo("Removed book from the list.");
+        }
+        else
+        {
+            ConsoleIO.PrintInfo("The book is not present in the list.");
+        }
 
         ConsoleIO.PrintInfo("\nDisplaying all the books\n");
-        list.DisplayBooks();
+
+        foreach (var book in books.Items)
+        {
+            ConsoleIO.PrintInfo(book);
+        }
     }
 
     private void HandleStackOperations()
     {
-        StackOperations<char> stack = new StackOperations<char>();
         ConsoleIO.PrintHeader("Reversing a string\n");
 
         string input = ConsoleIO.GetName("Enter the name to reverse: ");
-        List<char> charArray = new List<char>();
-        foreach (char character in input)
-        {
-            charArray.Add(character);
-        }
 
-        stack.AddCharacter(charArray);
         ConsoleIO.PrintInfo($"Entered String: {input}");
-
-        List<char> reversed = stack.ReverseCharacter();
-        ConsoleIO.PrintInfo($"Reversed string : {string.Join(string.Empty, reversed)}");
+        ConsoleIO.PrintInfo($"Reversed string : {StackOperations<string>.ReverseString(input)}");
     }
 
     private void HandleQueueOperations()
     {
-        QueueOperations<string> queue = new QueueOperations<string>();
-        ConsoleIO.PrintHeader("Queue Task");
-        ConsoleIO.PrintInfo("Adding name to queue\n");
+        QueueOperations<string> people = new QueueOperations<string>(EntryCount);
 
-        string[] names = new string[5];
-        for (int i = 0; i < 5; i++)
+        ConsoleIO.PrintHeader("Queue Task\n" +
+            "Adding name to queue\n");
+
+        for (int i = 0; i < EntryCount; i++)
         {
-            names[i] = ConsoleIO.GetString("Enter the name: ");
+            people.Enqueue(ConsoleIO.GetString("Enter the name: "));
         }
-
-        queue.AddNames(names);
 
         ConsoleIO.PrintInfo("\nRemoving name from queue\n");
-        if (!queue.HasAny())
+        if (people.HasAny())
         {
-            Console.WriteLine("Queue contains no entries.");
+            string removedName = people.Dequeue();
+            ConsoleIO.PrintInfo($"Removed {removedName} from queue\n");
+
+            ConsoleIO.PrintInfo("\nDisplaying all the names\n");
+
+            foreach (var name in people.Entry)
+            {
+                ConsoleIO.PrintInfo(name);
+            }
         }
-
-        string removedName = queue.RemoveName();
-        Console.WriteLine($"Removed {removedName} from queue");
-
-        ConsoleIO.PrintInfo("\nDisplaying all the names\n");
-        queue.DisplayNames();
+        else
+        {
+            ConsoleIO.PrintInfo("Queue contains no entries.");
+        }
     }
 
     private void HandleDictionaryOperations()
     {
-        DictionaryOperations<string, int> studentsRecord = new DictionaryOperations<string, int>();
+        DictionaryOperations<string, int> studentsRecord = new DictionaryOperations<string, int>(EntryCount);
         ConsoleIO.PrintHeader("Students database");
-        ConsoleIO.PrintInfo("\nAdding data to dictionary\n");
 
-        string[] names = new string[5];
-        int[] grade = new int[5];
-        for (int i = 0; i < 5; i++)
+        ConsoleIO.PrintInfo("\nAdding data to dictionary\n");
+        for (int i = 0; i < EntryCount; i++)
         {
             string name = ConsoleIO.GetString("Enter the name of the student: ");
+            int grade = ConsoleIO.GetInteger($"Enter the grade of {name}: ");
 
-            if (names.Contains(name))
+            if (!studentsRecord.TryAdd(name, grade))
             {
-                Console.WriteLine($"Name {name} already exists. Enter another name");
+                ConsoleIO.PrintInfo($"Name {name} already exists. Enter another name");
                 i--;
-                continue;
             }
-
-            names[i] = name;
-            grade[i] = ConsoleIO.GetInteger($"Enter the grade of {names[i]}: ");
+            else
+            {
+                ConsoleIO.PrintInfo("Student added successfully.");
+            }
         }
-
-        studentsRecord.CreateStudentData(names, grade);
 
         ConsoleIO.PrintInfo("\nRemoving a student from dictionary\n");
         string studentName = ConsoleIO.GetString("Enter the name of the student: ");
-        studentsRecord.DeleteStudent(studentName);
+        if (studentsRecord.Remove(studentName))
+        {
+            ConsoleIO.PrintInfo($"Removed {studentName} from the dictionary");
+        }
+        else
+        {
+            ConsoleIO.PrintInfo($"{studentName} not present in the dictionary");
+        }
 
         ConsoleIO.PrintInfo("\nDisplaying all the students\n");
-        studentsRecord.DisplayStudent();
+        ConsoleIO.PrintHeader("Students in the record");
+
+        foreach (var student in studentsRecord.Entries)
+        {
+            ConsoleIO.PrintInfo($"Name: {student.Key}, Grade: {student.Value}");
+        }
     }
 
     private void HandleConcreteTypesOperations()
     {
-        ConcreteTypes concreteTypes = new ConcreteTypes();
-
         List<int> integerList = new () { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
         int[] integerArray = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
         Queue<int> integerQueue = new Queue<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 
-        Console.WriteLine($"Sum of element in list: {concreteTypes.SumOfElements(integerList)}");
-        Console.WriteLine($"Sum of element in array: {concreteTypes.SumOfElements(integerArray)}");
-        Console.WriteLine($"Sum of element in queue: {concreteTypes.SumOfElements(integerQueue)}");
+        ConsoleIO.PrintInfo($"Sum of element in list: {CollectionAbstractions.SumOfElements(integerList)}");
+        ConsoleIO.PrintInfo($"Sum of element in array: {CollectionAbstractions.SumOfElements(integerArray)}");
+        ConsoleIO.PrintInfo($"Sum of element in queue: {CollectionAbstractions.SumOfElements(integerQueue)}");
 
-        IReadOnlyDictionary<string, int> dictionary = concreteTypes.GenerateDictionary();
-        concreteTypes.PrintDictionary(dictionary);
+        IReadOnlyDictionary<string, int> dictionary = CollectionAbstractions.GenerateDictionary();
+        CollectionAbstractions.PrintDictionary(dictionary);
+
+        ConsoleIO.PrintInfo("Trying to modify the dictionary");
+        CollectionAbstractions.TryModifyDictionary(dictionary);
     }
 }

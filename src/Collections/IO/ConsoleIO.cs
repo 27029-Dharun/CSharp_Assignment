@@ -58,7 +58,7 @@ public static class ConsoleIO
     /// <param name="message">The message to be printed</param>
     public static void PrintInfo(string message)
     {
-        Console.WriteLine($"{message}");
+        Console.WriteLine(message);
     }
 
     /// <summary>
@@ -78,8 +78,7 @@ public static class ConsoleIO
                 return grade;
             }
 
-            Console.WriteLine("Enter a valid integer, Attempt left: " + attemptsLeft);
-            attemptsLeft--;
+            Console.WriteLine("Enter a valid integer, Attempt left: " + --attemptsLeft);
         }
 
         throw new InvalidDataException("No attempt left, Please try again.\n");
@@ -102,7 +101,7 @@ public static class ConsoleIO
                 return input;
             }
 
-            attemptsLeft--;
+            Console.WriteLine("Enter a valid name, Attempt left: " + --attemptsLeft);
         }
 
         throw new InvalidDataException("No attempt left, Please try again.\n");

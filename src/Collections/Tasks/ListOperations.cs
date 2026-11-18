@@ -1,6 +1,4 @@
-﻿using Collections.IO;
-
-namespace Collections.Tasks;
+﻿namespace Collections.Tasks;
 
 /// <summary>
 /// Contains a list implementation
@@ -8,47 +6,49 @@ namespace Collections.Tasks;
 /// <typeparam name="T">The data type for the name of the book.</typeparam>
 public class ListOperations<T>
 {
-    private readonly List<T> _list = new List<T>();
+    private readonly List<T> _items;
 
     /// <summary>
-    /// Creates a list with book names.
+    /// Initializes a new instance of the <see cref="ListOperations{T}"/> class.
     /// </summary>
-    /// <param name="names">Array containing the books name</param>
-    public void AddBooks(T[] names)
+    /// <param name="entryCount">Length of the count.</param>
+    public ListOperations(int entryCount)
     {
-        for (int i = 0; i < names.Length ; i++)
-        {
-            this._list.Add(names[i]);
-        }
-
-        ConsoleIO.PrintInfo("Added five books name to the list\n");
+         this._items = new List<T>(entryCount);
     }
 
     /// <summary>
-    /// Deletes a book entered by the user.
+    /// Gets a read-only view of all entries.
     /// </summary>
-    /// <param name="bookName">Name of the book to delete.</param>
-    public void DeleteBook(T bookName)
-    {
-        if (this._list.Contains(bookName))
-        {
-            this._list.Remove(bookName);
-            Console.WriteLine($"Removed {bookName} from the list");
-            return;
-        }
+    /// <value>The value of all the entries.</value>
+    public IReadOnlyList<T> Items => this._items;
 
-        Console.WriteLine($"{bookName} not present in the list");
+    /// <summary>
+    /// Adds an entry to the list.
+    /// </summary>
+    /// <param name="entry">The name to add in the list.</param>
+    public void Add(T entry)
+    {
+        this._items.Add((T)entry);
     }
 
     /// <summary>
-    /// Displays the name of the book available in the list.
+    /// Deletes an entry from the list.
     /// </summary>
-    public void DisplayBooks()
+    /// <param name="entry">Entry to be deleted.</param>
+    /// <returns>A boolean true if the entry is deleted, otherwise false.</returns>
+    public bool Remove(T entry)
     {
-        ConsoleIO.PrintInfo("Books in the list are: ");
-        foreach (T bookName in this._list)
-        {
-            ConsoleIO.PrintInfo($"{bookName}");
-        }
+        return this._items.Remove(entry);
+    }
+
+    /// <summary>
+    /// Checks if the entry is present in the list.
+    /// </summary>
+    /// <param name="entry">The entry to be checked in the list.</param>
+    /// <returns>A boolean true if the list contains the entry.</returns>
+    public bool Contains(T entry)
+    {
+        return this._items.Contains(entry);
     }
 }

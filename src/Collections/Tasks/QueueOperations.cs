@@ -1,6 +1,4 @@
-﻿using Collections.IO;
-
-namespace Collections.Tasks;
+﻿namespace Collections.Tasks;
 
 /// <summary>
 /// Contains queue operations.
@@ -8,38 +6,39 @@ namespace Collections.Tasks;
 /// <typeparam name="T">The data type for storing the name</typeparam>
 public class QueueOperations<T>
 {
-    private readonly Queue<T> _queue = new Queue<T>();
+    private readonly Queue<T> _queue;
 
     /// <summary>
-    /// Add five name of person to the queue.
+    /// Initializes a new instance of the <see cref="QueueOperations{T}"/> class.
     /// </summary>
-    /// <param name="names">A array containing 5 persons name.</param>
-    public void AddNames(T[] names)
+    /// <param name="length">The length of the queue.</param>
+    public QueueOperations(int length)
     {
-        for (int i = 0; i < names.Length; i++)
-        {
-            this._queue.Enqueue(names[i]);
-        }
+        this._queue = new Queue<T>(length);
+    }
+
+    /// <summary>
+    /// Gets a read-only view of all the entries.
+    /// </summary>
+    /// <value>The read-only view of the entries.</value>
+    public Queue<T> Entry => this._queue;
+
+    /// <summary>
+    /// Adds the name of the person to the queue.
+    /// </summary>
+    /// <param name="name">The name of the person to add to the queue.</param>
+    public void Enqueue(T name)
+    {
+        this._queue.Enqueue(name);
     }
 
     /// <summary>
     /// Remove the name of the person from the queue.
     /// </summary>
     /// <returns>The name removed from the function</returns>
-    public T RemoveName()
+    public T Dequeue()
     {
         return this._queue.Dequeue();
-    }
-
-    /// <summary>
-    /// Displays the name of the person in queue.
-    /// </summary>
-    public void DisplayNames()
-    {
-        foreach (T name in this._queue)
-        {
-            ConsoleIO.PrintInfo($"Name of the persons in the queue: {name}");
-        }
     }
 
     /// <summary>
@@ -48,6 +47,6 @@ public class QueueOperations<T>
     /// <returns>A boolean true if it has any entries; otherwise false.</returns>
     public bool HasAny()
     {
-        return this._queue.Any();
+        return this._queue.Count > 0;
     }
 }
