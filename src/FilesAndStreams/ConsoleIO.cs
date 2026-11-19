@@ -22,15 +22,14 @@ internal static class ConsoleIO
     /// </summary>
     /// <param name="prompt">The message to be display to get the integer.</param>
     /// <returns>A integer value enter by the user.</returns>
-    /// <exception cref="InvalidDataException">Thrown when the enter input is not a valid integer.</exception>
     internal static int GetInteger(string prompt)
     {
         while (true)
         {
             string input = GetString(prompt);
-            if (int.TryParse(input, out int interger))
+            if (int.TryParse(input, out int integer))
             {
-                return interger;
+                return integer;
             }
 
             Console.Clear();

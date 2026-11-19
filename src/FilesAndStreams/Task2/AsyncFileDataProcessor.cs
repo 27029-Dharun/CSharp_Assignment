@@ -18,7 +18,13 @@ internal class AsyncFileDataProcessor
     {
         Console.WriteLine($"Started creating {path}");
 
-        using (FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
+        using (FileStream stream = new FileStream(
+            path,
+            FileMode.Create,
+            FileAccess.Write,
+            FileShare.Read,
+            4 * 1024,
+            useAsync: true))
         {
             using (StreamWriter writer = new StreamWriter(stream))
             {
@@ -27,7 +33,9 @@ internal class AsyncFileDataProcessor
                 for (int i = 0; i < numberOfLines; i++)
                 {
                     double value = (random.NextDouble() * 30) + 10;
-                    writer.Write($"{DateTime.Now},Coimbatore,{value}\n");
+                    string line = $"{DateTime.Now:O},Coimbatore,{value}\n";
+
+                    await writer.WriteAsync(line);
                 }
 
                 await writer.FlushAsync();
@@ -42,7 +50,7 @@ internal class AsyncFileDataProcessor
     /// </summary>
     /// <param name="path">The target file path to open and read.</param>
     /// <returns>A task that represents the asynchronous reading process loop.</returns>
-    internal async Task ReadWithBufferedStream(string path)
+    internal async Task ReadWithLargeBufferAsync(string path)
     {
         Console.WriteLine($"Reading {path} with optimized stream");
 
@@ -53,7 +61,8 @@ internal class AsyncFileDataProcessor
             FileMode.Open,
             FileAccess.Read,
             FileShare.Read,
-            bufferSize))
+            bufferSize,
+            useAsync: true))
         {
             byte[] buffer = new byte[bufferSize];
             long totalBytes = 0;
@@ -61,15 +70,14 @@ internal class AsyncFileDataProcessor
             stopwatch.Start();
 
             int bytesRead;
-            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            while ((bytesRead = await stream.ReadAsync(buffer)) > 0)
             {
                 totalBytes += bytesRead;
             }
 
             stopwatch.Stop();
+            Console.WriteLine($"Completed reading {path} in {stopwatch.ElapsedMilliseconds} ms");
         }
-
-        Console.WriteLine($"Completed reading {path}");
     }
 
     /// <summary>
@@ -82,7 +90,7 @@ internal class AsyncFileDataProcessor
     {
         Console.WriteLine($"Started processing {inputPath}");
 
-        using (FileStream stream = new FileStream(inputPath, FileMode.Open, FileAccess.Read))
+        using (FileStream stream = new FileStream(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read, 4 * 1024, useAsync: true))
         using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
         {
             byte[] buffer = new byte[4 * 1024];
@@ -96,7 +104,7 @@ internal class AsyncFileDataProcessor
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            while ((charsRead = await bufferedStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            while ((charsRead = await bufferedStream.ReadAsync(buffer)) > 0)
             {
                 string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
                 remainingText += chunk;
@@ -131,7 +139,11 @@ internal class AsyncFileDataProcessor
 
             string report = this.CalculateStatistics(minTemperature, maxTemperature, sum, count);
 
+            stopwatch.Restart();
             await this.WriteProcessedDataAsync(outputPath, report);
+            stopwatch.Stop();
+
+            Console.WriteLine($"Time taken to write {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 
@@ -164,7 +176,7 @@ internal class AsyncFileDataProcessor
 
         using (MemoryStream memStream = new MemoryStream())
         {
-            await memStream.WriteAsync(dataToWrite, 0, dataToWrite.Length);
+            await memStream.WriteAsync(dataToWrite);
 
             // Reset position to read from the beginning of the memory stream
             memStream.Position = 0;

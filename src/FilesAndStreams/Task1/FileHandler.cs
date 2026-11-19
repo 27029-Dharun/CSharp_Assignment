@@ -5,49 +5,43 @@
 /// </summary>
 internal class FileHandler
 {
-    private const string _path = "file.txt";
-    private readonly FileDateProcessor _dateProcessor;
+    private const string SourceFilePath = "file.txt";
+    private const string ResultFilePath = "data.txt";
+
+    private const string MenuOption =
+        "1. Read the file\n" +
+        "2. Process file and write\n" +
+        "3. Back\n" +
+        "Enter an option to proceed\n";
+
+    private readonly FileDataProcessor _dataProcessor;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileHandler"/> class.
     /// </summary>
     /// <param name="dataProcessor">Instance of file data processor.</param>
-    internal FileHandler(FileDateProcessor dataProcessor)
+    internal FileHandler(FileDataProcessor dataProcessor)
     {
-        this._dateProcessor = dataProcessor;
+        this._dataProcessor = dataProcessor;
     }
 
     /// <summary>
-    /// Reads the file.
+    /// Shows the synchronous menu until the user goes back.
     /// </summary>
     internal void Run()
     {
-        string menuOptions =
-            "1. Read the file\n" +
-            "2. Process file and write\n" +
-            "3. Back\n" +
-            "Enter an option to proceed\n";
-
         while (true)
         {
-            int option = ConsoleIO.GetInteger(menuOptions);
+            int option = ConsoleIO.GetInteger(MenuOption);
 
             switch (option)
             {
                 case 1:
-                    Console.WriteLine("Reading with FileStream");
-                    long timeTakenWithFileStream = this._dateProcessor.ReadWithFileStream(_path);
-                    Console.WriteLine($"Time taken to read with file stream: {timeTakenWithFileStream}\n");
-
-                    Console.WriteLine("Reading with Buffered Stream");
-                    long timeTakenWithBufferedStream = this._dateProcessor.ReadWithBufferedStream(_path);
-                    Console.WriteLine($"Time taken to read with buffered stream: {timeTakenWithBufferedStream}\n");
-
-                    Console.WriteLine($"Buffer stream is {timeTakenWithFileStream - timeTakenWithBufferedStream} ms faster\n");
+                    this.ReadData();
                     break;
 
                 case 2:
-                    this._dateProcessor.ProcessAndWrite(_path, "data.txt");
+                    this.ProcessData();
                     break;
 
                 case 3:
@@ -59,6 +53,58 @@ internal class FileHandler
             }
 
             ConsoleIO.PauseAndClear();
+        }
+    }
+
+    private void ReadData()
+    {
+        try
+        {
+            Console.WriteLine("Reading with FileStream");
+            long timeTakenWithFileStream = this._dataProcessor.ReadWithFileStream(SourceFilePath);
+            Console.WriteLine($"Time taken to read with file stream: {timeTakenWithFileStream} ms\n");
+
+            Console.WriteLine("Reading with Buffered Stream");
+            long timeTakenWithBufferedStream = this._dataProcessor.ReadWithBufferedStream(SourceFilePath);
+            Console.WriteLine($"Time taken to read with buffered stream: {timeTakenWithBufferedStream} ms\n");
+
+            long difference = Math.Abs(timeTakenWithFileStream - timeTakenWithBufferedStream);
+
+            if (timeTakenWithBufferedStream < timeTakenWithFileStream)
+            {
+                Console.WriteLine($"Buffered stream is {difference} ms faster");
+            }
+            else if (timeTakenWithFileStream < timeTakenWithBufferedStream)
+            {
+                Console.WriteLine($"File stream is {difference} ms faster");
+            }
+            else
+            {
+                Console.WriteLine("There is no difference between file stream and buffered stream.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private void ProcessData()
+    {
+        try
+        {
+            string report = this._dataProcessor.ProcessAndWrite(SourceFilePath, ResultFilePath);
+            Console.WriteLine("Processed data\n" +
+                report +
+                $"\nResult stored in the path {ResultFilePath}\n");
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine($"File:{SourceFilePath} not found");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
     }
 }

@@ -6,8 +6,10 @@ namespace FilesAndStreams.Task1;
 /// <summary>
 /// Contains method to create and read large files.
 /// </summary>
-internal class FileDateProcessor
+internal class FileDataProcessor
 {
+    private const int LineCount = 2_50_00_000;
+
     /// <summary>
     /// Generates a randomized temperature entries.
     /// </summary>
@@ -40,7 +42,7 @@ internal class FileDateProcessor
         if (!File.Exists(path))
         {
             Console.WriteLine("File not found creating file ...");
-            this.GenerateFile(path, 2_50_00_000);
+            this.GenerateFile(path, LineCount);
             Console.WriteLine($"File {path} created.");
         }
 
@@ -72,7 +74,7 @@ internal class FileDateProcessor
     {
         if (!File.Exists(path))
         {
-            this.GenerateFile(path, 2_50_00_000);
+            this.GenerateFile(path, LineCount);
         }
 
         Console.WriteLine($"Reading file with buffered stream {path}");
@@ -103,7 +105,8 @@ internal class FileDateProcessor
     /// </summary>
     /// <param name="inputPath">The input path of the file.</param>
     /// <param name="outputPath">The path to store the processed file.</param>
-    internal void ProcessAndWrite(string inputPath, string outputPath)
+    /// <returns>Returns the time taken to write and process the data as string.</returns>
+    internal string ProcessAndWrite(string inputPath, string outputPath)
     {
         Console.WriteLine($"Started processing {inputPath}");
 
@@ -111,7 +114,7 @@ internal class FileDateProcessor
         using (BufferedStream bufferedStream = new BufferedStream(stream, 1024 * 1024))
         {
             byte[] buffer = new byte[4 * 1024];
-            int charsRead;
+            int bytesRead;
 
             double maxTemperature = double.MinValue;
             double minTemperature = double.MaxValue;
@@ -121,17 +124,17 @@ internal class FileDateProcessor
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            while ((charsRead = bufferedStream.Read(buffer, 0, buffer.Length)) > 0)
+            while ((bytesRead = bufferedStream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                string chunk = Encoding.UTF8.GetString(buffer, 0, charsRead);
+                string chunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 remainingText += chunk;
 
-                string[] entry = remainingText.Split("\n");
-                remainingText = entry[^1];
+                string[] lines = remainingText.Split("\n");
+                remainingText = lines[^1];
 
-                for (int i = 0; i < entry.Length - 1; i++)
+                for (int i = 0; i < lines.Length - 1; i++)
                 {
-                    string[] data = entry[i].Split(",");
+                    string[] data = lines[i].Split(",");
 
                     if (data.Length > 2 && double.TryParse(data[2], out double value))
                     {
@@ -152,11 +155,17 @@ internal class FileDateProcessor
             }
 
             stopwatch.Stop();
-            Console.WriteLine($"Time taken to process {inputPath}: {stopwatch.ElapsedMilliseconds} ms");
+            string result = $"Time taken to process {inputPath}: {stopwatch.ElapsedMilliseconds} ms\n";
 
             string report = this.CalculateStatistics(minTemperature, maxTemperature, sum, count);
 
+            stopwatch.Restart();
             this.WriteProcessedData(outputPath, report);
+            stopwatch.Stop();
+
+            result += $"Time taken to write the processed data in {outputPath}: {stopwatch.ElapsedMilliseconds} ms\n";
+
+            return result;
         }
     }
 
@@ -191,11 +200,9 @@ internal class FileDateProcessor
         {
             memStream.Write(dataToWrite, 0, dataToWrite.Length);
 
-            // Reset position to read from the beginning of the memory stream
             memStream.Position = 0;
 
-            // Stream the buffered data into the actual file destination
-            using (FileStream fileStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
+            using (FileStream fileStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096))
             {
                 memStream.CopyTo(fileStream);
             }

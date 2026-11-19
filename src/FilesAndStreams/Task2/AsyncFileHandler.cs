@@ -8,52 +8,58 @@ namespace FilesAndStreams.Task2;
 /// </summary>
 internal class AsyncFileHandler
 {
-    private const string _firstSourcePath = "file1.txt";
-    private const string _secondSourcePath = "file2.txt";
-    private const string _thirdSourcePath = "file3.txt";
+    private const string FirstSourcePath = "file1.txt";
+    private const string SecondSourcePath = "file2.txt";
+    private const string ThirdSourcePath = "file3.txt";
+
+    private const string FirstOutputPath = "result1.txt";
+    private const string SecondOutputPath = "result2.txt";
+    private const string ThirdOutputPath = "result3.txt";
+
+    private const int LineCount = 2_50_00_000;
+
+    private const string MenuOptions = "1. Create 3 large file with 1 GB\n" +
+        "2. Read files\n" +
+        "3. Read and process all file\n" +
+        "4. Back\n" +
+        "Enter an option to proceed: ";
 
     private readonly AsyncFileDataProcessor _asyncFileProcessor;
-    private readonly FileDateProcessor _fileProcessor;
+    private readonly FileDataProcessor _fileProcessor;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AsyncFileHandler"/> class.
     /// </summary>
     /// <param name="dataProcessor">Instance of synchronous data processor.</param>
     /// <param name="asyncDataProcessor">Instance of asynchronous data processor.</param>
-    internal AsyncFileHandler(FileDateProcessor dataProcessor, AsyncFileDataProcessor asyncDataProcessor)
+    internal AsyncFileHandler(FileDataProcessor dataProcessor, AsyncFileDataProcessor asyncDataProcessor)
     {
         this._fileProcessor = dataProcessor;
         this._asyncFileProcessor = asyncDataProcessor;
     }
 
     /// <summary>
-    /// Reads the file.
+    /// Shows the asynchronous menu until the user goes back.
     /// </summary>
     /// <returns>A task is returned.</returns>
-    internal async Task Run()
+    internal async Task RunAsync()
     {
-        string menuOptions = "1. Create 3 large file with 1 GB\n" +
-            "2. Read files\n" +
-            "3. Read and process all file\n" +
-            "4. Back\n" +
-            "Enter an option to proceed: ";
-
         while (true)
         {
-            int option = ConsoleIO.GetInteger(menuOptions);
+            int option = ConsoleIO.GetInteger(MenuOptions);
 
             switch (option)
             {
                 case 1:
-                    await this.GenerateAll();
+                    await this.GenerateAllAsync();
                     break;
 
                 case 2:
-                    await this.ReadAll();
+                    await this.ReadAllAsync();
                     break;
 
                 case 3:
-                    await this.ProcessAll();
+                    await this.ProcessAllAsync();
                     break;
 
                 case 4:
@@ -68,69 +74,15 @@ internal class AsyncFileHandler
         }
     }
 
-    private async Task ProcessAll()
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        Console.WriteLine("Processing file synchronously");
-
-        stopwatch.Start();
-
-        this._fileProcessor.ProcessAndWrite(_firstSourcePath, "result1.txt");
-        this._fileProcessor.ProcessAndWrite(_secondSourcePath, "result2.txt");
-        this._fileProcessor.ProcessAndWrite(_thirdSourcePath, "result3.txt");
-
-        stopwatch.Stop();
-
-        Console.WriteLine($"Time taken to process 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
-
-        Console.WriteLine("Processing file synchronously");
-        stopwatch.Restart();
-
-        Task firstFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(_firstSourcePath, "result1.txt");
-        Task secondFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(_secondSourcePath, "result2.txt");
-        Task thirdFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(_thirdSourcePath, "result3.txt");
-
-        await Task.WhenAll(firstFileProcess, secondFileProcess, thirdFileProcess);
-        stopwatch.Stop();
-        Console.WriteLine($"Time taken to process and write 3 file asynchronously: {stopwatch.ElapsedMilliseconds} ms\n");
-    }
-
-    private async Task ReadAll()
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        Console.WriteLine("Read file synchronously");
-
-        stopwatch.Start();
-
-        this._fileProcessor.ReadWithBufferedStream(_firstSourcePath);
-        this._fileProcessor.ReadWithBufferedStream(_secondSourcePath);
-        this._fileProcessor.ReadWithBufferedStream(_thirdSourcePath);
-
-        stopwatch.Stop();
-
-        Console.WriteLine($"Time taken to read 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
-
-        Console.WriteLine("Read file asynchronously");
-        stopwatch.Restart();
-
-        Task firstFileReadBuffer = this._asyncFileProcessor.ReadWithBufferedStream(_firstSourcePath);
-        Task secondFileReadBuffer = this._asyncFileProcessor.ReadWithBufferedStream(_secondSourcePath);
-        Task thirdFileReadBuffer = this._asyncFileProcessor.ReadWithBufferedStream(_thirdSourcePath);
-
-        await Task.WhenAll(firstFileReadBuffer, secondFileReadBuffer, thirdFileReadBuffer);
-        stopwatch.Stop();
-        Console.WriteLine($"Time taken to read file asynchronously: {stopwatch.ElapsedMilliseconds} ms\n");
-    }
-
-    private async Task GenerateAll()
+    private async Task GenerateAllAsync()
     {
         Stopwatch stopwatch = new Stopwatch();
 
         Console.WriteLine("Generating file synchronously");
         stopwatch.Start();
-        this._fileProcessor.GenerateFile(_firstSourcePath, 2_50_00_000);
-        this._fileProcessor.GenerateFile(_secondSourcePath, 2_50_00_000);
-        this._fileProcessor.GenerateFile(_thirdSourcePath, 2_50_00_000);
+        this._fileProcessor.GenerateFile(FirstSourcePath, LineCount);
+        this._fileProcessor.GenerateFile(SecondSourcePath, LineCount);
+        this._fileProcessor.GenerateFile(ThirdSourcePath, LineCount);
 
         stopwatch.Stop();
 
@@ -139,13 +91,74 @@ internal class AsyncFileHandler
         Console.WriteLine("Generating file asynchronously");
 
         stopwatch.Restart();
-        Task firstFile = this._asyncFileProcessor.GenerateFileAsync(_firstSourcePath, 2_50_00_000);
-        Task secondFile = this._asyncFileProcessor.GenerateFileAsync(_secondSourcePath, 2_50_00_000);
-        Task thirdFile = this._asyncFileProcessor.GenerateFileAsync(_thirdSourcePath, 2_50_00_000);
+        Task firstFile = this._asyncFileProcessor.GenerateFileAsync(FirstSourcePath, LineCount);
+        Task secondFile = this._asyncFileProcessor.GenerateFileAsync(SecondSourcePath, LineCount);
+        Task thirdFile = this._asyncFileProcessor.GenerateFileAsync(ThirdSourcePath, LineCount);
 
         await Task.WhenAll(firstFile, secondFile, thirdFile);
         stopwatch.Stop();
 
         Console.WriteLine($"Time taken to create 3 file {stopwatch.ElapsedMilliseconds} ms\n");
+    }
+
+    private async Task ReadAllAsync()
+    {
+        Stopwatch stopwatch = new Stopwatch();
+        Console.WriteLine("Read file synchronously");
+
+        stopwatch.Start();
+
+        this._fileProcessor.ReadWithBufferedStream(FirstSourcePath);
+        this._fileProcessor.ReadWithBufferedStream(SecondSourcePath);
+        this._fileProcessor.ReadWithBufferedStream(ThirdSourcePath);
+
+        stopwatch.Stop();
+
+        Console.WriteLine($"Time taken to read 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
+
+        Console.WriteLine("Read file asynchronously");
+        stopwatch.Restart();
+
+        Task firstFileReadBuffer = this._asyncFileProcessor.ReadWithLargeBufferAsync(FirstSourcePath);
+        Task secondFileReadBuffer = this._asyncFileProcessor.ReadWithLargeBufferAsync(SecondSourcePath);
+        Task thirdFileReadBuffer = this._asyncFileProcessor.ReadWithLargeBufferAsync(ThirdSourcePath);
+
+        await Task.WhenAll(firstFileReadBuffer, secondFileReadBuffer, thirdFileReadBuffer);
+        stopwatch.Stop();
+        Console.WriteLine($"Time taken to read file asynchronously: {stopwatch.ElapsedMilliseconds} ms\n");
+    }
+
+    private async Task ProcessAllAsync()
+    {
+        try
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            Console.WriteLine("Processing file synchronously");
+
+            stopwatch.Start();
+
+            this._fileProcessor.ProcessAndWrite(FirstSourcePath, FirstOutputPath);
+            this._fileProcessor.ProcessAndWrite(SecondSourcePath, SecondOutputPath);
+            this._fileProcessor.ProcessAndWrite(ThirdSourcePath, ThirdOutputPath);
+
+            stopwatch.Stop();
+
+            Console.WriteLine($"Time taken to process 3 file synchronously: {stopwatch.ElapsedMilliseconds} ms\n");
+
+            Console.WriteLine("Processing file asynchronously");
+            stopwatch.Restart();
+
+            Task firstFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(FirstSourcePath, FirstOutputPath);
+            Task secondFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(SecondSourcePath, SecondOutputPath);
+            Task thirdFileProcess = this._asyncFileProcessor.ProcessAndWriteAsync(ThirdSourcePath, ThirdOutputPath);
+
+            await Task.WhenAll(firstFileProcess, secondFileProcess, thirdFileProcess);
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken to process and write 3 file asynchronously: {stopwatch.ElapsedMilliseconds} ms\n");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }

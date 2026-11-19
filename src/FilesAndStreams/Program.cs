@@ -13,7 +13,7 @@ internal class Program
 {
     private static void Main()
     {
-        FileDateProcessor dataProcessor = new FileDateProcessor();
+        FileDataProcessor dataProcessor = new FileDataProcessor();
         AsyncFileDataProcessor asyncDataProcessor = new AsyncFileDataProcessor();
 
         FileHandler fileHandler = new FileHandler(dataProcessor);
@@ -38,7 +38,7 @@ internal class Program
                     break;
 
                 case 2:
-                    asyncFileHandler.Run().GetAwaiter().GetResult();
+                    asyncFileHandler.RunAsync().GetAwaiter().GetResult();
                     break;
 
                 case 3:

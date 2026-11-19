@@ -21,15 +21,7 @@ Instead of converting the entire MemoryStream into a new byte array, we can use 
 
 ### Modified Flow
 
-String
-   ↓
-MemoryStream
-   ↓
-CopyTo()
-   ↓
-FileStream
-   ↓
-File
+String -> MemoryStream -> WriteTo() -> FileStream -> File
 
 ## Example
 

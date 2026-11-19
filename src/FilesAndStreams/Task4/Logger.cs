@@ -7,21 +7,21 @@ namespace FilesAndStreams.Task4;
 /// </summary>
 internal class Logger
 {
+    private const string LogFilePath = "log.txt";
     private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-    private static readonly string _logFilePath = "log.txt";
 
     /// <summary>
     /// Logs the error details in the file.
     /// </summary>
     /// <param name="errorMessage">The message to be logged.</param>
     /// <returns>A asynchronous task.</returns>
-    internal async Task LogError(string errorMessage)
+    internal async Task LogErrorAsync(string errorMessage)
     {
         string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {errorMessage}\n";
         await _semaphore.WaitAsync();
         try
         {
-            using (FileStream stream = new FileStream(_logFilePath, FileMode.Append, FileAccess.Write))
+            using (FileStream stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write))
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(logMessage);
                 await stream.WriteAsync(buffer, 0, buffer.Length);
@@ -67,7 +67,7 @@ internal class Logger
 
         for (int i = 0; i < 100; i++)
         {
-            tasks[i] = this.LogError("Database connection failed");
+            tasks[i] = this.LogErrorAsync("Database connection failed");
         }
 
         await Task.WhenAll(tasks);
